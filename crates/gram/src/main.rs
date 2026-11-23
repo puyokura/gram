@@ -1083,72 +1083,68 @@ pub fn stdout_is_a_pty() -> bool {
 #[derive(Parser, Debug)]
 #[command(name = "gram", disable_version_flag = true, max_term_width = 100)]
 struct Args {
-    /// A sequence of space-separated paths or urls that you want to open.
+    /// 開きたいパスまたは URL をスペース区切りで指定します。
     ///
-    /// Use `path:line:row` syntax to open a file at a specific location.
-    /// Non-existing paths and directories will ignore `:line:row` suffix.
+    /// `path:line:row` 形式を使うと、ファイルを指定した行と列で開きます。
+    /// 存在しないパスやディレクトリでは `:line:row` 接尾辞は無視されます。
     ///
-    /// URLs can either be `file://` or `gram://` scheme, or relative to <https://codeberg.org>.
+    /// URL には `file://` または `gram://` スキーム、もしくは相対パスを指定できます。
     paths_or_urls: Vec<String>,
 
-    /// Pairs of file paths to diff. Can be specified multiple times.
+    /// 差分を表示するファイルパスの組。複数回指定できます。
     #[arg(long, action = clap::ArgAction::Append, num_args = 2, value_names = ["OLD_PATH", "NEW_PATH"])]
     diff: Vec<String>,
 
-    /// Sets a custom directory for all user data (e.g., database, extensions, logs).
+    /// データベース・拡張機能・ログなどすべてのユーザーデータを保存する任意のディレクトリを指定します。
     ///
-    /// This overrides the default platform-specific data directory location.
-    /// On macOS, the default is `~/Library/Application Support/Gram`.
-    /// On Linux/FreeBSD, the default is `$XDG_DATA_HOME/gram`.
-    /// On Windows, the default is `%LOCALAPPDATA%\Gram`.
+    /// プラットフォーム既定のデータディレクトリの場所を上書きします。
+    /// macOS の既定値は `~/Library/Application Support/Gram`、
+    /// Linux/FreeBSD の既定値は `$XDG_DATA_HOME/gram`、
+    /// Windows の既定値は `%LOCALAPPDATA%\Gram` です。
     #[arg(long, value_name = "DIR", verbatim_doc_comment)]
     user_data_dir: Option<String>,
 
-    /// The username and WSL distribution to use when opening paths. If not specified,
-    /// Gram will attempt to open the paths directly.
+    /// パスを開く際に使用するユーザー名と WSL ディストリビューションを指定します。
+    /// 指定しない場合、Gram はパスを直接開こうとします。
     ///
-    /// The username is optional, and if not specified, the default user for the distribution
-    /// will be used.
+    /// ユーザー名は任意であり、指定しない場合はディストリビューションの既定ユーザーが使用されます。
     ///
-    /// Example: `me@Ubuntu` or `Ubuntu`.
+    /// 例: `me@Ubuntu` または `Ubuntu`。
     ///
-    /// WARN: You should not fill in this field by hand.
+    /// 警告: このフィールドを手動で入力しないでください。
     #[cfg(target_os = "windows")]
     #[arg(long, value_name = "USER@DISTRO")]
     wsl: Option<String>,
 
-    /// Prints system specs.
+    /// システムのスペックを出力します。
     ///
-    /// Useful for submitting issues on Codeberg when encountering a bug that
-    /// prevents Gram from starting, so you can't run `gram: copy system specs to
-    /// clipboard`
+    /// Gram が起動しない不具合に遭遇して `gram: copy system specs to clipboard` を
+    /// 実行できない場合に、Codeberg へ Issue を送信する際に役立ちます。
     #[arg(long)]
     system_specs: bool,
 
-    /// Used to remove the need for netcat as a dependency by having Gram act like netcat
-    /// communicating over a Unix socket.
+    /// Unix ソケット経由で netcat のように動作させることで、netcat への依存をなくすために使用します。
     #[arg(long, hide = true)]
     nc: Option<String>,
 
-    /// Used for recording minidumps on crashes by having Gram run a separate
-    /// process communicating over a socket.
+    /// クラッシュ時にミニダンプを記録するため、別プロセスをソケット経由で起動するために使用します。
     #[arg(long, hide = true)]
     crash_handler: Option<PathBuf>,
 
-    /// Run gram in the foreground, only used on Windows, to match the behavior on macOS.
+    /// macOS の挙動に合わせて、Gram をフォアグラウンドで実行します（Windows のみ）。
     #[arg(long)]
     #[cfg(target_os = "windows")]
     #[arg(hide = true)]
     foreground: bool,
 
-    /// The dock action to perform. This is used on Windows only.
+    /// 実行するドックアクション。Windows のみで使用します。
     #[arg(long)]
     #[cfg(target_os = "windows")]
     #[arg(hide = true)]
     dock_action: Option<usize>,
 
-    /// Used for SSH/Git password authentication, to remove the need for netcat as a dependency,
-    /// by having Gram act like netcat communicating over a Unix socket.
+    /// Unix ソケット経由で netcat のように動作させることで、SSH/Git のパスワード認証で
+    /// netcat への依存をなくすために使用します。
     #[arg(long)]
     #[cfg(not(target_os = "windows"))]
     #[arg(hide = true)]
@@ -1157,7 +1153,7 @@ struct Args {
     #[arg(long, hide = true)]
     dump_all_actions: bool,
 
-    /// Output current environment variables as JSON to stdout
+    /// 現在の環境変数を JSON として標準出力へ出力します
     #[arg(long, hide = true)]
     printenv: bool,
 }
