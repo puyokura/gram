@@ -1,65 +1,42 @@
-# The Mission
+# 使命（ミッション）
 
 > “I come with empty hands and the desire to unbuild walls.”
-
-― Ursula K. Le Guin, The Dispossessed
-
-The Gram text editor is a fork of the Zed text editor. This document is an
-attempt to explain why the fork exists.
-
-## Performance, but at what cost?
-
-Programming is more than just productivity. We need tools that are fit for
-purpose, that aren't beholden to investors or share holders. There are aspects
-of the Zed code editor that I think are wrong in the moral and ethical sense,
-and there are aspects that I think are simply bad choices from a technical
-perspective.
-
-At first, the promise of Zed seemed alluring. I moved from Emacs to Neovim
-because I started coding in Rust, and using the Rust LSP in Emacs was a very
-frustrating experience at the time. Whenever the LSP did any work the editor
-would freeze, drop keystrokes or otherwise behave badly.
-
-Neovim was better in this aspect, but as soon as I worked on any larger rust
-project I would have the same kind of experience. Not good. At the same time,
-more and more languages assume that the editor can use a language server and
-don't even try to support editors without it.
-
-When Zed appeared, promising an actually fast and smooth editing experience able
-to handle large Rust projects without getting bogged down, and also came with
-good support for Emacs- and Vim-style editing, it seemed like exactly the thing
-that I ought to try.
-
-However, I never even managed to get the editor installed. When I tried to
-download and install the binaries from the Zed website or Github page I would
-get presented with the Zed End User Terms. To install, I would have to accept
-them.
-
-So, I read the terms!
-
-> Editor's note, 2026-03-03
+> （私は空の手でやって来た。壁を崩したいという願いだけを携えて。）
 >
-> Credit where credit is due: Within 24 hours of me publishing this fork, Zed
-> updated their Terms of Use and removed the section that seemed to conflict
-> with the terms of the open source licenses.
+> ― アーシュラ・K・ル＝グウィン『所有せざる人々』
 
-The quotes below are excerpts from the
-[Zed End User Terms](https://zed.dev/terms).
+Gram テキストエディターは、Zed テキストエディターのフォーク（分岐プロジェクト）です。本文書は、なぜこのフォークが存在するのかを説明する試みです。
+
+## パフォーマンス、しかしその代償は？
+
+プログラミングとは、単なる「生産性」以上のものです。私たちには、目的に適い、投資家や株主に縛られないツールが必要です。Zed コードエディターには、道徳的・倫理的な観点から間違っていると思われる側面があり、また純粋に技術的な観点からも好ましくない選択だと思われる側面があります。
+
+当初、Zed の約束はとても魅力的に見えました。私が Emacs から Neovim に移行したのは Rust でコーディングを始めたからであり、当時の Emacs で Rust LSP を使う体験は非常にストレスの溜まるものでした。LSP が何か処理を行うたびにエディターがフリーズしたり、キー入力を取りこぼしたり、不安定な動作をしたりしていたのです。
+
+Neovim はその点では優れていましたが、少し規模の大きな Rust プロジェクトを扱うようになると、同様の現象に悩まされることになりました。これは困りものです。同時に、言語サーバーを使用できるエディターを前提とし、言語サーバーなしでのエディター対応をそもそも行わない言語がますます増えていきました。
+
+そんな中、Zed が登場しました。大規模な Rust プロジェクトでも重くならず、真に高速で滑らかな編集体験を提供し、Emacs や Vim スタイルの編集機能も十分にサポートされていると謳われており、まさに試してみるべきツールのように思えました。
+
+しかし、私はエディターをインストールすることすらできませんでした。Zed のウェブサイトや GitHub ページからバイナリをダウンロードしてインストールしようとした際、Zed の「エンドユーザー利用規約」が提示されたのです。インストールするには、それに同意しなければなりませんでした。
+
+そこで、私はその規約を読みました！
+
+> 編注（2026-03-03）:
+>
+> 公平のために追記しておきます。私がこのフォークを公開してから24時間以内に、Zed は利用規約を更新し、オープンソースライセンスの条項と矛盾するように見えた箇所を削除しました。
+
+以下の引用は、[Zed End User Terms](https://zed.dev/terms)（Zed エンドユーザー規約）からの抜粋です。
 
 > PLEASE READ THESE TERMS AND CONDITIONS CAREFULLY BEFORE USING THE SERVICE OR
 > SOFTWARE OFFERED BY ZED INDUSTRIES, INC. ("ZED", OR "WE"). BY ACCESSING OR
 > USING THE SOLUTION (AS DEFINED BELOW) IN ANY MANNER, YOU ("YOU" OR "CUSTOMER")
 > AGREE TO BE BOUND BY THESE TERMS (THE "AGREEMENT") TO THE EXCLUSION OF ALL
 > OTHER TERMS.
+> （ZED INDUSTRIES, INC.（以下「ZED」または「当社」）が提供する本サービスまたはソフトウェアをご利用になる前に、本規約をよくお読みください。いかなる方法であれ本ソリューション（以下に定義）にアクセスまたはこれを使用することにより、お客様（以下「お客様」）は他のすべての規約を排除して本規約（以下「本契約」）に拘束されることに同意するものとします。）
 
-My (non-lawyer) interpretation of this section is that if I agree to these
-terms, I am waiving my right to use any software by Zed Industries under any
-other license. Does this mean that I could no longer use any of the code from
-Zed under an open source license, if the rights afforded by that license
-contradicts these terms? That is my interpretation.
+法律家ではない私の解釈では、もしこの規約に同意した場合、Zed Industries のソフトウェアを他のいかなるライセンスの下でも使用する権利を放棄することになります。もしオープンソースライセンスで認められている権利がこの規約と矛盾する場合、Zed のコードをオープンソースライセンスの下で使用できなくなるということでしょうか？ 私はそう解釈しました。
 
-Let's read on, to section 2 "TERMS APPLICABLE TO THE EDITOR", paragraph 2.2,
-"License Limitations":
+さらに読み進めると、第2条「TERMS APPLICABLE TO THE EDITOR（エディターに適用される条項）」の第2.2項「License Limitations（ライセンスの制限）」にはこう書かれていました:
 
 > You agree that You shall not: (a) exceed the scope of the licenses granted in
 > Section 2.1; (b) make copies of the Editor; (c) distribute, sublicense,
@@ -75,141 +52,86 @@ Let's read on, to section 2 "TERMS APPLICABLE TO THE EDITOR", paragraph 2.2,
 ...
 
 > You shall not [..] make copies of the Editor
+> （エディターの複製を作成してはならない）
 
 ...
 
 > You shall not [..] reverse engineer, decompile, disassemble or otherwise
 > attempt to learn the source code, structure or algorithms underlying the
 > Editor
+> （エディターのリバースエンジニアリング、逆コンパイル、逆アセンブル、またはその他エディターの基礎となるソースコード、構造、アルゴリズムを学ぼうと試みてはならない）
 
 ...
 
 > You shall not [..] modify, translate or create derivative works of the Editor
+> （エディターの改変、翻訳、または派生物を作成してはならない）
 
-...etc.
+...等々。
 
-I cannot try to learn the source code, structure or algorithms underlying the
-Editor? I cannot create derivative works?
+エディターの基礎となるソースコードや構造、アルゴリズムを学ぼうと試みることも禁じられている？ 派生物を作ることもできない？
 
-I couldn't accept it. I didn't want to agree to any of it. So I gave up.
+私には受け入れられませんでした。これらの一切に同意したくありませんでした。そのため、私は利用を諦めました。
 
 ---
 
-Zed kept popping up. People I had respected left their jobs to go work for Zed,
-and not only that - to work on AI integration in Zed.
+その後も Zed の話題は目に入り続けました。私が尊敬していた人たちが仕事を辞めて Zed に移籍していき、しかもそれだけでなく、Zed への AI 統合の開発に携わるようになったのです。
 
-I don't want AI in my editor. I don't want AI in _anything_. It's not just
-because I think AI is bad for productivity, performance and quality (I do), but
-because I think the companies behind the technology and the _cost_ of the
-technology make it not only unsustainable but unethical. Even if AI tools _did_
-work to make their users more productive (which I doubt), I still don't want to
-use them. At all.
+私はエディターに AI を望んでいません。何に対しても AI など望んでいません。それは単に、AI が生産性やパフォーマンス、品質に悪影響を及ぼすと考えているからだけではなく（実際にそう考えていますが）、この技術の背後にいる企業や技術の「コスト」が、持続不可能であるだけでなく非倫理的だと考えているからです。仮に AI ツールがユーザーの生産性を本当に向上させるとしても（疑わしいですが）、私はそれらを一切使いたくありません。
 
-I also object to making myself and my work depend on paying a subscription fee
-to anyone. I don't want an outage at Anthropic to affect my ability to do my
-work. I think it is a grave mistake to build anything on such shaky foundations
-as the sustainability and profit margins of the AI industry.
+また、自分自身や自分の仕事を誰かへのサブスクリプション料金の支払いに依存させることにも強く反対します。Anthropic の障害によって自分の仕事ができなくなるような事態は避けたいのです。AI 業界の持続可能性や利益率のような不安定な土台の上に何かを構築することは、重大な過ちであると考えています。
 
-I think these are bad features to put in a code editor. Why should a code editor
-have a license agreement that flies in the face of open source? Why should my
-code editor integrate with technology that I find distasteful?
+これらはコードエディターに搭載すべき機能ではないと考えています。なぜコードエディターが、オープンソースの精神に真っ向から反するようなライセンス同意書を掲げなければならないのでしょうか？ なぜ自分のコードエディターが、不快感を覚えるような技術と統合されなければならないのでしょうか？
 
-Thinking is a feature. Generative LLM technology is not.
+「考えること」こそが機能です。生成型 LLM 技術は機能ではありません。
 
-Another selling point of Zed is "multiplayer editing" and built-in
-"collaboration", meaning integrated audio/video chat with a proprietary server
-component, subscriptions and end user license agreements.
+Zed のもう一つのセールスポイントは「マルチプレイヤー編集」と内蔵された「コラボレーション機能」です。これはプロプライエタリなサーバーコンポーネント、サブスクリプション、エンドユーザー使用許諾契約を伴う統合音声/ビデオチャットを意味します。
 
-I don't want it. In fact, I think these are bad features to put in a code
-editor. In my team, we use different operating systems, different editors and
-work from different time zones. We keep meetings to a minimum, and when we do
-pair programming or mob programming, one person is typing while the others
-think.
+私には不要です。実際、これらもコードエディターに組み込むべきではない好ましくない機能だと考えています。私のチームでは、異なる OS や異なるエディターを使用し、異なるタイムゾーンから作業しています。ミーティングは最小限に抑え、ペアプログラミングやモブプログラミングを行う際も、1 人がタイピングしている間、他のメンバーは考えることに集中します。
 
-Multiple people editing the same files at once while video chatting at the same
-time sounds like a nightmare.
+ビデオチャットをしながら複数の人間が同じファイルを同時に編集する光景は、悪夢のようにしか思えません。
 
-I don't want to sign in, or sign up, or join the community. I want my tools to
-be hammers, screwdrivers and saws. I don't need my hammer to come with a
-subscription fee.
+サインインも、サインアップも、コミュニティへの参加もしたくありません。私は自分のツールが金づちやドライバー、のこぎりのような道具であってほしいのです。金づちにサブスクリプション料金が付いてくる必要はありません。
 
-In Zed, the editor will automatically update itself, downloading binaries from
-the Zed website vetted only by Zed. Its extensions are binary blobs hosted by
-Zed, automatically updated and downloaded without user control. Those extensions
-will, in turn, download and install anything they feel like.
+Zed では、エディターが自動的に自身をアップデートし、Zed のみが検証したバイナリを Zed のウェブサイトからダウンロードします。その拡張機能は Zed がホストするバイナリブロブであり、ユーザーのコントロールなしに自動更新・ダウンロードされます。そしてそれらの拡張機能は、自分たちの好きなものを何でもダウンロードしてインストールします。
 
-As a band aid for this, newer versions of Zed have copied the workspace trust
-mechanism from VS Code. I think this is, once again, a bad solution to a problem
-that should not exist.
+これに対する一時しのぎとして、新しいバージョンの Zed は VS Code からワークスペース信頼（workspace trust）メカニズムを真似て取り入れました。これもまた、そもそも存在すべきでない問題に対する拙劣な対症療法だと私は考えています。
 
-I don't want my software to update itself automatically, or to download binaries
-without me explicitly asking it to.
+私は、ソフトウェアが勝手に自己アップデートしたり、明示的に求めない限りバイナリをダウンロードしたりすることを望みません。
 
-The editor can offer to download and install something from source, but it
-should tell you exactly what it wants to download and from where, and it should
-ask first. In Zed, everything invasive and exploitative is opt out: AI,
-Telemetry, auto updates - auto-installation isn't even offered as something to
-opt out of. Zed does not respect you.
+エディターがソースから何かをダウンロードしてインストールすることを提案するのは構いませんが、何をどこからダウンロードしたいのかを正確に示し、最初に許可を求めるべきです。Zed においては、侵害的で搾取的なすべての要素がオプトアウト（デフォルト有効）となっています。AI、テレメトリ、自動更新——自動インストールに至ってはオプトアウトする選択肢すら用意されていません。Zed はユーザーを尊重していないのです。
 
-I believe that the tools I use should belong to me. My tools are not there for
-corporations to bind me with.
+私は、自分が使うツールは自分自身のものであるべきだと信じています。道具は、企業がユーザーを縛り付けるためにあるのではありません。
 
-## Curiosity and spite
+## 好奇心と意地
 
-At first, I tried to build some other efforts I found online to make Zed work
-without the AI features just so I could check it out, but didn't manage to get
-them to work. At some point, the curiosity turned into spite. I became
-determined to not only get the editor to run without all of the misfeatures, but
-to make it a full-blown fork of the project. Independent of corporate control,
-in the spirit of Vim and the late Bram Moolenaar who could have added
-subscription fees and abusive license agreements had he so wanted, but instead
-gave his work as a gift to the world and asked only for donations to a
-[good cause close to his heart](https://en.wikipedia.org/wiki/ICCF_Holland) in
-return.
+当初、私は Zed の動作を確かめるためだけに、ネット上にある AI 機能を排除して Zed を動かそうとする取り組みをビルドしようと試みましたが、うまく動かすことはできませんでした。ある時点で、好奇心は「意地」へと変わりました。すべての不適切な機能を取り除いてエディターを実行できるようにするだけでなく、このプロジェクトの本格的なフォークに仕立て上げようと決意したのです。企業の支配から独立し、Vim や故ブラム・ムーレナー（Bram Moolenaar）の精神に倣ったものにしようと。彼は望めばサブスクリプション料金や不当なライセンス契約を課すこともできたはずですが、そうはせず、自分の成果を世界への贈り物として提供し、見返りとして[彼が大切にしていた慈善活動](https://en.wikipedia.org/wiki/ICCF_Holland)への寄付だけを求めました。
 
-This is the result. Feel free to build it and see if it works for you. There is
-no license agreement or subscription beyond the open source license of the code
-(GPLv3). It is yours now, to do with as you please.
+その結果が、この Gram です。自由にビルドして、ご自身に合うかどうか試してみてください。コードのオープンソースライセンス（GPLv3）以外に、いかなる利用規約もサブスクリプションも存在しません。これはもうあなたのものです。お好きなようにお使いください。
 
-## Features
+## 特徴
 
-- Open: No telemetry, AI or privacy-invading third party integrations.
-- Performance: Focuses on helping you with your programming tasks instead of
-  spending CPU and GPU cycles on communicating with AI services, sending your
-  keystrokes to a company server in the US or convincing you to sign up for a
-  subscription.
-- Integrated: Gram includes the documentation directly in the editor. Long term,
-  the goal is to include language support for most languages without requiring
-  the use of extensions.
+- オープン: テレメトリ、AI、プライバシーを侵害するサードパーティ統合は一切ありません。
+- パフォーマンス: AI サービスとの通信、米国の企業サーバーへのキーストローク送信、サブスクリプション契約への誘導などに CPU や GPU サイクルを浪費することなく、プログラミング作業そのものの支援に集中します。
+- 統合性: Gram はエディター内にドキュメントを直接収録しています。長期的には、拡張機能を使わなくても大半の言語サポートが組み込まれている状態を目指しています。
 
-## Other options
+## 他の選択肢
 
-If you don't want to use an editor that has gone down the AI route but do want a
-capable, general-purpose, open source text editor, what other options are there?
+AI の道に進んでしまったエディターを使いたくはないが、高機能で汎用的なオープンソースのテキストエディターを求めている場合、他にどのような選択肢があるでしょうか？
 
-Here are some other editors that I have used and would consider reasonable
-alternatives to Zed. What they all have in common is that they are first and
-foremost _text editors_, and do not push or endorse LLM services. Some of them
-are also strict about the use of LLMs to develop the editors themselves, but not
-all of them are.
+以下は、私が実際に使用したことがあり、Zed の妥当な代替になると考える他のエディターです。これらに共通しているのは、何よりもまず「テキストエディター」であり、LLM サービスを押し付けたり推奨したりしないという点です。エディター自体の開発における LLM の使用を厳格に制限しているものもありますが、すべてがそうであるわけではありません。
 
-> _Note:_ Gram is also not AI free. I have not and do not think it is feasible
-> to remove all generated code from the code base. Not all of it is clearly
-> marked as such. We also merge patches from upstream sometimes, mainly to fix
-> bugs. This stance may change in the future.
+> 注: Gram も完全に AI フリーというわけではありません。コードベースから生成されたコードをすべて取り除くことは現実的ではなく、行ってもいません。すべてのコードが明確にその旨を明記されているわけではないからです。また、主にバグ修正を目的として、アップストリームからのパッチを取り込むこともあります。この姿勢は将来的に変わる可能性があります。
 
-As far as I know, these editors are completely free of AI-generated code.
+私の知る限り、以下のエディターは AI 生成コードが完全に含まれていません:
 
 - [Vim Classic](https://vim-classic.org)
 - [Emacs](https://www.gnu.org/software/emacs/)
-- [fred](https://fred-dev.tech) - Has committed to be and remain AI-free.
+- [fred](https://fred-dev.tech) - AI を排除し、今後も AI フリーであり続けることを誓約しています。
 
-These editors may not be AI free, but I am still OK with recommending them.
+以下のエディターは完全に AI フリーではないかもしれませんが、推薦するに足るものです:
 
-- [Flow Control](https://flow-control.dev) - A TUI-based and very promising
-  editor with planned collaboration features.
+- [Flow Control](https://flow-control.dev) - TUI ベースの非常に有望なエディターで、コラボレーション機能が計画されています。
 - [Helix](https://helix-editor.com)
 - [Kakoune](https://kakoune.org)
 
-> _Note:_ Also see:
-> [ethical-foss/open-slopware](https://codeberg.org/ethical-foss/open-slopware#text-and-code-editors).
+> 注: [ethical-foss/open-slopware](https://codeberg.org/ethical-foss/open-slopware#text-and-code-editors) もあわせて参照してください。

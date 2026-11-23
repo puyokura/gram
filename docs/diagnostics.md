@@ -1,24 +1,20 @@
-# Diagnostics
+# 診断
 
-Gram gets its diagnostics from the language servers and supports both push and
-pull variants of the LSP which should make it compatible with all existing
-language servers.
+Gram は言語サーバーから診断情報を取得し、LSP のプッシュ型とプル型の両方のバリアントに対応しています。これにより、既存のあらゆる言語サーバーとの互換性が確保されています。
 
-# Regular diagnostics
+# 通常の診断
 
-By default, all diagnostics are displayed as underlined text in the editor and
-the scrollbar.
+デフォルトでは、すべての診断情報がエディター内およびスクロールバー上に下線付きテキストとして表示されます。
 
-Editor diagnostics can be filtered using the editor setting:
+エディターの診断表示は、以下のエディター設定でフィルタリングできます。
 
 ```json
 "diagnostics_max_severity": null
 ```
 
-Possible values: `"off"`, `"error"`, `"warning"`, `"info"`, `"hint"`, `null`
-(default, all diagnostics)
+設定可能な値: `"off"`, `"error"`, `"warning"`, `"info"`, `"hint"`, `null`（デフォルト、すべての診断を表示）
 
-The scrollbar diagnostics are configured using
+スクロールバー上の診断表示は、以下のように設定します。
 
 ```json
 "scrollbar": {
@@ -26,35 +22,28 @@ The scrollbar diagnostics are configured using
 }
 ```
 
-Possible values: `"none"`, `"error"`, `"warning"`, `"information"`, `"all"`
-(default)
+設定可能な値: `"none"`, `"error"`, `"warning"`, `"information"`, `"all"`（デフォルト）
 
-The diagnostics can be hovered to display a tooltip with full, rendered
-diagnostic message. Or, `editor::GoToDiagnostic` and
-`editor::GoToPreviousDiagnostic` could be used to navigate between diagnostics
-in the editor, showing a popover for the currently active diagnostic.
+診断箇所にカーソルを合わせると（ホバー）、整形された完全な診断メッセージを含むツールチップが表示されます。また、`editor::GoToDiagnostic` や `editor::GoToPreviousDiagnostic` を使用してエディター内の診断間を移動でき、現在アクティブな診断のポップオーバーが表示されます。
 
-# Inline diagnostics (Error lens)
+# インライン診断（Error lens）
 
-It's possible to display diagnostics as a lens to the right of the code. This is
-disabled by default, but can either be temporarily turned on (or off) using the
-editor menu, or permanently, using the
+コードの右側にレンズとして診断情報を表示することも可能です。この機能はデフォルトでは無効化されていますが、エディターメニューから一時的にオン（またはオフ）に切り替えるか、以下の設定で恒久的に有効化できます。
 
 ```json
 "diagnostics": {
   "inline": {
     "enabled": true,
-    "max_severity": null, // same values as the `diagnostics_max_severity` from the editor settings
+    "max_severity": null, // エディター設定の `diagnostics_max_severity` と同じ値
   }
 }
 ```
 
-# Other UI places
+# その他の UI 表示箇所
 
-## Project Panel
+## プロジェクトパネル
 
-The project panel can have its entries coloured based on the severity of the
-diagnostics in the file:
+プロジェクトパネルでは、ファイル内の診断の重大度に応じて各エントリーを色分け表示できます。
 
 ```json
 "project_panel": {
@@ -62,11 +51,11 @@ diagnostics in the file:
 }
 ```
 
-Possible values: `"off"`, `"errors"`, `"all"` (default)
+設定可能な値: `"off"`, `"errors"`, `"all"`（デフォルト）
 
-## Editor tabs
+## エディタータブ
 
-Editor tabs can be coloured in the same way as project panel entries:
+エディタータブもプロジェクトパネルのエントリーと同様に色分け表示できます。
 
 ```json
 "tabs": {
@@ -74,4 +63,4 @@ Editor tabs can be coloured in the same way as project panel entries:
 }
 ```
 
-Possible values: `"off"` (default), `"errors"`, `"all"`
+設定可能な値: `"off"`（デフォルト）, `"errors"`, `"all"`

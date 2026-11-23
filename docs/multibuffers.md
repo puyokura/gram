@@ -1,59 +1,37 @@
-# Multibuffers
+# マルチバッファー
 
-Using multibuffers, it's possible to edit multiple files simultaneously from a
-single view.
+マルチバッファー（Multibuffers）を使用すると、単一のビューから複数のファイルを同時に編集できます。
 
-Multibuffers work well together with multiple cursors.
+マルチバッファーは、マルチカーソル機能と組み合わせて使用することで真価を発揮します。
 
-## Editing in a multibuffer
+## マルチバッファーでの編集
 
-Editing a multibuffer is the same as editing a normal file. Changes will be
-reflected in the open copies of the files in the rest of the editor.
+マルチバッファーでの編集は、通常のファイルの編集とまったく同じです。加えた変更は、エディター内の他の場所で開かれている該当ファイルにも即座に反映されます。
 
-Save all files with {#action editor::Save} (bound to `cmd-s` on macOS, `ctrl-s`
-on Windows/Linux, or `:w` in Vim mode).
+すべてのファイルを保存するには {#action editor::Save} を実行します（macOS では `cmd-s`、Windows/Linux では `ctrl-s`、Vim モードでは `:w` に割り当てられています）。
 
-When in a multibuffer, it is often useful to use multiple cursors to edit every
-file simultaneously. To edit multiple instances at once, select them with the
-mouse (`option-click` on macOS, `alt-click` on Window/Linux) or the keyboard.
-`cmd-d` on macOS, `ctrl-d` on Windows/Linux, or `gl` in Vim mode will select the
-next match of the word under the cursor.
+マルチバッファー内では、マルチカーソルを使用して各ファイルを一括編集すると便利です。複数の箇所を一度に編集するには、マウス（macOS では `option-click`、Windows/Linux では `alt-click`）またはキーボードで選択します。macOS の `cmd-d`、Windows/Linux の `ctrl-d`、または Vim モードの `gl` を使用すると、カーソル下の単語の次の一致箇所を選択できます。
 
-To edit all matches you can select them by running the {#action
-editor::SelectAllMatches} command (`cmd-shift-l` on macOS, `ctrl-shift-l` on
-Windows/Linux, or `g a` in Vim mode).
+すべての一致箇所を一括編集するには、{#action
+editor::SelectAllMatches} コマンド（macOS では `cmd-shift-l`、Windows/Linux では `ctrl-shift-l`、Vim モードでは `g a`）を実行して選択します。
 
-## Navigating to the Source File
+## ソースファイルへの移動
 
-Click on any of the divider lines between excerpts or place the cursor in an
-excerpt, and run the {#action editor::OpenExcerpts} command. Note: If multiple
-cursors are being used, the command will open the source file positioned under
-each cursor within the multibuffer.
+抜粋（Excerpt）間の区切り線をクリックするか、抜粋内にカーソルを置いて {#action editor::OpenExcerpts} コマンドを実行します。注意: 複数のカーソルを使用している場合、マルチバッファー内の各カーソルが位置しているソースファイルがそれぞれ開かれます。
 
-Double-clicking excerpts with the mouse to open the source file is disabled by
-default, and can be enabled using the setting:
-`"double_click_in_multibuffer": "open"`.
+マウスのダブルクリックで抜粋元のソースファイルを開く動作はデフォルトで無効になっていますが、次の設定を行うことで有効化できます:
+`"double_click_in_multibuffer": "open"`
 
-## Project search
+## プロジェクト内検索
 
-Run {#action pane::ToggleSearch} (`cmd-shift-f` on macOS, `ctrl-shift-f` on
-Windows/Linux, or `g/` in Vim mode) to search across the whole project. After
-the search has completed, the results will be shown in a new multibuffer. There
-will be one excerpt for each matching line across the whole project.
+{#action pane::ToggleSearch}（macOS では `cmd-shift-f`、Windows/Linux では `ctrl-shift-f`、Vim モードでは `g/`）を実行すると、プロジェクト全体を検索できます。検索が完了すると、結果が新しいマルチバッファーに表示されます。プロジェクト全体の一致行ごとに抜粋が表示されます。
 
-## Diagnostics
+## 診断
 
-If an appropriate language server is installed, the diagnostics pane can display
-all errors across the project. Open it by clicking on the icon in the status
-bar, or run the {#action diagnostics::Deploy} command`('cmd-shift-m` on macOS,
-`ctrl-shift-m` on Windows/Linux, or `:clist` in Vim mode).
+適切な言語サーバーがインストールされている場合、診断（Diagnostics）ペインにプロジェクト全体のすべてのエラーを表示できます。ステータスバーのアイコンをクリックするか、{#action diagnostics::Deploy} コマンド（macOS では `cmd-shift-m`、Windows/Linux では `ctrl-shift-m`、Vim モードでは `:clist`）を実行して開きます。
 
-## Find References
+## 参照箇所の検索
 
-With a language server installed, find all references to the symbol under the
-cursor using the {#action editor::FindReferences} command (`cmd-click` on macOS,
-`ctrl-click` on Windows/Linux, or `g A` in Vim mode.
+言語サーバーがインストールされている場合、{#action editor::FindReferences} コマンド（macOS では `cmd-click`、Windows/Linux では `ctrl-click`、Vim モードでは `g A`）を使用して、カーソル下のシンボルのすべての参照箇所を検索できます。
 
-Depending on the language server, commands like {#action editor::GoToDefinition}
-and {#action editor::GoToTypeDefinition} will also open a multibuffer if there
-are multiple possible definitions.
+言語サーバーの動作によっては、複数の定義候補が存在する場合に {#action editor::GoToDefinition} や {#action editor::GoToTypeDefinition} などのコマンドもマルチバッファーを開きます。

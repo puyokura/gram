@@ -1,24 +1,23 @@
 # TypeScript
 
-TypeScript and TSX support are available natively in Gram.
+TypeScript と TSX のサポートは、Gram でネイティブに利用できます。
 
 - Tree-sitter:
   [tree-sitter/tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)
-- Language Server: [yioneko/vtsls](https://github.com/yioneko/vtsls)
-- Alternate Language Server:
+- 言語サーバー: [yioneko/vtsls](https://github.com/yioneko/vtsls)
+- 代替の言語サーバー:
   [typescript-language-server/typescript-language-server](https://github.com/typescript-language-server/typescript-language-server)
-- Debug Adapter: [vscode-js-debug](https://github.com/microsoft/vscode-js-debug)
+- デバッグアダプター: [vscode-js-debug](https://github.com/microsoft/vscode-js-debug)
 
 <!--
 TBD: Document the difference between Language servers
 -->
 
-## Language servers
+## 言語サーバー
 
-By default Gram uses [vtsls](https://github.com/yioneko/vtsls) for TypeScript,
-TSX, and JavaScript files. You can configure the use of
+既定では、Gram は TypeScript、TSX、JavaScript の各ファイルに [vtsls](https://github.com/yioneko/vtsls) を使用します。
 [typescript-language-server](https://github.com/typescript-language-server/typescript-language-server)
-per language in your settings file:
+は、設定ファイルで言語ごとに使用するよう設定できます:
 
 ```json
 {
@@ -36,7 +35,7 @@ per language in your settings file:
 }
 ```
 
-Prettier will also be used for TypeScript files by default. To disable this:
+TypeScript ファイルでは既定で Prettier も使用されます。これを無効にするには:
 
 ```json
 {
@@ -49,10 +48,9 @@ Prettier will also be used for TypeScript files by default. To disable this:
 }
 ```
 
-## Large projects
+## 大規模なプロジェクト
 
-`vtsls` may run out of memory on very large projects. We default the limit to
-8092 (8 GiB) vs. the default of 3072 but this may not be sufficient for you:
+`vtsls` は非常に大きなプロジェクトでメモリ不足になることがあります。既定値の 3072 に対して上限を 8092（8 GiB）に設定していますが、これでも足りない場合があります:
 
 ```json
 {
@@ -69,13 +67,11 @@ Prettier will also be used for TypeScript files by default. To disable this:
 }
 ```
 
-## Inlay Hints
+## インレイヒント
 
-Gram sets the following initialization options to make the language server send
-back inlay hints (that is, when Gram has inlay hints enabled in the settings).
+Gram は、言語サーバーがインレイヒントを返すよう、次の初期化オプションを設定します（つまり、Gram の設定でインレイヒントが有効になっている場合です）。
 
-You can override these settings in your Gram `settings.jsonc` when using
-`typescript-language-server`:
+`typescript-language-server` を使用する場合、Gram の `settings.jsonc` でこれらの設定を上書きできます:
 
 ```json
 {
@@ -98,11 +94,11 @@ You can override these settings in your Gram `settings.jsonc` when using
 }
 ```
 
-See
-[typescript-language-server inlayhints documentation](https://github.com/typescript-language-server/typescript-language-server?tab=readme-ov-file#inlay-hints-textdocumentinlayhint)
-for more information.
+詳しくは
+[typescript-language-server のインレイヒントのドキュメント](https://github.com/typescript-language-server/typescript-language-server?tab=readme-ov-file#inlay-hints-textdocumentinlayhint)
+を参照してください。
 
-When using `vtsls`:
+`vtsls` を使用する場合:
 
 ```json
 {
@@ -165,44 +161,32 @@ When using `vtsls`:
 }
 ```
 
-## Debugging
+## デバッグ
 
-Gram supports debugging TypeScript code out of the box with `vscode-js-debug`.
-The following can be debugged without writing additional configuration:
+Gram は `vscode-js-debug` を使って、TypeScript コードのデバッグを標準でサポートしています。追加の設定を書かなくても、次のものをデバッグできます:
 
-- Tasks from `package.json`
-- Tests written using several popular frameworks (Jest, Mocha, Vitest, Jasmine,
-  Bun, Node)
+- `package.json` のタスク
+- いくつかの人気フレームワーク（Jest、Mocha、Vitest、Jasmine、Bun、Node）で書かれたテスト
 
-Run {#action debugger::Start} ({#kb debugger::Start}) to see a contextual list
-of these predefined debug tasks.
+{#action debugger::Start}（{#kb debugger::Start}）を実行すると、これらの定義済みデバッグタスクの文脈依存の一覧が表示されます。
 
-> **Note:** Bun test is automatically detected when `@types/bun` is present in
-> `package.json`.
+> **注:** Bun のテストは、`package.json` に `@types/bun` がある場合に自動検出されます。
 >
-> **Note:** Node test is automatically detected when `@types/node` is present in
-> `package.json` (requires Node.js 20+).
+> **注:** Node のテストは、`package.json` に `@types/node` がある場合に自動検出されます（Node.js 20 以降が必要）。
 
-As for all languages, configurations from `.vscode/launch.json` are also
-available for debugging in Gram.
+すべての言語と同様、`.vscode/launch.json` の設定も Gram でのデバッグに使用できます。
 
-If your use-case isn't covered by any of these, you can take full control by
-adding debug configurations to `.gram/debug.jsonc`. See below for example
-configurations.
+これらのいずれにも当てはまらないユースケースでは、`.gram/debug.jsonc` にデバッグ構成を追加することで完全に制御できます。構成例は以下を参照してください。
 
-### Configuring JavaScript debug tasks
+### JavaScript デバッグタスクの設定
 
-JavaScript debugging is more complicated than other languages because there are
-two different environments: Node.js and the browser. `vscode-js-debug` exposes a
-`type` field, that you can use to specify the environment, either `node` or
-`chrome`.
+JavaScript のデバッグは、Node.js とブラウザーの2つの異なる環境があるため、他の言語より複雑です。`vscode-js-debug` は `type` フィールドを公開しており、これを使って環境（`node` または `chrome`）を指定できます。
 
-- [vscode-js-debug configuration documentation](https://github.com/microsoft/vscode-js-debug/blob/main/OPTIONS.md)
+- [vscode-js-debug の設定ドキュメント](https://github.com/microsoft/vscode-js-debug/blob/main/OPTIONS.md)
 
-### Attach debugger to a server running in web browser (`npx serve`)
+### Web ブラウザーで動作するサーバーにデバッガーをアタッチする（`npx serve`）
 
-Given an externally-ran web server (e.g., with `npx serve` or `npx live-server`)
-one can attach to it and open it with a browser.
+外部で実行している Web サーバー（例: `npx serve` や `npx live-server`）がある場合、それにアタッチしてブラウザーで開けます。
 
 ```json [debug]
 [
@@ -223,8 +207,7 @@ one can attach to it and open it with a browser.
 ]
 ```
 
-## See also
+## 関連項目
 
-- [Gram Yarn documentation](./yarn.md) for a walkthrough of configuring your
-  project to use Yarn.
-- [Gram Deno documentation](./deno.md)
+- [Gram の Yarn ドキュメント](./yarn.md): プロジェクトで Yarn を使うための設定の手順。
+- [Gram の Deno ドキュメント](./deno.md)

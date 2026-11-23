@@ -514,7 +514,7 @@ pub(crate) fn new_debugger_pane(
                                 .tooltip({
                                     let focus_handle = focus_handle.clone();
                                     move |_window, cx| {
-                                        let zoomed_text = if zoomed { "Minimize" } else { "Expand" };
+                                        let zoomed_text = if zoomed { "縮小" } else { "拡大" };
                                         Tooltip::for_action_in(zoomed_text, &ToggleExpandItem, &focus_handle, cx)
                                     }
                                 }),

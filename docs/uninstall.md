@@ -1,25 +1,25 @@
-# Uninstall
+# アンインストール
 
-This guide covers how to uninstall Gram on different operating systems.
+このガイドでは、各 OS で Gram をアンインストールする方法を説明します。
 
 ## macOS
 
-### Bundle compilation
+### バンドルのビルド
 
-If you installed Gram by compiling it using the `script/bundle-mac` command:
+`script/bundle-mac` コマンドでコンパイルして Gram をインストールした場合:
 
-1. Quit Gram if it's running
-2. Open Finder and go to your Applications folder
-3. Drag Gram to the Trash (or right-click and select "Move to Trash")
-4. Empty the Trash
+1. Gram が実行中なら終了します
+2. Finder を開き、アプリケーションフォルダーへ移動します
+3. Gram をゴミ箱へドラッグします（または右クリックして「ゴミ箱に入れる」を選択）
+4. ゴミ箱を空にします
 
-### Removing User Data (Optional)
+### ユーザーデータの削除（任意）
 
-To completely remove all Gram configuration files and data:
+Gram の設定ファイルとデータを完全に削除するには:
 
-1. Open Finder
-2. Press `Cmd + Shift + G` to open "Go to Folder"
-3. Delete the following directories if they exist:
+1. Finder を開きます
+2. `Cmd + Shift + G` を押して「フォルダーへ移動」を開きます
+3. 次のディレクトリが存在する場合は削除します:
    - `~/Library/Application Support/Gram`
    - `~/Library/Saved Application State/app.liten.Gram.savedState`
    - `~/Library/Logs/Gram`
@@ -27,82 +27,73 @@ To completely remove all Gram configuration files and data:
 
 ## Linux
 
-### Standard Uninstall
+### 標準のアンインストール
 
-If Gram was installed using the default installation script, run:
+既定のインストールスクリプトで Gram をインストールした場合は、次を実行します:
 
 ```sh
 gram --uninstall
 ```
 
-You'll be prompted whether to keep or delete your preferences. After making a
-choice, you should see a message that Gram was successfully uninstalled.
+設定を保持するか削除するかを確認されます。選択すると、Gram のアンインストールが成功した旨のメッセージが表示されます。
 
-If the `gram` command is not found in your PATH, try:
+`gram` コマンドが PATH に見つからない場合は、次をお試しください:
 
 ```sh
 $HOME/.local/bin/gram --uninstall
 ```
 
-or:
+または:
 
 ```sh
 $HOME/.local/gram.app/bin/gram --uninstall
 ```
 
-### Package Manager
+### パッケージマネージャー
 
-If you installed Gram using a package manager (such as Flatpak or a
-distribution-specific package manager), consult that package manager's
-documentation for uninstallation instructions.
+Flatpak やディストリビューション固有のパッケージマネージャーなどを使って Gram をインストールした場合は、そのパッケージマネージャーのドキュメントでアンインストール手順を確認してください。
 
-### Manual Removal
+### 手動での削除
 
-If the uninstall command fails or Gram was installed to a custom location, you
-can manually remove:
+アンインストールコマンドが失敗した場合や、Gram をカスタムの場所にインストールした場合は、次のものを手動で削除できます:
 
-- Installation directory: `~/.local/gram.app` (or your custom installation path)
-- Binary symlink: `~/.local/bin/gram`
-- Configuration and data: `~/.config/gram`
+- インストールディレクトリ: `~/.local/gram.app`（またはカスタムのインストール先）
+- バイナリのシンボリックリンク: `~/.local/bin/gram`
+- 設定とデータ: `~/.config/gram`
 
 ## Windows
 
-### Standard Installation
+### 標準のインストール
 
-1. Quit Gram if it's running
-2. Open Settings (Windows key + I)
-3. Go to "Apps" > "Installed apps" (or "Apps & features" on Windows 10)
-4. Search for "Gram"
-5. Click the three dots menu next to Gram and select "Uninstall"
-6. Follow the prompts to complete the uninstallation
+1. Gram が実行中なら終了します
+2. 設定を開きます（Windows キー + I）
+3. 「アプリ」>「インストールされたアプリ」へ移動します（Windows 10 では「アプリと機能」）
+4. 「Gram」を検索します
+5. Gram の横にある 3 点メニューをクリックして「アンインストール」を選択します
+6. 画面の指示に従ってアンインストールを完了します
 
-Alternatively, you can:
+あるいは、次の方法もあります:
 
-1. Open the Start menu
-2. Right-click on Gram
-3. Select "Uninstall"
+1. スタートメニューを開きます
+2. Gram を右クリックします
+3. 「アンインストール」を選択します
 
-### Removing User Data (Optional)
+### ユーザーデータの削除（任意）
 
-To completely remove all Gram configuration files and data:
+Gram の設定ファイルとデータを完全に削除するには:
 
-1. Press `Windows key + R` to open Run
-2. Type `%APPDATA%` and press Enter
-3. Delete the `Gram` folder if it exists
-4. Press `Windows key + R` again, type `%LOCALAPPDATA%` and press Enter
-5. Delete the `Gram` folder if it exists
+1. `Windows キー + R` を押して「ファイル名を指定して実行」を開きます
+2. `%APPDATA%` と入力して Enter を押します
+3. `Gram` フォルダーが存在する場合は削除します
+4. もう一度 `Windows キー + R` を押し、`%LOCALAPPDATA%` と入力して Enter を押します
+5. `Gram` フォルダーが存在する場合は削除します
 
-## Troubleshooting
+## トラブルシューティング
 
-If you encounter issues during uninstallation:
+アンインストール中に問題が発生した場合:
 
-- **macOS/Windows**: Ensure Gram is completely quit before attempting to
-  uninstall. Check Activity Manager (macOS) or Task Manager (Windows) for any
-  running Gram processes.
-- **Linux**: If the uninstall script fails, check the error message and consider
-  manual removal of the directories listed above.
-- **All platforms**: If you want to start fresh while keeping Gram installed,
-  you can delete the configuration directories instead of uninstalling the
-  application entirely.
+- **macOS/Windows**: アンインストールを試みる前に、Gram が完全に終了していることを確認してください。Activity Monitor（macOS）またはタスクマネージャー（Windows）で、実行中の Gram プロセスがないか確認します。
+- **Linux**: アンインストールスクリプトが失敗した場合は、エラーメッセージを確認し、上記のディレクトリの手動削除を検討してください。
+- **すべてのプラットフォーム**: Gram をインストールしたまま初期状態に戻したい場合は、アプリケーションを完全にアンインストールする代わりに、設定ディレクトリを削除できます。
 
-For additional help, see the [Linux-specific documentation](./linux.md).
+その他のヘルプについては、[Linux 固有のドキュメント](./linux.md) を参照してください。

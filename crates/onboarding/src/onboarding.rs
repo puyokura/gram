@@ -30,7 +30,7 @@ mod basics_page;
 pub mod multibuffer_hint;
 mod theme_preview;
 
-/// Imports settings from Visual Studio Code.
+/// Visual Studio Codeから設定をインポートします。
 #[derive(Copy, Clone, Debug, Default, PartialEq, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
@@ -45,9 +45,9 @@ pub const DOCS_URL: &str = "gram://docs/";
 actions!(
     onboarding,
     [
-        /// Finish the onboarding process.
+        /// オンボーディングを完了する。
         Finish,
-        /// Resets the welcome screen hints to their initial state.
+        /// ウェルカム画面のヒントを初期状態にリセットする。
         ResetHints
     ]
 );
@@ -263,7 +263,7 @@ impl Render for Onboarding {
                             .border_color(cx.theme().colors().border_variant)
                             .child({
                                 let background = cx.theme().colors().ghost_element_hover;
-                                Button::new("finish_setup", "Finish Setup")
+                                Button::new("finish_setup", "セットアップを完了")
                                     .style(ButtonStyle::Background(background))
                                     .size(ButtonSize::Medium)
                                     .key_binding(
@@ -291,7 +291,7 @@ impl Item for Onboarding {
     type Event = ItemEvent;
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Onboarding".into()
+        "オンボーディング".into()
     }
 
     fn show_toolbar(&self) -> bool {
@@ -371,9 +371,9 @@ pub async fn handle_import_vscode_settings(
             zlog::error!("{err:?}");
             let _ = cx.prompt(
                 gpui::PromptLevel::Info,
-                &format!("Could not find or load a {source} settings file"),
+                &format!("{source} の設定ファイルが見つからないか、読み込めませんでした"),
                 None,
-                &["Ok"],
+                &["OK"],
             );
             return;
         }
@@ -383,13 +383,13 @@ pub async fn handle_import_vscode_settings(
         let prompt = cx.prompt(
             gpui::PromptLevel::Warning,
             &format!(
-                "Importing {} settings may overwrite your existing settings. \
-                Will import settings from {}",
+                "{} の設定をインポートすると、既存の設定が上書きされる可能性があります。\
+                {} から設定をインポートします",
                 vscode_settings.source,
                 truncate_and_remove_front(&vscode_settings.path.to_string_lossy(), 128),
             ),
             None,
-            &["Ok", "Cancel"],
+            &["OK", "キャンセル"],
         );
         let result = cx.spawn(async move |_| prompt.await.ok()).await;
         if result != Some(0) {
@@ -412,7 +412,7 @@ pub async fn handle_import_vscode_settings(
         .update_in(cx, |workspace, _, cx| match result {
             Ok(_) => {
                 let confirmation_toast = StatusToast::new(
-                    format!("Your {} settings were successfully imported.", source),
+                    format!("{} の設定が正常にインポートされました。", source),
                     cx,
                     |this, _| {
                         this.icon(ToastIcon::new(IconName::Check).color(Color::Success))
@@ -430,13 +430,17 @@ pub async fn handle_import_vscode_settings(
                 workspace.toggle_status_toast(confirmation_toast, cx);
             }
             Err(_) => {
-                let error_toast = StatusToast::new("Failed to import settings. See log for details", cx, |this, _| {
-                    this.icon(ToastIcon::new(IconName::Close).color(Color::Error))
-                        .action("Open Log", |window, cx| {
-                            window.dispatch_action(workspace::OpenLog.boxed_clone(), cx)
-                        })
-                        .dismiss_button(true)
-                });
+                let error_toast = StatusToast::new(
+                    "設定のインポートに失敗しました。詳細はログを確認してください",
+                    cx,
+                    |this, _| {
+                        this.icon(ToastIcon::new(IconName::Close).color(Color::Error))
+                            .action("ログを開く", |window, cx| {
+                                window.dispatch_action(workspace::OpenLog.boxed_clone(), cx)
+                            })
+                            .dismiss_button(true)
+                    },
+                );
                 workspace.toggle_status_toast(error_toast, cx);
             }
         })

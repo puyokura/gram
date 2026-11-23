@@ -39,9 +39,9 @@ impl Render for ToolbarControls {
         }
 
         let warning_tooltip = if include_warnings {
-            "Exclude Warnings"
+            "警告を除外"
         } else {
-            "Include Warnings"
+            "警告を含める"
         };
 
         let warning_color = if include_warnings { Color::Warning } else { Color::Muted };
@@ -54,10 +54,7 @@ impl Render for ToolbarControls {
                         IconButton::new("stop-updating", IconName::Stop)
                             .icon_color(Color::Info)
                             .shape(IconButtonShape::Square)
-                            .tooltip(Tooltip::for_action_title(
-                                "Stop diagnostics update",
-                                &ToggleDiagnosticsRefresh,
-                            ))
+                            .tooltip(Tooltip::for_action_title("診断の更新を停止", &ToggleDiagnosticsRefresh))
                             .on_click(cx.listener(move |toolbar_controls, _, _, cx| {
                                 if let Some(editor) = toolbar_controls.editor() {
                                     editor.stop_updating(cx);
@@ -70,10 +67,7 @@ impl Render for ToolbarControls {
                         IconButton::new("refresh-diagnostics", IconName::ArrowCircle)
                             .icon_color(Color::Info)
                             .shape(IconButtonShape::Square)
-                            .tooltip(Tooltip::for_action_title(
-                                "Refresh diagnostics",
-                                &ToggleDiagnosticsRefresh,
-                            ))
+                            .tooltip(Tooltip::for_action_title("診断を更新", &ToggleDiagnosticsRefresh))
                             .on_click(cx.listener({
                                 move |toolbar_controls, _, window, cx| {
                                     if let Some(editor) = toolbar_controls.editor() {

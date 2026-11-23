@@ -53,7 +53,7 @@ enum InputPanel {
 struct SearchMatchHighlight;
 struct SearchMatchLineHighlight;
 
-/// Global state for storing the recent search query.
+/// 直近の検索クエリを保存するグローバル状態。
 struct RecentSearchState {
     last_query: Option<String>,
 }
@@ -71,7 +71,7 @@ fn save_recent_query(query: &str, cx: &mut App) {
     });
 }
 
-/// Initialize the quick_search module.
+/// quick_search モジュールを初期化します。
 pub fn init(cx: &mut App) {
     cx.observe_new(QuickSearch::register).detach();
 }
@@ -123,19 +123,19 @@ impl QuickSearch {
 
         let replacement_editor = cx.new(|cx| {
             let mut editor = Editor::single_line(window, cx);
-            editor.set_placeholder_text("Replace in project…", window, cx);
+            editor.set_placeholder_text("プロジェクト内で置換…", window, cx);
             editor
         });
 
         let included_files_editor = cx.new(|cx| {
             let mut editor = Editor::single_line(window, cx);
-            editor.set_placeholder_text("Include: e.g. src/**/*.rs", window, cx);
+            editor.set_placeholder_text("含める: 例 src/**/*.rs", window, cx);
             editor
         });
 
         let excluded_files_editor = cx.new(|cx| {
             let mut editor = Editor::single_line(window, cx);
-            editor.set_placeholder_text("Exclude: e.g. vendor/*, *.lock", window, cx);
+            editor.set_placeholder_text("除外: 例 vendor/*, *.lock", window, cx);
             editor
         });
 
@@ -495,17 +495,17 @@ impl Render for QuickSearch {
                         h_flex()
                             .gap_2()
                             .items_center()
-                            .child(Label::new("Quick Search").size(LabelSize::Default))
+                            .child(Label::new("クイック検索").size(LabelSize::Default))
                             .when(search_in_progress, |this| {
                                 this.child(
-                                    Label::new(format!("Searching... {} matches in {} files", match_count, file_count))
+                                    Label::new(format!("検索中… {} 件の一致 / {} ファイル", match_count, file_count))
                                         .color(Color::Muted)
                                         .size(LabelSize::Small),
                                 )
                             })
                             .when(!search_in_progress && has_matches, |this| {
                                 this.child(
-                                    Label::new(format!("{} matches in {} files", match_count, file_count))
+                                    Label::new(format!("{} 件の一致 / {} ファイル", match_count, file_count))
                                         .color(Color::Muted)
                                         .size(LabelSize::Small),
                                 )
@@ -521,7 +521,7 @@ impl Render for QuickSearch {
                                     .size(ButtonSize::Compact)
                                     .toggle_state(replace_enabled)
                                     .tooltip(move |_window, cx| {
-                                        Tooltip::for_action_in("Toggle Replace", &ToggleReplace, &focus_handle, cx)
+                                        Tooltip::for_action_in("置換を切り替え", &ToggleReplace, &focus_handle, cx)
                                     })
                                     .on_click(cx.listener(|this, _, window, cx| {
                                         this.picker.update(cx, |picker, cx| {
@@ -542,7 +542,12 @@ impl Render for QuickSearch {
                                     .size(ButtonSize::Compact)
                                     .toggle_state(filters_enabled)
                                     .tooltip(move |_window, cx| {
-                                        Tooltip::for_action_in("Toggle Filters", &ToggleFilters, &focus_handle, cx)
+                                        Tooltip::for_action_in(
+                                            "フィルターを切り替え",
+                                            &ToggleFilters,
+                                            &focus_handle,
+                                            cx,
+                                        )
                                     })
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(ToggleFilters.boxed_clone(), cx);
@@ -553,12 +558,7 @@ impl Render for QuickSearch {
                                 IconButton::new("select-prev-match", IconName::ChevronLeft)
                                     .size(ButtonSize::Compact)
                                     .tooltip(move |_window, cx| {
-                                        Tooltip::for_action_in(
-                                            "Previous Match",
-                                            &SelectPreviousMatch,
-                                            &focus_handle,
-                                            cx,
-                                        )
+                                        Tooltip::for_action_in("前の一致", &SelectPreviousMatch, &focus_handle, cx)
                                     })
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(SelectPreviousMatch.boxed_clone(), cx);
@@ -569,7 +569,7 @@ impl Render for QuickSearch {
                                 IconButton::new("select-next-match", IconName::ChevronRight)
                                     .size(ButtonSize::Compact)
                                     .tooltip(move |_window, cx| {
-                                        Tooltip::for_action_in("Next Match", &SelectNextMatch, &focus_handle, cx)
+                                        Tooltip::for_action_in("次の一致", &SelectNextMatch, &focus_handle, cx)
                                     })
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(SelectNextMatch.boxed_clone(), cx);
@@ -630,7 +630,7 @@ impl Render for QuickSearch {
                                 })
                                 .trigger_with_tooltip(
                                     ButtonLike::new("split-trigger")
-                                        .child(Label::new("Split…").size(LabelSize::Small))
+                                        .child(Label::new("分割…").size(LabelSize::Small))
                                         .selected_style(ButtonStyle::Tinted(TintColor::Accent))
                                         .child(
                                             KeyBinding::for_action_in(&ToggleSplitMenu, &focus_handle, cx)
@@ -639,7 +639,7 @@ impl Render for QuickSearch {
                                     {
                                         let focus_handle = focus_handle.clone();
                                         move |_window, cx| {
-                                            Tooltip::for_action_in("Open in Split", &ToggleSplitMenu, &focus_handle, cx)
+                                            Tooltip::for_action_in("分割して開く", &ToggleSplitMenu, &focus_handle, cx)
                                         }
                                     },
                                 )
@@ -650,10 +650,10 @@ impl Render for QuickSearch {
                                             let focus_handle = focus_handle.clone();
                                             move |menu, _, _| {
                                                 menu.context(focus_handle)
-                                                    .action("Split Left", pane::SplitLeft.boxed_clone())
-                                                    .action("Split Right", pane::SplitRight.boxed_clone())
-                                                    .action("Split Up", pane::SplitUp.boxed_clone())
-                                                    .action("Split Down", pane::SplitDown.boxed_clone())
+                                                    .action("左に分割", pane::SplitLeft.boxed_clone())
+                                                    .action("右に分割", pane::SplitRight.boxed_clone())
+                                                    .action("上に分割", pane::SplitUp.boxed_clone())
+                                                    .action("下に分割", pane::SplitDown.boxed_clone())
                                             }
                                         }))
                                     }
@@ -1054,7 +1054,7 @@ impl PickerDelegate for QuickSearchDelegate {
     type ListItem = ListItem;
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Search all files...".into()
+        "すべてのファイルを検索…".into()
     }
 
     fn render_editor(&self, editor: &Entity<Editor>, window: &mut Window, cx: &mut Context<Picker<Self>>) -> Div {
@@ -1110,7 +1110,7 @@ impl PickerDelegate for QuickSearchDelegate {
                                 let editor_for_click = editor.clone();
                                 IconButton::new("insert-newline", IconName::Return)
                                     .size(ButtonSize::Compact)
-                                    .tooltip(Tooltip::text("Insert New Line"))
+                                    .tooltip(Tooltip::text("改行を挿入"))
                                     .on_click(move |_, window, cx| {
                                         editor_for_click.update(cx, |editor, cx| {
                                             editor.insert("\n", window, cx);
@@ -1189,12 +1189,7 @@ impl PickerDelegate for QuickSearchDelegate {
                                     IconButton::new("replace-next", IconName::ReplaceNext)
                                         .shape(ui::IconButtonShape::Square)
                                         .tooltip(move |_window, cx| {
-                                            Tooltip::for_action_in(
-                                                "Replace Next Match",
-                                                &ReplaceNext,
-                                                &focus_handle,
-                                                cx,
-                                            )
+                                            Tooltip::for_action_in("次の一致を置換", &ReplaceNext, &focus_handle, cx)
                                         })
                                         .on_click(|_, window, cx| {
                                             window.dispatch_action(ReplaceNext.boxed_clone(), cx);
@@ -1205,7 +1200,7 @@ impl PickerDelegate for QuickSearchDelegate {
                                     IconButton::new("replace-all", IconName::ReplaceAll)
                                         .shape(ui::IconButtonShape::Square)
                                         .tooltip(move |_window, cx| {
-                                            Tooltip::for_action_in("Replace All", &ReplaceAll, &focus_handle, cx)
+                                            Tooltip::for_action_in("すべて置換", &ReplaceAll, &focus_handle, cx)
                                         })
                                         .on_click(|_, window, cx| {
                                             window.dispatch_action(ReplaceAll.boxed_clone(), cx);
@@ -1225,7 +1220,7 @@ impl PickerDelegate for QuickSearchDelegate {
                             h_flex()
                                 .flex_1()
                                 .gap_1()
-                                .child(Label::new("Include:").size(LabelSize::Small).color(Color::Muted))
+                                .child(Label::new("含める:").size(LabelSize::Small).color(Color::Muted))
                                 .child(
                                     div()
                                         .flex_1()
@@ -1245,7 +1240,7 @@ impl PickerDelegate for QuickSearchDelegate {
                             h_flex()
                                 .flex_1()
                                 .gap_1()
-                                .child(Label::new("Exclude:").size(LabelSize::Small).color(Color::Muted))
+                                .child(Label::new("除外:").size(LabelSize::Small).color(Color::Muted))
                                 .child(
                                     div()
                                         .flex_1()
@@ -1268,7 +1263,7 @@ impl PickerDelegate for QuickSearchDelegate {
                                     IconButton::new("opened-only", IconName::FolderSearch)
                                         .size(ButtonSize::Compact)
                                         .toggle_state(self.included_opened_only)
-                                        .tooltip(Tooltip::text("Only Search Open Files"))
+                                        .tooltip(Tooltip::text("開いているファイルのみを検索"))
                                         .on_click(cx.listener(|picker, _, window, cx| {
                                             picker.delegate.included_opened_only =
                                                 !picker.delegate.included_opened_only;
@@ -1279,7 +1274,7 @@ impl PickerDelegate for QuickSearchDelegate {
                                     IconButton::new("include-ignored", IconName::Sliders)
                                         .size(ButtonSize::Compact)
                                         .toggle_state(self.search_options.contains(SearchOptions::INCLUDE_IGNORED))
-                                        .tooltip(Tooltip::text("Also search files ignored by configuration"))
+                                        .tooltip(Tooltip::text("設定で無視されたファイルも検索"))
                                         .on_click(cx.listener(|picker, _, window, cx| {
                                             picker.delegate.search_options.toggle(SearchOptions::INCLUDE_IGNORED);
                                             picker.refresh(window, cx);

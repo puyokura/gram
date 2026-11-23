@@ -1,190 +1,93 @@
-# SciActive Human Contribution Policy
+# SciActive 人間による貢献ポリシー
 
-Version 2-UP (Upstream Patches Excepted), 2 September 2026
+バージョン 2-UP（アップストリームのパッチを除く）、2026年9月2日
 <https://sciactive.com/human-contribution-policy/>
 
-## Preamble
+## 前文
 
-The SciActive Human Contribution Policy is a free, general contribution policy
-meant to safeguard projects from the inherent legal and security risks of AI
-generated contributions. It is also meant to ensure that the trust projects'
-users place in the projects and their maintainers is not inadvertently violated
-by the inclusion of untrusted material. The inclusion of AI generated material
-in projects presents significant known and unknown risks to the longevity and
-security of the projects. This policy is meant to declare that the human
-authorship of any material introduced in covered projects is both desired and
-ensured.
+SciActive 人間による貢献ポリシー（SciActive Human Contribution Policy）は、AI によって生成された貢献（コントリビューション）に伴う法的一般およびセキュリティ上の固有のリスクからプロジェクトを保護することを目的とした、無償の汎用的な貢献ポリシーです。また、プロジェクトのユーザーがプロジェクトおよびそのメンテナーに対して抱く信頼が、信頼できない素材の混入によって不用意に損なわれないようにすることも目的としています。プロジェクトに AI 生成物が含まれることは、プロジェクトの存続性およびセキュリティに対して既知および未知の重大なリスクをもたらします。本ポリシーは、対象となるプロジェクトに導入されるあらゆる素材について、人間による作成（著作性）が求められ、かつ保証されていることを宣言するものです。
 
-The purpose of this document is to define a clear boundary between human
-authorship and machine generation, and clearly declare that a project will only
-accept contributions that are human authored. If a project chooses to adopt and
-adhere to this policy, it is a clear indication that the project will not accept
-AI generated contributions and that its users can be assured that, once adopted,
-the contributions to the project are authored by humans, and humans alone,
-except when this policy allows specific exceptions.
+本文書の目的は、人間による著作と機械による生成との間に明確な境界を定め、プロジェクトが人間によって作成された貢献のみを受け入れることを明確に宣言することにあります。プロジェクトが本ポリシーを採用し遵守することを選択した場合、それは当該プロジェクトが AI 生成の貢献を受け入れないこと、および本ポリシーが特定の例外を認める場合を除き、プロジェクトへの貢献が人間のみによって作成されたものであることをユーザーが確信できる明確な証拠となります。
 
-## Definitions
+## 定義
 
-"This policy" refers to version 2-UP of the SciActive Human Contribution Policy.
+「本ポリシー」とは、SciActive 人間による貢献ポリシーのバージョン 2-UP を指します。
 
-"The project" means the collective body of work covered by this policy,
-including but not limited to, the source code, object code, documentation,
-scripts, configuration files, graphical assets, supporting material, policy
-documents, translations, and processes. This does not include source codes and
-object codes of dependencies that are merely linked to, not stored, within the
-project, and any portions of object code resulting from the compilation of the
-imported source codes of linked dependencies when compiled during the normal
-build process of the project.
+「プロジェクト」とは、本ポリシーの対象となる著作物の集合体を意味し、ソースコード、オブジェクトコード、ドキュメント、スクリプト、設定ファイル、画像アセット、補足資料、ポリシードキュメント、翻訳、およびプロセスを含みますが、これらに限定されません。これには、プロジェクト内に保存されず単にリンクされている依存関係のソースコードおよびオブジェクトコード、ならびにプロジェクトの通常のビルドプロセス中にコンパイルされた、リンクされた依存関係のインポートされたソースコードのコンパイル結果であるオブジェクトコードのいかなる部分も含まれません。
 
-"AI generated" means that the subject material is in whole, or in meaningful
-part, the output of a generative AI model or models, such as a Large Language
-Model. This does not include code that is the result of non-generative tools,
-such as standard compilers, linters, or basic IDE auto-completions. This does,
-however, include code that is the result of code block generators and automatic
-refactoring tools that make use of generative AI models.
+「AI 生成」とは、対象の素材の全部または実質的な一部が、大規模言語モデルなどの生成 AI モデルの出力であることを意味します。これには、標準的なコンパイラ、リンター、基本的な IDE の自動補完など、非生成ツールによる結果であるコードは含まれません。ただし、生成 AI モデルを利用するコードブロックジェネレーターや自動リファクタリングツールの結果であるコードは含まれます。
 
-"Contribution" means any material submitted to the project with the intention of
-being included in, or distributed with, the project. A contribution may be
-material that is presented to a review process, such as a pull request, or
-material that is submitted into any of the project's material tracking or
-distribution systems, such as a source control commit or submission to a content
-management system, even by a project team member or maintainer.
+「貢献」とは、プロジェクトに含める、またはプロジェクトとともに配布する意図をもってプロジェクトに提出されたあらゆる素材を意味します。貢献は、プルリクエストなどのレビュープロセスに提示される素材である場合もあれば、プロジェクトチームのメンバーやメンテナーによって提出された場合であっても、ソース管理のコミットやコンテンツ管理システムへの提出など、プロジェクトの素材追跡または配布システムに提出される素材である場合があります。
 
-"Contributor" means the natural person or legal entity ultimately responsible
-for submitting the contribution. The contributor, in this case, cannot be an
-automated agent. In the case that an automated agent submits or attempts to
-submit a contribution to the project, the natural person or legal entity
-responsible for initiating the agent is the contributor.
+「貢献者」とは、貢献の提出に対して最終的な責任を負う自然人または法人を意味します。この場合、貢献者を自動化されたエージェントとすることはできません。自動化されたエージェントがプロジェクトに貢献を提出または提出しようとした場合、そのエージェントを起動する責任を負う自然人または法人が貢献者となります。
 
-"User" means the person or entity who ultimately uses or is intended to
-ultimately use the project or its product.
+「ユーザー」とは、プロジェクトまたはその成果物を最終的に使用する、または最終的に使用することが意図されている個人または団体を意味します。
 
-## Policy
+## ポリシー
 
-1. Contributions must be human authored. AI generated contributions are not
-   permitted and will not be accepted.
-   a. The following types of contributions are excepted from this requirement:
-     i. Patches merged from an upstream project, where the upstream project is
-        clearly declared an upstream project on this project's home page,
-        repository, or documentation.
-2. If a contributor attempts to submit AI generated material without disclosing
-   that the material is AI generated, the contribution will be considered a
-   deceptive contribution, and action may be taken against the contributor.
+1. 貢献は人間によって作成されたものでなければなりません。AI 生成の貢献は許可されず、受理されません。
+   a. 以下の種類の貢献はこの要件から除外されます。
+     i. アップストリームプロジェクトからマージされたパッチ。ただし、そのアップストリームプロジェクトが、本プロジェクトのホームページ、リポジトリ、またはドキュメントにおいてアップストリームプロジェクトであることが明確に宣言されている場合に限ります。
+2. 貢献者が、素材が AI 生成であることを開示せずに AI 生成物を提出しようとした場合、その貢献は欺瞞的な貢献とみなされ、貢献者に対して相応の措置が取られる場合があります。
 
-## Reasoning
+## 根拠
 
-### Legal Implications of AI Generated Contributions
+### AI 生成の貢献に伴う法的影響
 
-#### License Laundering
+#### ライセンスロンダリング
 
-Generative AI models are trained on publicly available code that may be subject
-to restrictive licensing conditions. These models may produce verbatim, near
-verbatim, or derivative snippets of this code, which would therefore be subject
-to the license terms under which that code was released. If these snippets are
-introduced into a code base with an incompatible license, that code base's
-licensing could become legally unenforceable, or the maintainers of the code
-base could even be subject to lawsuits.
+生成 AI モデルは、制限的なライセンス条件が適用される可能性のある公開コードでトレーニングされています。これらのモデルは、当該コードの逐語的、ほぼ逐語的、または派生的なスニペットを生成する可能性があり、その結果、当該コードが公開された際のライセンス条項の対象となる可能性があります。これらのスニペットが互換性のないライセンスを持つコードベースに導入された場合、そのコードベースのライセンスが法的に強制不能になったり、コードベースのメンテナーが訴訟の対象になったりする可能性があります。
 
-This policy helps protect the project from having incompatibly licensed code
-introduced into the project's code base.
+本ポリシーは、互換性のないライセンスを持つコードがプロジェクトのコードベースに導入されるのを防ぐのに役立ちます。
 
-#### Copyright Ineligibility
+#### 著作権の非該当性
 
-As of March 2026, the US Copyright Office and several international bodies
-maintain that AI generated material, without significant human "creative
-control", cannot be copyrighted. This means that AI generated material often
-resides in the public domain, making it impossible to enforce any license terms
-on the material.
+2026年3月現在、米国著作権局およびいくつかの国際機関は、人間の実質的な「創造的統制」を伴わない AI 生成物には著作権が認められないとの見解を維持しています。これは、AI 生成物がパブリックドメインに置かれることが多く、その素材に対してライセンス条項を強制することが不可能になることを意味します。
 
-This policy helps protect the project from having material from the public
-domain introduced into the project.
+本ポリシーは、パブリックドメインの素材がプロジェクトに導入されるのを防ぐのに役立ちます。
 
-#### Compliance with New Laws
+#### 新法への準拠
 
-New regulations may impose strict control or new liability for AI generated
-material. This may include, and may not be limited to, legal liabilities
-concerning security vulnerabilities or "hallucinated" sections of AI generated
-code.
+新たな規制により、AI 生成物に対する厳格な管理や新たな法的責任が課される可能性があります。これには、セキュリティの脆弱性や、AI 生成コードの「幻覚（ハルシネーション）」部分に関する法的責任が含まれる場合があります（ただし、これらに限定されません）。
 
-This policy helps protect the project from becoming in violation of any new
-laws, or liable in new ways, with regard to any new legislation that may govern
-the use or distribution of AI generated material.
+本ポリシーは、AI 生成物の使用または配布を管理する可能性のある新たな法律に対して、プロジェクトが違反状態に陥ったり、新たな形で法的責任を負ったりするのを防ぐのに役立ちます。
 
-### Technical and Security Implications of AI Generated Contributions
+### AI 生成の貢献に伴う技術的およびセキュリティ上の影響
 
-#### Prevalence of Security Vulnerabilities
+#### セキュリティ脆弱性の増加傾向
 
-AI generated code may be more likely than human authored code to introduce
-security vulnerabilities. These vulnerabilities can be very difficult to
-recognize during the code review process.
+AI 生成コードは、人間が作成したコードよりもセキュリティの脆弱性を混入させる可能性が高くなる傾向があります。これらの脆弱性は、コードレビューのプロセス中に認識することが非常に困難な場合があります。
 
-This policy helps protect the project from the introduction of new security
-vulnerabilities.
+本ポリシーは、プロジェクトに新たなセキュリティ脆弱性が混入するのを防ぐのに役立ちます。
 
-#### Dependency Hallucinations and Slopsquatting
+#### 依存関係のハルシネーションと Slopsquatting
 
-AI generated code often includes references to non-existent dependencies. These
-references are commonly called "hallucinations". A new type of attack has arisen
-that involves an attacker registering a package whose name is frequently
-hallucinated. When AI generated code containing this hallucination is accepted,
-and this dependency is installed, the attacker can ship malicious code into the
-project's build, introducing a major security vulnerability. This type of attack
-has become known as "slopsquatting".
+AI 生成コードには、存在しない依存関係への参照が含まれることがよくあります。これらの参照は一般に「ハルシネーション」と呼ばれます。攻撃者が、頻繁にハルシネーションされるパッケージ名を事前に登録しておくという新しい手口の攻撃が発生しています。このハルシネーションを含む AI 生成コードが受け入れられ、その依存関係がインストールされると、攻撃者はプロジェクトのビルドに悪意のあるコードを送り込み、重大なセキュリティ脆弱性を引き起こす可能性があります。この種の攻撃は「slopsquatting」として知られるようになっています。
 
-This policy helps protect the project from both hallucinated dependencies and
-slopsquatting attacks.
+本ポリシーは、ハルシネーションされた依存関係と slopsquatting 攻撃の両方からプロジェクトを保護するのに役立ちます。
 
-#### Architectural Drift
+#### アーキテクチャの乖離（ドリフト）
 
-AI generated material frequently mirrors industry-standard practices and lacks
-the context of the project's overall architecture and practices, resulting in
-code that can duplicate efforts, neglect the project's own practices, and
-deviate from the project's overall planned architecture, and documentation that
-is inconsistent with the project's existing standards and practices. As more of
-a project becomes AI generated material, the original architecture can become
-more obscured, resulting in a code base that is often no longer coherent and
-difficult to return back to the original "vision".
+AI 生成物は、業界標準の慣習を反映することが多く、プロジェクト全体のアーキテクチャや慣習の文脈を欠いているため、作業の重複、プロジェクト独自のプラクティスの無視、プロジェクト全体で計画されたアーキテクチャからの逸脱を招くコードや、プロジェクトの既存の標準やプラクティスと矛盾するドキュメントが生じる可能性があります。プロジェクトに占める AI 生成物の割合が増えるにつれて、元のアーキテクチャが不明瞭になり、多くの場合コードベースの一貫性が失われ、当初の「ビジョン」に戻すことが困難になります。
 
-This policy helps protect the project from incurring this kind of technical
-debt.
+本ポリシーは、プロジェクトがこのような技術的負債を抱えるのを防ぐのに役立ちます。
 
-### Ethical and Community Implications of AI Generated Contributions
+### AI 生成の貢献に伴う倫理的およびコミュニティへの影響
 
-#### Erosion of Trust
+#### 信頼の喪失
 
-The users of the project have an implicit trust that the maintainers of the
-project understand the code contained within the project's code base. AI
-generated code, which may not even be fully understood by the contributor,
-breaks this implicit trust. AI generated code is the result of an automated
-process, not intentional authorship. Allowing this code into the project's code
-base would mean the maintainers of the project may not fully understand the code
-base.
+プロジェクトのユーザーは、プロジェクトのメンテナーがプロジェクトのコードベースに含まれるコードを理解しているという暗黙の信頼を寄せています。貢献者自身ですら完全に理解していない可能性のある AI 生成コードは、この暗黙の信頼を損ないます。AI 生成コードは自動化されたプロセスの結果であり、意図的な著作行為によるものではありません。このコードをプロジェクトのコードベースに受け入れることは、プロジェクトのメンテナーがコードベースを完全には把握できなくなることを意味します。
 
-This policy helps protect the project from eroding the trust the users have
-placed into the project and its maintainers.
+本ポリシーは、ユーザーがプロジェクトとそのメンテナーに対して抱いている信頼が損なわれるのを防ぐのに役立ちます。
 
-#### Maintenance Exhaustion
+#### メンテナーの疲弊
 
-AI generated material can be created much faster than it can be reviewed. This
-imbalance can lead to a heavy burden on maintainers of reviewing an abundance of
-AI generated material that often has the appearance of high quality material,
-but contains many flaws. The difficulty of properly reviewing these
-contributions, along with the tremendous volume of these contributions, can lead
-maintainers to feel "burnt out" and leave the project.
+AI 生成物は、レビューするよりもはるかに速いペースで作成できます。この不均衡により、一見すると高品質に見えながらも多くの欠陥を抱えた大量の AI 生成物をレビューしなければならず、メンテナーに過大な負担がかかる可能性があります。これらの貢献を適切にレビューすることの難しさと、その圧倒的な量により、メンテナーが「燃え尽き症候群」に陥り、プロジェクトから離脱してしまうおそれがあります。
 
-This policy helps protect the project from incurring this heavy maintenance
-load.
+本ポリシーは、プロジェクトがこのような過重なメンテナンス負担を抱え込むのを防ぐのに役立ちます。
 
-## Use of This Policy
+## 本ポリシーの利用について
 
-This policy is distributed under the Creative Commons Attribution-ShareAlike 4.0
-International (CC BY-SA 4.0) license, available at
-https://creativecommons.org/licenses/by-sa/4.0/. Anyone can share and reuse this
-policy, in its original form or modified, under the conditions of the
-CC BY-SA 4.0 license. The full legal text of the license is available at
-https://creativecommons.org/licenses/by-sa/4.0/legalcode.en. If you modify this
-policy, rename the policy in order to avoid the implication that the modified
-policy is endorsed by SciActive Inc.
+本ポリシーは、Creative Commons Attribution-ShareAlike 4.0 International（CC BY-SA 4.0）ライセンスの下で配布されており、https://creativecommons.org/licenses/by-sa/4.0/ で確認できます。誰でも CC BY-SA 4.0 ライセンスの条件に従って、原文のまま、または改変して本ポリシーを共有および再利用できます。ライセンスの完全な法的条文は https://creativecommons.org/licenses/by-sa/4.0/legalcode.en で入手可能です。本ポリシーを改変する場合は、改変されたポリシーが SciActive Inc. によって推奨または保証されているとの誤解を避けるため、ポリシーの名称を変更してください。
 
-SciActive Human Contribution Policy © 2026 by SciActive Inc is licensed
-under CC BY-SA 4.0
+SciActive Human Contribution Policy © 2026 by SciActive Inc is licensed under CC BY-SA 4.0

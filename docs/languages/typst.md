@@ -1,12 +1,10 @@
 # Typst
 
-Typst support is built into the editor.
+Typst のサポートはエディターに組み込まれています。
 
-Typst is a powerful typesetting system which is similar to LaTeX in spirit, but
-tends to be easier to get started with. For more information see
-[here](https://typst.app/).
+Typst は強力な組版システムで、思想は LaTeX に似ていますが、使い始めるのはより簡単な傾向があります。詳しくは[こちら](https://typst.app/)を参照してください。
 
-- Crate:
+- クレート:
   [codebook-tree-sitter-typst](https://crates.io/crates/codebook-tree-sitter-typst)
 
-There is LSP support via [tinymist](https://myriad-dreamin.github.io/tinymist/).
+[tinymist](https://myriad-dreamin.github.io/tinymist/) による LSP サポートがあります。

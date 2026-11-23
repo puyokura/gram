@@ -1,35 +1,26 @@
-# Icon Themes
+# アイコンテーマ
 
-Gram comes with a built-in icon theme, with more icon themes available as
-extensions.
+Gram には組み込みのアイコンテーマが用意されているほか、拡張機能としてさらに多くのアイコンテーマを追加できます。
 
-## Enabling Icon Themes
+## アイコンテーマの有効化
 
-File and folder icons are disabled by default. You can enable them in
-`Settings > Panels > File Icons` and `Settings > Panels > File Icons`.
+ファイルとフォルダーのアイコンはデフォルトでは無効になっています。`Settings > Panels > File Icons` から有効化できます。
 
-## Selecting an Icon Theme
+## アイコンテーマの選択
 
-See what icon themes are installed and preview them via the Icon Theme Selector,
-which you can open from the command palette with `icon theme selector: toggle`.
+インストールされているアイコンテーマの確認やプレビューは、「Icon Theme Selector」から行えます。コマンドパレットで `icon theme selector: toggle` を実行して開くことができます。
 
-Navigating through the icon theme list by moving up and down will change the
-icon theme in real time and hitting enter will save it to your settings file.
+アイコンテーマ一覧を上下キーで移動するとリアルタイムでアイコンテーマが切り替わり、Enter キーを押すと設定ファイルに保存されます。
 
-## Installing more Icon Themes
+## 追加のアイコンテーマのインストール
 
-Gram can use icon themes created for the Zed editor. If you find an icon theme
-you like, you can install it using the repository URL from the Extensions page.
+Gram では、Zed エディター用に作成されたアイコンテーマを使用できます。気に入ったアイコンテーマが見つかった場合は、「拡張機能」ページからリポジトリの URL を使用してインストールできます。
 
-## Configuring Icon Themes
+## アイコンテーマの設定
 
-Your selected icon theme is stored in your settings file. You can open your
-settings file from the command palette with {#action gram::OpenSettingsFile}
-(bound to {#kb gram::OpenSettingsFile}).
+選択したアイコンテーマは設定ファイルに保存されます。コマンドパレットから {#action gram::OpenSettingsFile}（キーバインド: {#kb gram::OpenSettingsFile}）を実行して設定ファイルを開くことができます。
 
-Just like with themes, Gram allows for configuring different icon themes for
-light and dark mode. You can set the mode to `"light"` or `"dark"` to ignore the
-current system mode.
+通常のテーマと同様に、Gram ではライトモードとダークモードで異なるアイコンテーマを設定できます。現在のシステムモードを無視して、明示的に `"light"` または `"dark"` に設定することも可能です。
 
 ```json
 {
@@ -41,6 +32,6 @@ current system mode.
 }
 ```
 
-## Icon Theme Development
+## アイコンテーマの開発
 
-See: [Developing Gram Icon Themes](./extensions/icon-themes.md)
+参照: [Gram のアイコンテーマ開発](./extensions/icon-themes.md)

@@ -1,46 +1,31 @@
-# Tab Switcher
+# タブスイッチャー
 
-The Tab Switcher provides a quick way to navigate between open tabs in Gram. It
-displays a list of your open tabs sorted by recent usage, making it easy to jump
-back to whatever you were just working on.
+タブスイッチャーは、Gram で開いているタブ間を素早く移動する手段を提供します。開いているタブが最近の使用順に一覧表示されるため、直前に作業していた場所へすぐに戻れます。
 
-## Quick Switching
+## クイック切り替え
 
-When the Tab Switcher is opened using {#kb tab_switcher::Toggle}, instead of
-running the {#action tab_switcher::Toggle} from the command palette, it'll stay
-active as long as the <kbd class="keybinding">ctrl</kbd> key is held down.
+コマンドパレットから {#action tab_switcher::Toggle} を実行するのではなく、{#kb tab_switcher::Toggle} でタブスイッチャーを開いた場合、<kbd class="keybinding">ctrl</kbd> キーを押し続けている間はスイッチャーがアクティブなままになります。
 
-While holding down <kbd class="keybinding">ctrl</kbd>, each subsequent <kbd
-class="keybinding">tab</kbd> press cycles to the next item (<kbd
-class="keybinding">shift</kbd> to cycle backwards) and, when <kbd
-class="keybinding">ctrl</kbd> is released, the selected item is confirmed and
-the switcher is closed.
+<kbd class="keybinding">ctrl</kbd> を押し続けたまま <kbd class="keybinding">tab</kbd> を押すたびに次の項目へ移動し（<kbd class="keybinding">shift</kbd> で逆方向へ移動）、<kbd class="keybinding">ctrl</kbd> を離すと選択中の項目が確定してスイッチャーが閉じます。
 
-## Opening the Tab Switcher
+## タブスイッチャーを開く
 
-The Tab Switcher can also be opened with either {#action tab_switcher::Toggle}
-or {#action tab_switcher::ToggleAll}. Using {#kb tab_switcher::Toggle} will show
-only the tabs for the current pane, while {#kb tab_switcher::ToggleAll} shows
-all tabs for all panes.
+タブスイッチャーは {#action tab_switcher::Toggle} または {#action tab_switcher::ToggleAll} でも開けます。{#kb tab_switcher::Toggle} では現在のペインのタブのみが表示され、{#kb tab_switcher::ToggleAll} ではすべてのペインのタブが表示されます。
 
-While the Tab Switcher is open, you can:
+タブスイッチャーを開いている間は、次の操作が可能です:
 
-- Press {#kb menu::SelectNext} to move to the next tab in the list
-- Press {#kb menu::SelectPrevious} to move to the previous tab
-- Press <kbd class="keybinding">enter</kbd> to confirm the selected tab and
-  close the switcher
-- Press <kbd class="keybinding">escape</kbd> to close the switcher and return to
-  the original tab from which the switcher was opened
-- Press {#kb tab_switcher::CloseSelectedItem} to close the currently selected
-  tab
+- {#kb menu::SelectNext} を押して一覧の次のタブへ移動
+- {#kb menu::SelectPrevious} を押して前のタブへ移動
+- <kbd class="keybinding">enter</kbd> を押して選択中のタブを確定し、スイッチャーを閉じる
+- <kbd class="keybinding">escape</kbd> を押してスイッチャーを閉じ、開く前の元のタブへ戻る
+- {#kb tab_switcher::CloseSelectedItem} を押して現在選択中のタブを閉じる
 
-As you navigate through the list, Gram will update the pane's active item to
-match the selected tab.
+一覧を移動すると、Gram はペインのアクティブな項目を選択中のタブに合わせて更新します。
 
-## Action Reference
+## アクション一覧
 
-| Action                                    | Description                                       |
-| ----------------------------------------- | ------------------------------------------------- |
-| {#action tab_switcher::Toggle}            | Open the Tab Switcher for the current pane        |
-| {#action tab_switcher::ToggleAll}         | Open the Tab Switcher showing tabs from all panes |
-| {#action tab_switcher::CloseSelectedItem} | Close the selected tab in the Tab Switcher        |
+| アクション                                | 説明                                               |
+| ----------------------------------------- | -------------------------------------------------- |
+| {#action tab_switcher::Toggle}            | 現在のペインのタブスイッチャーを開く               |
+| {#action tab_switcher::ToggleAll}         | すべてのペインのタブを表示するタブスイッチャーを開く |
+| {#action tab_switcher::CloseSelectedItem} | タブスイッチャーで選択中のタブを閉じる             |

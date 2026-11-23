@@ -180,22 +180,21 @@ impl CursorPosition {
         } = self.selected_count;
         let format = LineIndicatorFormat::get(None, cx);
         let is_short_format = format == &LineIndicatorFormat::Short;
-        let lines = (lines > 1).then_some((lines, "line"));
-        let selections = (selections > 1).then_some((selections, "selection"));
-        let characters = (characters > 0).then_some((characters, "character"));
+        let lines = (lines > 1).then_some((lines, "行", "行"));
+        let selections = (selections > 1).then_some((selections, "選択", "件選択"));
+        let characters = (characters > 0).then_some((characters, "文字", "文字"));
         if (None, None, None) == (characters, selections, lines) {
             // Nothing to display.
             return;
         }
         write!(text, " (").unwrap();
         let mut wrote_once = false;
-        for (count, name) in [selections, lines, characters].into_iter().flatten() {
+        for (count, short_name, long_name) in [selections, lines, characters].into_iter().flatten() {
             if wrote_once {
                 write!(text, ", ").unwrap();
             }
-            let name = if is_short_format { &name[..1] } else { name };
-            let plural_suffix = if count > 1 && !is_short_format { "s" } else { "" };
-            write!(text, "{count} {name}{plural_suffix}").unwrap();
+            let name = if is_short_format { short_name } else { long_name };
+            write!(text, "{count}{name}").unwrap();
             wrote_once = true;
         }
         text.push(')');
@@ -247,9 +246,9 @@ impl Render for CursorPosition {
                     }))
                     .tooltip(move |_window, cx| match context.as_ref() {
                         Some(context) => {
-                            Tooltip::for_action_in("Go to Line/Column", &editor::actions::ToggleGoToLine, context, cx)
+                            Tooltip::for_action_in("行/列へ移動", &editor::actions::ToggleGoToLine, context, cx)
                         }
-                        None => Tooltip::for_action("Go to Line/Column", &editor::actions::ToggleGoToLine, cx),
+                        None => Tooltip::for_action("行/列へ移動", &editor::actions::ToggleGoToLine, cx),
                     }),
             )
         })

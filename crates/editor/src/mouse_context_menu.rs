@@ -225,56 +225,56 @@ pub fn deploy_context_menu(
             let builder = menu
                 .on_blur_subscription(Subscription::new(|| {}))
                 .when(run_to_cursor, |builder| {
-                    builder.action("Run to Cursor", Box::new(RunToCursor))
+                    builder.action("カーソル位置まで実行", Box::new(RunToCursor))
                 })
                 .when(evaluate_selection && has_selections, |builder| {
-                    builder.action("Evaluate Selection", Box::new(EvaluateSelectedText))
+                    builder.action("選択範囲を評価", Box::new(EvaluateSelectedText))
                 })
                 .when(run_to_cursor || (evaluate_selection && has_selections), |builder| {
                     builder.separator()
                 })
-                .action("Go to Definition", Box::new(GoToDefinition))
-                .action("Go to Declaration", Box::new(GoToDeclaration))
-                .action("Go to Type Definition", Box::new(GoToTypeDefinition))
-                .action("Go to Implementation", Box::new(GoToImplementation))
-                .action("Find All References", Box::new(FindAllReferences::default()))
+                .action("定義へ移動", Box::new(GoToDefinition))
+                .action("宣言へ移動", Box::new(GoToDeclaration))
+                .action("型定義へ移動", Box::new(GoToTypeDefinition))
+                .action("実装へ移動", Box::new(GoToImplementation))
+                .action("すべての参照を検索", Box::new(FindAllReferences::default()))
                 .separator()
-                .action("Rename Symbol", Box::new(Rename))
-                .action("Format Buffer", Box::new(Format))
+                .action("シンボルの名前を変更", Box::new(Rename))
+                .action("バッファーをフォーマット", Box::new(Format))
                 .when(has_selections, |cx| {
-                    cx.action("Format Selections", Box::new(FormatSelections))
+                    cx.action("選択範囲をフォーマット", Box::new(FormatSelections))
                 })
                 .action(
-                    "Show Code Actions",
+                    "コードアクションを表示",
                     Box::new(ToggleCodeActions {
                         deployed_from: None,
                         quick_launch: false,
                     }),
                 )
                 .separator()
-                .action("Cut", Box::new(Cut))
-                .action("Copy", Box::new(Copy))
-                .action("Copy and Trim", Box::new(CopyAndTrim))
-                .action("Paste", Box::new(Paste))
+                .action("切り取り", Box::new(Cut))
+                .action("コピー", Box::new(Copy))
+                .action("コピーしてトリム", Box::new(CopyAndTrim))
+                .action("貼り付け", Box::new(Paste))
                 .separator()
                 .action_disabled_when(
                     !has_reveal_target,
                     if cfg!(target_os = "macos") {
-                        "Reveal in Finder"
+                        "Finderで表示"
                     } else {
-                        "Reveal in File Manager"
+                        "ファイルマネージャーで表示"
                     },
                     Box::new(RevealInFileManager),
                 )
                 .when(is_markdown, |builder| {
-                    builder.action("Open Markdown Preview", Box::new(OpenMarkdownPreview))
+                    builder.action("Markdownプレビューを開く", Box::new(OpenMarkdownPreview))
                 })
                 .when(is_svg, |builder| {
-                    builder.action("Open SVG Preview", Box::new(OpenSvgPreview))
+                    builder.action("SVGプレビューを開く", Box::new(OpenSvgPreview))
                 })
-                .action_disabled_when(!has_reveal_target, "Open in Terminal", Box::new(OpenInTerminal))
-                .action_disabled_when(!has_git_repo, "Copy Permalink", Box::new(CopyPermalinkToLine))
-                .action_disabled_when(!has_git_repo, "View File History", Box::new(git::FileHistory));
+                .action_disabled_when(!has_reveal_target, "ターミナルで開く", Box::new(OpenInTerminal))
+                .action_disabled_when(!has_git_repo, "パーマリンクをコピー", Box::new(CopyPermalinkToLine))
+                .action_disabled_when(!has_git_repo, "ファイルの履歴を表示", Box::new(git::FileHistory));
             match focus {
                 Some(focus) => builder.context(focus),
                 None => builder,

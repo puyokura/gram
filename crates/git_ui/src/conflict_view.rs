@@ -317,7 +317,7 @@ fn render_conflict_buttons(
         .gap_1()
         .bg(cx.theme().colors().editor_background)
         .child(
-            Button::new("head", format!("Use {}", conflict.ours_branch_name))
+            Button::new("head", format!("{} を使用", conflict.ours_branch_name))
                 .label_size(LabelSize::Small)
                 .on_click({
                     let editor = editor.clone();
@@ -337,7 +337,7 @@ fn render_conflict_buttons(
                 }),
         )
         .child(
-            Button::new("origin", format!("Use {}", conflict.theirs_branch_name))
+            Button::new("origin", format!("{} を使用", conflict.theirs_branch_name))
                 .label_size(LabelSize::Small)
                 .on_click({
                     let editor = editor.clone();
@@ -356,22 +356,26 @@ fn render_conflict_buttons(
                     }
                 }),
         )
-        .child(Button::new("both", "Use Both").label_size(LabelSize::Small).on_click({
-            let conflict = conflict.clone();
-            let ours = conflict.ours.clone();
-            let theirs = conflict.theirs.clone();
-            move |_, window, cx| {
-                resolve_conflict(
-                    editor.clone(),
-                    excerpt_id,
-                    conflict.clone(),
-                    vec![ours.clone(), theirs.clone()],
-                    window,
-                    cx,
-                )
-                .detach()
-            }
-        }))
+        .child(
+            Button::new("both", "両方を使用")
+                .label_size(LabelSize::Small)
+                .on_click({
+                    let conflict = conflict.clone();
+                    let ours = conflict.ours.clone();
+                    let theirs = conflict.theirs.clone();
+                    move |_, window, cx| {
+                        resolve_conflict(
+                            editor.clone(),
+                            excerpt_id,
+                            conflict.clone(),
+                            vec![ours.clone(), theirs.clone()],
+                            window,
+                            cx,
+                        )
+                        .detach()
+                    }
+                }),
+        )
         .into_any()
 }
 

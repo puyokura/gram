@@ -63,7 +63,7 @@ impl ModeIndicator {
     fn current_operators_description(&self, vim: Entity<Vim>, cx: &mut Context<Self>) -> String {
         let recording = Vim::globals(cx)
             .recording_register
-            .map(|reg| format!("recording @{reg} "))
+            .map(|reg| format!("記録中 @{reg} "))
             .into_iter();
 
         let vim = vim.read(cx);
@@ -136,7 +136,7 @@ impl Render for ModeIndicator {
                             bg_color != system_transparent && vim_mode_text != system_transparent,
                             |el| el.color(Color::Custom(vim_mode_text)),
                         )
-                        .tooltip(Tooltip::text(format!("Active mode: {}", mode))),
+                        .tooltip(Tooltip::text(format!("現在のモード: {}", mode))),
                 )
             })
             .into_any()

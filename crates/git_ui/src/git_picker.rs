@@ -29,9 +29,9 @@ pub enum GitPickerTab {
 impl Display for GitPickerTab {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let label = match self {
-            GitPickerTab::Branches => "Branches",
-            GitPickerTab::Worktrees => "Worktrees",
-            GitPickerTab::Stash => "Stash",
+            GitPickerTab::Branches => "ブランチ",
+            GitPickerTab::Worktrees => "ワークツリー",
+            GitPickerTab::Stash => "スタッシュ",
         };
         write!(f, "{}", label)
     }
@@ -208,7 +208,12 @@ impl GitPicker {
                         }),
                     )
                     .tooltip(move |_, cx| {
-                        Tooltip::for_action_in("Toggle Branch Picker", &ActivateBranchesTab, &branches_focus_handle, cx)
+                        Tooltip::for_action_in(
+                            "ブランチピッカーを切り替え",
+                            &ActivateBranchesTab,
+                            &branches_focus_handle,
+                            cx,
+                        )
                     }),
                     ToggleButtonSimple::new(
                         GitPickerTab::Worktrees.to_string(),
@@ -221,7 +226,7 @@ impl GitPicker {
                     )
                     .tooltip(move |_, cx| {
                         Tooltip::for_action_in(
-                            "Toggle Worktree Picker",
+                            "ワークツリーピッカーを切り替え",
                             &ActivateWorktreesTab,
                             &worktrees_focus_handle,
                             cx,
@@ -237,7 +242,12 @@ impl GitPicker {
                         }),
                     )
                     .tooltip(move |_, cx| {
-                        Tooltip::for_action_in("Toggle Stash Picker", &ActivateStashTab, &stash_focus_handle, cx)
+                        Tooltip::for_action_in(
+                            "スタッシュピッカーを切り替え",
+                            &ActivateStashTab,
+                            &stash_focus_handle,
+                            cx,
+                        )
                     }),
                 ],
             )

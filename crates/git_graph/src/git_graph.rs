@@ -33,7 +33,7 @@ const LINE_WIDTH: Pixels = px(1.5);
 actions!(
     git_graph,
     [
-        /// Opens the commit view for the selected commit.
+        /// 選択中のコミットのコミットビューを開きます。
         OpenCommitView,
     ]
 );
@@ -47,7 +47,7 @@ fn timestamp_format() -> &'static FormatDescriptionV3<'static> {
 
 fn format_timestamp(timestamp: i64) -> String {
     let Ok(datetime) = OffsetDateTime::from_unix_timestamp(timestamp) else {
-        return "Unknown".to_string();
+        return "不明".to_string();
     };
 
     let local_offset = UtcOffset::current_local_offset().unwrap_or(UtcOffset::UTC);
@@ -716,7 +716,7 @@ impl GitGraph {
                     author_name = data.author_name.clone();
                     formatted_time = format_timestamp(data.commit_timestamp);
                 } else {
-                    subject = "Loading...".into();
+                    subject = "読み込み中…".into();
                     author_name = "".into();
                 }
 
@@ -837,7 +837,7 @@ impl GitGraph {
         let truncated_sha: SharedString = {
             let sha_str = full_sha.as_ref();
             if sha_str.len() > 24 {
-                format!("{}...", &sha_str[..24]).into()
+                format!("{}…", &sha_str[..24]).into()
             } else {
                 full_sha.clone()
             }
@@ -857,7 +857,7 @@ impl GitGraph {
                 Some(data.commit_timestamp),
                 data.subject.clone(),
             ),
-            CommitDataState::Loading => ("Loading...".into(), "".into(), None, "Loading...".into()),
+            CommitDataState::Loading => ("読み込み中…".into(), "".into(), None, "読み込み中…".into()),
         };
 
         let date_string = commit_timestamp
@@ -971,7 +971,7 @@ impl GitGraph {
                                         .gap_1()
                                         .child(Icon::new(icon).size(IconSize::Small).color(Color::Muted))
                                         .child(
-                                            Button::new("view-on-provider", format!("View on {}", provider_name))
+                                            Button::new("view-on-provider", format!("{} で表示", provider_name))
                                                 .style(ButtonStyle::Transparent)
                                                 .label_size(LabelSize::Small)
                                                 .color(Color::Muted)
@@ -1002,7 +1002,7 @@ impl GitGraph {
                         v_flex()
                             .gap_2()
                             .child(
-                                Label::new(format!("{} Changed Files", changed_files_count))
+                                Label::new(format!("{} 件の変更ファイル", changed_files_count))
                                     .size(LabelSize::Small)
                                     .color(Color::Muted),
                             )
@@ -1348,7 +1348,10 @@ impl Render for GitGraph {
                 None,
             )
         } else {
-            (None, Some(Label::new("No commits to display").color(Color::Muted)))
+            (
+                None,
+                Some(Label::new("表示するコミットがありません").color(Color::Muted)),
+            )
         };
 
         let content = if self.graph_data.commits.is_empty() {
@@ -1375,7 +1378,7 @@ impl Render for GitGraph {
                                 .p_2()
                                 .border_b_1()
                                 .border_color(cx.theme().colors().border)
-                                .child(Label::new("Graph").color(Color::Muted).truncate()),
+                                .child(Label::new("グラフ").color(Color::Muted).truncate()),
                         )
                         .child(
                             div()
@@ -1395,10 +1398,10 @@ impl Render for GitGraph {
                             .interactable(&self.table_interaction_state)
                             .hide_row_borders()
                             .header(vec![
-                                Label::new("Description").color(Color::Muted).into_any_element(),
-                                Label::new("Date").color(Color::Muted).into_any_element(),
-                                Label::new("Author").color(Color::Muted).into_any_element(),
-                                Label::new("Commit").color(Color::Muted).into_any_element(),
+                                Label::new("説明").color(Color::Muted).into_any_element(),
+                                Label::new("日付").color(Color::Muted).into_any_element(),
+                                Label::new("作成者").color(Color::Muted).into_any_element(),
+                                Label::new("コミット").color(Color::Muted).into_any_element(),
                             ])
                             .column_widths(
                                 [
@@ -1460,7 +1463,7 @@ impl Item for GitGraph {
     type Event = ItemEvent;
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Git Graph".into()
+        "Git グラフ".into()
     }
 
     fn show_toolbar(&self) -> bool {

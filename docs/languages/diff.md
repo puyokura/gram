@@ -1,21 +1,20 @@
 # Diff
 
-Diff support is available natively in Gram.
+Diff のサポートは Gram にネイティブで組み込まれています。
 
 - Tree-sitter:
   [zed-industries/the-mikedavis/tree-sitter-diff](https://github.com/the-mikedavis/tree-sitter-diff)
 
-## Configuration
+## 構成
 
-Gram will not attempt to format diff files and has
+Gram は diff ファイルのフォーマットを試みず、
 [`remove_trailing_whitespace_on_save`](../configuring-gram.md#remove-trailing-whitespace-on-save)
-and
+と
 [`ensure-final-newline-on-save`](../configuring-gram.md#ensure-final-newline-on-save)
-set to false.
+を false に設定しています。
 
-Gram will automatically recognize files with `patch` and `diff` extensions as
-Diff files. To recognize other extensions, add them to `file_types` in your Gram
-`settings.jsonc`:
+Gram は `patch` と `diff` 拡張子のファイルを Diff ファイルとして自動認識します。
+他の拡張子を認識させるには、Gram の `settings.jsonc` の `file_types` に追加します:
 
 ```json
   "file_types": {

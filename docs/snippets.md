@@ -1,20 +1,18 @@
-# Snippets
+# スニペット
 
-Use the {#action snippets::ConfigureSnippets} action to create a new snippets
-file or edit an existing snippets file for a specified [scope](#scopes).
+{#action snippets::ConfigureSnippets} アクションを使用して、指定した [スコープ](#scopes) の新しいスニペットファイルを作成したり、既存のスニペットファイルを編集したりできます。
 
-The snippets are located in `~/.config/gram/snippets` directory to which you can
-navigate to with the {#action snippets::OpenFolder} action.
+スニペットファイルは `~/.config/gram/snippets` ディレクトリに配置されており、{#action snippets::OpenFolder} アクションを使用してそのフォルダーを開くことができます。
 
-## Example configuration
+## 設定例
 
 ```json
 {
-  // Each snippet must have a name and body, but the prefix and description are optional.
-  // The prefix is used to trigger the snippet, but when omitted then the name is used.
-  // Use placeholders like $1, $2 or ${1:defaultValue} to define tab stops.
-  // The $0 determines the final cursor position.
-  // Placeholders with the same value are linked.
+  // 各スニペットには name と body が必須ですが、prefix と description は省略可能です。
+  // prefix はスニペットを呼び出すトリガーとして使用されます。省略した場合は name が使用されます。
+  // タブストップを定義するには、$1、$2、または ${1:defaultValue} のようなプレースホルダーを使用します。
+  // $0 は最終的なカーソル位置を指定します。
+  // 同じ値を持つプレースホルダーは連動します。
   "Log to console": {
     "prefix": "log",
     "body": ["console.info(\"Hello, ${1:World}!\")", "$0"],
@@ -23,35 +21,28 @@ navigate to with the {#action snippets::OpenFolder} action.
 }
 ```
 
-## Scopes
+## スコープ
 
-The scope is determined by the language name in lowercase e.g. `python.json` for
-Python, `shell script.json` for Shell Script, but there are some exceptions to
-this rule:
+スコープは小文字の言語名で決定されます（例: Python の場合は `python.json`、Shell Script の場合は `shell script.json`）。ただし、この規則にはいくつかの例外があります:
 
-| Scope      | Filename        |
+| スコープ | ファイル名 |
 | ---------- | --------------- |
-| Global     | snippets.json   |
-| JSX        | javascript.json |
-| Plain Text | plaintext.json  |
+| Global | snippets.json |
+| JSX | javascript.json |
+| Plain Text | plaintext.json |
 
-To create JSX snippets you have to use `javascript.json` snippets file, instead
-of `jsx.json`, but this does not apply to TSX and TypeScript which follow the
-above rule.
+JSX のスニペットを作成するには、`jsx.json` ではなく `javascript.json` スニペットファイルを使用する必要があります。ただし、これは TSX や TypeScript には適用されず、通常の規則に従います。
 
-## Known Limitations
+## 既知の制限事項
 
-- Only the first prefix is used when a list of prefixes is passed in.
-- Currently only the `json` snippet file format is supported, even though the
-  `simple-completion-language-server` supports both `json` and `toml` file
-  formats.
+- prefix のリストが渡された場合、先頭の prefix のみが使用されます。
+- `simple-completion-language-server` は `json` と `toml` の両方のファイル形式をサポートしていますが、現在のところ `json` スニペットファイル形式のみがサポートされています。
 
-## See also
+## 関連項目
 
-The `feature_paths` option in `simple-completion-language-server` is disabled by
-default.
+`simple-completion-language-server` の `feature_paths` オプションはデフォルトで無効になっています。
 
-If you want to enable it you can add the following to your `settings.json`:
+これを有効にしたい場合は、`settings.json` に以下を追加してください:
 
 ```json
 {
@@ -65,5 +56,4 @@ If you want to enable it you can add the following to your `settings.json`:
 }
 ```
 
-For more configuration information, see the
-[`simple-completion-language-server` instructions](https://github.com/zed-industries/simple-completion-language-server/tree/main).
+設定の詳細については、[`simple-completion-language-server` の説明書](https://github.com/zed-industries/simple-completion-language-server/tree/main) を参照してください。

@@ -22,7 +22,7 @@ use workspace::{ModalView, Workspace};
 actions!(
     language_selector,
     [
-        /// Toggles the language selector modal.
+        /// 言語選択モーダルを切り替えます。
         Toggle
     ]
 );
@@ -139,7 +139,7 @@ impl LanguageSelectorDelegate {
         if let Some(buffer_language) =
             buffer_language.filter(|buffer_language| buffer_language.name().as_ref() == mat.string.as_str())
         {
-            label.push_str(" (current)");
+            label.push_str(" (現在)");
             let icon = need_icon
                 .then(|| self.language_icon(&buffer_language.config().matcher, cx))
                 .flatten();
@@ -171,7 +171,7 @@ impl PickerDelegate for LanguageSelectorDelegate {
     type ListItem = ListItem;
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Select a language…".into()
+        "言語を選択…".into()
     }
 
     fn match_count(&self) -> usize {

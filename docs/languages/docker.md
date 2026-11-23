@@ -1,22 +1,23 @@
 # Docker
 
-Support for `Dockerfile` and `docker-compose.yaml` in Gram is provided by
-community-maintained extensions.
+Gram での `Dockerfile` と `docker-compose.yaml` のサポートは、コミュニティが
+保守する拡張機能によって提供されます。
 
 ## Docker Compose
 
-Docker `compose.yaml` language support in Gram is provided by the
-[Docker Compose extension](https://github.com/eth0net/zed-docker-compose).
+Gram での Docker `compose.yaml` 言語サポートは、
+[Docker Compose 拡張機能](https://github.com/eth0net/zed-docker-compose) によって
+提供されます。
 
-- Language Server:
+- 言語サーバー:
   [microsoft/compose-language-service](https://github.com/microsoft/compose-language-service)
 
 ## Dockerfile
 
-`Dockerfile` language support in Gram is provided by the
-[Dockerfile extension](https://github.com/d1y/dockerfile.zed).
+`Dockerfile` 言語サポートは、
+[Dockerfile 拡張機能](https://github.com/d1y/dockerfile.zed) によって提供されます。
 
 - Tree-sitter:
   [camdencheek/tree-sitter-dockerfile](https://github.com/camdencheek/tree-sitter-dockerfile)
-- Language Server:
+- 言語サーバー:
   [rcjsuen/dockerfile-language-server](https://github.com/rcjsuen/dockerfile-language-server)

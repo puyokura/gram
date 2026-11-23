@@ -1,22 +1,21 @@
 # Erlang
 
-Erlang support is built into the editor.
+Erlang のサポートはエディターに組み込まれています。
 
 - Tree-sitter:
   [WhatsApp/tree-sitter-erlang](https://github.com/WhatsApp/tree-sitter-erlang)
-- Language Servers:
+- 言語サーバー:
   - [erlang-ls/erlang_ls](https://github.com/erlang-ls/erlang_ls)
   - [WhatsApp/erlang-language-platform](https://github.com/WhatsApp/erlang-language-platform)
 
-## Choosing a language server
+## 言語サーバーの選択
 
-The Erlang extension offers language server support for `erlang_ls` and
-`erlang-language-platform`.
+Erlang 拡張機能は `erlang_ls` と `erlang-language-platform` の言語サーバーを
+サポートしています。
 
-`erlang_ls` is enabled by default.
+既定では `erlang_ls` が有効です。
 
-To switch to `erlang-language-platform`, add the following to your
-`settings.jsonc`:
+`erlang-language-platform` に切り替えるには、`settings.jsonc` に次を追加します:
 
 ```json
 {
@@ -28,7 +27,7 @@ To switch to `erlang-language-platform`, add the following to your
 }
 ```
 
-## See also:
+## 関連項目:
 
 - [Elixir](./elixir.md)
 - [Gleam](./gleam.md)

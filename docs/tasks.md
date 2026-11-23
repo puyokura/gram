@@ -1,8 +1,6 @@
-# Tasks
+# タスク
 
-Gram supports ways to spawn (and rerun) commands using its integrated terminal
-to output the results. These commands can read a limited subset of Gram state
-(such as a path to the file currently being edited or selected text).
+Gram は、統合ターミナルを使ってコマンドを起動（および再実行）し、結果を出力する方法をサポートしています。これらのコマンドは、Gram の状態の限定されたサブセット（編集中のファイルへのパスや選択中のテキストなど）を読み取れます。
 
 ```json [tasks]
 [
@@ -10,33 +8,33 @@ to output the results. These commands can read a limited subset of Gram state
     "label": "Example task",
     "command": "for i in {1..5}; do echo \"Hello $i/5\"; sleep 1; done",
     // "args": [],
-    // Env overrides for the command, will be appended to the terminal's environment from the settings.
+    // コマンド用の環境変数の上書き。設定のターミナル環境に追加されます。
     "env": { "foo": "bar" },
-    // Current working directory to spawn the command into, defaults to current project root.
+    // コマンドを起動する作業ディレクトリ。既定値は現在のプロジェクトルートです。
     // "cwd": "/path/to/working/directory",
-    // Whether to use a new terminal tab or reuse the existing one to spawn the process, defaults to `false`.
+    // プロセスの起動に新しいターミナルタブを使うか、既存のタブを再利用するか。既定値は `false`。
     "use_new_terminal": false,
-    // Whether to allow multiple instances of the same task to be run, or rather wait for the existing ones to finish, defaults to `false`.
+    // 同じタスクの複数インスタンスの同時実行を許可するか、既存の実行が終わるまで待つか。既定値は `false`。
     "allow_concurrent_runs": false,
-    // What to do with the terminal pane and tab, after the command was started:
-    // * `always` — always show the task's pane, and focus the corresponding tab in it (default)
-    // * `no_focus` — always show the task's pane, add the task's tab in it, but don't focus it
-    // * `never` — do not alter focus, but still add/reuse the task's tab in its pane
+    // コマンド開始後、ターミナルペインとタブをどう扱うか:
+    // * `always` — 常にタスクのペインを表示し、その中の対応するタブにフォーカスする（既定値）
+    // * `no_focus` — 常にタスクのペインを表示し、そのタブを追加するがフォーカスはしない
+    // * `never` — フォーカスは変更せず、タスクのタブをペイン内に追加/再利用する
     "reveal": "always",
-    // What to do with the terminal pane and tab, after the command has finished:
-    // * `never` — Do nothing when the command finishes (default)
-    // * `always` — always hide the terminal tab, hide the pane also if it was the last tab in it
-    // * `on_success` — hide the terminal tab on task success only, otherwise behaves similar to `always`
+    // コマンド終了後、ターミナルペインとタブをどう扱うか:
+    // * `never` — コマンド終了時に何もしない（既定値）
+    // * `always` — 常にターミナルタブを隠し、それがペイン内の最後のタブだった場合はペインも隠す
+    // * `on_success` — タスク成功時のみターミナルタブを隠し、それ以外は `always` と同様に動作する
     "hide": "never",
-    // Which shell to use when running a task inside the terminal.
-    // May take 3 values:
-    // 1. (default) Use the system's default terminal configuration in /etc/passwd
+    // ターミナル内でタスクを実行するときに使うシェル。
+    // 3 つの値を指定できます:
+    // 1.（既定値） /etc/passwd にあるシステム既定のターミナル構成を使う
     //      "shell": "system"
-    // 2. A program:
+    // 2. プログラムを指定する:
     //      "shell": {
     //        "program": "sh"
     //      }
-    // 3. A program with arguments:
+    // 3. 引数付きのプログラムを指定する:
     //     "shell": {
     //         "with_arguments": {
     //           "program": "/bin/bash",
@@ -44,78 +42,54 @@ to output the results. These commands can read a limited subset of Gram state
     //         }
     //     }
     "shell": "system",
-    // Whether to show the task line in the output of the spawned task, defaults to `true`.
+    // 起動したタスクの出力にタスクの行を表示するか。既定値は `true`。
     "show_summary": true,
-    // Whether to show the command line in the output of the spawned task, defaults to `true`.
+    // 起動したタスクの出力にコマンドラインを表示するか。既定値は `true`。
     "show_command": true,
-    // Which edited buffers to save before running the task:
-    // * `none` — don't save any buffers (default)
-    // * `all` — save all edited buffers
-    // * `current` — save current buffer only
+    // タスク実行前に保存する編集済みバッファー:
+    // * `none` — どのバッファーも保存しない（既定値）
+    // * `all` — 編集済みのすべてのバッファーを保存する
+    // * `current` — 現在のバッファーのみ保存する
     "save": "none",
-    // Represents the tags for inline runnable indicators, or spawning multiple tasks at once.
+    // インラインの実行可能インジケーター用タグ、または複数タスクの一括起動に使います。
     // "tags": []
   }
 ]
 ```
 
-There are two actions that drive the workflow of using tasks: `task: spawn` and
-`task: rerun`. `task: spawn` opens a modal with all available tasks in the
-current file. `task: rerun` reruns the most recently spawned task. You can also
-rerun tasks from the task modal.
+タスクを使うワークフローを支えるアクションは 2 つあります: `task: spawn` と `task: rerun` です。`task: spawn` は現在のファイルで利用可能なすべてのタスクを表示するモーダルを開きます。`task: rerun` は直近に起動したタスクを再実行します。タスクモーダルからもタスクを再実行できます。
 
-By default, rerunning tasks reuses the same terminal (due to the
-`"use_new_terminal": false` default) but waits for the previous task to finish
-before starting (due to the `"allow_concurrent_runs": false` default).
+既定では、タスクの再実行は同じターミナルを再利用します（`"use_new_terminal": false` が既定値のため）。その代わり、前のタスクが終了するまで待ってから開始します（`"allow_concurrent_runs": false` が既定値のため）。
 
-Keep `"use_new_terminal": false` and set `"allow_concurrent_runs": true` to
-allow cancelling previous tasks on rerun.
+`"use_new_terminal": false` を維持したまま `"allow_concurrent_runs": true` を設定すると、再実行時に前のタスクをキャンセルできるようになります。
 
-## Task templates
+## タスクテンプレート
 
-Tasks can be defined:
+タスクは次の場所で定義できます:
 
-- in the global `tasks.jsonc` file; such tasks are available in all Gram
-  projects you work on. This file is usually located in
-  `~/.config/gram/tasks.json`. You can edit them by using the `gram: open tasks`
-  action.
-- in the worktree-specific (local) `.gram/tasks.jsonc` file; such tasks are
-  available only when working on a project with that worktree included. You can
-  edit worktree-specific tasks by using the `gram: open project tasks` action.
-- on the fly with [oneshot tasks](#oneshot-tasks). These tasks are
-  project-specific and do not persist across sessions.
-- by language extension.
+- グローバルの `tasks.jsonc` ファイル。ここで定義したタスクは、作業するすべての Gram プロジェクトで利用できます。このファイルは通常 `~/.config/gram/tasks.json` にあります。`gram: open tasks` アクションで編集できます。
+- ワークツリー固有（ローカル）の `.gram/tasks.jsonc` ファイル。ここで定義したタスクは、そのワークツリーを含むプロジェクトで作業するときのみ利用できます。ワークツリー固有のタスクは `gram: open project tasks` アクションで編集できます。
+- [ワンショットタスク](#oneshot-tasks)としてその場で。これらのタスクはプロジェクト固有で、セッションをまたいで永続化されません。
+- 言語拡張機能によって。
 
-## Variables
+## 変数
 
-Gram tasks act just like your shell; that also means that you can reference
-environmental variables via sh-esque `$VAR_NAME` syntax. A couple of additional
-environmental variables are set for your convenience. These variables allow you
-to pull information from the current editor and use it in your tasks. The
-following variables are available:
+Gram のタスクはシェルと同じように動作します。つまり、sh 風の `$VAR_NAME` 構文で環境変数を参照できます。利便性のため、いくつかの追加の環境変数も設定されています。これらの変数を使うと、現在のエディターから情報を取得してタスク内で利用できます。次の変数が利用可能です:
 
-- `GRAM_COLUMN`: current line column
-- `GRAM_ROW`: current line row
-- `GRAM_FILE`: absolute path of the currently opened file (e.g.
-  `/Users/my-user/path/to/project/src/main.rs`)
-- `GRAM_FILENAME`: filename of the currently opened file (e.g. `main.rs`)
-- `GRAM_DIRNAME`: absolute path of the currently opened file with file name
-  stripped (e.g. `/Users/my-user/path/to/project/src`)
-- `GRAM_RELATIVE_FILE`: path of the currently opened file, relative to
-  `GRAM_WORKTREE_ROOT` (e.g. `src/main.rs`)
-- `GRAM_RELATIVE_DIR`: path of the currently opened file's directory, relative
-  to `GRAM_WORKTREE_ROOT` (e.g. `src`)
-- `GRAM_STEM`: stem (filename without extension) of the currently opened file
-  (e.g. `main`)
-- `GRAM_SYMBOL`: currently selected symbol; should match the last symbol shown
-  in a symbol breadcrumb (e.g. `mod tests > fn test_task_contexts`)
-- `GRAM_SELECTED_TEXT`: currently selected text
-- `GRAM_WORKTREE_ROOT`: absolute path to the root of the current worktree. (e.g.
-  `/Users/my-user/path/to/project`)
-- `GRAM_CUSTOM_RUST_PACKAGE`: (Rust-specific) name of the parent package of
-  $GRAM_FILE source file.
+- `GRAM_COLUMN`: 現在の行の列
+- `GRAM_ROW`: 現在の行の行番号
+- `GRAM_FILE`: 現在開いているファイルの絶対パス（例: `/Users/my-user/path/to/project/src/main.rs`）
+- `GRAM_FILENAME`: 現在開いているファイルのファイル名（例: `main.rs`）
+- `GRAM_DIRNAME`: 現在開いているファイルの絶対パスからファイル名を除いたもの（例: `/Users/my-user/path/to/project/src`）
+- `GRAM_RELATIVE_FILE`: `GRAM_WORKTREE_ROOT` からの相対パスで表した、現在開いているファイルのパス（例: `src/main.rs`）
+- `GRAM_RELATIVE_DIR`: `GRAM_WORKTREE_ROOT` からの相対パスで表した、現在開いているファイルのディレクトリのパス（例: `src`）
+- `GRAM_STEM`: 現在開いているファイルのステム（拡張子を除いたファイル名）（例: `main`）
+- `GRAM_SYMBOL`: 現在選択中のシンボル。シンボルのブレッドクラムに最後に表示されたシンボルと一致するはずです（例: `mod tests > fn test_task_contexts`）
+- `GRAM_SELECTED_TEXT`: 現在選択中のテキスト
+- `GRAM_WORKTREE_ROOT`: 現在のワークツリーのルートへの絶対パス（例: `/Users/my-user/path/to/project`）
+- `GRAM_CUSTOM_RUST_PACKAGE`:（Rust 固有）$GRAM_FILE のソースファイルが属する親パッケージの名前。
 
-To use a variable in a task, prefix it with a dollar sign (`$`):
+タスク内で変数を使うには、ドル記号（`$`）を前に付けます:
 
 ```json
 {
@@ -124,18 +98,15 @@ To use a variable in a task, prefix it with a dollar sign (`$`):
 }
 ```
 
-You can also use verbose syntax that allows specifying a default if a given
-variable is not available: `${GRAM_FILE:default_value}`
+与えられた変数が利用できない場合の既定値を指定できる、冗長な構文も使えます: `${GRAM_FILE:default_value}`
 
-These environmental variables can also be used in tasks' `cwd`, `args`, and
-`label` fields.
+これらの環境変数は、タスクの `cwd`、`args`、`label` フィールドでも使えます。
 
-### Variable Quoting
+### 変数のクォート
 
-When working with paths containing spaces or other special characters, please
-ensure variables are properly escaped.
+スペースやその他の特殊文字を含むパスを扱う場合は、変数が適切にエスケープされていることを確認してください。
 
-For example, instead of this (which will fail if the path has a space):
+たとえば、次の書き方（パスにスペースがあると失敗します）ではなく:
 
 ```json
 {
@@ -144,7 +115,7 @@ For example, instead of this (which will fail if the path has a space):
 }
 ```
 
-Provide the following:
+次のように記述してください:
 
 ```json
 {
@@ -154,7 +125,7 @@ Provide the following:
 }
 ```
 
-Or explicitly include escaped quotes like so:
+または、次のようにエスケープした引用符を明示的に含めます:
 
 ```json
 {
@@ -163,11 +134,9 @@ Or explicitly include escaped quotes like so:
 }
 ```
 
-### Task filtering based on variables
+### 変数によるタスクのフィルタリング
 
-Task definitions with variables which are not present at the moment the task
-list is determined are filtered out. For example, the following task will appear
-in the spawn modal only if there is a text selection:
+タスク一覧を決める時点で存在しない変数を含むタスク定義は除外されます。たとえば、次のタスクはテキストが選択されている場合にのみ起動モーダルに表示されます:
 
 ```json
 {
@@ -176,7 +145,7 @@ in the spawn modal only if there is a text selection:
 }
 ```
 
-Set default values to such variables to have such tasks always displayed:
+そのような変数に既定値を設定すると、そのタスクは常に表示されます:
 
 ```json
 {
@@ -185,34 +154,23 @@ Set default values to such variables to have such tasks always displayed:
 }
 ```
 
-## Oneshot tasks
+## ワンショットタスク
 
-The same task modal opened via `task: spawn` supports arbitrary bash-like
-command execution: type a command inside the modal text field, and use
-`opt-enter` to spawn it.
+`task: spawn` で開くのと同じタスクモーダルは、任意の bash 風コマンドの実行もサポートしています。モーダルのテキストフィールドにコマンドを入力し、`opt-enter` で起動します。
 
-The task modal persists these ad-hoc commands for the duration of the session,
-`task: rerun` will also rerun such tasks if they were the last ones spawned.
+タスクモーダルは、これらのアドホックなコマンドをセッションの間だけ保持します。直近に起動したタスクがこれらであれば、`task: rerun` でも再実行されます。
 
-You can also adjust the currently selected task in a modal (`tab` is the default
-key binding). Doing so will put its command into a prompt that can then be
-edited & spawned as a oneshot task.
+モーダルで現在選択中のタスクを調整することもできます（既定のキーバインドは `tab`）。こうするとそのコマンドがプロンプトに入り、編集してワンショットタスクとして起動できます。
 
-### Ephemeral tasks
+### エフェメラルタスク
 
-You can use the `cmd` modifier when spawning a task via a modal; tasks spawned
-this way will not have their usage count increased (thus, they will not be
-respawned with `task: rerun` and they won't have a high rank in the task modal).
-The intended use of ephemeral tasks is to stay in the flow with continuous
-`task: rerun` usage.
+モーダル経由でタスクを起動するときに `cmd` 修飾キーを使えます。この方法で起動したタスクは使用回数が増えないため、`task: rerun` で再起動されず、タスクモーダルでの順位も高くなりません。エフェメラルタスクの想定用途は、`task: rerun` を継続的に使う流れを途切れさせないことです。
 
-### More task rerun control
+### タスク再実行の詳細な制御
 
-By default, tasks capture their variables into a context once, and this
-"resolved task" is being rerun always.
+既定では、タスクは一度だけ変数をコンテキストに取り込み、その「解決済みタスク」が常に再実行されます。
 
-This can be controlled with the `"reevaluate_context"` argument to the task:
-setting it to `true` will force the task to be reevaluated before each run.
+これはタスクの `"reevaluate_context"` 引数で制御できます。`true` に設定すると、実行のたびにタスクが再評価されます。
 
 ```json
 {
@@ -223,12 +181,9 @@ setting it to `true` will force the task to be reevaluated before each run.
 }
 ```
 
-## Custom keybindings for tasks
+## タスクのカスタムキーバインド
 
-You can define your own keybindings for your tasks via an additional argument to
-`task::Spawn`. If you wanted to bind the aforementioned
-`echo current file's path` task to `alt-g`, you would add the following snippet
-in your [`keymap.json`](./key-bindings.md) file:
+`task::Spawn` に追加の引数を渡すことで、タスク用の独自のキーバインドを定義できます。前述の `echo current file's path` タスクを `alt-g` に割り当てたい場合は、[`keymap.json`](./key-bindings.md) ファイルに次のスニペットを追加します:
 
 ```json
 {
@@ -239,12 +194,10 @@ in your [`keymap.json`](./key-bindings.md) file:
 }
 ```
 
-Note that these tasks can also have a 'target' specified to control where the
-spawned task should show up. This could be useful for launching a terminal
-application that you want to use in the center area:
+これらのタスクには、起動したタスクをどこに表示するかを制御する「ターゲット」も指定できることに注意してください。中央エリアで使いたいターミナルアプリケーションを起動する場合に便利です:
 
 ```json [tasks]
-// In tasks.jsonc
+// tasks.jsonc 内
 {
   "label": "start lazygit",
   "command": "lazygit -p $GRAM_WORKTREE_ROOT"
@@ -252,7 +205,7 @@ application that you want to use in the center area:
 ```
 
 ```json
-// In keymap.jsonc
+// keymap.jsonc 内
 {
   "context": "Workspace",
   "bindings": {
@@ -264,18 +217,15 @@ application that you want to use in the center area:
 }
 ```
 
-## Binding runnable tags to task templates
+## 実行可能タグをタスクテンプレートに割り当てる
 
-Gram supports overriding the default action for inline runnable indicators via
-workspace-local and global `tasks.jsonc` file with the following precedence
-hierarchy:
+Gram は、インラインの実行可能インジケーターの既定アクションを、ワークスペースローカルおよびグローバルの `tasks.jsonc` ファイルで上書きできます。優先順位は次のとおりです:
 
-1. Workspace `tasks.jsonc`
-2. Global `tasks.jsonc`
-3. Language-provided tag bindings (default).
+1. ワークスペースの `tasks.jsonc`
+2. グローバルの `tasks.jsonc`
+3. 言語が提供するタグの割り当て（既定）。
 
-To tag a task, add the runnable tag name to the `tags` field on the task
-template:
+タスクにタグを付けるには、タスクテンプレートの `tags` フィールドに実行可能タグ名を追加します:
 
 ```json
 {
@@ -285,12 +235,8 @@ template:
 }
 ```
 
-In doing so, you can change which task is shown in the runnables indicator.
+こうすることで、実行可能インジケーターに表示するタスクを変更できます。
 
-## Keybindings to run tasks bound to runnables
+## 実行可能項目に割り当てたタスクを実行するキーバインド
 
-When you have a task definition that is bound to the runnable, you can quickly
-run it using [Code Actions](./configuring-languages?#code-actions.md) that you
-can trigger either via `editor: Toggle Code Actions` command or by the
-`cmd-.`/`ctrl-.` shortcut. Your task will be the first in the dropdown. The task
-will run immediately if there are no additional Code Actions for this line.
+実行可能項目に割り当てたタスク定義がある場合は、[コードアクション](./configuring-languages?#code-actions.md) を使って素早く実行できます。コードアクションは `editor: Toggle Code Actions` コマンド、または `cmd-.`/`ctrl-.` ショートカットで呼び出せます。タスクはドロップダウンの先頭に表示されます。その行に追加のコードアクションがない場合、タスクは即座に実行されます。

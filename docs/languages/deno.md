@@ -1,16 +1,15 @@
 # Deno
 
-Deno support is available through the
-[Deno extension](https://github.com/zed-extensions/deno).
+Deno のサポートは
+[Deno 拡張機能](https://github.com/zed-extensions/deno) から利用できます。
 
-- Language server:
+- 言語サーバー:
   [Deno Language Server](https://docs.deno.com/runtime/manual/advanced/language_server/overview/)
 
-## Deno Configuration
+## Deno の構成
 
-To use the Deno Language Server with TypeScript and TSX files, you will likely
-wish to disable the default language servers and enable deno by adding the
-following to your `settings.jsonc`:
+TypeScript と TSX ファイルで Deno 言語サーバーを使うには、既定の言語サーバーを
+無効にして deno を有効にするため、`settings.jsonc` に次を追加するとよいでしょう:
 
 ```json
 {
@@ -55,13 +54,13 @@ following to your `settings.jsonc`:
 }
 ```
 
-See [Configuring supported languages](../configuring-languages.md) in the Gram
-documentation for more information.
+詳しくは Gram ドキュメントの
+[対応言語の構成](../configuring-languages.md) を参照してください。
 
-## Configuration completion
+## 構成の補完
 
-To get completions for `deno.json` or `package.json` you can add the following
-to your `settings.jsonc`: (More info here ./json.md)
+`deno.json` や `package.json` の補完を得るには、`settings.jsonc` に次を追加します:
+（詳細は ./json.md）
 
 ```json
 "lsp": {
@@ -89,9 +88,9 @@ to your `settings.jsonc`: (More info here ./json.md)
   }
 ```
 
-## DAP support
+## DAP サポート
 
-To debug deno programs, add this to `.gram/debug.jsonc`
+deno プログラムをデバッグするには、`.gram/debug.jsonc` に次を追加します:
 
 ```json [debug]
 [
@@ -109,9 +108,9 @@ To debug deno programs, add this to `.gram/debug.jsonc`
 ]
 ```
 
-## Runnable support
+## 実行サポート
 
-To run deno tasks like tests from the ui, add this to `.gram/tasks.jsonc`
+UI からテストなどの deno タスクを実行するには、`.gram/tasks.jsonc` に次を追加します:
 
 ```json [tasks]
 [
@@ -123,7 +122,7 @@ To run deno tasks like tests from the ui, add this to `.gram/tasks.jsonc`
 ]
 ```
 
-## See also:
+## 関連項目:
 
 - [TypeScript](./typescript.md)
 - [JavaScript](./javascript.md)

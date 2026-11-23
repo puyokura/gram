@@ -88,10 +88,10 @@ impl AskPassModal {
                             Icon::new(IconName::Forge).size(IconSize::Small)
                         )
                         .child(
-                            Label::new("You may need to configure git for Github.")
+                            Label::new("GitHub 用に git を設定する必要がある場合があります。")
                                 .size(LabelSize::Small),
                         )
-                        .child(Button::new("learn-more", "Learn more").color(Color::Accent).label_size(LabelSize::Small).on_click(|_, _, cx| {
+                        .child(Button::new("learn-more", "詳細を見る").color(Color::Accent).label_size(LabelSize::Small).on_click(|_, _, cx| {
                             cx.open_url("https://docs.github.com/en/get-started/git-basics/set-up-git#authenticating-with-github-from-git")
                         })),
                 )

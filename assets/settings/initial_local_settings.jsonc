@@ -1,5 +1,5 @@
-// Folder-specific settings
+// フォルダー固有の設定
 //
-// For a full list of overridable settings, and general information on folder-specific settings,
-// see the documentation: gram://docs/configuring-gram#settings-files
+// 上書き可能な設定の一覧と、フォルダー固有の設定に関する一般的な情報は、
+// ドキュメントを参照してください: gram://docs/configuring-gram#settings-files
 {}

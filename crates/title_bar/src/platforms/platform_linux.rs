@@ -47,10 +47,10 @@ pub enum WindowControlType {
 }
 
 impl WindowControlType {
-    /// Returns the icon name for the window control type.
+    /// ウィンドウコントロール種別に対応するアイコン名を返します。
     ///
-    /// Will take a [PlatformStyle] in the future to return a different
-    /// icon name based on the platform.
+    /// 将来的には [PlatformStyle] を受け取り、プラットフォームに応じた
+    /// アイコン名を返す予定です。
     pub fn icon(&self) -> IconName {
         match self {
             WindowControlType::Minimize => IconName::GenericMinimize,
@@ -82,28 +82,28 @@ impl WindowControlStyle {
     }
 
     #[allow(unused)]
-    /// Sets the background color of the control.
+    /// コントロールの背景色を設定します。
     pub fn background(mut self, color: impl Into<Hsla>) -> Self {
         self.background = color.into();
         self
     }
 
     #[allow(unused)]
-    /// Sets the background color of the control when hovered.
+    /// ホバー時のコントロールの背景色を設定します。
     pub fn background_hover(mut self, color: impl Into<Hsla>) -> Self {
         self.background_hover = color.into();
         self
     }
 
     #[allow(unused)]
-    /// Sets the color of the icon.
+    /// アイコンの色を設定します。
     pub fn icon(mut self, color: impl Into<Hsla>) -> Self {
         self.icon = color.into();
         self
     }
 
     #[allow(unused)]
-    /// Sets the color of the icon when hovered.
+    /// ホバー時のアイコンの色を設定します。
     pub fn icon_hover(mut self, color: impl Into<Hsla>) -> Self {
         self.icon_hover = color.into();
         self
@@ -187,7 +187,7 @@ impl RenderOnce for WindowControl {
                     WindowControlType::Close => window.dispatch_action(
                         self.close_action
                             .as_ref()
-                            .expect("Use WindowControl::new_close() for close control.")
+                            .expect("閉じる操作には WindowControl::new_close() を使用してください。")
                             .boxed_clone(),
                         cx,
                     ),

@@ -1,23 +1,22 @@
 # Ansible
 
-Support for Ansible in Gram is provided via a community-maintained
-[Ansible extension](https://github.com/kartikvashistha/zed-ansible).
+Gram での Ansible サポートは、コミュニティが保守する
+[Ansible 拡張機能](https://github.com/kartikvashistha/zed-ansible) を通じて提供されます。
 
 - Tree-sitter:
   [zed-industries/tree-sitter-yaml](https://github.com/zed-industries/tree-sitter-yaml)
-- Language Server:
+- 言語サーバー:
   [ansible/vscode-ansible](https://github.com/ansible/vscode-ansible/tree/main/packages/ansible-language-server)
 
-## Setup
+## セットアップ
 
-### File detection
+### ファイル検出
 
-To avoid mishandling non-Ansible YAML files, the Ansible Language is not
-associated with any file extensions by default. To change this behavior you can
-add a `"file_types"` section to Gram settings inside your project
-(`.gram/settings.jsonc`) or your Gram user settings
-(`~/.config/gram/settings.jsonc`) to match your folder/naming conventions. For
-example:
+Ansible 以外の YAML ファイルを誤って扱わないよう、Ansible 言語は既定では
+どのファイル拡張子にも関連付けられていません。この動作を変えるには、
+プロジェクト設定（`.gram/settings.jsonc`）または Gram のユーザー設定
+（`~/.config/gram/settings.jsonc`）に `"file_types"` セクションを追加し、
+フォルダーや命名の慣習に合わせてください。例:
 
 ```json
 "file_types": {
@@ -44,22 +43,22 @@ example:
   }
 ```
 
-Feel free to modify this list as per your needs.
+このリストは必要に応じて自由に変更してください。
 
-#### Inventory
+#### インベントリ
 
-If your inventory file is in the YAML format, you can either:
+インベントリファイルが YAML 形式なら、次のいずれかの方法を選べます。
 
-- Append the `ansible-lint` inventory json schema to it via the following
-  comment at the top of your inventory file:
+- インベントリファイルの先頭に次のコメントを追加して、`ansible-lint` の
+  インベントリ JSON スキーマを付与する:
 
 ```yml
 # yaml-language-server: $schema=https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/inventory.json
 ```
 
-- Or configure the yaml language server settings to set this schema for all your
-  inventory files, that match your inventory pattern, under your Gram settings
-  ([ref](./yaml.md)):
+- あるいは Gram 設定で YAML 言語サーバーの設定を変更し、インベントリのパターンに
+  一致するすべてのインベントリファイルにこのスキーマを設定する
+  （[参照](./yaml.md)）:
 
 ```json
 "lsp": {
@@ -78,12 +77,11 @@ If your inventory file is in the YAML format, you can either:
 },
 ```
 
-### LSP Configuration
+### LSP の構成
 
-By default, the following default config is passed to the Ansible language
-server. It conveniently mirrors the defaults set by
+既定では、次のデフォルト設定が Ansible 言語サーバーに渡されます。これは
 [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig/blob/03bc581e05e81d33808b42b2d7e76d70adb3b595/lua/lspconfig/configs/ansiblels.lua)
-for the Ansible language server:
+が Ansible 言語サーバーに設定しているデフォルトをそのまま反映したものです:
 
 ```json
 {
@@ -108,16 +106,16 @@ for the Ansible language server:
 }
 ```
 
-> [!NOTE] In order for linting to work, ensure that `ansible-lint` is installed
-> and discoverable on your PATH
+> [!NOTE] リンティングを機能させるには、`ansible-lint` がインストールされ、
+> PATH から見つけられることを確認してください。
 
-When desired, any of the above default settings can be overridden under the
-`"lsp"` section of your Gram settings file. For example:
+必要に応じて、上記のデフォルト設定は Gram 設定ファイルの `"lsp"` セクションで
+上書きできます。例:
 
 ```json
 "lsp": {
-  // Note, the Gram Ansible extension prefixes all settings with `ansible`
-  // so instead of using `ansible.ansible.path` use `ansible.path`.
+  // 注意: Gram の Ansible 拡張機能はすべての設定に `ansible` プレフィックスを
+  // 付けるため、`ansible.ansible.path` ではなく `ansible.path` を使用します。
   "ansible-language-server": {
     "settings": {
       "ansible": {
@@ -130,9 +128,9 @@ When desired, any of the above default settings can be overridden under the
         "interpreterPath": "python3"
       },
       "validation": {
-        "enabled": false, // disable validation
+        "enabled": false, // 検証を無効化
         "lint": {
-          "enabled": false, // disable ansible-lint
+          "enabled": false, // ansible-lint を無効化
           "path": "ansible-lint"
         }
       }
@@ -141,7 +139,6 @@ When desired, any of the above default settings can be overridden under the
 }
 ```
 
-A full list of options/settings, that can be passed to the server, can be found
-at the project's page
-[here](https://github.com/ansible/vscode-ansible/blob/5a89836d66d470fb9d20e7ea8aa2af96f12f61fb/docs/als/settings.md).
-Feel free to modify option values as needed.
+サーバーに渡せるオプション/設定の完全な一覧は、プロジェクトのページ
+（[こちら](https://github.com/ansible/vscode-ansible/blob/5a89836d66d470fb9d20e7ea8aa2af96f12f61fb/docs/als/settings.md)）にあります。
+オプションの値は必要に応じて変更してください。

@@ -3,7 +3,7 @@ use workspace::Workspace;
 
 use crate::BufferSearchBar;
 
-/// Registrar inverts the dependency between search and its downstream user, allowing said downstream user to register search action without knowing exactly what those actions are.
+/// Registrar は search とその後続の利用者との依存関係を反転させ、後続の利用者が検索アクションの種類を知らずに登録できるようにします。
 pub trait SearchActionsRegistrar {
     fn register_handler<A: Action>(&mut self, callback: impl ActionExecutor<A>);
 }
@@ -12,7 +12,7 @@ type SearchBarActionCallback<A> = fn(&mut BufferSearchBar, &A, &mut Window, &mut
 
 type GetSearchBar<T> = for<'a, 'b> fn(&'a T, &'a mut Window, &mut Context<'b, T>) -> Option<Entity<BufferSearchBar>>;
 
-/// Registers search actions on a div that can be taken out.
+/// 取り出し可能な div に検索アクションを登録します。
 pub struct DivRegistrar<'a, 'b, T: 'static> {
     div: Option<Div>,
     cx: &'a mut Context<'b, T>,
@@ -54,7 +54,7 @@ impl<T: 'static> SearchActionsRegistrar for DivRegistrar<'_, '_, T> {
     }
 }
 
-/// Register actions for an active pane.
+/// アクティブなペインにアクションを登録します。
 impl SearchActionsRegistrar for Workspace {
     fn register_handler<A: Action>(&mut self, callback: impl ActionExecutor<A>) {
         self.register_action(move |workspace, action: &A, window, cx| {
@@ -84,7 +84,7 @@ impl SearchActionsRegistrar for Workspace {
 }
 
 type DidHandleAction = bool;
-/// Potentially executes the underlying action if some preconditions are met (e.g. buffer search bar is visible)
+/// 前提条件が満たされた場合に基になるアクションを実行する可能性があります（例: バッファー検索バーが表示されている）。
 pub trait ActionExecutor<A: Action>: 'static + Clone {
     fn execute(
         &self,
@@ -95,7 +95,7 @@ pub trait ActionExecutor<A: Action>: 'static + Clone {
     ) -> DidHandleAction;
 }
 
-/// Run an action when the search bar has been dismissed from the panel.
+/// 検索バーがパネルから閉じられたときにアクションを実行します。
 pub struct ForDismissed<A>(pub(super) SearchBarActionCallback<A>);
 impl<A> Clone for ForDismissed<A> {
     fn clone(&self) -> Self {
@@ -120,7 +120,7 @@ impl<A: Action> ActionExecutor<A> for ForDismissed<A> {
     }
 }
 
-/// Run an action when the search bar is deployed.
+/// 検索バーが展開されているときにアクションを実行します。
 pub struct ForDeployed<A>(pub(super) SearchBarActionCallback<A>);
 impl<A> Clone for ForDeployed<A> {
     fn clone(&self) -> Self {
@@ -145,8 +145,8 @@ impl<A: Action> ActionExecutor<A> for ForDeployed<A> {
     }
 }
 
-/// Run an action when the search bar has any matches or a pending external query,
-/// regardless of whether it is visible or not.
+/// 検索バーに一致があるか保留中の外部クエリがあるときにアクションを実行します。
+/// 表示されているかどうかに関わらず実行します。
 pub struct WithResultsOrExternalQuery<A>(pub(super) SearchBarActionCallback<A>);
 impl<A> Clone for WithResultsOrExternalQuery<A> {
     fn clone(&self) -> Self {

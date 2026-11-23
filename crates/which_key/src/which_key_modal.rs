@@ -1,4 +1,4 @@
-//! Modal implementation for the which-key display.
+//! which-key 表示用のモーダル実装。
 
 use gpui::prelude::FluentBuilder;
 use gpui::{
@@ -279,7 +279,7 @@ fn group_bindings(binding_data: Vec<(Vec<Keystroke>, SharedString)>) -> Vec<(Vec
             // This is a group - create a single entry with just the first keystroke
             let first_keystroke = vec![first_key];
             let count = group_bindings.len();
-            result.push((first_keystroke, format!("+{} keybinds", count).into()));
+            result.push((first_keystroke, format!("+{} キーバインド", count).into()));
         } else {
             // Not a group or empty keystrokes - add all bindings as-is
             result.append(&mut group_bindings);

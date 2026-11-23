@@ -1,9 +1,8 @@
 # Vue
 
-Vue support is available through the
-[Vue extension](https://github.com/zed-extensions/vue).
+Vue のサポートは、[Vue 拡張機能](https://github.com/zed-extensions/vue)を通じて利用できます。
 
 - Tree-sitter:
   [tree-sitter-grammars/tree-sitter-vue](https://github.com/tree-sitter-grammars/tree-sitter-vue)
-- Language Server:
+- 言語サーバー:
   [vuejs/language-tools/](https://github.com/vuejs/language-tools/)

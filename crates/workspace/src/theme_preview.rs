@@ -12,7 +12,7 @@ use crate::{Item, Workspace};
 actions!(
     dev,
     [
-        /// Opens the theme preview window.
+        /// テーマプレビューウィンドウを開く
         OpenThemePreview
     ]
 );
@@ -38,6 +38,13 @@ impl ThemePreviewPage {
         match self {
             Self::Overview => "Overview",
             Self::Typography => "Typography",
+        }
+    }
+
+    pub fn label(&self) -> &'static str {
+        match self {
+            Self::Overview => "概要",
+            Self::Typography => "タイポグラフィ",
         }
     }
 }
@@ -84,7 +91,7 @@ impl Item for ThemePreview {
 
     fn tab_content_text(&self, _detail: usize, cx: &App) -> SharedString {
         let name = cx.theme().name.clone();
-        format!("{} Preview", name).into()
+        format!("{} プレビュー", name).into()
     }
 
     fn can_split(&self) -> bool {
@@ -121,7 +128,7 @@ impl ThemePreview {
 
         v_flex()
             .gap_1()
-            .child(Headline::new("Text").size(HeadlineSize::Small).color(Color::Muted))
+            .child(Headline::new("テキスト").size(HeadlineSize::Small).color(Color::Muted))
             .child(
                 h_flex()
                     .items_start()
@@ -129,7 +136,7 @@ impl ThemePreview {
                     .child(
                         v_flex()
                             .gap_1()
-                            .child(Headline::new("Headline Sizes").size(HeadlineSize::Small).color(Color::Muted))
+                            .child(Headline::new("見出しサイズ").size(HeadlineSize::Small).color(Color::Muted))
                             .child(Headline::new("XLarge Headline").size(HeadlineSize::XLarge))
                             .child(Headline::new("Large Headline").size(HeadlineSize::Large))
                             .child(Headline::new("Medium Headline").size(HeadlineSize::Medium))
@@ -139,7 +146,7 @@ impl ThemePreview {
                     .child(
                         v_flex()
                             .gap_1()
-                            .child(Headline::new("Text Colors").size(HeadlineSize::Small).color(Color::Muted))
+                            .child(Headline::new("テキストカラー").size(HeadlineSize::Small).color(Color::Muted))
                             .child(
                                 Label::new(label_with_contrast(
                                     "Default Text",
@@ -263,7 +270,7 @@ impl ThemePreview {
                     .child(
                         v_flex()
                             .gap_1()
-                            .child(Headline::new("Wrapping Text").size(HeadlineSize::Small).color(Color::Muted))
+                            .child(Headline::new("折り返しテキスト").size(HeadlineSize::Small).color(Color::Muted))
                             .child(
                                 div().max_w(px(200.)).child(
                                 "This is a longer piece of text that should wrap to multiple lines. It demonstrates how text behaves when it exceeds the width of its container."
@@ -278,7 +285,7 @@ impl ThemePreview {
 
         v_flex()
             .gap_1()
-            .child(Headline::new("Colors").size(HeadlineSize::Small).color(Color::Muted))
+            .child(Headline::new("カラー").size(HeadlineSize::Small).color(Color::Muted))
             .child(
                 h_flex()
                     .flex_wrap()
@@ -329,8 +336,8 @@ impl ThemePreview {
             .size_full()
             .child(
                 v_flex()
-                    .child(Headline::new("Theme Preview").size(HeadlineSize::Large))
-                    .child(div().w_full().text_color(cx.theme().colors().text_muted).child("This view lets you preview a range of UI elements across a theme. Use it for testing out changes to the theme."))
+                    .child(Headline::new("テーマプレビュー").size(HeadlineSize::Large))
+                    .child(div().w_full().text_color(cx.theme().colors().text_muted).child("このビューではテーマ全体の各種UI要素をプレビューできます。テーマの変更をテストする際にご利用ください。"))
                     )
             .child(self.render_theme_layer(ElevationIndex::Background, window, cx))
             .child(self.render_theme_layer(ElevationIndex::Surface, window, cx))
@@ -355,7 +362,7 @@ impl ThemePreview {
                 .child(Label::new("Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."))
                 .child(Headline::new("Headline 5").size(HeadlineSize::XSmall))
                 .child(Label::new("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."))
-                .child(Headline::new("Body Text").size(HeadlineSize::Small))
+                .child(Headline::new("本文テキスト").size(HeadlineSize::Small))
                 .child(Label::new("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."))
             )
     }
@@ -368,7 +375,7 @@ impl ThemePreview {
             .py_2()
             .bg(Self::preview_bg(window, cx))
             .children(ThemePreviewPage::iter().map(|p| {
-                Button::new(ElementId::Name(p.name().into()), p.name())
+                Button::new(ElementId::Name(p.name().into()), p.label())
                     .on_click(cx.listener(move |this, _, window, cx| {
                         this.current_page = p;
                         cx.notify();

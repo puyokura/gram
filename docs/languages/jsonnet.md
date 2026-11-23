@@ -1,20 +1,18 @@
 # Jsonnet
 
-Jsonnet language support in Gram is provided by the community-maintained
-[Jsonnet extension](https://github.com/narqo/zed-jsonnet).
+Gram での Jsonnet 言語サポートは、コミュニティが保守する
+[Jsonnet 拡張機能](https://github.com/narqo/zed-jsonnet) によって提供されます。
 
 - Tree-sitter:
   [sourcegraph/tree-sitter-jsonnet](https://github.com/sourcegraph/tree-sitter-jsonnet)
-- Language Server:
+- 言語サーバー:
   [grafana/jsonnet-language-server](https://github.com/grafana/jsonnet-language-server)
 
-## Configuration
+## 構成
 
-Workspace configuration options can be passed to the language server via the
-`lsp` settings of the `settings.jsonc`.
+ワークスペースの構成オプションは、`settings.jsonc` の `lsp` 設定を通じて言語サーバーに渡せます。
 
-The following example enables support for resolving [tanka](https://tanka.dev)
-import paths in `jsonnet-language-server`:
+次の例は、`jsonnet-language-server` で [tanka](https://tanka.dev) のインポートパスを解決するサポートを有効にします:
 
 ```json
 {

@@ -1,12 +1,12 @@
 # Nix
 
-Nix support is built into the editor.
+Nix のサポートはエディターに組み込まれています。
 
-## Choosing a language server
+## 言語サーバーの選択
 
-There is support for two different language servers: `nil` and `nixd`.
+`nil` と `nixd` という 2 つの異なる言語サーバーがサポートされています。
 
-To only enable `nil`:
+`nil` のみを有効にする場合:
 
 ```json
   "languages": {
@@ -16,7 +16,7 @@ To only enable `nil`:
   }
 ```
 
-To only enable `nixd`:
+`nixd` のみを有効にする場合:
 
 ```json
   "languages": {
@@ -26,16 +26,16 @@ To only enable `nixd`:
   }
 ```
 
-## Configuration
+## 設定
 
-Language server options can be set in the `settings.jsonc` file. See the
-[Configuring Languages](../configuring-languages.md) documentation for more
-information.
+言語サーバーのオプションは `settings.jsonc` ファイルで設定できます。詳細については
+[言語の設定](../configuring-languages.md) ドキュメントを参照してください。
 
 ### nixd
 
-For more details, see the
-[nixd documentation](https://github.com/nix-community/nixd/blob/main/nixd/docs/configuration.md).
+詳細については、
+[nixd のドキュメント](https://github.com/nix-community/nixd/blob/main/nixd/docs/configuration.md)
+を参照してください。
 
 ```json
 {
@@ -53,8 +53,9 @@ For more details, see the
 
 ### nil
 
-For more details, see the
-[nil documentation](https://github.com/oxalica/nil/blob/main/docs/configuration.md).
+詳細については、
+[nil のドキュメント](https://github.com/oxalica/nil/blob/main/docs/configuration.md)
+を参照してください。
 
 ```json
 {

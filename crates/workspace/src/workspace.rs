@@ -173,106 +173,106 @@ pub trait DebuggerProvider {
 actions!(
     workspace,
     [
-        /// Activates the next pane in the workspace.
+        /// ワークスペース内の次のペインをアクティブ化
         ActivateNextPane,
-        /// Activates the previous pane in the workspace.
+        /// ワークスペース内の前のペインをアクティブ化
         ActivatePreviousPane,
-        /// Switches to the next window.
+        /// 次のウィンドウに切り替え
         ActivateNextWindow,
-        /// Switches to the previous window.
+        /// 前のウィンドウに切り替え
         ActivatePreviousWindow,
-        /// Adds a folder to the current project.
+        /// 現在のプロジェクトにフォルダーを追加
         AddFolderToProject,
-        /// Clears all notifications.
+        /// すべての通知を消去
         ClearAllNotifications,
-        /// Clears all navigation history, including forward/backward navigation, recently opened files, and recently closed tabs. **This action is irreversible**.
+        /// 進む/戻るのナビゲーション、最近開いたファイル、最近閉じたタブを含むすべての履歴を消去します。**この操作は取り消せません**。
         ClearNavigationHistory,
-        /// Closes the active dock.
+        /// アクティブなドックを閉じる
         CloseActiveDock,
-        /// Closes all docks.
+        /// すべてのドックを閉じる
         CloseAllDocks,
-        /// Toggles all docks.
+        /// すべてのドックの表示を切り替え
         ToggleAllDocks,
-        /// Closes the current window.
+        /// 現在のウィンドウを閉じる
         CloseWindow,
-        /// Closes the current project.
+        /// 現在のプロジェクトを閉じる
         CloseProject,
-        /// Opens the feedback dialog.
+        /// フィードバックダイアログを開く
         Feedback,
-        /// Moves the focused panel to the next position.
+        /// フォーカスされているパネルを次の位置へ移動
         MoveFocusedPanelToNextPosition,
-        /// Opens a new terminal in the center.
+        /// 中央に新規ターミナルを開く
         NewCenterTerminal,
-        /// Creates a new file.
+        /// 新規ファイルを作成
         NewFile,
-        /// Creates a new file in a vertical split.
+        /// 垂直分割で新規ファイルを作成
         NewFileSplitVertical,
-        /// Creates a new file in a horizontal split.
+        /// 水平分割で新規ファイルを作成
         NewFileSplitHorizontal,
-        /// Opens a new search.
+        /// 新規検索を開く
         NewSearch,
-        /// Opens a new terminal.
+        /// 新規ターミナルを開く
         NewTerminal,
-        /// Opens a new window.
+        /// 新規ウィンドウを開く
         NewWindow,
-        /// Opens a file or directory.
+        /// ファイルまたはディレクトリを開く
         Open,
-        /// Opens multiple files.
+        /// 複数のファイルを開く
         OpenFiles,
-        /// Opens the current location in terminal.
+        /// 現在の場所をターミナルで開く
         OpenInTerminal,
-        /// Opens the component preview.
+        /// コンポーネントプレビューを開く
         OpenComponentPreview,
-        /// Reloads the active item.
+        /// アクティブな項目を再読み込み
         ReloadActiveItem,
-        /// Resets the active dock to its default size.
+        /// アクティブなドックを既定のサイズにリセット
         ResetActiveDockSize,
-        /// Resets all open docks to their default sizes.
+        /// 開いているすべてのドックを既定のサイズにリセット
         ResetOpenDocksSize,
-        /// Reloads the application
+        /// アプリケーションを再読み込み
         Reload,
-        /// Refreshes all top-level folders in the project from the file system.
+        /// プロジェクト内のすべての最上位フォルダーをファイルシステムから再読み込み
         RefreshFolders,
-        /// Saves the current file with a new name.
+        /// 現在のファイルを別名で保存
         SaveAs,
-        /// Saves without formatting.
+        /// フォーマットせずに保存
         SaveWithoutFormat,
-        /// Shuts down all debug adapters.
+        /// すべてのデバッグアダプターを終了
         ShutdownDebugAdapters,
-        /// Suppresses the current notification.
+        /// 現在の通知を非表示にする
         SuppressNotification,
-        /// Toggles the bottom dock.
+        /// 下ドックの表示を切り替え
         ToggleBottomDock,
-        /// Toggles centered layout mode.
+        /// センタリングレイアウトモードを切り替え
         ToggleCenteredLayout,
-        /// Toggles the left dock.
+        /// 左ドックの表示を切り替え
         ToggleLeftDock,
-        /// Toggles the right dock.
+        /// 右ドックの表示を切り替え
         ToggleRightDock,
-        /// Toggles zoom on the active pane.
+        /// アクティブなペインのズームを切り替え
         ToggleZoom,
-        /// Zooms in on the active pane.
+        /// アクティブなペインをズームイン
         ZoomIn,
-        /// Zooms out of the active pane.
+        /// アクティブなペインをズームアウト
         ZoomOut,
-        /// Restores the banner.
+        /// バナーを復元
         RestoreBanner,
-        /// Toggles expansion of the selected item.
+        /// 選択項目の展開/折りたたみを切り替え
         ToggleExpandItem,
     ]
 );
 
-/// Activate tab #X
+/// タブ #X をアクティブ化
 #[derive(PartialEq, Clone, Deserialize, JsonSchema, Action)]
 #[action(namespace = workspace)]
 pub struct ActivateTab(pub usize);
 
-/// Activates a specific pane by its index.
+/// 指定インデックスのペインをアクティブ化
 #[derive(Clone, Deserialize, PartialEq, JsonSchema, Action)]
 #[action(namespace = workspace)]
 pub struct ActivatePane(pub usize);
 
-/// Moves an item to a specific pane by index.
+/// 項目を指定インデックスのペインへ移動
 #[derive(Clone, Deserialize, PartialEq, JsonSchema, Action)]
 #[action(namespace = workspace)]
 #[serde(deny_unknown_fields)]
@@ -289,7 +289,7 @@ fn default_1() -> usize {
     1
 }
 
-/// Moves an item to a pane in the specified direction.
+/// 項目を指定方向のペインへ移動
 #[derive(Clone, Deserialize, PartialEq, JsonSchema, Action)]
 #[action(namespace = workspace)]
 #[serde(deny_unknown_fields)]
@@ -302,7 +302,7 @@ pub struct MoveItemToPaneInDirection {
     pub clone: bool,
 }
 
-/// Creates a new file in a split of the desired direction.
+/// 指定方向の分割で新規ファイルを作成
 #[derive(Clone, Deserialize, PartialEq, JsonSchema, Action)]
 #[action(namespace = workspace)]
 #[serde(deny_unknown_fields)]
@@ -312,7 +312,7 @@ fn default_right() -> SplitDirection {
     SplitDirection::Right
 }
 
-/// Saves all open files in the workspace.
+/// ワークスペース内の開いているすべてのファイルを保存
 #[derive(Clone, PartialEq, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = workspace)]
 #[serde(deny_unknown_fields)]
@@ -321,7 +321,7 @@ pub struct SaveAll {
     pub save_intent: Option<SaveIntent>,
 }
 
-/// Saves the current file with the specified options.
+/// 指定されたオプションで現在のファイルを保存
 #[derive(Clone, PartialEq, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = workspace)]
 #[serde(deny_unknown_fields)]
@@ -330,7 +330,7 @@ pub struct Save {
     pub save_intent: Option<SaveIntent>,
 }
 
-/// Closes all items and panes in the workspace.
+/// ワークスペース内のすべての項目とペインを閉じる
 #[derive(Clone, PartialEq, Debug, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = workspace)]
 #[serde(deny_unknown_fields)]
@@ -339,7 +339,7 @@ pub struct CloseAllItemsAndPanes {
     pub save_intent: Option<SaveIntent>,
 }
 
-/// Closes all inactive tabs and panes in the workspace.
+/// ワークスペース内のすべての非アクティブなタブとペインを閉じる
 #[derive(Clone, PartialEq, Debug, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = workspace)]
 #[serde(deny_unknown_fields)]
@@ -348,7 +348,7 @@ pub struct CloseInactiveTabsAndPanes {
     pub save_intent: Option<SaveIntent>,
 }
 
-/// Sends a sequence of keystrokes to the active element.
+/// アクティブな要素へ一連のキーストロークを送信
 #[derive(Clone, Deserialize, PartialEq, JsonSchema, Action)]
 #[action(namespace = workspace)]
 pub struct SendKeystrokes(pub String);
@@ -356,13 +356,13 @@ pub struct SendKeystrokes(pub String);
 actions!(
     project_symbols,
     [
-        /// Toggles the project symbols search.
+        /// プロジェクトシンボル検索の表示を切り替え
         #[action(name = "Toggle")]
         ToggleProjectSymbols
     ]
 );
 
-/// Toggles the file finder interface.
+/// ファイルファインダーの表示を切り替え
 #[derive(Default, PartialEq, Eq, Clone, Deserialize, JsonSchema, Action)]
 #[action(namespace = file_finder, name = "Toggle")]
 #[serde(deny_unknown_fields)]
@@ -371,42 +371,42 @@ pub struct ToggleFileFinder {
     pub separate_history: bool,
 }
 
-/// Increases size of a currently focused dock by a given amount of pixels.
+/// 現在フォーカスされているドックのサイズを指定ピクセル拡大
 #[derive(Clone, PartialEq, Deserialize, JsonSchema, Action)]
 #[action(namespace = workspace)]
 #[serde(deny_unknown_fields)]
 pub struct IncreaseActiveDockSize {
-    /// For 0px parameter, uses UI font size value.
+    /// 0px の場合は UI フォントサイズを使用
     #[serde(default)]
     pub px: u32,
 }
 
-/// Decreases size of a currently focused dock by a given amount of pixels.
+/// 現在フォーカスされているドックのサイズを指定ピクセル縮小
 #[derive(Clone, PartialEq, Deserialize, JsonSchema, Action)]
 #[action(namespace = workspace)]
 #[serde(deny_unknown_fields)]
 pub struct DecreaseActiveDockSize {
-    /// For 0px parameter, uses UI font size value.
+    /// 0px の場合は UI フォントサイズを使用
     #[serde(default)]
     pub px: u32,
 }
 
-/// Increases size of all currently visible docks uniformly, by a given amount of pixels.
+/// 現在表示されているすべてのドックのサイズを均等に指定ピクセル拡大
 #[derive(Clone, PartialEq, Deserialize, JsonSchema, Action)]
 #[action(namespace = workspace)]
 #[serde(deny_unknown_fields)]
 pub struct IncreaseOpenDocksSize {
-    /// For 0px parameter, uses UI font size value.
+    /// 0px の場合は UI フォントサイズを使用
     #[serde(default)]
     pub px: u32,
 }
 
-/// Decreases size of all currently visible docks uniformly, by a given amount of pixels.
+/// 現在表示されているすべてのドックのサイズを均等に指定ピクセル縮小
 #[derive(Clone, PartialEq, Deserialize, JsonSchema, Action)]
 #[action(namespace = workspace)]
 #[serde(deny_unknown_fields)]
 pub struct DecreaseOpenDocksSize {
-    /// For 0px parameter, uses UI font size value.
+    /// 0px の場合は UI フォントサイズを使用
     #[serde(default)]
     pub px: u32,
 }
@@ -414,31 +414,31 @@ pub struct DecreaseOpenDocksSize {
 actions!(
     workspace,
     [
-        /// Activates the pane to the left.
+        /// 左のペインをアクティブ化
         ActivatePaneLeft,
-        /// Activates the pane to the right.
+        /// 右のペインをアクティブ化
         ActivatePaneRight,
-        /// Activates the pane above.
+        /// 上のペインをアクティブ化
         ActivatePaneUp,
-        /// Activates the pane below.
+        /// 下のペインをアクティブ化
         ActivatePaneDown,
-        /// Swaps the current pane with the one to the left.
+        /// 現在のペインを左のペインと入れ替え
         SwapPaneLeft,
-        /// Swaps the current pane with the one to the right.
+        /// 現在のペインを右のペインと入れ替え
         SwapPaneRight,
-        /// Swaps the current pane with the one above.
+        /// 現在のペインを上のペインと入れ替え
         SwapPaneUp,
-        /// Swaps the current pane with the one below.
+        /// 現在のペインを下のペインと入れ替え
         SwapPaneDown,
-        // Swaps the current pane with the first available adjacent pane (searching in order: below, above, right, left) and activates that pane.
+        // 現在のペインを最初に利用可能な隣接ペイン（下、上、右、左の順に検索）と入れ替えてアクティブ化
         SwapPaneAdjacent,
-        /// Move the current pane to be at the far left.
+        /// 現在のペインを左端へ移動
         MovePaneLeft,
-        /// Move the current pane to be at the far right.
+        /// 現在のペインを右端へ移動
         MovePaneRight,
-        /// Move the current pane to be at the very top.
+        /// 現在のペインを最上部へ移動
         MovePaneUp,
-        /// Move the current pane to be at the very bottom.
+        /// 現在のペインを最下部へ移動
         MovePaneDown,
     ]
 );
@@ -2320,9 +2320,9 @@ impl Workspace {
                         );
                         window.prompt(
                             PromptLevel::Warning,
-                            "Do you want to save all changes in the following files?",
+                            "以下のファイルへのすべての変更を保存しますか？",
                             Some(&detail),
-                            &["Save all", "Discard all", "Cancel"],
+                            &["すべて保存", "すべて破棄", "キャンセル"],
                             cx,
                         )
                     })?;
@@ -4009,7 +4009,7 @@ impl Workspace {
         }
 
         if title.is_empty() {
-            title = "empty project".to_string();
+            title = "空のプロジェクト".to_string();
         }
 
         if let Some(path) = self.active_item(cx).and_then(|item| item.project_path(cx)) {
@@ -4551,17 +4551,17 @@ impl Workspace {
             .on_action(cx.listener(|workspace, action: &Save, window, cx| {
                 workspace
                     .save_active_item(action.save_intent.unwrap_or(SaveIntent::Save), window, cx)
-                    .detach_and_prompt_err("Failed to save", window, cx, |_, _, _| None);
+                    .detach_and_prompt_err("保存に失敗しました", window, cx, |_, _, _| None);
             }))
             .on_action(cx.listener(|workspace, _: &SaveWithoutFormat, window, cx| {
                 workspace
                     .save_active_item(SaveIntent::SaveWithoutFormat, window, cx)
-                    .detach_and_prompt_err("Failed to save", window, cx, |_, _, _| None);
+                    .detach_and_prompt_err("保存に失敗しました", window, cx, |_, _, _| None);
             }))
             .on_action(cx.listener(|workspace, _: &SaveAs, window, cx| {
                 workspace
                     .save_active_item(SaveIntent::SaveAs, window, cx)
-                    .detach_and_prompt_err("Failed to save", window, cx, |_, _, _| None);
+                    .detach_and_prompt_err("保存に失敗しました", window, cx, |_, _, _| None);
             }))
             .on_action(cx.listener(|workspace, _: &ActivatePreviousPane, window, cx| {
                 workspace.activate_previous_pane(window, cx)
@@ -5161,7 +5161,7 @@ fn notify_if_database_failed(workspace: WindowHandle<Workspace>, cx: &mut AsyncA
                 struct DatabaseFailedNotification;
 
                 workspace.show_notification(NotificationId::unique::<DatabaseFailedNotification>(), cx, |cx| {
-                    cx.new(|cx| MessageNotification::new("Failed to load the database file.", cx))
+                    cx.new(|cx| MessageNotification::new("データベースファイルの読み込みに失敗しました。", cx))
                 });
             }
         })
@@ -5710,9 +5710,9 @@ pub fn last_session_workspace_locations(
 actions!(
     gram,
     [
-        /// Opens the Gram log file.
+        /// Gramのログファイルを開く
         OpenLog,
-        /// Reveals the Gram log file in the system file manager.
+        /// システムのファイルマネージャーでGramのログファイルを表示
         RevealLogInFileManager
     ]
 );
@@ -5908,10 +5908,10 @@ pub fn open_paths(
                     struct OpenInWsl;
                     workspace.show_notification(NotificationId::unique::<OpenInWsl>(), cx, move |cx| {
                         let display_path = util::markdown::MarkdownInlineCode(&path.to_string_lossy());
-                        let msg = format!("{display_path} is inside a WSL filesystem, some features may not work unless you open it with WSL remote");
+                        let msg = format!("{display_path} はWSLファイルシステム内にあります。WSLリモートで開かない場合、一部の機能が動作しない可能性があります");
                         cx.new(move |cx| {
                             MessageNotification::new(msg, cx)
-                                .primary_message("Open in WSL")
+                                .primary_message("WSLで開く")
                                 .primary_icon(IconName::FolderOpen)
                                 .primary_on_click(move |window, cx| {
                                     window.dispatch_action(Box::new(remote::OpenWslPath {
@@ -6180,9 +6180,9 @@ pub fn reload(cx: &mut App) {
             .update(cx, |_, window, cx| {
                 window.prompt(
                     PromptLevel::Info,
-                    "Are you sure you want to restart?",
+                    "再起動してもよろしいですか？",
                     None,
-                    &["Restart", "Cancel"],
+                    &["再起動", "キャンセル"],
                     cx,
                 )
             })
@@ -6819,7 +6819,7 @@ mod tests {
             w.prepare_to_close(CloseIntent::CloseWindow, window, cx)
         });
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Cancel"); // cancel save all
+        cx.simulate_prompt_answer("キャンセル"); // cancel save all
         cx.executor().run_until_parked();
         assert!(!cx.has_pending_prompt());
         assert!(!task.await.unwrap());
@@ -6916,7 +6916,7 @@ mod tests {
         cx.executor().run_until_parked();
 
         assert!(cx.has_pending_prompt());
-        cx.simulate_prompt_answer("Save all");
+        cx.simulate_prompt_answer("すべて保存");
 
         cx.executor().run_until_parked();
 
@@ -6931,7 +6931,7 @@ mod tests {
         assert!(cx.has_pending_prompt());
 
         // Cancel saving item 3.
-        cx.simulate_prompt_answer("Discard");
+        cx.simulate_prompt_answer("破棄");
         cx.executor().run_until_parked();
 
         // Item 3 is reloaded. There's a prompt to save item 4.
@@ -7046,7 +7046,7 @@ mod tests {
 
         // With best-effort close, cancelling item 1 keeps it open but items 4
         // and (3,4) still close since their entries exist in left pane.
-        cx.simulate_prompt_answer("Cancel");
+        cx.simulate_prompt_answer("キャンセル");
         close.await;
 
         right_pane.read_with(cx, |pane, _| {
@@ -7074,7 +7074,7 @@ mod tests {
         // But we can only save whole items, so saving (2,3) for entry 3 includes 2.
         // assert!(!details.contains("2.txt"));
 
-        cx.simulate_prompt_answer("Save all");
+        cx.simulate_prompt_answer("すべて保存");
         cx.executor().run_until_parked();
         close.await;
 
@@ -8462,7 +8462,7 @@ mod tests {
             cx.has_pending_prompt(),
             "Dirty multi buffer should prompt a save dialog"
         );
-        cx.simulate_prompt_answer("Save");
+        cx.simulate_prompt_answer("保存");
         cx.background_executor.run_until_parked();
         close_multi_buffer_task.await.expect("Closing the multi buffer failed");
         pane.update(cx, |pane, cx| {

@@ -1,16 +1,15 @@
 # Lua
 
-Lua support is built into the editor.
+Lua のサポートはエディターに組み込まれています。
 
 - Tree-sitter:
   [tree-sitter-grammars/tree-sitter-lua](https://github.com/tree-sitter-grammars/tree-sitter-lua)
-- Language server:
+- 言語サーバー:
   [LuaLS/lua-language-server](https://github.com/LuaLS/lua-language-server)
 
 ## luarc.json
 
-To configure LuaLS you can create a `.luarc.json` file in the root of your
-workspace.
+LuaLS を構成するには、ワークスペースのルートに `.luarc.json` ファイルを作成します。
 
 ```json
 {
@@ -21,35 +20,34 @@ workspace.
 }
 ```
 
-See [LuaLS Settings Documentation](https://luals.github.io/wiki/settings/) for
-all available configuration options, or when editing this file in Gram available
-settings options will autocomplete, (e.g `runtime.version` will show
-`"Lua 5.1"`, `"Lua 5.2"`, `"Lua 5.3"`, `"Lua 5.4"` and `"LuaJIT"` as allowed
-values). Note when importing settings options from VS Code, remove the `Lua.`
-prefix. (e.g. `runtime.version` instead of `Lua.runtime.version`).
+利用できる構成オプションのすべては
+[LuaLS の設定ドキュメント](https://luals.github.io/wiki/settings/) を参照してください。
+Gram でこのファイルを編集するときは、利用可能な設定オプションが自動補完されます
+（たとえば `runtime.version` では `"Lua 5.1"`、`"Lua 5.2"`、`"Lua 5.3"`、`"Lua 5.4"`、
+`"LuaJIT"` が許容値として表示されます）。VS Code から設定オプションを移す場合は、
+`Lua.` プレフィックスを削除してください（たとえば `Lua.runtime.version` ではなく
+`runtime.version`）。
 
-### LuaCATS Definitions
+### LuaCATS の定義
 
-LuaLS can provide enhanced LSP autocompletion suggestions and type validation
-with the help of LuaCATS (Lua Comment and Type System) definitions. These
-definitions are available for many common Lua libraries, and local paths
-containing them can be specified via `workspace.library` in `luarc.json`. You
-can do this via relative paths if you checkout your definitions into the same
-partent directory of your project (`../playdate-luacats`, `../love2d`, etc).
-Alternatively you can create submodule(s) inside your project for each LuaCATS
-definition repo.
+LuaLS は、LuaCATS（Lua Comment and Type System）の定義を利用して、LSP の自動補完候補と
+型検証を強化できます。これらの定義は多くの一般的な Lua ライブラリ向けに公開されており、
+定義を含むローカルパスは `luarc.json` の `workspace.library` で指定できます。定義を
+プロジェクトの親ディレクトリ（`../playdate-luacats`、`../love2d` など）にチェックアウト
+すれば、相対パスで指定できます。あるいは、LuaCATS の定義リポジトリごとにプロジェクト内へ
+サブモジュールを作成する方法もあります。
 
 ### LÖVE (Love2D) {#love2d}
 
-To use [LÖVE (Love2D)](https://love2d.org/) in Gram, checkout
-[LuaCATS/love2d](https://github.com/LuaCATS/love2d) into a folder called
-`love2d-luacats` into the parent folder of your project:
+Gram で [LÖVE (Love2D)](https://love2d.org/) を使うには、
+[LuaCATS/love2d](https://github.com/LuaCATS/love2d) をプロジェクトの親フォルダにある
+`love2d-luacats` フォルダへチェックアウトします:
 
 ```sh
 cd .. && git clone https://github.com/LuaCATS/love2d love2d-luacats
 ```
 
-Then in your `.luarc.json`:
+続いて `.luarc.json` に次を記述します:
 
 ```
 {
@@ -64,15 +62,15 @@ Then in your `.luarc.json`:
 
 ### PlaydateSDK
 
-To use [Playdate Lua SDK](https://play.date/dev/) in Gram, checkout
-[playdate-luacats](https://github.com/notpeter/playdate-luacats) into the parent
-folder of your project:
+Gram で [Playdate Lua SDK](https://play.date/dev/) を使うには、
+[playdate-luacats](https://github.com/notpeter/playdate-luacats) をプロジェクトの親
+フォルダへチェックアウトします:
 
 ```sh
 cd .. && git clone https://github.com/notpeter/playdate-luacats
 ```
 
-Then in your `.luarc.json`:
+続いて `.luarc.json` に次を記述します:
 
 ```json
 {
@@ -103,12 +101,12 @@ Then in your `.luarc.json`:
 }
 ```
 
-### Inlay Hints
+### インラインヒント
 
-To enable [Inlay Hints](../configuring-languages.md#inlay-hints) for LuaLS in
-Gram
+Gram で LuaLS の[インラインヒント](../configuring-languages.md#inlay-hints)を有効にする
+には、次の手順を実行します。
 
-1. Add the following to your Gram settings.jsonc:
+1. Gram の settings.jsonc に次を追加します:
 
 ```json
   "languages": {
@@ -123,15 +121,15 @@ Gram
   }
 ```
 
-2. Add `"hint.enable": true` to your `.luarc.json`.
+2. `.luarc.json` に `"hint.enable": true` を追加します。
 
-## Formatting
+## フォーマット
 
-### LuaLS Formatting
+### LuaLS によるフォーマット
 
-To enable auto-formatting with your LuaLS (provided by
-[CppCXY/EmmyLuaCodeStyle](https://github.com/CppCXY/EmmyLuaCodeStyle)) make sure
-you have `"format.enable": true,` in your .luarc.json:
+LuaLS（[CppCXY/EmmyLuaCodeStyle](https://github.com/CppCXY/EmmyLuaCodeStyle) が提供）で
+自動フォーマットを有効にするには、.luarc.json に `"format.enable": true,` があることを
+確認します:
 
 ```json
 {
@@ -140,7 +138,7 @@ you have `"format.enable": true,` in your .luarc.json:
 }
 ```
 
-Then add the following to your Gram `settings.jsonc`:
+続いて、Gram の `settings.jsonc` に次を追加します:
 
 ```json
 {
@@ -153,21 +151,21 @@ Then add the following to your Gram `settings.jsonc`:
 }
 ```
 
-You can customize various EmmyLuaCodeStyle style options via `.editorconfig`,
-see
+EmmyLuaCodeStyle の各種スタイルオプションは `.editorconfig` でカスタマイズできます。
+利用できるオプションのすべては
 [lua.template.editorconfig](https://github.com/CppCXY/EmmyLuaCodeStyle/blob/master/lua.template.editorconfig)
-for all available options.
+を参照してください。
 
-### StyLua Formatting
+### StyLua によるフォーマット
 
-Alternatively to use [StyLua](https://github.com/JohnnyMorganz/StyLua) for
-auto-formatting:
+自動フォーマットに [StyLua](https://github.com/JohnnyMorganz/StyLua) を使う場合は、
+次のようにします。
 
-1. Install [StyLua](https://github.com/JohnnyMorganz/StyLua):
-   `brew install stylua` or
-   `cargo install stylua --features lua52,lua53,lua54,luau,luajit` (feel free to
-   remove any Lua versions you don't need).
-2. Add the following to your `settings.jsonc`:
+1. [StyLua](https://github.com/JohnnyMorganz/StyLua) をインストールします:
+   `brew install stylua` または
+   `cargo install stylua --features lua52,lua53,lua54,luau,luajit`（不要な Lua バージョンは
+   自由に削除できます）。
+2. `settings.jsonc` に次を追加します:
 
 ```json
 {
@@ -191,8 +189,8 @@ auto-formatting:
 }
 ```
 
-You can specify various options to StyLua either on the command line above (like
-`--syntax=Lua54`) or in a `stylua.toml` in your workspace:
+StyLua の各種オプションは、上記のコマンドライン（`--syntax=Lua54` など）または
+ワークスペース内の `stylua.toml` で指定できます:
 
 ```toml
 syntax = "Lua54"
@@ -208,5 +206,6 @@ collapse_simple_statement = "All"
 enabled = true
 ```
 
-For a complete list of available options, see:
-[StyLua Options](https://github.com/JohnnyMorganz/StyLua?tab=readme-ov-file#options).
+利用できるオプションの完全な一覧は
+[StyLua のオプション](https://github.com/JohnnyMorganz/StyLua?tab=readme-ov-file#options)
+を参照してください。

@@ -1,35 +1,35 @@
 # GDScript
 
-Godot [GDScript](https://gdscript.com/) language support in Gram is provided by
-the community-maintained
-[GDScript extension](https://github.com/GDQuest/zed-gdscript). Report issues to:
+Gram での Godot [GDScript](https://gdscript.com/) 言語サポートは、コミュニティが
+保守する [GDScript 拡張機能](https://github.com/GDQuest/zed-gdscript) によって
+提供されます。問題はこちらへ報告してください:
 [https://github.com/GDQuest/zed-gdscript/issues](https://github.com/GDQuest/zed-gdscript/issues)
 
 - Tree-sitter:
   [PrestonKnopp/tree-sitter-gdscript](https://github.com/PrestonKnopp/tree-sitter-gdscript)
-  and
+  および
   [PrestonKnopp/tree-sitter-godot-resource](https://github.com/PrestonKnopp/tree-sitter-godot-resource)
-- Language Server:
+- 言語サーバー:
   [gdscript-language-server](https://github.com/godotengine/godot)
 
-## Pre-requisites
+## 前提条件
 
-You will need:
+必要なもの:
 
-- [Godot](https://godotengine.org/download/).
-- netcat (`nc` or `ncat`) on your system PATH.
+- [Godot](https://godotengine.org/download/)。
+- システム PATH 上の netcat（`nc` または `ncat`）。
 
-## Setup
+## セットアップ
 
-1. Inside your Godot editor, open Editor Settings, look for
-   `Text Editor -> External` and set the following options:
+1. Godot エディター内で Editor Settings を開き、`Text Editor -> External` を探して
+   次のオプションを設定します:
    - Exec Path: `/path/to/zed`
    - Exec Flags: `{project} {file}:{line}:{col}`
    - Use External Editor: "✅ On"
-2. Open any \*.gd file through Godot and Gram will launch.
+2. Godot から任意の \*.gd ファイルを開くと Gram が起動します。
 
-## Usage
+## 使い方
 
-When Godot is running, the GDScript extension will connect to the language
-server provided by the Godot runtime and will provide `jump to definition`,
-hover states when you hold Ctrl/cmd and other language server features.
+Godot が実行中の場合、GDScript 拡張機能は Godot ランタイムが提供する言語サーバーに
+接続し、`jump to definition`、Ctrl/cmd を押したときのホバー表示、その他の
+言語サーバー機能を提供します。

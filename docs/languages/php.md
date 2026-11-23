@@ -1,24 +1,22 @@
 # PHP
 
-PHP support is available through the
-[PHP extension](https://github.com/zed-extensions/php).
+PHP のサポートは
+[PHP 拡張機能](https://github.com/zed-extensions/php) を通じて利用できます。
 
 - Tree-sitter: https://github.com/tree-sitter/tree-sitter-php
-- Language Servers:
+- 言語サーバー:
   - [phpactor](https://github.com/phpactor/phpactor)
   - [intelephense](https://github.com/bmewburn/vscode-intelephense/)
 
-## Choosing a language server
+## 言語サーバーの選択
 
-The PHP extension offers both `phpactor` and `intelephense` language server
-support.
+PHP 拡張機能は `phpactor` と `intelephense` の両方の言語サーバーをサポートしています。
 
-`phpactor` is enabled by default.
+既定では `phpactor` が有効になっています。
 
 ### Phpactor
 
-The Gram PHP Extension can install `phpactor` automatically but requires `php`
-to be installed and available in your path:
+Gram の PHP 拡張機能は `phpactor` を自動的にインストールできますが、`php` がインストールされ PATH で利用可能になっている必要があります:
 
 ```sh
 # brew install php            # macOS
@@ -30,12 +28,11 @@ which php
 
 ### Intelephense
 
-[Intelephense](https://intelephense.com/) is a
-[proprietary](https://github.com/bmewburn/vscode-intelephense/blob/master/LICENSE.txt#L29)
-language server for PHP operating under a freemium model. Certain features
-require purchase of a [premium license](https://intelephense.com/).
+[Intelephense](https://intelephense.com/) はフリーミアムモデルで提供されている PHP 向けの
+[プロプライエタリな](https://github.com/bmewburn/vscode-intelephense/blob/master/LICENSE.txt#L29)
+言語サーバーです。特定の機能を利用するには [プレミアムライセンス](https://intelephense.com/) の購入が必要です。
 
-To switch to `intelephense`, add the following to your `settings.json`:
+`intelephense` に切り替えるには、`settings.json` に次を追加します:
 
 ```json
 {
@@ -47,12 +44,8 @@ To switch to `intelephense`, add the following to your `settings.json`:
 }
 ```
 
-To use the premium features, you can place your
-[licence.txt file](https://intelephense.com/faq.html) at
-`~/intelephense/licence.txt` inside your home directory. Alternatively, you can
-pass the licence key or a path to a file containing the licence key as an
-initialization option for the `intelephense` language server. To do this, add
-the following to your `settings.jsonc`:
+プレミアム機能を使用するには、ホームディレクトリ内の `~/intelephense/licence.txt` に
+[licence.txt ファイル](https://intelephense.com/faq.html) を配置します。あるいは、`intelephense` 言語サーバーの初期化オプションとして、ライセンスキーまたはライセンスキーを含むファイルへのパスを渡すこともできます。これを行うには、`settings.jsonc` に次を追加します:
 
 ```json
 {
@@ -68,15 +61,14 @@ the following to your `settings.jsonc`:
 
 ## PHPDoc
 
-Gram supports syntax highlighting for PHPDoc comments.
+Gram は PHPDoc コメントの構文ハイライトをサポートしています。
 
 - Tree-sitter:
   [claytonrcarter/tree-sitter-phpdoc](https://github.com/claytonrcarter/tree-sitter-phpdoc)
 
-## Setting up Xdebug
+## Xdebug の設定
 
-Gram’s PHP extension provides a debug adapter for PHP and Xdebug. The adapter
-name is `Xdebug`. Here a couple ways you can use it:
+Gram の PHP 拡張機能は PHP および Xdebug 用のデバッグアダプターを提供します。アダプター名は `Xdebug` です。使用例は次のとおりです:
 
 ```json
 [
@@ -96,11 +88,10 @@ name is `Xdebug`. Here a couple ways you can use it:
 ]
 ```
 
-In case you run into issues:
+問題が発生した場合は、次の点を確認してください:
 
-- ensure that you have Xdebug installed for the version of PHP you’re running
-- ensure that Xdebug is configured to run in `debug` mode
-- ensure that Xdebug is actually starting a debugging session
-- check that the host and port matches between Xdebug and Gram
-- look at the diagnostics log by using the `xdebug_info()` function in the page
-  you’re trying to debug
+- 実行している PHP のバージョンに対応する Xdebug がインストールされているか
+- Xdebug が `debug` モードで実行されるよう設定されているか
+- Xdebug が実際にデバッグセッションを開始しているか
+- Xdebug と Gram の間でホストとポートが一致しているか
+- デバッグ対象のページで `xdebug_info()` 関数を使用して診断ログを確認

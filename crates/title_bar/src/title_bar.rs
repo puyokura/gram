@@ -250,16 +250,16 @@ impl TitleBar {
         let nickname = nickname.unwrap_or_else(|| host.clone());
 
         let (indicator_color, meta) = match self.project.read(cx).remote_connection_state(cx)? {
-            remote::ConnectionState::Connecting => (Color::Info, format!("Connecting to: {host}")),
-            remote::ConnectionState::Connected => (Color::Success, format!("Connected to: {host}")),
+            remote::ConnectionState::Connecting => (Color::Info, format!("接続中: {host}")),
+            remote::ConnectionState::Connected => (Color::Success, format!("接続済み: {host}")),
             remote::ConnectionState::HeartbeatMissed => (
                 Color::Warning,
-                format!("Connection attempt to {host} missed. Retrying..."),
+                format!("{host} への接続試行に応答がありません。再試行中…"),
             ),
             remote::ConnectionState::Reconnecting => {
-                (Color::Warning, format!("Lost connection to {host}. Reconnecting..."))
+                (Color::Warning, format!("{host} との接続が切れました。再接続中…"))
             }
-            remote::ConnectionState::Disconnected => (Color::Error, format!("Disconnected from {host}")),
+            remote::ConnectionState::Disconnected => (Color::Error, format!("{host} から切断されました")),
         };
 
         let icon_color = match self.project.read(cx).remote_connection_state(cx)? {
@@ -290,7 +290,7 @@ impl TitleBar {
                 )
                 .tooltip(move |_window, cx| {
                     Tooltip::with_meta(
-                        "Remote Project",
+                        "リモートプロジェクト",
                         Some(&OpenRemote {
                             from_existing_connection: false,
                             create_new_window: false,
@@ -320,7 +320,7 @@ impl TitleBar {
 
         if self.project.read(cx).is_disconnected(cx) {
             return Some(
-                Button::new("disconnected", "Disconnected")
+                Button::new("disconnected", "未接続")
                     .disabled(true)
                     .color(Color::Disabled)
                     .style(ButtonStyle::Subtle)
@@ -338,7 +338,7 @@ impl TitleBar {
         let name = if let Some(name) = name {
             util::truncate_and_trailoff(&name, MAX_PROJECT_NAME_LENGTH)
         } else {
-            "Open Recent Project".to_string()
+            "最近のプロジェクトを開く".to_string()
         };
 
         Button::new("project_name_trigger", name)
@@ -347,7 +347,7 @@ impl TitleBar {
             .label_size(LabelSize::Small)
             .tooltip(move |_window, cx| {
                 Tooltip::for_action(
-                    "Recent Projects",
+                    "最近のプロジェクト",
                     &app_actions::OpenRecent {
                         create_new_window: false,
                     },
@@ -401,9 +401,9 @@ impl TitleBar {
                 .label_size(LabelSize::Small)
                 .tooltip(move |_window, cx| {
                     Tooltip::with_meta(
-                        "Recent Branches",
+                        "最近のブランチ",
                         Some(&app_actions::git::Branch),
-                        "Local branches only",
+                        "ローカルブランチのみ",
                         cx,
                     )
                 })

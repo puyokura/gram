@@ -254,18 +254,18 @@ pub(crate) fn suggest(buffer: Entity<Buffer>, window: &mut Window, cx: &mut Cont
                 MessageNotification::new(
                     if extension_id == file_name_or_extension {
                         format!(
-                            "Install an extension for '{}' files?\nInstallation from source URL requires rustup to be installed.",
+                            "「{}」ファイル用の拡張機能をインストールしますか？\nソース URL からのインストールには rustup が必要です。",
                             extension_id,
                         )
                     } else {
                         format!(
-                            "Install an extension for '{}' ('{}') files?\nInstallation from source URL requires rustup to be installed.",
+                            "「{}」（「{}」）ファイル用の拡張機能をインストールしますか？\nソース URL からのインストールには rustup が必要です。",
                             extension_id, file_name_or_extension,
                         )
                     },
                     cx,
                 )
-                .primary_message("Install")
+                .primary_message("インストール")
                 .primary_icon(IconName::Check)
                 .primary_icon_color(Color::Success)
                 .primary_on_click(
@@ -276,7 +276,7 @@ pub(crate) fn suggest(buffer: Entity<Buffer>, window: &mut Window, cx: &mut Cont
                         );
                     }
                 )
-                .secondary_message("No")
+                .secondary_message("いいえ")
                 .secondary_icon(IconName::Close)
                 .secondary_icon_color(Color::Error)
                 .secondary_on_click(move |_window, cx| {

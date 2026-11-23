@@ -1,18 +1,18 @@
 # C
 
-C support is available natively in Gram.
+C のサポートは Gram にネイティブで組み込まれています。
 
 - Tree-sitter:
   [tree-sitter/tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c)
-- Language Server: [clangd/clangd](https://github.com/clangd/clangd)
-- Debug Adapter: [CodeLLDB](https://github.com/vadimcn) (primary),
-  [GDB](https://sourceware.org/gdb/) (secondary, not available on Apple silicon)
+- 言語サーバー: [clangd/clangd](https://github.com/clangd/clangd)
+- デバッグアダプター: [CodeLLDB](https://github.com/vadimcn)（プライマリ）、
+  [GDB](https://sourceware.org/gdb/)（セカンダリ、Apple シリコンでは利用不可）
 
-## Clangd: Force detect as C
+## Clangd: C として強制検出する
 
-Clangd out of the box assumes mixed C++/C projects. If you have a C-only project
-you may wish to instruct clangd to treat all files as C using the `-xc` flag. To
-do this, create a `.clangd` file in the root of your project with the following:
+Clangd は既定で C++/C が混在するプロジェクトを想定します。C のみのプロジェクトでは、
+`-xc` フラグを使ってすべてのファイルを C として扱うよう clangd に指示できます。
+そのためには、プロジェクトのルートに次の内容で `.clangd` ファイルを作成します:
 
 ```yaml
 # yaml-language-server: $schema=https://json.schemastore.org/clangd.json
@@ -20,10 +20,10 @@ CompileFlags:
   Add: [-xc]
 ```
 
-By default clang and gcc will recognize `*.C` and `*.H` (uppercase extensions)
-as C++ and not C and so Gram too follows this convention. If you are working
-with a C-only project (perhaps one with legacy uppercase pathing like
-`FILENAME.C`) you can override this behavior by adding this to your settings:
+既定では clang と gcc は `*.C` と `*.H`（大文字の拡張子）を C ではなく C++ として
+認識するため、Gram もこの慣習に従います。C のみのプロジェクト（`FILENAME.C` のような
+レガシーな大文字パスを使う場合など）を扱うなら、設定に次を追加してこの動作を
+上書きできます:
 
 ```json
 {
@@ -33,11 +33,11 @@ with a C-only project (perhaps one with legacy uppercase pathing like
 }
 ```
 
-## Formatting
+## フォーマット
 
-By default the editor will use the `clangd` language server for formatting C
-code like the `clang-format` CLI tool. To configure this you can add a
-`.clang-format` file. For example:
+既定では、エディターは `clang-format` CLI ツールと同様に、C コードのフォーマットに
+`clangd` 言語サーバーを使用します。設定を変えるには `.clang-format` ファイルを
+追加します。例:
 
 ```yaml
 # yaml-language-server: $schema=https://json.schemastore.org/clang-format-21.x.json
@@ -47,13 +47,12 @@ IndentWidth: 2
 ---
 ```
 
-See
-[Clang-Format Style Options](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
-for a complete list of options.
+オプションの完全な一覧は
+[Clang-Format のスタイルオプション](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
+を参照してください。
 
-You can trigger formatting via {#kb editor::Format} or the `editor: format`
-action from the command palette or by adding `format_on_save` to your Gram
-settings:
+フォーマットは {#kb editor::Format} で、またはコマンドパレットの `editor: format`
+アクションで、あるいは Gram 設定に `format_on_save` を追加して実行できます:
 
 ```json
   "languages": {
@@ -64,35 +63,34 @@ settings:
   }
 ```
 
-## Compile Commands
+## コンパイルコマンド
 
-For some projects Clangd requires a `compile_commands.json` file to properly
-analyze your project. This file contains the compilation database that tells
-clangd how your project should be built.
+プロジェクトによっては、Clangd が正しく解析するために `compile_commands.json`
+ファイルが必要です。このファイルには、プロジェクトをどうビルドすべきかを clangd に
+伝えるコンパイルデータベースが含まれます。
 
-### CMake Compile Commands
+### CMake のコンパイルコマンド
 
-With CMake, you can generate `compile_commands.json` automatically by adding the
-following line to your `CMakeLists.txt`:
+CMake では、`CMakeLists.txt` に次の行を追加すると `compile_commands.json` を
+自動生成できます:
 
 ```cmake
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 ```
 
-After building your project, CMake will generate the `compile_commands.json`
-file in the build directory and clangd will automatically pick it up.
+プロジェクトをビルドすると、CMake がビルドディレクトリに `compile_commands.json` を
+生成し、clangd が自動的にそれを読み取ります。
 
-## Debugging
+## デバッグ
 
-You can use CodeLLDB or GDB to debug native binaries. (Make sure that your build
-process passes `-g` to the C compiler, so that debug information is included in
-the resulting binary.) See below for examples of debug configurations that you
-can add to `.gram/debug.jsonc`.
+CodeLLDB または GDB を使ってネイティブバイナリをデバッグできます。（ビルドプロセスが
+C コンパイラーに `-g` を渡し、生成されるバイナリにデバッグ情報を含めるようにしてください。）
+`.gram/debug.jsonc` に追加できるデバッグ構成の例を以下に示します。
 
-- [CodeLLDB configuration documentation](https://github.com/vadimcn/codelldb/blob/master/MANUAL.md#starting-a-new-debug-session)
-- [GDB configuration documentation](https://sourceware.org/gdb/current/onlinedocs/gdb.html/Debugger-Adapter-Protocol.html)
+- [CodeLLDB 設定ドキュメント](https://github.com/vadimcn/codelldb/blob/master/MANUAL.md#starting-a-new-debug-session)
+- [GDB 設定ドキュメント](https://sourceware.org/gdb/current/onlinedocs/gdb.html/Debugger-Adapter-Protocol.html)
 
-### Build and Debug Binary
+### バイナリのビルドとデバッグ
 
 ```json [debug]
 [

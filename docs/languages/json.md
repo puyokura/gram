@@ -1,28 +1,27 @@
 # JSON
 
-JSON is natively supported in the editor.
+JSON はエディターでネイティブにサポートされています。
 
 - Tree-sitter:
   [tree-sitter/tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json)
-- Language Server:
+- 言語サーバー:
   [zed-industries/json-language-server](https://github.com/zed-industries/json-language-server)
 
 ## JSONC
 
-Gram also supports a super-set of JSON called JSONC, which allows single line
-comments (`//`) in JSON files. While editing these files you can use `cmd-/`
-(macOS) or `ctrl-/` (Linux) to toggle comments on the current line or selection.
+Gram は JSON のスーパーセットである JSONC もサポートしており、JSON ファイル内で
+単一行コメント（`//`）を使用できます。これらのファイルを編集中は、`cmd-/`（macOS）
+または `ctrl-/`（Linux）で現在の行または選択範囲のコメントを切り替えられます。
 
-## JSONC Prettier Formatting
+## JSONC の Prettier フォーマット
 
-If you use files with the `*.jsonc` extension when using `Format Document` or
-have `format_on_save` enabled, Gram invokes Prettier as the formatter. Prettier
-has an [outstanding issue](https://github.com/prettier/prettier/issues/15956)
-where it will add trailing commas to files with a `jsonc` extension. JSONC files
-which have a `.json` extension are unaffected.
+`*.jsonc` 拡張子のファイルで「Format Document」を使う場合や `format_on_save` を
+有効にしている場合、Gram はフォーマッターとして Prettier を呼び出します。Prettier には、
+`jsonc` 拡張子のファイルに末尾カンマを追加してしまう
+[未解決の問題](https://github.com/prettier/prettier/issues/15956) があります。`.json`
+拡張子を持つ JSONC ファイルは影響を受けません。
 
-To workaround this behavior you can add the following to your `.prettierrc`
-configuration file:
+この動作を回避するには、`.prettierrc` 設定ファイルに次を追加します:
 
 ```json
 {
@@ -38,21 +37,19 @@ configuration file:
 }
 ```
 
-## JSON Language Server
+## JSON 言語サーバー
 
-Gram automatically out of the box supports JSON Schema validation of
-`package.json` and `tsconfig.json` files, but `json-language-server` can use
-JSON Schema definitions in project files, from the
-[JSON Schema Store](https://www.schemastore.org) or other publicly available
-URLs for JSON validation.
+Gram は `package.json` と `tsconfig.json` の JSON Schema 検証を標準でサポートして
+いますが、`json-language-server` はプロジェクト内のファイル、[JSON Schema Store](https://www.schemastore.org)
+やその他の公開 URL にある JSON Schema 定義を使って JSON を検証できます。
 
-### Inline Schema Specification
+### スキーマのインライン指定
 
-To specify a schema inline with your JSON files, add a `$schema` top level key
-linking to your json schema file.
+JSON ファイル内にスキーマをインラインで指定するには、JSON スキーマファイルへの
+リンクを持つトップレベルの `$schema` キーを追加します。
 
-For example to for a `.luarc.json` for use with
-[lua-language-server](https://github.com/LuaLS/lua-language-server/):
+たとえば、[lua-language-server](https://github.com/LuaLS/lua-language-server/) で使う
+`.luarc.json` の場合は次のとおりです:
 
 ```json
 {
@@ -61,12 +58,11 @@ For example to for a `.luarc.json` for use with
 }
 ```
 
-### Schema Specification via Settings
+### 設定によるスキーマ指定
 
-You can alternatively associate JSON Schemas with file paths by via Gram LSP
-settings.
+あるいは、Gram の LSP 設定で JSON Schema をファイルパスに関連付けることもできます。
 
-To
+設定は次のように記述します:
 
 ```json
 "lsp": {
@@ -85,10 +81,9 @@ To
 }
 ```
 
-You can also pass any of the
-[supported settings](https://github.com/Microsoft/vscode/blob/main/extensions/json-language-features/server/README.md#settings)
-to json-language-server by specifying them in your Gram `settings.jsonc`:
+[対応している設定](https://github.com/Microsoft/vscode/blob/main/extensions/json-language-features/server/README.md#settings)
+も、Gram の `settings.jsonc` に記述すれば json-language-server に渡せます:
 
 <!--
-TBD: Add formatter (prettier) settings (autoformat, tab_size, etc)
+TBD: フォーマッター（prettier）の設定（自動フォーマット、tab_size など）を追加する
 -->

@@ -1,50 +1,32 @@
-# Migrating from Zed to Gram
+# Zed から Gram への移行
 
-Gram is a fork of the Zed code editor made roughly around the version `0.217`.
-From there, a lot of "features" have been stripped out:
+Gram は Zed コードエディターのバージョン `0.217` 付近から分岐したフォークです。そこから以下の多くの「機能」が取り除かれています。
 
-- All telemetry was removed
-- All AI-related functionality was removed
-- Collaboration and its proprietary server component were removed
-- Automatic extension installation was removed
-- Auto-updates were removed
-- There is no license agreement to accept beyond the GPL open source license
+- すべてのテレメトリを削除
+- AI 関連の機能をすべて削除
+- コラボレーション機能およびプロプライエタリなサーバーコンポーネントを削除
+- 拡張機能の自動インストールを削除
+- 自動アップデートを削除
+- GPL オープンソースライセンス以外に同意を求める利用規約やライセンス契約なし
 
-However, some functionality has also been added or changed that is not available
-in Zed.
+一方で、Zed にはない機能の追加や変更も行われています。
 
-- Integrated documentation viewer
-- Various bugfixes
-- Rewritten documentation
-- Modified defaults
-- More themes included
+- 内蔵ドキュメントビューア
+- 各種バグ修正
+- ドキュメントの書き直し
+- 既定設定の見直し
+- 追加テーマの同梱
 
-## Configuration
+## 設定
 
-The configuration should be mostly compatible: Try copying your `keymap.json`
-and `settings.json` files from `~/.config/zed/` to `~/.config/gram/` and
-renaming them `keymap.jsonc` and `settings.jsonc`. It might work.
+設定はおおむね互換性があります。`~/.config/zed/` にある `keymap.json` と `settings.json` を `~/.config/gram/` にコピーし、`keymap.jsonc` と `settings.jsonc` にリネームしてみてください。多くの場合そのまま動作します。
 
-## Extension support
+## 拡張機能のサポート
 
-Since Zed extensions in the Zed editor are installed as binary blobs from the
-proprietary servers owned by Zed Industries, this installation method has been
-removed from Gram. Instead, extensions can be installed using the extension
-repository URL directly. Language extensions that need to be compiled to Wasm
-require a [rustup](https://rustup.rs) toolchain to do the compilation.
+Zed エディターの拡張機能は Zed Industries が管理するプロプライエタリなサーバーからバイナリとしてインストールされる仕組みのため、このインストール方法は Gram から削除されました。代わりに、拡張機能のリポジトリ URL を直接指定してインストールできます。Wasm へのコンパイルが必要な言語拡張機能では、コンパイル用に [rustup](https://rustup.rs) ツールチェーンが必要です。
 
-If the extension doesn't work, check the Gram log file using
-`cmd-shift-p Open Log` (also available in the Command Palette).
+拡張機能が動作しない場合は、コマンドパレットから `cmd-shift-p Open Log` を実行して Gram のログファイルを確認してください。
 
-Currently, this functionality is very crude, and as Zed continues to develop it
-is likely that extensions that compile to Wasm will stop being compatible with
-Gram. Therefore, the plan is to eventually replace the extension system from Zed
-with something else, but also to integrate language support for the most popular
-languages directly into Gram so that language extensions aren't needed in most
-cases.
+現在この機能はまだ発展途上であり、Zed の開発が進むにつれて Wasm にコンパイルされる拡張機能の互換性が失われる可能性があります。そのため、将来的には Zed 由来の拡張機能システムを別の仕組みに置き換えるとともに、主要な言語サポートを Gram 本体に直接統合し、多くのケースで言語拡張機能を不要にする計画です。
 
-Note: This is a work in progress. The goal is not to keep up with Zed and to
-stay a stripped-down version of the same editor. I am not interested in _Zed_.
-The goal is simply to have a good-enough baseline editor which is simple to
-install and use, and can replace VS Code as the editor to recommend to
-beginners.
+注記: このプロジェクトは開発途中です。Zed に追従して機能削減版を維持することが目的ではありません。シンプルにインストールして使え、初心者にも勧められる十分な標準エディターとして VS Code の代替となることを目指しています。

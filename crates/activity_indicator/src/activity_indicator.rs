@@ -25,7 +25,7 @@ use workspace::{
 actions!(
     activity_indicator,
     [
-        /// Displays error messages from language servers in the status bar.
+        /// 言語サーバーのエラーメッセージをステータスバーに表示する。
         ShowErrorMessage
     ]
 );
@@ -185,11 +185,7 @@ impl ActivityIndicator {
                 cx.spawn_in(window, async move |workspace, cx| {
                     let buffer = create_buffer.await?;
                     buffer.update(cx, |buffer, cx| {
-                        buffer.edit(
-                            [(0..0, format!("Language server {server_name}:\n\n{status}"))],
-                            None,
-                            cx,
-                        );
+                        buffer.edit([(0..0, format!("言語サーバー {server_name}:\n\n{status}"))], None, cx);
                         buffer.set_capability(language::Capability::ReadOnly, cx);
                     })?;
                     workspace.update_in(cx, |workspace, window, cx| {
@@ -317,7 +313,7 @@ impl ActivityIndicator {
 
                 let additional_work_count = pending_work.count();
                 if additional_work_count > 0 {
-                    write!(&mut message, " + {} more", additional_work_count).unwrap();
+                    write!(&mut message, "（ほか {} 件）", additional_work_count).unwrap();
                 }
 
                 return Some(Content {
@@ -349,7 +345,7 @@ impl ActivityIndicator {
                         .with_rotate_animation(2)
                         .into_any_element(),
                 ),
-                message: format!("Debug: {}", session.read(cx).adapter()),
+                message: format!("デバッグ: {}", session.read(cx).adapter()),
                 tooltip_message: session.read(cx).label().map(|label| label.to_string()),
                 on_click: None,
             });
@@ -440,7 +436,7 @@ impl ActivityIndicator {
                         .into_any_element(),
                 ),
                 message: format!(
-                    "Downloading {}...",
+                    "{} をダウンロード中…",
                     downloading
                         .iter()
                         .map(|name| name.as_ref())
@@ -467,7 +463,7 @@ impl ActivityIndicator {
                         .into_any_element(),
                 ),
                 message: format!(
-                    "Checking for updates to {}...",
+                    "{} のアップデートを確認中…",
                     checking_for_update
                         .iter()
                         .map(|name| name.as_ref())
@@ -495,7 +491,7 @@ impl ActivityIndicator {
                         .into_any_element(),
                 ),
                 message: format!(
-                    "Failed to run {}. Click to show error.",
+                    "{} を起動できませんでした。クリックでエラーを表示します。",
                     failed
                         .iter()
                         .map(|name| name.as_ref())
@@ -522,7 +518,7 @@ impl ActivityIndicator {
                         .size(icon_size.icon_size())
                         .into_any_element(),
                 ),
-                message: format!("Formatting failed: {failure}. Click to see logs."),
+                message: format!("フォーマットに失敗しました: {failure}。クリックでログを表示します。"),
                 on_click: Some(Arc::new(|indicator, window, cx| {
                     indicator.project.update(cx, |project, cx| {
                         project.reset_last_formatting_failure(cx);
@@ -537,8 +533,8 @@ impl ActivityIndicator {
         if let Some((server_name, health, message)) = health_messages.pop() {
             let health_str = match health {
                 ServerHealth::Ok => format!("({server_name}) "),
-                ServerHealth::Warning => format!("({server_name}) Warning: "),
-                ServerHealth::Error => format!("({server_name}) Error: "),
+                ServerHealth::Warning => format!("({server_name}) 警告: "),
+                ServerHealth::Error => format!("({server_name}) エラー: "),
             };
             let single_line_message = message
                 .lines()
@@ -584,20 +580,16 @@ impl ActivityIndicator {
         {
             let (message, icon, rotate) = match operation {
                 ExtensionOperation::Install => (
-                    format!("Installing extension: {extension_id}…"),
+                    format!("拡張機能をインストール中: {extension_id}…"),
                     IconName::LoadCircle,
                     true,
                 ),
-                ExtensionOperation::Upgrade => (
-                    format!("Updating extension: {extension_id}…"),
-                    IconName::Download,
-                    false,
-                ),
-                ExtensionOperation::Remove => (
-                    format!("Removing extension: {extension_id}…"),
-                    IconName::LoadCircle,
-                    true,
-                ),
+                ExtensionOperation::Upgrade => {
+                    (format!("拡張機能を更新中: {extension_id}…"), IconName::Download, false)
+                }
+                ExtensionOperation::Remove => {
+                    (format!("拡張機能を削除中: {extension_id}…"), IconName::LoadCircle, true)
+                }
             };
 
             Some(Content {

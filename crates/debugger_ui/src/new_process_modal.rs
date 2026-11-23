@@ -397,7 +397,7 @@ impl NewProcessModal {
                 cx.emit(DismissEvent);
             })
         })
-        .detach_and_prompt_err("Failed to edit debug.jsonc", window, cx, |_, _, _| None);
+        .detach_and_prompt_err("debug.jsonc の編集に失敗しました", window, cx, |_, _, _| None);
     }
 
     fn adapter_drop_down_menu(&mut self, window: &mut Window, cx: &mut Context<Self>) -> DropdownMenu {
@@ -465,7 +465,7 @@ impl NewProcessModal {
     }
 }
 
-static SELECT_DEBUGGER_LABEL: SharedString = SharedString::new_static("Select Debugger");
+static SELECT_DEBUGGER_LABEL: SharedString = SharedString::new_static("デバッガーを選択");
 
 #[derive(Clone, Copy)]
 pub(crate) enum NewProcessMode {
@@ -478,10 +478,10 @@ pub(crate) enum NewProcessMode {
 impl std::fmt::Display for NewProcessMode {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mode = match self {
-            NewProcessMode::Task => "Run",
-            NewProcessMode::Debug => "Debug",
-            NewProcessMode::Attach => "Attach",
-            NewProcessMode::Launch => "Launch",
+            NewProcessMode::Task => "実行",
+            NewProcessMode::Debug => "デバッグ",
+            NewProcessMode::Attach => "アタッチ",
+            NewProcessMode::Launch => "起動",
         };
 
         write!(f, "{}", mode)
@@ -548,7 +548,7 @@ impl Render for NewProcessModal {
                                         cx.notify();
                                     }),
                                 )
-                                .tooltip(Tooltip::text("Run predefined task")),
+                                .tooltip(Tooltip::text("事前定義されたタスクを実行")),
                                 ToggleButtonSimple::new(
                                     NewProcessMode::Debug.to_string(),
                                     cx.listener(|this, _, window, cx| {
@@ -557,7 +557,7 @@ impl Render for NewProcessModal {
                                         cx.notify();
                                     }),
                                 )
-                                .tooltip(Tooltip::text("Start a predefined debug scenario")),
+                                .tooltip(Tooltip::text("事前定義されたデバッグシナリオを開始")),
                                 ToggleButtonSimple::new(
                                     NewProcessMode::Attach.to_string(),
                                     cx.listener(|this, _, window, cx| {
@@ -570,7 +570,7 @@ impl Render for NewProcessModal {
                                         cx.notify();
                                     }),
                                 )
-                                .tooltip(Tooltip::text("Attach the debugger to a running process")),
+                                .tooltip(Tooltip::text("実行中のプロセスにデバッガーをアタッチ")),
                                 ToggleButtonSimple::new(
                                     NewProcessMode::Launch.to_string(),
                                     cx.listener(|this, _, window, cx| {
@@ -579,7 +579,7 @@ impl Render for NewProcessModal {
                                         cx.notify();
                                     }),
                                 )
-                                .tooltip(Tooltip::text("Launch a new process with a debugger")),
+                                .tooltip(Tooltip::text("デバッガーを使用して新しいプロセスを起動")),
                             ],
                         )
                         .label_size(LabelSize::Default)
@@ -607,7 +607,7 @@ impl Render for NewProcessModal {
                         container
                             .child(
                                 h_flex().child(
-                                    Button::new("edit-custom-debug", "Edit in debug.jsonc")
+                                    Button::new("edit-custom-debug", "debug.jsonc で編集")
                                         .on_click(cx.listener(|this, _, window, cx| {
                                             this.save_debug_scenario(window, cx);
                                         }))
@@ -619,7 +619,7 @@ impl Render for NewProcessModal {
                                 ),
                             )
                             .child(
-                                Button::new("debugger-spawn", "Start")
+                                Button::new("debugger-spawn", "開始")
                                     .on_click(cx.listener(|this, _, window, cx| this.start_new_session(window, cx)))
                                     .disabled(
                                         self.debugger.is_none()
@@ -642,7 +642,7 @@ impl Render for NewProcessModal {
                         let secondary_action = menu::SecondaryConfirm.boxed_clone();
                         container
                             .child(div().child({
-                                Button::new("edit-attach-task", "Edit in debug.jsonc")
+                                Button::new("edit-attach-task", "debug.jsonc で編集")
                                     .key_binding(KeyBinding::for_action(&*secondary_action, cx))
                                     .on_click(move |_, window, cx| {
                                         window.dispatch_action(secondary_action.boxed_clone(), cx)
@@ -688,14 +688,14 @@ impl ConfigureMode {
     pub(super) fn new(window: &mut Window, cx: &mut App) -> Entity<Self> {
         let program = cx.new(|cx| {
             InputField::new(window, cx, "ENV=Gram ~/bin/program --option")
-                .label("Program")
+                .label("プログラム")
                 .tab_stop(true)
                 .tab_index(1)
         });
 
         let cwd = cx.new(|cx| {
-            InputField::new(window, cx, "Ex: $Gram_WORKTREE_ROOT")
-                .label("Working Directory")
+            InputField::new(window, cx, "例: $Gram_WORKTREE_ROOT")
+                .label("作業ディレクトリ")
                 .tab_stop(true)
                 .tab_index(2)
         });
@@ -778,7 +778,7 @@ impl ConfigureMode {
             .child(
                 h_flex()
                     .gap_1()
-                    .child(Label::new("Debugger:").color(Color::Muted))
+                    .child(Label::new("デバッガー:").color(Color::Muted))
                     .child(adapter_menu),
             )
             .child(self.program.clone())
@@ -786,7 +786,7 @@ impl ConfigureMode {
             .child(
                 Switch::new("debugger-stop-on-entry", self.stop_on_entry)
                     .tab_index(3_isize)
-                    .label("Stop on Entry")
+                    .label("エントリポイントで停止")
                     .label_position(SwitchLabelPosition::Start)
                     .label_size(LabelSize::Default)
                     .on_click({
@@ -1064,7 +1064,7 @@ impl PickerDelegate for DebugDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> std::sync::Arc<str> {
-        "Find a debug task, or debug a command".into()
+        "デバッグタスクを検索、またはコマンドをデバッグ".into()
     }
 
     fn update_matches(
@@ -1275,14 +1275,14 @@ impl PickerDelegate for DebugDelegate {
             .child({
                 let action = menu::SecondaryConfirm.boxed_clone();
                 if self.matches.is_empty() {
-                    Button::new("edit-debug-json", "Edit debug.jsonc").on_click(cx.listener(
+                    Button::new("edit-debug-json", "debug.jsonc を編集").on_click(cx.listener(
                         |_picker, _, window, cx| {
                             window.dispatch_action(app_actions::OpenProjectDebugTasks.boxed_clone(), cx);
                             cx.emit(DismissEvent);
                         },
                     ))
                 } else {
-                    Button::new("edit-debug-task", "Edit in debug.jsonc")
+                    Button::new("edit-debug-task", "debug.jsonc で編集")
                         .key_binding(KeyBinding::for_action(&*action, cx))
                         .on_click(move |_, window, cx| window.dispatch_action(action.boxed_clone(), cx))
                 }
@@ -1291,14 +1291,14 @@ impl PickerDelegate for DebugDelegate {
                 if (current_modifiers.alt || self.matches.is_empty()) && !self.prompt.is_empty() {
                     let action = picker::ConfirmInput { secondary: false }.boxed_clone();
                     this.child({
-                        Button::new("launch-custom", "Launch Custom")
+                        Button::new("launch-custom", "カスタム起動")
                             .key_binding(KeyBinding::for_action(&*action, cx))
                             .on_click(move |_, window, cx| window.dispatch_action(action.boxed_clone(), cx))
                     })
                 } else {
                     this.child({
                         let is_recent_selected = self.divider_index >= Some(self.selected_index);
-                        let run_entry_label = if is_recent_selected { "Rerun" } else { "Spawn" };
+                        let run_entry_label = if is_recent_selected { "再実行" } else { "起動" };
 
                         Button::new("spawn", run_entry_label)
                             .key_binding(KeyBinding::for_action(&menu::Confirm, cx))

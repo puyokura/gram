@@ -1,21 +1,15 @@
-# Command-line Interface
+# コマンドラインインターフェイス
 
-Gram has a CLI, on Linux this should come with the distribution's Gram package
-(binary name can vary from distribution to distribution, `gram` will be used
-later for brevity). For macOS, the CLI comes in the same package with the editor
-binary, and could be installed into the system with the `cli: install` Gram
-command which will create a symlink to the `/usr/local/bin/gram`. It can also be
-built from source out of the `cli` crate in this repository.
+Gram には CLI が用意されています。Linux ではディストリビューションの Gram パッケージに同梱されているはずです（バイナリ名はディストリビューションによって異なる場合がありますが、以下では簡潔さのため `gram` と表記します）。macOS ではエディターバイナリと同じパッケージに CLI が同梱されており、Gram の `cli: install` コマンドを実行して `/usr/local/bin/gram` へのシンボリックリンクを作成することでシステムにインストールできます。また、本リポジトリの `cli` クレートからソースコードをビルドすることも可能です。
 
-Use `gram --help` to see the full list of capabilities. General highlights:
+全機能の一覧を確認するには `gram --help` を実行してください。主な使い方は以下のとおりです。
 
-- Opening another empty Gram window: `gram`
+- 空の Gram ウィンドウを新しく開く: `gram`
 
-- Opening a file or directory in Gram: `gram /path/to/entry` (use `-n` to open
-  in the new window)
+- ファイルまたはディレクトリを Gram で開く: `gram /path/to/entry`（新しいウィンドウで開く場合は `-n` を指定）
 
-- Reading from stdin: `ps axf | gram -`
+- 標準入力（stdin）から読み込む: `ps axf | gram -`
 
-- Starting Gram with logs in the terminal: `gram --foreground`
+- ログをターミナルに出力しながら Gram を起動する: `gram --foreground`
 
-- Uninstalling Gram and all its related files: `gram --uninstall`
+- Gram とその関連ファイルをすべてアンインストールする: `gram --uninstall`

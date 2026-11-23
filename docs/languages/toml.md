@@ -1,15 +1,15 @@
 # TOML
 
-TOML support is built into the editor.
+TOML のサポートはエディターに組み込まれています。
 
 - Tree-sitter:
   [tree-sitter/tree-sitter-toml](https://github.com/tree-sitter/tree-sitter-toml)
 
-- Crate: [adot-tree-sitter-toml](https://crates.io/crates/adot-tree-sitter-toml)
+- クレート: [adot-tree-sitter-toml](https://crates.io/crates/adot-tree-sitter-toml)
 
-There's LSP support for [Tombi](https://github.com/tombi-toml/tombi) and [Taplo](https://taplo.tamasfe.dev). Tombi is the default.
+[Tombi](https://github.com/tombi-toml/tombi) と [Taplo](https://taplo.tamasfe.dev) の LSP サポートがあります。既定は Tombi です。
 
-To only enable `tombi`:
+`tombi` のみを有効にするには:
 
 ```json
   "languages": {
@@ -19,7 +19,7 @@ To only enable `tombi`:
   }
 ```
 
-To only enable `taplo`:
+`taplo` のみを有効にするには:
 
 ```json
   "languages": {
@@ -29,7 +29,7 @@ To only enable `taplo`:
   }
 ```
 
-Tombi additionally supports being used as a formatter (enabled by default). If you wish to use prettier with taplo instead, change the formatter setting from `language_server` to `prettier`:
+Tombi はフォーマッターとしても使用できます（既定で有効）。代わりに taplo と Prettier を使いたい場合は、フォーマッターの設定を `language_server` から `prettier` に変更します:
 
 ```json
   "languages": {

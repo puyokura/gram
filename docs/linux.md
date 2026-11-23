@@ -1,19 +1,14 @@
-# Gram on Linux
+# Linux での Gram
 
-See also [Repology](https://repology.org/project/gram/versions).
+[Repology](https://repology.org/project/gram/versions) もあわせて参照してください。
 
-## Distro Packages
+## ディストリビューションパッケージ
 
-The preferred installation method is adding the Gram repository for automatic
-updates. Alternatively, prebuilt `.deb` and `.rpm` packages are available as
-release assets at
-[Gram releases](https://codeberg.org/GramEditor/gram/releases).
+推奨されるインストール方法は、自動アップデートに対応する Gram リポジトリを追加することです。また、ビルド済み `.deb` および `.rpm` パッケージも [Gram リリース](https://codeberg.org/GramEditor/gram/releases) のアセットとして入手可能です。
 
 ### Alpine
 
-Alpine Linux provides official packages in the
-[testing](https://pkgs.alpinelinux.org/package/edge/testing/x86_64/gram)
-repository. Enable the testing repository, then run:
+Alpine Linux では [testing](https://pkgs.alpinelinux.org/package/edge/testing/x86_64/gram) リポジトリで公式パッケージが提供されています。testing リポジトリを有効化し、次を実行してください:
 
 ```bash
 doas apk add gram@testing
@@ -21,35 +16,32 @@ doas apk add gram@testing
 
 ### Arch
 
-Arch Linux provides official packages in the
-[extra](https://archlinux.org/packages/extra/x86_64/gram) repository.
+Arch Linux では [extra](https://archlinux.org/packages/extra/x86_64/gram) リポジトリで公式パッケージが提供されています。
 
 ```bash
 sudo pacman -S gram
 ```
 
-Alternatively, build and install a development snapshot from the AUR:
-[`gram-git`](https://aur.archlinux.org/packages/gram-git). Verify AUR package
-integrity yourself.
+または、AUR から開発スナップショットをビルドしてインストールすることもできます: [`gram-git`](https://aur.archlinux.org/packages/gram-git)。AUR パッケージの整合性はご自身で検証してください。
 
-### Debian/Ubuntu
+### Debian / Ubuntu
 
-Requires Debian 12 (Bookworm), Ubuntu 24.04 (Noble), or later.
+Debian 12（Bookworm）、Ubuntu 24.04（Noble）以降が必要です。
 
 ```bash
-# Add the repository key
+# リポジトリキーを追加
 sudo curl https://codeberg.org/api/packages/GramEditor/debian/repository.key -o /etc/apt/keyrings/forgejo-GramEditor.asc
-# Add the repository
+# リポジトリを追加
 echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/forgejo-GramEditor.asc] https://codeberg.org/api/packages/GramEditor/debian gram release" | sudo tee -a /etc/apt/sources.list.d/gram.list
-# Update package cache and install
+# パッケージキャッシュを更新してインストール
 sudo apt update && sudo apt install gram
 ```
 
-### Fedora/RHEL/Rocky/Alma
+### Fedora / RHEL / Rocky / Alma
 
-Requires Fedora 42, RHEL 10.1, Rocky 10.1, Alma 10.1, or later.
+Fedora 42、RHEL 10.1、Rocky 10.1、Alma 10.1 以降が必要です。
 
-#### Codeberg Repository
+#### Codeberg リポジトリ
 
 ```bash
 sudo dnf config-manager addrepo --from-repofile="https://codeberg.org/api/packages/GramEditor/rpm.repo"
@@ -58,15 +50,14 @@ sudo dnf install gram
 
 > [!NOTE]
 >
-> RPM package signing is currently non-functional. To install Gram, set
-> `gpgcheck=0` in `/etc/yum.repos.d/rpm.repo`.
+> RPM パッケージの署名は現在機能していません。Gram をインストールするには、`/etc/yum.repos.d/rpm.repo` で `gpgcheck=0` を設定してください。
 
-#### Terra Repository
+#### Terra リポジトリ
 
 ```bash
 sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release && sudo dnf install gram
 
-# For immutable/atomic editions
+# イミュータブル / アトミックエディションの場合
 curl -fsSL https://github.com/terrapkg/subatomic-repos/raw/main/terra.repo | pkexec tee /etc/yum.repos.d/terra.repo
 sudo rpm-ostree install terra-release && sudo dnf install gram
 ```
@@ -75,9 +66,7 @@ sudo rpm-ostree install terra-release && sudo dnf install gram
 
 > [!NOTE]
 >
-> Gentoo packages are provided via Gram's overlay. For more information and
-> installation methods, see
-> [Gram's overlay repository](https://codeberg.org/GramEditor/gram-gentoo).
+> Gentoo パッケージは Gram のオーバーレイ経由で提供されています。詳細およびインストール方法については、[Gram のオーバーレイリポジトリ](https://codeberg.org/GramEditor/gram-gentoo) を参照してください。
 
 ```bash
 sudo eselect repository add gram git https://codeberg.org/GramEditor/gram-gentoo.git
@@ -87,19 +76,19 @@ sudo emerge -av app-editors/gram
 
 ### Nix
 
-See: <https://github.com/NixOS/nixpkgs/tree/master/pkgs/by-name/gr/gram>.
+参照: <https://github.com/NixOS/nixpkgs/tree/master/pkgs/by-name/gr/gram>。
 
-#### Modern Nix (Recommended)
+#### Modern Nix（推奨）
 
 ```bash
-# Temporary environment
+# 一時的な環境
 nix shell nixpkgs#gram
 
-# User profile installation
+# ユーザープロファイルへのインストール
 nix profile add nixpkgs#gram
 ```
 
-#### NixOS Configuration
+#### NixOS 設定
 
 ```nix
 environment.systemPackages = [
@@ -107,19 +96,19 @@ environment.systemPackages = [
 ];
 ```
 
-#### Legacy Nix (Channels)
+#### Legacy Nix（チャンネル）
 
 ```bash
-# On NixOS
+# NixOS の場合
 nix-env -iA nixos.gram
 
-# On non-NixOS Linux
+# NixOS 以外の Linux の場合
 nix-env -iA nixpkgs.gram
 ```
 
 ### OpenSUSE
 
-Requires Leap 16 (or Tumbleweed/Slowroll) or later.
+Leap 16（または Tumbleweed / Slowroll）以降が必要です。
 
 ```bash
 sudo zypper addrepo https://codeberg.org/api/packages/GramEditor/rpm.repo
@@ -128,8 +117,7 @@ sudo zypper install gram
 
 > [!NOTE]
 >
-> RPM package signing is currently non-functional. To install Gram, set
-> `gpgcheck=0` in `/etc/yum.repos.d/rpm.repo`.
+> RPM パッケージの署名は現在機能していません。Gram をインストールするには、`/etc/yum.repos.d/rpm.repo` で `gpgcheck=0` を設定してください。
 
 ### Solus
 
@@ -139,220 +127,178 @@ sudo eopkg install gram
 
 ## Flatpak
 
-Prebuilt Flatpaks are available as release assets at
-[Gram releases](https://codeberg.org/GramEditor/gram/releases). Install via:
+ビルド済みの Flatpak パッケージは [Gram リリース](https://codeberg.org/GramEditor/gram/releases) のリリースアセットとして入手できます。以下を実行してインストールしてください:
 
 ```bash
 flatpak install /path/to/app.liten.Gram-x86_64-${version}.flatpak
 ```
 
-## From Tarball
+## Tarball からのインストール
 
-If a tarball is available for your architecture at the
-[Gram releases](https://codeberg.org/GramEditor/gram/releases) repository:
+ご利用のアーキテクチャ向けの tarball が [Gram リリース](https://codeberg.org/GramEditor/gram/releases) リポジトリで入手可能な場合:
 
-1. Download the
-   [install.sh](https://codeberg.org/GramEditor/gram/raw/branch/main/script/install.sh)
-   script.
-2. Run the script.
+1. [install.sh](https://codeberg.org/GramEditor/gram/raw/branch/main/script/install.sh) スクリプトをダウンロードします。
+2. スクリプトを実行します。
 
 ```bash
 ./install.sh
 ```
 
-This downloads and installs the latest Gram release to `$HOME/.local`. Use
-`--prefix` to install to a different location:
+これにより、最新の Gram リリースがダウンロードされ `$HOME/.local` にインストールされます。別の場所にインストールする場合は `--prefix` を指定してください:
 
 ```bash
 ./install.sh --prefix /usr/local ./gram-linux-x86_64-VERSION.tar.gz
 ```
 
-Replace `VERSION` with the release version. A nonstandard prefix must be included
-in the desktop's data search path for its launcher and icons to be discoverable.
+`VERSION` は実際のリリースバージョンに置き換えてください。標準以外のプレフィックスを指定した場合は、ランチャーやアイコンを認識できるようにデスクトップのデータ検索パス（data search path）にその場所を含める必要があります。
 
-## From Source
+## ソースからのビルド
 
-Gram is open source. See [developer notes](./development/linux.md) for build
-instructions.
+Gram はオープンソースです。ビルド手順については [開発者向けノート](./development/linux.md) を参照してください。
 
-## Troubleshooting
+## トラブルシューティング
 
-### Graphics Issues
+### グラフィックスの問題
 
-#### Gram fails to open a window
+#### Gram がウィンドウを開けない
 
-Gram requires a GPU and uses [Vulkan](https://www.vulkan.org) for rendering. If
-Gram fails to load or perform well, Vulkan may be the cause.
+Gram は GPU を必要とし、レンダリングに [Vulkan](https://www.vulkan.org) を使用します。Gram の読み込みに失敗したり動作が重かったりする場合、Vulkan が原因である可能性があります。
 
-A `Gram failed to open a window: NoSupportedDeviceFound` error indicates Vulkan
-cannot find a compatible GPU. Run [`vkcube`](https://github.com/krh/vkcube)
-command (usually in the `vulkaninfo` or `vulkan-tools` package) to troubleshoot.
+`Gram failed to open a window: NoSupportedDeviceFound` エラーは、Vulkan が互換性のある GPU を検出できないことを示しています。トラブルシューティングを行うには、[`vkcube`](https://github.com/krh/vkcube) コマンド（通常は `vulkaninfo` または `vulkan-tools` パッケージに含まれています）を実行してください。
 
 > [!NOTE]
 >
-> Test both X11 and Wayland modes by running `vkcube -m x11` or `vkcube -m
-> wayland`. Some distributions use `vkcube-wayland` for Wayland.
+> `vkcube -m x11` または `vkcube -m wayland` を実行して、X11 と Wayland の両方のモードをテストしてください。ディストリビューションによっては、Wayland 向けに `vkcube-wayland` を使用します。
 
-This outputs your graphics setup and displays a rotating cube. If it fails,
-install Vulkan-compatible GPU drivers. Note that some hardware lacks Vulkan
-support.
+これによりグラフィックス設定情報が出力され、回転する立方体が表示されます。これが失敗する場合は、Vulkan 互換の GPU ドライバーをインストールしてください。なお、一部のハードウェアは Vulkan をサポートしていません。
 
-Check which GPU Gram uses by searching for `Using GPU: ...` in
-`~/.local/share/gram/logs/Gram.log`.
+Gram が使用している GPU を確認するには、`~/.local/share/gram/logs/Gram.log` 内で `Using GPU: ...` を検索してください。
 
-Errors like `ERROR_INITIALIZATION_FAILED`, `GPU Crashed`, or
-`ERROR_SURFACE_LOST_KHR` may be resolved by installing different GPU drivers or
-selecting a different GPU (see
-[#14225](https://github.com/zed-industries/zed/issues/14225)).
+`ERROR_INITIALIZATION_FAILED`、`GPU Crashed`、`ERROR_SURFACE_LOST_KHR` などのエラーは、別の GPU ドライバーをインストールするか、別の GPU を選択することで解決する場合があります（[#14225](https://github.com/zed-industries/zed/issues/14225) を参照）。
 
-- **PRIME**: On some systems, set `/etc/prime-discrete` to `on` (force discrete)
-  or `off` (force integrated).
-- **DRI_PRIME**: Set the environment variable `DRI_PRIME=1` when running Gram to
-  force the discrete GPU.
-- **AMD Long Lines**: If Gram crashes when selecting long lines on an AMD GPU,
-  set `GRAM_PATH_SAMPLE_COUNT=0` (see
-  [#26143](https://github.com/zed-industries/zed/issues/26143)).
-- **AMD Broken Pipe**: If you encounter a 'Broken Pipe' error on AMD, try using
-  RADV or Mesa drivers (see
-  [#13880](https://github.com/zed-industries/zed/issues/13880)).
-- **AMDVLK**: If Gram consistently fails to launch with the default `amdvlk`
-  driver (e.g., on Omarchy, see
-  [#28851](https://github.com/zed-industries/zed/issues/28851)), remove `amdvlk`
-  and `lib32-amdvlk`, and install `vulkan-radeon` instead (see
-  [#14141](https://github.com/zed-industries/zed/issues/14141)).
+- **PRIME**: 一部のシステムでは、`/etc/prime-discrete` を `on`（ディスクリートを強制）または `off`（統合GPUを強制）に設定します。
+- **DRI_PRIME**: Gram を実行する際に環境変数 `DRI_PRIME=1` を設定して、ディスクリート GPU の使用を強制します。
+- **AMD の長い行**: AMD GPU で長い行を選択した際に Gram がクラッシュする場合は、`GRAM_PATH_SAMPLE_COUNT=0` を設定してください（[#26143](https://github.com/zed-industries/zed/issues/26143) を参照）。
+- **AMD の Broken Pipe**: AMD で「Broken Pipe」エラーが発生する場合は、RADV または Mesa ドライバーを試してください（[#13880](https://github.com/zed-industries/zed/issues/13880) を参照）。
+- **AMDVLK**: デフォルトの `amdvlk` ドライバーで Gram の起動が一貫して失敗する場合（例: Omarchy 上、[#28851](https://github.com/zed-industries/zed/issues/28851) を参照）、`amdvlk` と `lib32-amdvlk` を削除し、代わりに `vulkan-radeon` をインストールしてください（[#14141](https://github.com/zed-industries/zed/issues/14141) を参照）。
 
-For more details, refer to the
-[Arch Linux Vulkan guide](https://wiki.archlinux.org/title/Vulkan).
+詳細については、[Arch Linux Vulkan ガイド](https://wiki.archlinux.org/title/Vulkan) を参照してください。
 
-#### Forcing Gram to use a specific GPU
+#### Gram に特定の GPU を強制使用させる
 
-**Option A: Environment Variable** Use `GRAM_DEVICE_ID={device_id}` to specify
-the GPU. Find the device ID via `lspci -nn | grep VGA`:
+**方法 A: 環境変数** `GRAM_DEVICE_ID={device_id}` を使用して GPU を指定します。デバイス ID は `lspci -nn | grep VGA` で確認できます:
 
 ```bash
 08:00.0 VGA compatible controller [0300]: NVIDIA Corporation GA104 [GeForce RTX 3070] [10de:2484] (rev a1)
 ```
 
-The device ID is `2484` (hexadecimal). Force Gram to use it:
+この例ではデバイス ID は `2484`（16進数）です。Gram にこの GPU の使用を強制します:
 
 ```bash
 GRAM_DEVICE_ID=0x2484 gram
 ```
 
-Export this variable in `.bashrc` or similar if defining it globally.
+グローバルに定義する場合は、`.bashrc` などでこの環境変数をエクスポートしてください。
 
-**Option B: Mesa Device Select** If using Mesa, list available GPUs:
+**方法 B: Mesa Device Select** Mesa を使用している場合、利用可能な GPU を一覧表示します:
 
 ```bash
 MESA_VK_DEVICE_SELECT=list gram --foreground
 ```
 
-Then export `MESA_VK_DEVICE_SELECT=xxxx:yyyy` to choose a specific device. To
-fallback to Xwayland, additionally export `WAYLAND_DISPLAY=""`.
+次に `MESA_VK_DEVICE_SELECT=xxxx:yyyy` をエクスポートして特定のデバイスを選択します。Xwayland へフォールバックする場合は、さらに `WAYLAND_DISPLAY=""` をエクスポートしてください。
 
-**Option C: VKDeviceChooser** Use
-[vkdevicechooser](https://github.com/jiriks74/vkdevicechooser).
+**方法 C: VKDeviceChooser** [vkdevicechooser](https://github.com/jiriks74/vkdevicechooser) を使用します。
 
-#### Generating Debug Reports
+#### デバッグレポートの生成
 
-Pass `--system-specs` to print system specifications:
+`--system-specs` を渡すとシステム仕様が出力されます:
 
 ```bash
 gram --system-specs
 ```
 
-The editor log is located at `~/.local/share/gram/logs/Gram.log`. To generate a
-clean log for debugging graphics issues:
+エディターのログは `~/.local/share/gram/logs/Gram.log` に配置されています。グラフィックスの問題をデバッグするためのクリーンなログを生成するには:
 
 ```bash
-truncate -s 0 ~/.local/share/gram/logs/Gram.log # Clear the log file
+truncate -s 0 ~/.local/share/gram/logs/Gram.log # ログファイルをクリア
 GRAM_LOG=wgpu=info gram .
 cat ~/.local/share/gram/logs/Gram.log
-# Copy the output
+# 出力をコピー
 ```
 
-Or, if the Gram CLI is set up:
+Gram CLI が設定されている場合は、次のように実行することもできます:
 
 ```bash
 GRAM_LOG=wgpu=info /path/to/gram/cli --foreground .
-# Copy the output
+# 出力をコピー
 ```
 
-### Forcing X11 Scale Factor
+### X11 スケールファクターの強制設定
 
-On X11, Gram automatically detects the scale factor for high-DPI displays using
-this priority:
+X11 では、Gram は次の優先順位で高 DPI ディスプレイのスケールファクターを自動検出します:
 
-1. `GPUI_X11_SCALE_FACTOR` environment variable (if set)
-2. `Xft.dpi` from the X resources database (xrdb)
-3. Automatic detection via RandR (monitor resolution and physical size)
+1. `GPUI_X11_SCALE_FACTOR` 環境変数（設定されている場合）
+2. X リソースデータベース（xrdb）の `Xft.dpi`
+3. RandR による自動検出（モニターの解像度と物理サイズ）
 
-To customize the scale factor:
+スケールファクターをカスタマイズするには:
 
-#### Check Current Scale Factor
+#### 現在のスケールファクターの確認
 
-Verify if `Xft.dpi` is set:
+`Xft.dpi` が設定されているか確認します:
 
 ```bash
 xrdb -query | grep Xft.dpi
 ```
 
-If empty, Gram uses RandR for automatic calculation.
+空の場合は、Gram は RandR を使用して自動計算します。
 
-#### Option 1: Set Xft.dpi (X Resources Database)
+#### 方法 1: Xft.dpi の設定（X リソースデータベース）
 
-`Xft.dpi` ensures consistent scaling across X11 applications. Edit or create
-`~/.Xresources`:
+`Xft.dpi` を設定すると、X11 アプリケーション全体で一貫したスケーリングが適用されます。`~/.Xresources` を編集または作成してください:
 
 ```bash
 vim ~/.Xresources
 ```
 
-Add your desired DPI (e.g., `96` for 1x, `144` for 1.5x, `192` for 2x, `288` for
-3x):
+希望する DPI を追加します（例: 1x の場合は `96`、1.5x の場合は `144`、2x の場合は `192`、3x の場合は `288`）:
 
 ```ini
 Xft.dpi: 96
 ```
 
-Load the configuration:
+設定を読み込みます:
 
 ```bash
 xrdb -merge ~/.Xresources
 ```
 
-Restart Gram.
+Gram を再起動します。
 
-#### Option 2: Use GPUI_X11_SCALE_FACTOR
+#### 方法 2: GPUI_X11_SCALE_FACTOR の使用
 
-This Gram-specific variable bypasses automatic detection.
+この Gram 固有の環境変数は、自動検出をオーバーライドします。
 
 ```bash
 GPUI_X11_SCALE_FACTOR=1.5 gram
 ```
 
-Accepts decimal values (e.g., `1.25`, `1.5`, `2.0`) or `randr` to force RandR
-detection even if `Xft.dpi` is set. Add to your shell profile or desktop entry
-to make it permanent.
+小数値（例: `1.25`, `1.5`, `2.0`）、または `Xft.dpi` が設定されていても RandR 検出を強制する `randr` を指定できます。永続化するには、シェルプロファイルまたはデスクトップエントリに追加してください。
 
-#### Option 3: Adjust System-Wide RandR DPI
+#### 方法 3: システム全体の RandR DPI の調整
 
-This changes the reported DPI for the entire X11 session. Add to `.xprofile` or
-`.xinitrc`:
+X11 セッション全体で報告される DPI を変更します。`.xprofile` または `.xinitrc` に追加してください:
 
 ```bash
 xrandr --dpi 192
 ```
 
-Replace `192` with your desired DPI.
+`192` を希望する DPI に置き換えてください。
 
-### Font Rendering Parameters
+### フォントレンダリングパラメータ
 
-On Linux, Gram reads the following environment variables for font rendering:
+Linux では、Gram はフォントレンダリングに関して次の環境変数を読み取ります:
 
-- `GRAM_FONTS_GAMMA`: Corresponds to
-  [GetGamma](https://learn.microsoft.com/en-us/windows/win32/api/dwrite/nf-dwrite-idwriterenderingparams-getgamma)
-  values. Allowed range: `[1.0, 2.2]` (others are clipped). Default: `1.8`.
-- `GRAM_FONTS_GRAYSCALE_ENHANCED_CONTRAST`: Corresponds to
-  [GetGrayscaleEnhancedContrast](https://learn.microsoft.com/en-us/windows/win32/api/dwrite_1/nf-dwrite_1-idwriterenderingparams1-getgrayscaleenhancedcontrast)
-  values. Allowed range: `[0.0, ∞)` (others are clipped). Default: `1.0`.
+- `GRAM_FONTS_GAMMA`: [GetGamma](https://learn.microsoft.com/en-us/windows/win32/api/dwrite/nf-dwrite-idwriterenderingparams-getgamma) の値に対応します。許容範囲: `[1.0, 2.2]`（範囲外は切り詰め）。デフォルト: `1.8`。
+- `GRAM_FONTS_GRAYSCALE_ENHANCED_CONTRAST`: [GetGrayscaleEnhancedContrast](https://learn.microsoft.com/en-us/windows/win32/api/dwrite_1/nf-dwrite_1-idwriterenderingparams1-getgrayscaleenhancedcontrast) の値に対応します。許容範囲: `[0.0, ∞)`（範囲外は切り詰め）。デフォルト: `1.0`。

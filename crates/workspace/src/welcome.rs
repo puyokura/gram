@@ -27,7 +27,7 @@ pub struct OpenRecentProject {
 actions!(
     gram,
     [
-        /// Show the Gram welcome screen
+        /// Gramのウェルカム画面を表示
         ShowWelcome
     ]
 );
@@ -127,46 +127,46 @@ impl SectionEntry {
 
 const CONTENT: (Section<5>, Section<2>) = (
     Section {
-        title: "Get Started",
+        title: "はじめに",
         entries: [
             SectionEntry {
                 icon: IconName::Plus,
-                title: "New File",
+                title: "新規ファイル",
                 action: &NewFile,
             },
             SectionEntry {
                 icon: IconName::FolderOpen,
-                title: "Open Project",
+                title: "プロジェクトを開く",
                 action: &Open,
             },
             SectionEntry {
                 icon: IconName::CloudDownload,
-                title: "Clone Repository",
+                title: "リポジトリをクローン",
                 action: &GitClone,
             },
             SectionEntry {
                 icon: IconName::ListCollapse,
-                title: "Open Command Palette",
+                title: "コマンドパレットを開く",
                 action: &command_palette::Toggle,
             },
             SectionEntry {
                 icon: IconName::Library,
-                title: "Open Documentation",
+                title: "ドキュメントを開く",
                 action: &OpenDocs,
             },
         ],
     },
     Section {
-        title: "Configure",
+        title: "設定",
         entries: [
             SectionEntry {
                 icon: IconName::Settings,
-                title: "Open Settings",
+                title: "設定を開く",
                 action: &OpenSettings,
             },
             SectionEntry {
                 icon: IconName::Blocks,
-                title: "Explore Extensions",
+                title: "拡張機能を探索",
                 action: &Extensions {
                     category_filter: None,
                     id: None,
@@ -269,7 +269,7 @@ impl WelcomePage {
     fn render_recent_project_section(&self, recent_projects: Vec<impl IntoElement>) -> impl IntoElement {
         v_flex()
             .w_full()
-            .child(SectionHeader::new("Recent Projects"))
+            .child(SectionHeader::new("最近使ったプロジェクト"))
             .children(recent_projects)
     }
 
@@ -284,7 +284,7 @@ impl WelcomePage {
                 let path = paths.paths().first().map(|p| p.as_path());
                 path.and_then(|p| p.file_name())
                     .map(|n| (IconName::Folder, SharedString::from(n.to_string_lossy().to_string())))
-                    .unwrap_or_else(|| (IconName::Warning, SharedString::from("Untitled")))
+                    .unwrap_or_else(|| (IconName::Warning, SharedString::from("無題")))
             }
             SerializedWorkspaceLocation::Remote(options) => {
                 let display_name = options.display_name();
@@ -379,7 +379,7 @@ impl Render for WelcomePage {
                         .child(second_section)
                         .child(
                             v_flex().gap_1().child(Divider::horizontal()).child(
-                                Button::new("welcome-exit", "Return to Onboarding")
+                                Button::new("welcome-exit", "オンボーディングに戻る")
                                     .tab_index(last_index as isize)
                                     .full_width()
                                     .label_size(LabelSize::XSmall)
@@ -405,7 +405,7 @@ impl Item for WelcomePage {
     type Event = ItemEvent;
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Welcome".into()
+        "ウェルカム".into()
     }
 
     fn show_toolbar(&self) -> bool {

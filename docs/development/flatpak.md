@@ -1,6 +1,6 @@
-# Building Gram for Linux (Flatpak)
+# Linux 向け Gram のビルド（Flatpak）
 
-To build a `Flatpak`, you will need `Flatpak` installed.
+`Flatpak` をビルドするには、`Flatpak` がインストールされている必要があります。
 
 ```bash
 ./script/linux

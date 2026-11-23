@@ -100,7 +100,7 @@ pub(crate) struct LogMenuItem {
 actions!(
     dev,
     [
-        /// Opens the language server protocol logs viewer.
+        /// 言語サーバープロトコルのログビューアーを開きます。
         OpenLanguageServerLogs
     ]
 );
@@ -261,18 +261,18 @@ impl LspLogView {
         cx: &mut Context<Self>,
     ) -> (Entity<Editor>, Vec<Subscription>) {
         let server_info = format!(
-            "* Server: {NAME} (id {ID})
+            "* サーバー: {NAME} (id {ID})
 
-* Version: {VERSION}
+* バージョン: {VERSION}
 
-* Binary: {BINARY}
+* バイナリ: {BINARY}
 
-* Registered workspace folders:
+* 登録済みワークスペースフォルダー:
 {WORKSPACE_FOLDERS}
 
-* Capabilities: {CAPABILITIES}
+* 機能: {CAPABILITIES}
 
-* Configuration: {CONFIGURATION}",
+* 設定: {CONFIGURATION}",
             NAME = info.status.name,
             ID = info.id,
             VERSION = info
@@ -280,12 +280,12 @@ impl LspLogView {
                 .server_version
                 .as_ref()
                 .map(|version| version.as_ref())
-                .unwrap_or("Unknown"),
+                .unwrap_or("不明"),
             BINARY = info
                 .status
                 .binary
                 .as_ref()
-                .map_or_else(|| "Unknown".to_string(), |binary| format!("{:#?}", binary)),
+                .map_or_else(|| "不明".to_string(), |binary| format!("{:#?}", binary)),
             WORKSPACE_FOLDERS = info
                 .status
                 .workspace_folders
@@ -294,14 +294,14 @@ impl LspLogView {
                 .map(|path| path.to_string_lossy().into_owned())
                 .join(", "),
             CAPABILITIES = serde_json::to_string_pretty(&info.capabilities)
-                .unwrap_or_else(|e| format!("Failed to serialize capabilities: {e}")),
+                .unwrap_or_else(|e| format!("機能のシリアライズに失敗しました: {e}")),
             CONFIGURATION = info
                 .status
                 .configuration
                 .map(|configuration| serde_json::to_string_pretty(&configuration))
                 .transpose()
-                .unwrap_or_else(|e| Some(format!("Failed to serialize configuration: {e}")))
-                .unwrap_or_else(|| "Unknown".to_string()),
+                .unwrap_or_else(|e| Some(format!("設定のシリアライズに失敗しました: {e}")))
+                .unwrap_or_else(|| "不明".to_string()),
         );
         let editor = initialize_new_editor(server_info, false, window, cx);
         let editor_subscription = cx.subscribe(&editor, |_, _, event: &EditorEvent, cx: &mut Context<LspLogView>| {
@@ -316,7 +316,7 @@ impl LspLogView {
     pub(crate) fn menu_items<'a>(&'a self, cx: &'a App) -> Vec<LogMenuItem> {
         let log_store = self.log_store.read(cx);
 
-        let unknown_server = LanguageServerName::new_static("unknown server");
+        let unknown_server = LanguageServerName::new_static("不明なサーバー");
 
         let mut rows = log_store
             .language_servers
@@ -329,7 +329,7 @@ impl LspLogView {
                         .worktree_id
                         .and_then(|id| self.project.read(cx).worktree_for_id(id, cx))
                         .map(|worktree| worktree.read(cx).root_name_str().to_string())
-                        .unwrap_or_else(|| "Unknown worktree".to_string());
+                        .unwrap_or_else(|| "不明なワークツリー".to_string());
 
                     LogMenuItem {
                         server_id: *server_id,
@@ -346,7 +346,7 @@ impl LspLogView {
                     server_id: *server_id,
                     server_name: state.name.clone().unwrap_or(unknown_server.clone()),
                     server_kind: state.kind.clone(),
-                    worktree_root_name: "supplementary".to_string(),
+                    worktree_root_name: "補助".to_string(),
                     rpc_trace_enabled: state.rpc_state.is_some(),
                     selected_entry: self.active_entry_kind,
                     trace_level: lsp::TraceValue::Off,
@@ -362,7 +362,7 @@ impl LspLogView {
                             server_id,
                             server_name: name,
                             server_kind: state.kind.clone(),
-                            worktree_root_name: "supplementary".to_string(),
+                            worktree_root_name: "補助".to_string(),
                             rpc_trace_enabled: state.rpc_state.is_some(),
                             selected_entry: self.active_entry_kind,
                             trace_level: lsp::TraceValue::Off,
@@ -642,7 +642,7 @@ impl Item for LspLogView {
     }
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "LSP Logs".into()
+        "LSP ログ".into()
     }
 
     fn as_searchable(&self, handle: &Entity<Self>, _: &App) -> Option<Box<dyn SearchableItemHandle>> {
@@ -825,7 +825,7 @@ impl Render for LspLogToolbarItemView {
                     current_server
                         .as_ref()
                         .map(|row| Cow::Owned(format!("{} ({})", row.server_name.0, row.worktree_root_name,)))
-                        .unwrap_or_else(|| "No server selected".into()),
+                        .unwrap_or_else(|| "サーバーが選択されていません".into()),
                 )
                 .icon(IconName::ChevronDown)
                 .icon_size(IconSize::Small)
@@ -967,7 +967,7 @@ impl Render for LspLogToolbarItemView {
                                 PopoverMenu::new("lsp-trace-level-menu")
                                     .anchor(Corner::TopLeft)
                                     .trigger(
-                                        Button::new("language_server_trace_level_selector", "Trace level")
+                                        Button::new("language_server_trace_level_selector", "トレースレベル")
                                             .icon(IconName::ChevronDown)
                                             .icon_size(IconSize::Small)
                                             .icon_color(Color::Muted),
@@ -988,9 +988,9 @@ impl Render for LspLogToolbarItemView {
                                                 let log_view = log_view.clone();
 
                                                 for (option, label) in [
-                                                    (TraceValue::Off, "Off"),
-                                                    (TraceValue::Messages, "Messages"),
-                                                    (TraceValue::Verbose, "Verbose"),
+                                                    (TraceValue::Off, "オフ"),
+                                                    (TraceValue::Messages, "メッセージ"),
+                                                    (TraceValue::Verbose, "詳細"),
                                                 ] {
                                                     menu = menu.entry(label, None, {
                                                         let log_view = log_view.clone();
@@ -1020,7 +1020,7 @@ impl Render for LspLogToolbarItemView {
                                 PopoverMenu::new("lsp-log-level-menu")
                                     .anchor(Corner::TopLeft)
                                     .trigger(
-                                        Button::new("language_server_log_level_selector", "Log level")
+                                        Button::new("language_server_log_level_selector", "ログレベル")
                                             .icon(IconName::ChevronDown)
                                             .icon_size(IconSize::Small)
                                             .icon_color(Color::Muted),
@@ -1041,10 +1041,10 @@ impl Render for LspLogToolbarItemView {
                                                 let log_view = log_view.clone();
 
                                                 for (option, label) in [
-                                                    (MessageType::LOG, "Log"),
-                                                    (MessageType::INFO, "Info"),
-                                                    (MessageType::WARNING, "Warning"),
-                                                    (MessageType::ERROR, "Error"),
+                                                    (MessageType::LOG, "ログ"),
+                                                    (MessageType::INFO, "情報"),
+                                                    (MessageType::WARNING, "警告"),
+                                                    (MessageType::ERROR, "エラー"),
                                                 ] {
                                                     menu = menu.entry(label, None, {
                                                         let log_view = log_view.clone();
@@ -1072,7 +1072,7 @@ impl Render for LspLogToolbarItemView {
                     })),
             )
             .child(
-                Button::new("clear_log_button", "Clear").on_click(cx.listener(|this, _, window, cx| {
+                Button::new("clear_log_button", "クリア").on_click(cx.listener(|this, _, window, cx| {
                     if let Some(log_view) = this.log_view.as_ref() {
                         log_view.update(cx, |log_view, cx| {
                             log_view.editor.update(cx, |editor, cx| {
@@ -1104,10 +1104,10 @@ fn initialize_new_editor(content: String, move_to_end: bool, window: &mut Window
     })
 }
 
-const RPC_MESSAGES: &str = "RPC Messages";
-const SERVER_LOGS: &str = "Server Logs";
-const SERVER_TRACE: &str = "Server Trace";
-const SERVER_INFO: &str = "Server Info";
+const RPC_MESSAGES: &str = "RPC メッセージ";
+const SERVER_LOGS: &str = "サーバーログ";
+const SERVER_TRACE: &str = "サーバートレース";
+const SERVER_INFO: &str = "サーバー情報";
 
 impl Default for LspLogToolbarItemView {
     fn default() -> Self {

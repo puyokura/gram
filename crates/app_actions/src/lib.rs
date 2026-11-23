@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 // https://github.com/mmastrac/rust-ctor/issues/280
 pub fn init() {}
 
-/// Opens a URL in the system's default web browser.
+/// システムの既定の Web ブラウザーで URL を開きます。
 #[derive(Clone, PartialEq, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
@@ -19,7 +19,7 @@ pub struct OpenBrowser {
     pub url: String,
 }
 
-/// Opens a gram:// URL within the application.
+/// アプリケーション内で gram:// URL を開きます。
 #[derive(Clone, PartialEq, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
@@ -27,7 +27,7 @@ pub struct OpenGramUrl {
     pub url: String,
 }
 
-/// Opens the keymap to either add a keybinding or change an existing one
+/// キーバインドの追加または変更を行うためにキーマップを開きます。
 #[derive(PartialEq, Clone, Default, Action, JsonSchema, Serialize, Deserialize)]
 #[action(namespace = gram, no_json, no_register)]
 pub struct ChangeKeybinding {
@@ -37,36 +37,36 @@ pub struct ChangeKeybinding {
 actions!(
     gram,
     [
-        /// Opens the settings editor.
+        /// 設定エディターを開きます。
         #[action(deprecated_aliases = ["app_actions::OpenSettingsEditor"])]
         OpenSettings,
-        /// Opens the settings JSON file.
+        /// 設定 JSON ファイルを開きます。
         #[action(deprecated_aliases = ["app_actions::OpenSettings"])]
         OpenSettingsFile,
-        /// Opens project-specific settings.
+        /// プロジェクト固有の設定を開きます。
         #[action(deprecated_aliases = ["app_actions::OpenProjectSettings"])]
         OpenProjectSettings,
-        /// Opens the default keymap file.
+        /// 既定のキーマップファイルを開きます。
         OpenDefaultKeymap,
-        /// Opens the user keymap file.
+        /// ユーザーキーマップファイルを開きます。
         #[action(deprecated_aliases = ["app_actions::OpenKeymap"])]
         OpenKeymapFile,
-        /// Opens the keymap editor.
+        /// キーマップエディターを開きます。
         #[action(deprecated_aliases = ["app_actions::OpenKeymapEditor"])]
         OpenKeymap,
-        /// Opens server settings.
+        /// サーバー設定を開きます。
         OpenServerSettings,
-        /// Quits the application.
+        /// アプリケーションを終了します。
         Quit,
-        /// Shows information about Gram.
+        /// Gram についての情報を表示します。
         About,
-        /// Opens the documentation website.
+        /// ドキュメントを開きます。
         OpenDocs,
-        /// Views GPL license details.
+        /// GPL ライセンスの詳細を表示します。
         ViewLicense,
-        /// Opens the onboarding view.
+        /// オンボーディング画面を開きます。
         OpenOnboarding,
-        /// Toggles the title bar visibility
+        /// タイトルバーの表示を切り替えます。
         ToggleTitleBar
     ]
 );
@@ -84,20 +84,20 @@ pub enum ExtensionCategoryFilter {
     DebugAdapters,
 }
 
-/// Opens the extensions management interface.
+/// 拡張機能管理画面を開きます。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
 pub struct Extensions {
-    /// Filters the extensions page down to extensions that are in the specified category.
+    /// 拡張機能ページを指定したカテゴリーで絞り込みます。
     #[serde(default)]
     pub category_filter: Option<ExtensionCategoryFilter>,
-    /// Focuses just the extension with the specified ID.
+    /// 指定した ID の拡張機能にフォーカスします。
     #[serde(default)]
     pub id: Option<String>,
 }
 
-/// Decreases the font size in the editor buffer.
+/// エディターバッファーのフォントサイズを縮小します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
@@ -106,7 +106,7 @@ pub struct DecreaseBufferFontSize {
     pub persist: bool,
 }
 
-/// Increases the font size in the editor buffer.
+/// エディターバッファーのフォントサイズを拡大します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
@@ -115,25 +115,25 @@ pub struct IncreaseBufferFontSize {
     pub persist: bool,
 }
 
-/// Open the settings at a specific setting
+/// 指定した設定項目の位置で設定を開きます。
 #[derive(PartialEq, Clone, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
 pub struct OpenSettingsAt {
-    /// A path to a specific setting (e.g. `theme.mode`)
+    /// 特定の設定へのパス（例: `theme.mode`）
     pub path: String,
 }
 
-/// Open the documentation viewer at the specific page
+/// 指定したページでドキュメントビューアを開きます。
 #[derive(PartialEq, Clone, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
 pub struct OpenDocsAt {
-    /// A path to a documentation page
+    /// ドキュメントページへのパス
     pub path: String,
 }
 
-/// Resets the buffer font size to the default value.
+/// バッファーのフォントサイズを既定値にリセットします。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
@@ -142,7 +142,7 @@ pub struct ResetBufferFontSize {
     pub persist: bool,
 }
 
-/// Decreases the font size of the user interface.
+/// ユーザーインターフェースのフォントサイズを縮小します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
@@ -151,7 +151,7 @@ pub struct DecreaseUiFontSize {
     pub persist: bool,
 }
 
-/// Increases the font size of the user interface.
+/// ユーザーインターフェースのフォントサイズを拡大します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
@@ -160,7 +160,7 @@ pub struct IncreaseUiFontSize {
     pub persist: bool,
 }
 
-/// Resets the UI font size to the default value.
+/// UI のフォントサイズを既定値にリセットします。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
@@ -169,7 +169,7 @@ pub struct ResetUiFontSize {
     pub persist: bool,
 }
 
-/// Resets all zoom levels (UI and buffer font sizes) to their default values.
+/// すべての拡大率（UI およびバッファーのフォントサイズ）を既定値にリセットします。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
@@ -184,9 +184,9 @@ pub mod dev {
     actions!(
         dev,
         [
-            /// Toggles the developer inspector for debugging UI elements.
+            /// UI 要素をデバッグするための開発者インスペクターを切り替えます。
             ToggleInspector,
-            /// Opens the performance profiler.
+            /// パフォーマンスプロファイラーを開きます。
             OpenProfiler,
         ]
     );
@@ -198,11 +198,13 @@ pub mod workspace {
     actions!(
         workspace,
         [
+            /// パスをコピーします。
             #[action(deprecated_aliases = ["editor::CopyPath", "outline_panel::CopyPath", "project_panel::CopyPath"])]
             CopyPath,
+            /// 相対パスをコピーします。
             #[action(deprecated_aliases = ["editor::CopyRelativePath", "outline_panel::CopyRelativePath", "project_panel::CopyRelativePath"])]
             CopyRelativePath,
-            /// Opens the selected file with the system's default application.
+            /// 選択したファイルをシステムの既定アプリケーションで開きます。
             #[action(deprecated_aliases = ["project_panel::OpenWithSystem"])]
             OpenWithSystem,
         ]
@@ -215,26 +217,26 @@ pub mod git {
     actions!(
         git,
         [
-            /// Checks out a different git branch.
+            /// 別の Git ブランチをチェックアウトします。
             CheckoutBranch,
-            /// Switches to a different git branch.
+            /// 別の Git ブランチに切り替えます。
             Switch,
-            /// Selects a different repository.
+            /// 別のリポジトリを選択します。
             SelectRepo,
-            /// Filter remotes.
+            /// リモートを絞り込みます。
             FilterRemotes,
-            /// Create a git remote.
+            /// Git リモートを作成します。
             CreateRemote,
-            /// Opens the git branch selector.
+            /// Git ブランチ選択画面を開きます。
             #[action(deprecated_aliases = ["branches::OpenRecent"])]
             Branch,
-            /// Opens the git stash selector.
+            /// Git スタッシュ選択画面を開きます。
             ViewStash,
-            /// Opens the git worktree selector.
+            /// Git ワークツリー選択画面を開きます。
             Worktree,
-            /// Creates a pull request for the current branch.
+            /// 現在のブランチのプルリクエストを作成します。
             CreatePullRequest,
-            /// Opens the Git Graph view
+            /// Git グラフビューを開きます。
             OpenGraph,
         ]
     );
@@ -246,7 +248,7 @@ pub mod toast {
     actions!(
         toast,
         [
-            /// Runs the action associated with a toast notification.
+            /// トースト通知に関連付けられたアクションを実行します。
             RunAction
         ]
     );
@@ -258,7 +260,7 @@ pub mod command_palette {
     actions!(
         command_palette,
         [
-            /// Toggles the command palette.
+            /// コマンドパレットを切り替えます。
             Toggle,
         ]
     );
@@ -270,7 +272,7 @@ pub mod docs_search {
     actions!(
         docs_search,
         [
-            /// Opens the Documentation Search popup.
+            /// ドキュメント検索ポップアップを開きます。
             Toggle,
         ]
     );
@@ -282,7 +284,7 @@ pub mod quick_search {
     actions!(
         quick_search,
         [
-            /// Opens the Quick Search popup.
+            /// クイック検索ポップアップを開きます。
             Toggle,
         ]
     );
@@ -294,9 +296,9 @@ pub mod project_panel {
     actions!(
         project_panel,
         [
-            /// Toggles the project panel
+            /// プロジェクトパネルを切り替えます。
             Toggle,
-            /// Toggles focus on the project panel.
+            /// プロジェクトパネルへのフォーカスを切り替えます。
             ToggleFocus
         ]
     );
@@ -307,12 +309,12 @@ pub mod theme_selector {
     use schemars::JsonSchema;
     use serde::Deserialize;
 
-    /// Toggles the theme selector interface.
+    /// テーマ選択画面を切り替えます。
     #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
     #[action(namespace = theme_selector)]
     #[serde(deny_unknown_fields)]
     pub struct Toggle {
-        /// A list of theme names to filter the theme selector down to.
+        /// テーマ選択画面の候補を絞り込むテーマ名のリスト。
         pub themes_filter: Option<Vec<String>>,
     }
 }
@@ -322,12 +324,12 @@ pub mod icon_theme_selector {
     use schemars::JsonSchema;
     use serde::Deserialize;
 
-    /// Toggles the icon theme selector interface.
+    /// アイコンテーマ選択画面を切り替えます。
     #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
     #[action(namespace = icon_theme_selector)]
     #[serde(deny_unknown_fields)]
     pub struct Toggle {
-        /// A list of icon theme names to filter the theme selector down to.
+        /// アイコンテーマ選択画面の候補を絞り込むテーマ名のリスト。
         pub themes_filter: Option<Vec<String>>,
     }
 }
@@ -337,12 +339,13 @@ pub mod settings_profile_selector {
     use schemars::JsonSchema;
     use serde::Deserialize;
 
+    /// 設定プロファイル選択画面を切り替えます。
     #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
     #[action(namespace = settings_profile_selector)]
     pub struct Toggle;
 }
 
-/// Opens the recent projects interface.
+/// 最近開いたプロジェクト画面を開きます。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = projects)]
 #[serde(deny_unknown_fields)]
@@ -351,7 +354,7 @@ pub struct OpenRecent {
     pub create_new_window: bool,
 }
 
-/// Creates a project from a selected template.
+/// リモートプロジェクトを開きます。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = projects)]
 #[serde(deny_unknown_fields)]
@@ -362,37 +365,37 @@ pub struct OpenRemote {
     pub create_new_window: bool,
 }
 
-/// Where to spawn the task in the UI.
+/// UI 上でタスクを起動する場所。
 #[derive(Default, Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum RevealTarget {
-    /// In the central pane group, "main" editor area.
+    /// 中央ペイングループ（メインのエディター領域）。
     Center,
-    /// In the terminal dock, "regular" terminal items' place.
+    /// ターミナルドック（通常のターミナル配置場所）。
     #[default]
     Dock,
 }
 
-/// Spawns a task with name or opens tasks modal.
+/// 名前を指定してタスクを起動するか、タスクモーダルを開きます。
 #[derive(Debug, PartialEq, Clone, Deserialize, JsonSchema, Action)]
 #[action(namespace = task)]
 #[serde(untagged)]
 pub enum Spawn {
-    /// Spawns a task by the name given.
+    /// 指定した名前でタスクを起動します。
     ByName {
         task_name: String,
         #[serde(default)]
         reveal_target: Option<RevealTarget>,
     },
-    /// Spawns a task by the name given.
+    /// 指定したタグでタスクを起動します。
     ByTag {
         task_tag: String,
         #[serde(default)]
         reveal_target: Option<RevealTarget>,
     },
-    /// Spawns a task via modal's selection.
+    /// モーダルで選択してタスクを起動します。
     ViaModal {
-        /// Selected task's `reveal_target` property override.
+        /// 選択したタスクの `reveal_target` プロパティを上書きします。
         #[serde(default)]
         reveal_target: Option<RevealTarget>,
     },
@@ -404,27 +407,27 @@ impl Spawn {
     }
 }
 
-/// Reruns the last task.
+/// 前回のタスクを再実行します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = task)]
 #[serde(deny_unknown_fields)]
 pub struct Rerun {
-    /// Controls whether the task context is reevaluated prior to execution of a task.
-    /// If it is not, environment variables such as GRAM_COLUMN, GRAM_FILE are gonna be the same as in the last execution of a task
-    /// If it is, these variables will be updated to reflect current state of editor at the time task::Rerun is executed.
-    /// default: false
+    /// タスク実行前にコンテキストを再評価するかどうかを制御します。
+    /// false の場合、GRAM_COLUMN や GRAM_FILE などの環境変数は前回実行時の値が維持されます。
+    /// true の場合、task::Rerun 実行時のエディター状態に合わせて更新されます。
+    /// 既定値: false
     #[serde(default)]
     pub reevaluate_context: bool,
-    /// Overrides `allow_concurrent_runs` property of the task being reran.
-    /// Default: null
+    /// 再実行するタスクの `allow_concurrent_runs` プロパティを上書きします。
+    /// 既定値: null
     #[serde(default)]
     pub allow_concurrent_runs: Option<bool>,
-    /// Overrides `use_new_terminal` property of the task being reran.
-    /// Default: null
+    /// 再実行するタスクの `use_new_terminal` プロパティを上書きします。
+    /// 既定値: null
     #[serde(default)]
     pub use_new_terminal: Option<bool>,
 
-    /// If present, rerun the task with this ID, otherwise rerun the last task.
+    /// 指定された場合はその ID のタスクを、それ以外は前回のタスクを再実行します。
     #[serde(skip)]
     pub task_id: Option<String>,
 }
@@ -437,6 +440,7 @@ pub mod outline {
     actions!(
         outline,
         [
+            /// アウトラインを切り替えます。
             #[action(name = "Toggle")]
             ToggleOutline
         ]
@@ -448,20 +452,20 @@ pub mod outline {
 actions!(
     debug_panel,
     [
-        /// Toggles the debug panel.
+        /// デバッグパネルを切り替えます。
         Toggle,
-        /// Toggles focus on the debug panel.
+        /// デバッグパネルへのフォーカスを切り替えます。
         ToggleFocus
     ]
 );
 actions!(
     debugger,
     [
-        /// Toggles the enabled state of a breakpoint.
+        /// ブレークポイントの有効・無効を切り替えます。
         ToggleEnableBreakpoint,
-        /// Removes a breakpoint.
+        /// ブレークポイントを削除します。
         UnsetBreakpoint,
-        /// Opens the project debug tasks configuration.
+        /// プロジェクトのデバッグタスク設定を開きます。
         OpenProjectDebugTasks,
     ]
 );
@@ -472,7 +476,7 @@ pub mod vim {
     actions!(
         vim,
         [
-            /// Opens the default keymap file.
+            /// 既定のキーマップファイルを開きます。
             OpenDefaultKeymap
         ]
     );
@@ -490,7 +494,7 @@ pub mod wsl_actions {
     use schemars::JsonSchema;
     use serde::Deserialize;
 
-    /// Opens a folder inside Wsl.
+    /// WSL 内のフォルダーを開きます。
     #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
     #[action(namespace = projects)]
     #[serde(deny_unknown_fields)]
@@ -499,7 +503,7 @@ pub mod wsl_actions {
         pub create_new_window: bool,
     }
 
-    /// Open a wsl distro.
+    /// WSL ディストリビューションを開きます。
     #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
     #[action(namespace = projects)]
     #[serde(deny_unknown_fields)]
@@ -516,9 +520,9 @@ pub mod preview {
         actions!(
             markdown,
             [
-                /// Opens a markdown preview for the current file.
+                /// 現在のファイルの Markdown プレビューを開きます。
                 OpenPreview,
-                /// Opens a markdown preview in a split pane.
+                /// 分割ペインで Markdown プレビューを開きます。
                 OpenPreviewToTheSide,
             ]
         );
@@ -530,9 +534,9 @@ pub mod preview {
         actions!(
             svg,
             [
-                /// Opens an SVG preview for the current file.
+                /// 現在のファイルの SVG プレビューを開きます。
                 OpenPreview,
-                /// Opens an SVG preview in a split pane.
+                /// 分割ペインで SVG プレビューを開きます。
                 OpenPreviewToTheSide,
             ]
         );

@@ -61,7 +61,7 @@ use crate::gram::{OpenRequestKind, eager_load_active_theme_and_icon_theme};
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 fn files_not_created_on_launch(errors: HashMap<io::ErrorKind, Vec<&Path>>) {
-    let message = "Gram failed to launch";
+    let message = "Gramの起動に失敗しました";
     let error_details = errors
         .into_iter()
         .filter_map(|(kind, paths)| {
@@ -96,7 +96,7 @@ fn files_not_created_on_launch(errors: HashMap<io::ErrorKind, Vec<&Path>>) {
                         gpui::PromptLevel::Critical,
                         message,
                         Some(&error_details),
-                        &["Exit"],
+                        &["終了"],
                         cx,
                     );
 
@@ -132,7 +132,7 @@ fn fail_to_open_window(e: anyhow::Error, _cx: &mut App) {
                 proxy
                     .add_notification(
                         notification_id,
-                        Notification::new("Gram failed to launch")
+                        Notification::new("Gramの起動に失敗しました")
                             .body(Some(
                                 format!("{e:?}. See gram://docs/linux for troubleshooting steps.").as_str(),
                             ))
@@ -950,9 +950,9 @@ async fn restore_or_create_workspace(app_state: Arc<AppState>, cx: &mut AsyncApp
 
         if error_count > 0 {
             let message = if error_count == 1 {
-                "Failed to restore 1 workspace. Check logs for details.".to_string()
+                "1個のワークスペースを復元できませんでした。詳細はログを確認してください。".to_string()
             } else {
-                format!("Failed to restore {error_count} workspaces. Check logs for details.")
+                format!("{error_count}個のワークスペースを復元できませんでした。詳細はログを確認してください。")
             };
 
             // Try to find an active workspace to show the toast

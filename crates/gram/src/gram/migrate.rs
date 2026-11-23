@@ -88,7 +88,7 @@ impl MigrationBanner {
     fn show(&mut self, cx: &mut Context<Self>) {
         let (file_type, backup_file_name) = match self.migration_type {
             Some(MigrationType::Keymap) => (
-                "keymap",
+                "キーマップ",
                 paths::keymap_backup_file()
                     .file_name()
                     .unwrap_or_default()
@@ -96,7 +96,7 @@ impl MigrationBanner {
                     .into_owned(),
             ),
             Some(MigrationType::Settings) => (
-                "settings",
+                "設定",
                 paths::settings_backup_file()
                     .file_name()
                     .unwrap_or_default()
@@ -107,8 +107,7 @@ impl MigrationBanner {
         };
 
         let migration_text = format!(
-            "Your {file_type} file uses deprecated settings which can be \
-            automatically updated. A backup will be saved to `{backup_file_name}`"
+            "お使いの{file_type}ファイルには非推奨の設定が含まれており、自動的に更新できます。バックアップは `{backup_file_name}` に保存されます"
         );
 
         self.markdown = Some(cx.new(|cx| Markdown::new(migration_text.into(), None, None, cx)));
@@ -225,7 +224,7 @@ impl Render for MigrationBanner {
                     ),
             )
             .child(
-                Button::new("backup-and-migrate", "Backup and Update").on_click(move |_, window, cx| {
+                Button::new("backup-and-migrate", "バックアップして更新").on_click(move |_, window, cx| {
                     let fs = <dyn Fs>::global(cx);
                     match migration_type {
                         Some(MigrationType::Keymap) => {

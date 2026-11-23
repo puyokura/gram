@@ -46,7 +46,7 @@ fn render_theme_section(tab_index: &mut isize, cx: &mut App) -> impl IntoElement
     return v_flex()
         .gap_2()
         .child(
-            h_flex().justify_between().child(Label::new("Theme")).child(
+            h_flex().justify_between().child(Label::new("テーマ")).child(
                 ToggleButtonGroup::single_row(
                     "theme-selector-onboarding-dark-light",
                     [
@@ -56,9 +56,9 @@ fn render_theme_section(tab_index: &mut isize, cx: &mut App) -> impl IntoElement
                     ]
                     .map(|mode| {
                         const MODE_NAMES: [SharedString; 3] = [
-                            SharedString::new_static("Light"),
-                            SharedString::new_static("Dark"),
-                            SharedString::new_static("System"),
+                            SharedString::new_static("ライト"),
+                            SharedString::new_static("ダーク"),
+                            SharedString::new_static("システム"),
                         ];
                         ToggleButtonSimple::new(MODE_NAMES[mode as usize].clone(), move |_, _, cx| {
                             write_mode_change(mode, cx);
@@ -80,7 +80,7 @@ fn render_theme_section(tab_index: &mut isize, cx: &mut App) -> impl IntoElement
         )
         .child(
             h_flex().w_full().mt_4().justify_end().child(
-                Button::new("more_themes", "More themes")
+                Button::new("more_themes", "その他のテーマ…")
                     .style(ButtonStyle::OutlinedGhost)
                     .size(ButtonSize::Medium)
                     .label_size(LabelSize::Small)
@@ -236,7 +236,7 @@ fn render_base_keymap_section(tab_index: &mut isize, cx: &mut App) -> impl IntoE
         BaseKeymap::None => None,
     };
 
-    return v_flex().gap_2().child(Label::new("Base Keymap")).child(
+    return v_flex().gap_2().child(Label::new("ベースキーマップ")).child(
         ToggleButtonGroup::three_rows(
             "base_keymap_selection",
             [
@@ -297,8 +297,8 @@ fn render_vim_mode_switch(tab_index: &mut isize, cx: &mut App) -> impl IntoEleme
     };
     SwitchField::new(
         "onboarding-vim-mode",
-        Some("Vim Mode"),
-        Some("Modal editing, vim style".into()),
+        Some("Vimモード"),
+        Some("Vimスタイルのモーダル編集".into()),
         toggle_state,
         {
             let fs = <dyn Fs>::global(cx);
@@ -337,8 +337,8 @@ fn render_helix_mode_switch(tab_index: &mut isize, cx: &mut App) -> impl IntoEle
     };
     SwitchField::new(
         "onboarding-helix-mode",
-        Some("Helix Mode"),
-        Some("Modal editing, helix/kakoune style".into()),
+        Some("Helixモード"),
+        Some("Helix/Kakouneスタイルのモーダル編集".into()),
         toggle_state,
         {
             let fs = <dyn Fs>::global(cx);
@@ -397,7 +397,7 @@ fn render_setting_import_button(
 fn render_import_settings_section(tab_index: &mut isize, cx: &mut App) -> impl IntoElement {
     let import_state = SettingsImportState::global(cx);
     let imports: [(SharedString, &dyn Action, bool); 1] = [(
-        "Import".into(),
+        "インポート".into(),
         &ImportVsCodeSettings { skip_prompt: false },
         import_state.vscode,
     )];
@@ -415,9 +415,9 @@ fn render_import_settings_section(tab_index: &mut isize, cx: &mut App) -> impl I
             v_flex()
                 .gap_0p5()
                 .max_w_5_6()
-                .child(Label::new("Import Settings"))
+                .child(Label::new("設定のインポート"))
                 .child(
-                    Label::new("Read compatible settings from your Codium / VS Code configuration, if available.")
+                    Label::new("利用可能な場合、Codium / VS Codeの設定から互換性のある設定を読み込みます。")
                         .color(Color::Muted),
                 ),
         )

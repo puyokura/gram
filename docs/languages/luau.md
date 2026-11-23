@@ -1,39 +1,39 @@
 # Luau
 
-[Luau](https://luau.org/) is a fast, small, safe, gradually typed, embeddable
-scripting language derived from Lua. Luau was developed by Roblox and is
-available under the MIT license.
+[Luau](https://luau.org/) は、Lua から派生した高速で小さく、安全で段階的に型付けされる
+埋め込み可能なスクリプト言語です。Luau は Roblox によって開発され、MIT ライセンスで
+公開されています。
 
-Luau language support in Gram is provided by the community-maintained
-[Luau extension](https://github.com/4teapo/zed-luau). Report issues to:
+Gram での Luau 言語サポートは、コミュニティが保守する
+[Luau 拡張機能](https://github.com/4teapo/zed-luau) によって提供されます。問題は
 [https://github.com/4teapo/zed-luau/issues](https://github.com/4teapo/zed-luau/issues)
+に報告してください。
 
 - Tree-sitter:
   [4teapo/tree-sitter-luau](https://github.com/4teapo/tree-sitter-luau)
-- Language Server:
+- 言語サーバー:
   [JohnnyMorganz/luau-lsp](https://github.com/JohnnyMorganz/luau-lsp)
 
-## Configuration
+## 構成
 
-Configuration instructions are available in the
-[Luau Gram Extension README](https://github.com/4teapo/zed-luau).
+設定手順は
+[Luau Gram 拡張機能の README](https://github.com/4teapo/zed-luau) にあります。
 
-## Formatting
+## フォーマット
 
-To support automatically formatting your code, you can use
-[JohnnyMorganz/StyLua](https://github.com/JohnnyMorganz/StyLua), a Lua code
-formatter.
+コードの自動フォーマットを利用するには、Lua のコードフォーマッターである
+[JohnnyMorganz/StyLua](https://github.com/JohnnyMorganz/StyLua) を使用できます。
 
-Install with:
+インストール方法:
 
 ```sh
-# macOS via Homebrew
+# macOS は Homebrew 経由
 brew install stylua
-# Or via Cargo
+# または Cargo 経由
 cargo install stylua --features lua52,lua53,lua54,luau
 ```
 
-Then add the following to your Gram `settings.json`:
+次に、Gram の `settings.json` に以下を追加します:
 
 ```json
   "languages": {

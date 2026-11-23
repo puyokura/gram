@@ -1,35 +1,30 @@
 # Scala
 
-Scala language support in Gram is provided by the community-maintained
-[Scala extension](https://github.com/scalameta/metals-zed). Report issues to:
+Gram での Scala 言語サポートは、コミュニティが保守する
+[Scala 拡張機能](https://github.com/scalameta/metals-zed)によって提供されます。問題はこちらへ報告してください:
 [https://github.com/scalameta/metals-zed/issues](https://github.com/scalameta/metals-zed/issues)
 
 - Tree-sitter:
   [tree-sitter/tree-sitter-scala](https://github.com/tree-sitter/tree-sitter-scala)
-- Language Server: [scalameta/metals](https://github.com/scalameta/metals)
+- 言語サーバー: [scalameta/metals](https://github.com/scalameta/metals)
 
-## Setup
+## セットアップ
 
-- Install Scala with `cs setup` (Coursier): https://www.scala-lang.org/download/
+- `cs setup`（Coursier）で Scala をインストールします: https://www.scala-lang.org/download/
   - `brew install coursier/formulas/coursier && cs setup`
-- REPL (Almond) Setup Instructions https://almond.sh/docs/quick-start-install
-  - `brew install --cask temurin` (Eclipse foundation official OpenJDK binaries)
+- REPL（Almond）のセットアップ手順 https://almond.sh/docs/quick-start-install
+  - `brew install --cask temurin`（Eclipse Foundation 公式の OpenJDK バイナリ）
   - `brew install coursier/formulas/coursier && cs setup`
   - `coursier launch --use-bootstrap almond -- --install`
 
-## Configuration
+## 設定
 
-Behavior of the Metals language server can be controlled with:
+Metals 言語サーバーの動作は、次のファイルで制御できます:
 
-- `.scalafix.conf` file - See
-  [Scalafix Configuration](https://scalacenter.github.io/scalafix/docs/users/configuration.html)
-- `.scalafmt.conf` file - See
-  [Scalafmt Configuration](https://scalameta.org/scalafmt/docs/configuration.html)
+- `.scalafix.conf` ファイル - [Scalafix の設定](https://scalacenter.github.io/scalafix/docs/users/configuration.html)を参照
+- `.scalafmt.conf` ファイル - [Scalafmt の設定](https://scalameta.org/scalafmt/docs/configuration.html)を参照
 
-You can place these files in the root of your project or specifying their
-location in the Metals configuration. See
-[Metals User Configuration](https://scalameta.org/metals/docs/editors/user-configuration)
-for more.
+これらのファイルはプロジェクトのルートに置くか、Metals の設定で場所を指定できます。詳しくは [Metals のユーザー設定](https://scalameta.org/metals/docs/editors/user-configuration)を参照してください。
 
 <!--
 TBD: Provide LSP configuration example for metals in Gram settings.json. metals.{javaHome,excludedPackages,customProjectRoot} etc.

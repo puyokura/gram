@@ -1,18 +1,18 @@
 # Bash
 
-Bash language support is provided natively by Gram.
+Bash 言語のサポートは Gram にネイティブで組み込まれています。
 
 - Tree-sitter:
   [tree-sitter/tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash)
-- Language Server:
+- 言語サーバー:
   [bash-lsp/bash-language-server](https://github.com/bash-lsp/bash-language-server)
 
-## Configuration
+## 構成
 
 ### `shellcheck`
 
-`bash-language-server` supports `shellcheck` and will make use of it
-automatically, if installed. This must be done manually by the user.
+`bash-language-server` は `shellcheck` をサポートしており、インストールされていれば
+自動的に利用します。インストールはユーザーが手動で行う必要があります。
 
 ```sh
 brew install shellcheck             # macOS (HomeBrew)
@@ -24,23 +24,23 @@ zypper install shellcheck           # openSUSE
 choco install shellcheck            # Windows (Chocolatey)
 ```
 
-And verify it is available from your path:
+そして、PATH から利用できることを確認します:
 
 ```sh
 which shellcheck
 shellcheck --version
 ```
 
-If you wish to customize the warnings/errors reported you just need to create a
-`.shellcheckrc` file. You can do this in the root of your project or in your
-home directory (`~/.shellcheckrc`). See:
-[shellcheck documentation](https://github.com/koalaman/shellcheck/wiki/Ignore#ignoring-one-or-more-types-of-errors-forever)
-for more.
+報告される警告/エラーをカスタマイズしたい場合は、`.shellcheckrc` ファイルを
+作成するだけです。プロジェクトのルートまたはホームディレクトリ
+（`~/.shellcheckrc`）に置けます。詳しくは
+[shellcheck のドキュメント](https://github.com/koalaman/shellcheck/wiki/Ignore#ignoring-one-or-more-types-of-errors-forever)
+を参照してください。
 
 ### `smfmt`
 
-Similarly, `bash-language-server` will make automatic use of `shfmt` for
-formatting, if it is available in `$PATH`. Install it with:
+同様に、`bash-language-server` は `$PATH` に `shfmt` があれば、フォーマットに
+自動的に利用します。次のようにインストールします:
 
 ```sh
 brew install shfmt          # MacOS (HomeBrew)
@@ -49,9 +49,9 @@ pacman -S shfmt             # Arch Linux
 choco install shfmt         # Windows (chocolatey)
 ```
 
-To control automatic formatting you can use `format_on_save` in your Gram
-settings or manually invoke `editor: format document` from the command palette.
+自動フォーマットを制御するには、Gram 設定の `format_on_save` を使うか、
+コマンドパレットから `editor: format document` を手動で実行します。
 
-### See also:
+### 関連項目:
 
-- [Gram Docs: Language Support: Shell Scripts](./sh.md)
+- [Gram ドキュメント: 言語サポート: シェルスクリプト](./sh.md)

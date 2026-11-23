@@ -1,47 +1,36 @@
-# How to Migrate from VS Code to Gram
+# VS Code から Gram への移行ガイド
 
-This guide is for developers who spent serious time in VS Code and want to try
-Gram without starting from scratch.
+このガイドは、VS Code を長く使っていて、ゼロからやり直すことなく Gram を試してみたい開発者向けです。
 
-If you're here, you are probably a VS Code user frustrated by the slow,
-Electron-based implementation and the increasing reliance on flaky AI tooling
-that is creeping into editors like VS Code and Zed, created by US-based
-corporations that want to trap you in a subscription-based model of code
-editing.
+Electron ベースの重い実装や、VS Code や Zed のようなエディターに入り込みつつある不安定な AI ツール・サブスクリプション前提のモデルに不満を感じている方にとって、Gram は有力な選択肢になります。
 
-Gram is a fully open source editor without any AI, telemetry or subscriptions,
-with support for many of the same languages that VS Code supports.
+Gram は AI・テレメトリ・サブスクリプションを一切含まない完全なオープンソースエディターであり、VS Code がサポートする多くの言語に対応しています。
 
-## Install Gram
+## Gram のインストール
 
-Gram is available for macOS, Windows, and Linux.
+Gram は macOS、Windows、Linux で利用できます。
 
-To install the editor, you will need to build it from source. Fortunately,
-building a Rust project is really easy. All you need is https://rustup.rs, which
-will help you install the compiler and tooling that compiling Gram requires.
+ソースからビルドしてインストールする場合でも、Rust プロジェクトのビルドは簡単です。https://rustup.rs を導入すれば、Gram のコンパイルに必要なコンパイラとツール一式を用意できます。
 
-After installation, you can launch Gram in the same way that you usually run
-applications on your platform.
+インストール後は、お使いのプラットフォームの通常のアプリケーションと同じ方法で Gram を起動できます。
 
-## Import Settings from VS Code
+## VS Code から設定をインポートする
 
-During setup, you have the option to import key settings from VS Code. Gram
-imports the following settings:
+初期セットアップ時に、VS Code から主要な設定をインポートできます。Gram がインポートする設定は次のとおりです。
 
-### Settings Imported from VS Code
+### VS Code からインポートされる設定一覧
 
-The following VS Code settings are automatically imported when you use **Import
-Settings from VS Code**:
+**VS Code から設定をインポート** を実行すると、以下の VS Code 設定が自動的にインポートされます。
 
-**Editor**
+**エディター**
 
-| VS Code Setting                             | Gram Setting                                   |
+| VS Code 設定                                | Gram 設定                                      |
 | ------------------------------------------- | ---------------------------------------------- |
 | `editor.fontFamily`                         | `buffer_font_family`                           |
 | `editor.fontSize`                           | `buffer_font_size`                             |
 | `editor.fontWeight`                         | `buffer_font_weight`                           |
 | `editor.tabSize`                            | `tab_size`                                     |
-| `editor.insertSpaces`                       | `hard_tabs` (inverted)                         |
+| `editor.insertSpaces`                       | `hard_tabs`（反転）                            |
 | `editor.wordWrap`                           | `soft_wrap`                                    |
 | `editor.wordWrapColumn`                     | `preferred_line_length`                        |
 | `editor.cursorStyle`                        | `cursor_shape`                                 |
@@ -79,9 +68,9 @@ Settings from VS Code**:
 | `editor.suggest.showWords`                  | `completions.words`                            |
 | `editor.inlineSuggest.enabled`              | `show_edit_predictions`                        |
 
-**Files & Workspace**
+**ファイルとワークスペース**
 
-| VS Code Setting             | Gram Setting                   |
+| VS Code 設定                | Gram 設定                      |
 | --------------------------- | ------------------------------ |
 | `files.autoSave`            | `autosave`                     |
 | `files.autoSaveDelay`       | `autosave.milliseconds`        |
@@ -93,9 +82,9 @@ Settings from VS Code**:
 | `search.smartCase`          | `use_smartcase_search`         |
 | `search.useIgnoreFiles`     | `search.include_ignored`       |
 
-**Terminal**
+**ターミナル**
 
-| VS Code Setting                       | Gram Setting                        |
+| VS Code 設定                          | Gram 設定                           |
 | ------------------------------------- | ----------------------------------- |
 | `terminal.integrated.fontFamily`      | `terminal.font_family`              |
 | `terminal.integrated.fontSize`        | `terminal.font_size`                |
@@ -108,9 +97,9 @@ Settings from VS Code**:
 | `terminal.integrated.{platform}Exec`  | `terminal.shell`                    |
 | `terminal.integrated.env.{platform}`  | `terminal.env`                      |
 
-**Tabs & Panels**
+**タブとパネル**
 
-| VS Code Setting                                    | Gram Setting                                       |
+| VS Code 設定                                       | Gram 設定                                          |
 | -------------------------------------------------- | -------------------------------------------------- |
 | `workbench.editor.showTabs`                        | `tab_bar.show`                                     |
 | `workbench.editor.showIcons`                       | `tabs.file_icons`                                  |
@@ -125,9 +114,9 @@ Settings from VS Code**:
 | `workbench.editor.restoreViewState`                | `restore_on_file_reopen`                           |
 | `workbench.statusBar.visible`                      | `status_bar.show`                                  |
 
-**Project Panel (File Explorer)**
+**プロジェクトパネル（ファイルエクスプローラー）**
 
-| VS Code Setting                | Gram Setting                        |
+| VS Code 設定                   | Gram 設定                           |
 | ------------------------------ | ----------------------------------- |
 | `explorer.compactFolders`      | `project_panel.auto_fold_dirs`      |
 | `explorer.autoReveal`          | `project_panel.auto_reveal_entries` |
@@ -137,225 +126,186 @@ Settings from VS Code**:
 
 **Git**
 
-| VS Code Setting                      | Gram Setting                                   |
+| VS Code 設定                         | Gram 設定                                      |
 | ------------------------------------ | ---------------------------------------------- |
 | `git.enabled`                        | `git_panel.button`                             |
 | `git.defaultBranchName`              | `git_panel.fallback_branch_name`               |
 | `git.decorations.enabled`            | `git.inline_blame`, `project_panel.git_status` |
 | `git.blame.editorDecoration.enabled` | `git.inline_blame.enabled`                     |
 
-**Window & Behavior**
+**ウィンドウと動作**
 
-| VS Code Setting                                  | Gram Setting                             |
+| VS Code 設定                                     | Gram 設定                                |
 | ------------------------------------------------ | ---------------------------------------- |
 | `window.confirmBeforeClose`                      | `confirm_quit`                           |
 | `window.nativeTabs`                              | `use_system_window_tabs`                 |
 | `window.closeWhenEmpty`                          | `when_closing_with_no_tabs`              |
 | `accessibility.dimUnfocused.enabled` / `opacity` | `active_pane_modifiers.inactive_opacity` |
 
-**Other**
+**その他**
 
-| VS Code Setting      | Gram Setting                                             |
+| VS Code 設定         | Gram 設定                                                |
 | -------------------- | -------------------------------------------------------- |
 | `http.proxy`         | `proxy`                                                  |
 | `npm.packageManager` | `node.npm_path`                                          |
 | `outline.icons`      | `outline_panel.file_icons`, `outline_panel.folder_icons` |
 
-Gram doesn’t import extensions or keybindings, but this is the fastest way to
-get a familiar feel while trying something new. If you skip that step during
-setup, you can still import settings manually later via the command palette:
+Gram は拡張機能やキーバインドまではインポートしませんが、慣れた操作感で新しい環境を試す最短の方法です。初期セットアップ時にスキップした場合でも、後からコマンドパレットで手動インポートできます。
 
 `Cmd+Shift+P → Gram: Import VS Code Settings`
 
-## Set Up Editor Preferences
+## エディター設定を構成する
 
-You can also configure settings manually in the Settings Editor.
+設定エディターから手動で設定を変更することもできます。
 
-To edit your settings:
+設定を編集するには、次のいずれかを実行します。
 
-1. `Cmd+,` to open the Settings Editor.
-2. Run `gram: open settings` in the Command Palette.
+1. `Cmd+,` で設定エディターを開きます。
+2. コマンドパレットで `gram: open settings` を実行します。
 
-Here’s how common VS Code settings translate:
+よく使われる VS Code 設定との対応は次のとおりです。
 
-| VS Code             | Gram               | Notes                          |
-| ------------------- | ------------------ | ------------------------------ |
-| editor.fontFamily   | buffer_font_family | Gram uses Fira Code by default |
-| editor.fontSize     | buffer_font_size   | Set in pixels                  |
-| editor.tabSize      | tab_size           | Can override per language      |
-| editor.insertSpaces | insert_spaces      | Boolean                        |
-| editor.formatOnSave | format_on_save     | Works with formatter enabled   |
-| editor.wordWrap     | soft_wrap          | Supports optional wrap column  |
+| VS Code             | Gram               | 備考                                   |
+| ------------------- | ------------------ | -------------------------------------- |
+| editor.fontFamily   | buffer_font_family | Gram は既定で Fira Code を使用         |
+| editor.fontSize     | buffer_font_size   | ピクセル単位で指定                     |
+| editor.tabSize      | tab_size           | 言語ごとに上書き可能                   |
+| editor.insertSpaces | insert_spaces      | 真偽値                                 |
+| editor.formatOnSave | format_on_save     | フォーマッター有効時に動作             |
+| editor.wordWrap     | soft_wrap          | 任意の折り返し桁数を指定可能           |
 
-Gram also supports per-project settings. You can find these in the Settings
-Editor as well.
+Gram はプロジェクトごとの設定もサポートしており、設定エディターから編集できます。
 
-## Open or Create a Project
+## プロジェクトを開く・作成する
 
-After setup, press `Cmd+O` (`Ctrl+O` on Linux) to open a folder. This becomes
-your workspace in Gram. There's no support for multi-root workspaces or
-`.code-workspace` files like in VS Code. Gram keeps it simple: one folder, one
-workspace.
+セットアップ後、`Cmd+O`（Linux では `Ctrl+O`）を押してフォルダーを開くと、そのフォルダーが Gram のワークスペースになります。VS Code のようなマルチルートワークスペースや `.code-workspace` ファイルには対応していません。Gram はシンプルに「1 フォルダー＝1 ワークスペース」を採用しています。
 
-To start a new project, create a directory using your terminal or file manager,
-then open it in Gram. The editor will treat that folder as the root of your
-project.
+新しいプロジェクトを始めるには、ターミナルやファイルマネージャーでディレクトリを作成してから Gram で開きます。エディターはそのフォルダーをプロジェクトルートとして扱います。
 
-You can also launch Gram from the terminal inside any folder with: `gram .`
+任意のフォルダー内でターミナルから `gram .` を実行して Gram を起動することもできます。
 
-Once inside a project, use `Cmd+P` to jump between files quickly. `Cmd+Shift+P`
-(`Ctrl+Shift+P` on Linux) opens the command palette for running actions / tasks,
-toggling settings, or running other actions.
+プロジェクトを開いたら、`Cmd+P` でファイル間を素早く移動できます。`Cmd+Shift+P`（Linux では `Ctrl+Shift+P`）でコマンドパレットを開き、アクションやタスクの実行、設定の切り替えなどを行えます。
 
-Open buffers appear as tabs across the top. The sidebar shows your file tree and
-Git status. Collapse it with `Cmd+B` for a distraction-free view.
+開いているバッファーは上部にタブとして表示されます。サイドバーにはファイルツリーと Git ステータスが表示され、`Cmd+B` で折りたたんでコードに集中できます。
 
-## Differences in Keybindings
+## キーバインドの違い
 
-If you chose the VS Code keymap during onboarding, you're likely good to go, and
-most of your shortcuts should already feel familiar. Here’s a quick reference
-guide for how our keybindings compare to what you’re used to coming from VS
-Code.
+オンボーディングで VS Code キーマップを選択していれば、ほとんどのショートカットはそのまま慣れた操作で使えます。VS Code と Gram のキーバインドの比較は以下のとおりです。
 
-### Common Shared Keybindings (Gram <> VS Code)
+### 共通の主要キーバインド（Gram <> VS Code）
 
-| Action                      | Shortcut               |
-| --------------------------- | ---------------------- |
-| Find files                  | `Cmd + P`              |
-| Run a command               | `Cmd + Shift + P`      |
-| Search text (project-wide)  | `Cmd + Shift + F`      |
-| Find symbols (project-wide) | `Cmd + T`              |
-| Find symbols (file-wide)    | `Cmd + Shift + O`      |
-| Toggle left dock            | `Cmd + B`              |
-| Toggle bottom dock          | `Cmd + J`              |
-| Open terminal               | `Ctrl + ~`             |
-| Open file tree explorer     | `Cmd + Shift + E`      |
-| Close current buffer        | `Cmd + W`              |
-| Close whole project         | `Cmd + Shift + W`      |
-| Refactor: rename symbol     | `F2`                   |
-| Change theme                | `Cmd + K, Cmd + T`     |
-| Wrap text                   | `Opt + Z`              |
-| Navigate open tabs          | `Cmd + Opt + Arrow`    |
-| Syntactic fold / unfold     | `Cmd + Opt + {` or `}` |
+| 操作                             | ショートカット         |
+| -------------------------------- | ---------------------- |
+| ファイルを検索                   | `Cmd + P`              |
+| コマンドを実行                   | `Cmd + Shift + P`      |
+| プロジェクト全体をテキスト検索   | `Cmd + Shift + F`      |
+| シンボルを検索（プロジェクト全体） | `Cmd + T`            |
+| シンボルを検索（ファイル内）     | `Cmd + Shift + O`      |
+| 左ドックを切り替え               | `Cmd + B`              |
+| 下ドックを切り替え               | `Cmd + J`              |
+| ターミナルを開く                 | `Ctrl + ~`             |
+| ファイルツリーを開く             | `Cmd + Shift + E`      |
+| 現在のバッファーを閉じる         | `Cmd + W`              |
+| プロジェクト全体を閉じる         | `Cmd + Shift + W`      |
+| リファクタリング: シンボル名変更 | `F2`                   |
+| テーマを変更                     | `Cmd + K, Cmd + T`     |
+| テキストの折り返し               | `Opt + Z`              |
+| 開いているタブを移動             | `Cmd + Opt + Arrow`    |
+| 構文ベースの折りたたみ / 展開    | `Cmd + Opt + {` or `}` |
 
-### Different Keybindings (Gram <> VS Code)
+### 異なるキーバインド（Gram <> VS Code）
 
-| Action              | VS Code               | Gram                   |
-| ------------------- | --------------------- | ---------------------- |
-| Open recent project | `Ctrl + R`            | `Cmd + Opt + O`        |
-| Move lines up/down  | `Opt + Up/Down`       | `Cmd + Ctrl + Up/Down` |
-| Split panes         | `Cmd + \`             | `Cmd + K, Arrow Keys`  |
-| Expand Selection    | `Shift + Alt + Right` | `Opt + Up`             |
+| 操作                       | VS Code               | Gram                   |
+| -------------------------- | --------------------- | ---------------------- |
+| 最近使ったプロジェクトを開く | `Ctrl + R`          | `Cmd + Opt + O`        |
+| 行を上下に移動             | `Opt + Up/Down`       | `Cmd + Ctrl + Up/Down` |
+| ペインを分割               | `Cmd + \`             | `Cmd + K, Arrow Keys`  |
+| 選択範囲を拡張             | `Shift + Alt + Right` | `Opt + Up`             |
 
-### Unique to Gram
+### Gram 固有のキーバインド
 
-| Action              | Shortcut                     | Notes                                            |
-| ------------------- | ---------------------------- | ------------------------------------------------ |
-| Toggle right dock   | `Cmd + R` or `Cmd + Alt + B` |                                                  |
-| Syntactic selection | `Opt + Up/Down`              | Selects code by structure (e.g., inside braces). |
+| 操作             | ショートカット               | 備考                                         |
+| ---------------- | ---------------------------- | -------------------------------------------- |
+| 右ドックを切り替え | `Cmd + R` or `Cmd + Alt + B` |                                              |
+| 構文選択         | `Opt + Up/Down`              | 構造単位（波括弧の内側など）でコードを選択します。 |
 
-### How to Customize Keybindings
+### キーバインドをカスタマイズする方法
 
-To edit your keybindings:
+キーバインドを編集するには次の手順を実行します。
 
-- Open the command palette (`Cmd+Shift+P`)
-- Run `Gram: Open Keymap Editor`
+- コマンドパレット（`Cmd+Shift+P`）を開く
+- `Gram: Open Keymap Editor` を実行する
 
-This opens a list of all available bindings. You can override individual
-shortcuts, remove conflicts, or build a layout that works better for your setup.
+利用可能なキーバインドの一覧が開き、個別のショートカットの上書きや競合の解消、自分の環境に合わせた構成を行えます。
 
-Gram also supports chords (multi-key sequences) like `Cmd+K Cmd+C`, like VS Code
-does.
+Gram も VS Code と同様に `Cmd+K Cmd+C` のようなコード（複数キーの連続入力）をサポートしています。
 
-## Differences in User Interfaces
+## ユーザーインターフェースの違い
 
-### No Workspace
+### ワークスペースファイルなし
 
-VS Code uses a dedicated Workspace concept, with multi-root folders,
-`.code-workspace` files, and a clear distinction between “a window” and “a
-workspace.” Gram simplifies this model.
+VS Code にはマルチルートフォルダーや `.code-workspace` ファイル、「ウィンドウ」と「ワークスペース」の明確な区別といった専用のワークスペース概念があります。Gram はこのモデルを簡素化しています。
 
-In Gram:
+Gram では次のようになります。
 
-- There is no workspace file format. Opening a folder is your project context.
+- ワークスペース専用のファイル形式はありません。フォルダーを開くこと自体がプロジェクトコンテキストになります。
 
-- Gram does not support multi-root workspaces. You can only open one folder at a
-  time in a window.
+- Gram はマルチルートワークスペースをサポートしていません。1 つのウィンドウで開けるフォルダーは 1 つです。
 
-- Most project-level behavior is scoped to the folder you open. Search, Git
-  integration, tasks, and environment detection all treat the opened directory
-  as the project root.
+- プロジェクト単位の動作の大半は開いたフォルダーに紐づきます。検索、Git 統合、タスク、環境検出はいずれも開いたディレクトリをプロジェクトルートとして扱います。
 
-- Per-project settings are optional. You can add a `.gram/settings.json` file
-  inside a project to override global settings, but Gram does not use
-  `.code-workspace` files and won’t import them.
+- プロジェクトごとの設定は任意です。プロジェクト内に `.gram/settings.json` を置けばグローバル設定を上書きできますが、`.code-workspace` ファイルは使用せずインポートもしません。
 
-- You can start from a single file or an empty window. Gram doesn’t require you
-  to open a folder to begin editing.
+- 単一ファイルや空のウィンドウから始めることもできます。編集を始めるためにフォルダーを開く必要はありません。
 
-The result is a simpler model: Open a folder → work inside that folder → no
-additional workspace layer.
+結果として、「フォルダーを開く → その中で作業する」という余計な層のないシンプルな構成になっています。
 
-### Navigating in a Project
+### プロジェクト内のナビゲーション
 
-In VS Code, the standard entry point is opening a folder. From there, the
-left-hand sidebar is central to your navigation. Gram takes a different
-approach:
+VS Code ではフォルダーを開いて左側のサイドバーを中心に操作するのが一般的ですが、Gram は異なるアプローチを取ります。
 
-- You can still open folders, but you don’t need to. Opening a single file or
-  even starting with an empty workspace is valid.
-- The Command Palette (`Cmd+Shift+P`) and File Finder (`Cmd+P`) are your primary
-  navigation tools. The File Finder searches across the entire workspace
-  instantly; files, symbols and commands.
-- Instead of a persistent sidebar, Gram encourages you to:
-  - Fuzzy-find files by name (`Cmd+P`)
-  - Jump directly to symbols (`Cmd+Shift+O`)
-  - Use split panes and tabs for context, rather than keeping a large file tree
-    open (though you can do this with the Project Panel if you prefer).
+- フォルダーを開くこともできますが、必須ではありません。単一ファイルや空のワークスペースからでも始められます。
+- コマンドパレット（`Cmd+Shift+P`）とファイル検索（`Cmd+P`）が中心的なナビゲーションツールです。ファイル検索はワークスペース全体からファイル・シンボル・コマンドを即座に検索します。
+- サイドバーを常時開いておく代わりに、Gram では次のような操作を推奨しています。
+  - ファイル名でのファジー検索（`Cmd+P`）
+  - シンボルへの直接ジャンプ（`Cmd+Shift+O`）
+  - 大きなファイルツリーを常時開く代わりに、分割ペインとタブでコンテキストを管理する（好みに応じてプロジェクトパネルを使うこともできます）
 
-The UI is intentionally minimal. Panels slide in only when needed, then get out
-of your way. The focus is on flowing between code instead of managing panes.
+UI は意図的に最小限に保たれています。パネルは必要なときだけ表示され、邪魔をしません。ペインの管理ではなくコード間の移動に集中できる設計です。
 
-### Extensions vs. Marketplace
+### 拡張機能とマーケットプレイス
 
-Gram does not offer as many extensions as VS Code. The available extensions are
-focused on language support, themes, syntax highlighting, and other core editing
-enhancements.
+Gram は VS Code ほど多くの拡張機能を提供していません。提供される拡張機能は、言語サポート、テーマ、シンタックスハイライト、その他の基本的な編集機能の強化に重点を置いています。
 
-However there are several features that typically require extensions in VS Code
-which we built directly into Gram:
+一方で、VS Code では通常拡張機能が必要になる多くの機能が Gram に標準で組み込まれています。
 
-- Vim modal editing mode (as well as a Helix mode)
-- Built-in terminal panel
-- Project-wide fuzzy search
-- Task runner with JSON config
-- Inline diagnostics and code actions via LSP
+- Vim モーダル編集モード（および Helix モード）
+- 組み込みターミナルパネル
+- プロジェクト全体のファジー検索
+- JSON 設定によるタスクランナー
+- LSP 経由のインライン診断とコードアクション
 
-You won’t find one-to-one replacements for every VS Code extension, especially
-if you rely on tools for DevOps, containers, or test runners. Gram's extension
-ecosystem is still growing, and the catalog is smaller by design.
+特に DevOps、コンテナ、テストランナー系のツールに依存している場合、すべての VS Code 拡張機能に 1 対 1 の代替が見つかるわけではありません。Gram の拡張機能エコシステムはまだ成長途中であり、カタログも意図的にコンパクトに保たれています。
 
-### Advanced Config and Productivity Tweaks
+### 高度な設定と生産性向上のヒント
 
-Gram exposes advanced settings for power users who want to fine-tune their
-environment.
+Gram には環境を細かく調整したいパワーユーザー向けの高度な設定が用意されています。
 
-Here are a few useful tweaks:
+便利な設定例をいくつか紹介します。
 
-**Format on Save:**
+**保存時の自動フォーマット:**
 
 ```json
 "format_on_save": "on"
 ```
 
-**Enable direnv support:**
+**direnv サポートを有効化:**
 
 ```json
 "load_direnv": "shell_hook"
 ```
 
-**Custom Tasks**: Define build or run commands in your `tasks.jsonc` (accessed
-via command palette: `gram: open tasks`):
+**カスタムタスク**: `tasks.jsonc`（コマンドパレットの `gram: open tasks` から開けます）でビルドや実行コマンドを定義できます。
 
 ```json
 [
@@ -366,5 +316,4 @@ via command palette: `gram: open tasks`):
 ]
 ```
 
-**Bring over custom snippets** Copy your VS Code snippet JSON directly into
-Gram's snippets folder (`gram: configure snippets`).
+**カスタムスニペットの移行**: VS Code のスニペット JSON をそのまま Gram のスニペットフォルダー（`gram: configure snippets`）にコピーできます。

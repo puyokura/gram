@@ -226,7 +226,7 @@ impl CommitView {
             multibuffer.set_excerpt_ranges_for_path(
                 PathKey::with_sort_prefix(
                     COMMIT_MESSAGE_SORT_PREFIX,
-                    RelPath::unix("commit message").unwrap().into(),
+                    RelPath::unix("コミットメッセージ").unwrap().into(),
                 ),
                 message_buffer.clone(),
                 &snapshot,
@@ -300,7 +300,7 @@ impl CommitView {
                         .is_some_and(|text| is_binary_content(text.as_bytes()));
 
                 let new_text = if is_binary {
-                    "(binary file not shown)".to_string()
+                    "(バイナリファイルのため表示できません)".to_string()
                 } else {
                     raw_new_text
                 };
@@ -312,7 +312,7 @@ impl CommitView {
                             .map(|path| path.worktree_id)
                             .or(first_worktree_id)
                     })?
-                    .context("project has no worktrees")?;
+                    .context("プロジェクトにワークツリーがありません")?;
                 let short_sha = commit_sha.get(0..7).unwrap_or(&commit_sha);
                 let file_name = file
                     .path
@@ -610,7 +610,12 @@ impl CommitView {
                                             .tooltip({
                                                 let commit_sha = commit_sha.clone();
                                                 move |_, cx| {
-                                                    Tooltip::with_meta("Copy Commit SHA", None, commit_sha.clone(), cx)
+                                                    Tooltip::with_meta(
+                                                        "コミット SHA をコピー",
+                                                        None,
+                                                        commit_sha.clone(),
+                                                        cx,
+                                                    )
                                                 }
                                             })
                                             .on_click(move |_, _, cx| {
@@ -647,7 +652,7 @@ impl CommitView {
                             .justify_end()
                             .children(remote_info.map(|(provider_name, url)| {
                                 let url = SharedString::from(url);
-                                Button::new("view_on_provider", format!("View on {}", provider_name))
+                                Button::new("view_on_provider", format!("{} で表示", provider_name))
                                     .icon(IconName::Forge)
                                     .icon_color(Color::Muted)
                                     .icon_size(IconSize::Small)
@@ -656,12 +661,12 @@ impl CommitView {
                                     .on_click(move |_, _, cx| cx.open_url(&url))
                             }))
                             .child(
-                                Button::new("toggle_split_diff", "Toggle split")
+                                Button::new("toggle_split_diff", "分割表示を切り替え")
                                     .icon(IconName::Split)
                                     .icon_color(Color::Muted)
                                     .icon_size(IconSize::Small)
                                     .icon_position(IconPosition::Start)
-                                    .tooltip(Tooltip::text("Toggle side-by-side diff view"))
+                                    .tooltip(Tooltip::text("左右並列の差分表示を切り替え"))
                                     .on_click(|_, window, cx| window.dispatch_action(Box::new(ToggleSplitDiff), cx)),
                             ),
                     ),
@@ -671,13 +676,13 @@ impl CommitView {
     fn apply_stash(workspace: &mut Workspace, window: &mut Window, cx: &mut App) {
         Self::stash_action(
             workspace,
-            "Apply",
+            "適用",
             window,
             cx,
             async move |repository, sha, stash, commit_view, workspace, cx| {
                 let result = repository.update(cx, |repo, cx| {
                     if !stash_matches_index(sha, stash, repo) {
-                        return Err(anyhow::anyhow!("Stash has changed, not applying"));
+                        return Err(anyhow::anyhow!("スタッシュが変更されたため適用を中止しました"));
                     }
                     Ok(repo.stash_apply(Some(stash), cx))
                 })?;
@@ -698,13 +703,13 @@ impl CommitView {
     fn pop_stash(workspace: &mut Workspace, window: &mut Window, cx: &mut App) {
         Self::stash_action(
             workspace,
-            "Pop",
+            "ポップ",
             window,
             cx,
             async move |repository, sha, stash, commit_view, workspace, cx| {
                 let result = repository.update(cx, |repo, cx| {
                     if !stash_matches_index(sha, stash, repo) {
-                        return Err(anyhow::anyhow!("Stash has changed, pop aborted"));
+                        return Err(anyhow::anyhow!("スタッシュが変更されたためポップを中止しました"));
                     }
                     Ok(repo.stash_pop(Some(stash), cx))
                 })?;
@@ -725,13 +730,13 @@ impl CommitView {
     fn remove_stash(workspace: &mut Workspace, window: &mut Window, cx: &mut App) {
         Self::stash_action(
             workspace,
-            "Drop",
+            "破棄",
             window,
             cx,
             async move |repository, sha, stash, commit_view, workspace, cx| {
                 let result = repository.update(cx, |repo, cx| {
                     if !stash_matches_index(sha, stash, repo) {
-                        return Err(anyhow::anyhow!("Stash has changed, drop aborted"));
+                        return Err(anyhow::anyhow!("スタッシュが変更されたため破棄を中止しました"));
                     }
                     Ok(repo.stash_drop(Some(stash), cx))
                 })?;
@@ -775,9 +780,9 @@ impl CommitView {
         let sha = commit_view.read(cx).commit.sha.clone();
         let answer = window.prompt(
             PromptLevel::Info,
-            &format!("{} stash@{{{}}}?", str_action, stash),
+            &format!("stash@{{{}}} を{}しますか？", stash, str_action),
             None,
-            &[str_action, "Cancel"],
+            &[str_action, "キャンセル"],
             cx,
         );
 

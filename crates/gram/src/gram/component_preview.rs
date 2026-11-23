@@ -109,7 +109,7 @@ impl ComponentPreview {
         let sorted_components = component_registry.sorted_components();
         let selected_index = selected_index.into().unwrap_or(0);
         let active_page = active_page.unwrap_or(PreviewPage::AllComponents);
-        let filter_editor = cx.new(|cx| InputField::new(window, cx, "Find components or usages…"));
+        let filter_editor = cx.new(|cx| InputField::new(window, cx, "コンポーネントまたは使用箇所を検索…"));
 
         let component_list = ListState::new(sorted_components.len(), gpui::ListAlignment::Top, px(1500.0));
 
@@ -285,7 +285,7 @@ impl ComponentPreview {
             && !components.is_empty()
         {
             entries.push(PreviewEntry::Separator);
-            entries.push(PreviewEntry::SectionHeader("Uncategorized".into()));
+            entries.push(PreviewEntry::SectionHeader("未分類".into()));
             let mut sorted_components = components.clone();
             sorted_components.sort_by_key(|(c, _)| c.sort_name());
 
@@ -372,7 +372,7 @@ impl ComponentPreview {
                 let selected = self.active_page == PreviewPage::AllComponents;
 
                 ListItem::new(ix)
-                    .child(Label::new("All Components"))
+                    .child(Label::new("すべてのコンポーネント"))
                     .selectable(true)
                     .toggle_state(selected)
                     .inset(true)
@@ -452,7 +452,7 @@ impl ComponentPreview {
                     .items_center()
                     .justify_center()
                     .text_color(cx.theme().colors().text_muted)
-                    .child(format!("No components matching '{}'.", self.filter_text))
+                    .child(format!("'{}' に一致するコンポーネントはありません。", self.filter_text))
                     .into_any_element()
             } else {
                 list(
@@ -502,7 +502,7 @@ impl ComponentPreview {
                 .size_full()
                 .items_center()
                 .justify_center()
-                .child("Component not found")
+                .child("コンポーネントが見つかりません")
                 .into_any_element()
         }
     }
@@ -512,7 +512,9 @@ impl ComponentPreview {
             workspace.update(cx, |workspace, cx| {
                 let status_toast = StatusToast::new("`gram/new-notification-system` created!", cx, |this, _cx| {
                     this.icon(ToastIcon::new(IconName::GitBranchAlt).color(Color::Muted))
-                        .action("Open Pull Request", |_, cx| cx.open_url("https://github.com/"))
+                        .action("プルリクエストを開く", |_, cx| {
+                            cx.open_url("https://github.com/")
+                        })
                 });
                 workspace.toggle_status_toast(status_toast, cx);
             });
@@ -580,7 +582,7 @@ impl Render for ComponentPreview {
                             .border_t_1()
                             .border_color(cx.theme().colors().border)
                             .child(
-                                Button::new("toast-test", "Launch Toast")
+                                Button::new("toast-test", "トーストを表示")
                                     .full_width()
                                     .on_click(cx.listener({
                                         move |this, _, _window, cx| {
@@ -646,7 +648,7 @@ impl Item for ComponentPreview {
     type Event = ItemEvent;
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Component Preview".into()
+        "コンポーネントのプレビュー".into()
     }
 
     fn show_toolbar(&self) -> bool {
@@ -848,11 +850,11 @@ impl ComponentPreviewPage {
             // Fall back to component preview
             preview(window, cx).unwrap_or_else(|| {
                 div()
-                    .child("Failed to load preview. This path should be unreachable")
+                    .child("プレビューの読み込みに失敗しました。このパスには到達しないはずです")
                     .into_any_element()
             })
         } else {
-            div().child("No preview available").into_any_element()
+            div().child("利用可能なプレビューがありません").into_any_element()
         };
 
         v_flex()

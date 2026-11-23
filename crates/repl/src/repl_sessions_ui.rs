@@ -12,21 +12,21 @@ use crate::repl_store::ReplStore;
 actions!(
     repl,
     [
-        /// Runs the current cell and advances to the next one.
+        /// 現在のセルを実行して次のセルへ進みます。
         Run,
-        /// Runs the current cell without advancing.
+        /// 移動せずに現在のセルを実行します。
         RunInPlace,
-        /// Clears all outputs in the REPL.
+        /// REPL のすべての出力をクリアします。
         ClearOutputs,
-        /// Opens the REPL sessions panel.
+        /// REPL セッションパネルを開きます。
         Sessions,
-        /// Interrupts the currently running kernel.
+        /// 実行中のカーネルを中断します。
         Interrupt,
-        /// Shuts down the current kernel.
+        /// 現在のカーネルをシャットダウンします。
         Shutdown,
-        /// Restarts the current kernel.
+        /// 現在のカーネルを再起動します。
         Restart,
-        /// Refreshes the list of available kernelspecs.
+        /// 利用可能なカーネル一覧を更新します。
         RefreshKernelspecs
     ]
 );
@@ -163,7 +163,7 @@ impl Item for ReplSessionsPage {
     type Event = ItemEvent;
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "REPL Sessions".into()
+        "REPL セッション".into()
     }
 
     fn show_toolbar(&self) -> bool {
@@ -190,9 +190,9 @@ impl Render for ReplSessionsPage {
         // install kernels. It can be assumed they don't have a running kernel if we have no
         // specifications.
         if kernel_specifications.is_empty() {
-            let instructions = "To start interactively running code in your editor, you need to install and configure Jupyter kernels.";
+            let instructions = "エディター内でコードを対話的に実行するには、Jupyter カーネルをインストールして設定する必要があります。";
 
-            return ReplSessionsContainer::new("No Jupyter Kernels Available")
+            return ReplSessionsContainer::new("利用可能な Jupyter カーネルがありません")
                 .child(Label::new(instructions))
                 .child(
                     h_flex().w_full().p_4().justify_center().gap_2().child(
@@ -200,7 +200,7 @@ impl Render for ReplSessionsPage {
                             .style(ButtonStyle::Filled)
                             .size(ButtonSize::Large)
                             .layer(ElevationIndex::ModalSurface)
-                            .child(Label::new("Install Kernels"))
+                            .child(Label::new("カーネルをインストール"))
                             .on_click(move |_, _, cx| cx.open_url("gram://docs/repl#language-specific-instructions")),
                     ),
                 );
@@ -208,16 +208,17 @@ impl Render for ReplSessionsPage {
 
         // When there are no sessions, show the command to run code in an editor
         if sessions.is_empty() {
-            let instructions = "To run code in a Jupyter kernel, select some code and use the 'repl::Run' command.";
+            let instructions =
+                "Jupyter カーネルでコードを実行するには、コードを選択して 'repl::Run' コマンドを使用します。";
 
-            return ReplSessionsContainer::new("No Jupyter Kernel Sessions").child(
+            return ReplSessionsContainer::new("Jupyter カーネルセッションはありません").child(
                 v_flex()
                     .child(Label::new(instructions))
                     .child(KeyBinding::for_action(&Run, cx)),
             );
         }
 
-        ReplSessionsContainer::new("Jupyter Kernel Sessions").children(sessions)
+        ReplSessionsContainer::new("Jupyter カーネルセッション").children(sessions)
     }
 }
 

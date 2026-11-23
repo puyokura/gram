@@ -1,50 +1,47 @@
-# Building Gram for FreeBSD
+# FreeBSD 向け Gram のビルド
 
-Note, FreeBSD is not currently a supported platform, and so this is a
-work-in-progress.
+FreeBSD は現在サポート対象のプラットフォームではないため、これは作業中のドキュメントです。
 
-## Repository
+## リポジトリ
 
-Clone the [Gram repository](https://codeberg.org/GramEditor/gram).
+[Gram リポジトリ](https://codeberg.org/GramEditor/gram)をクローンします。
 
-## Dependencies
+## 依存関係
 
-- Install the necessary system packages and rustup:
+- 必要なシステムパッケージと rustup をインストールします:
 
   ```sh
   script/freebsd
   ```
 
-  If preferred, you can inspect
+  必要であれば、
   [`script/freebsd`](https://github.com/zed-industries/zed/blob/main/script/freebsd)
-  and perform the steps manually.
+  を参照して手順を手動で実行してもかまいません。
 
-## Building from source
+## ソースからのビルド
 
-Once the dependencies are installed, you can build Gram using
-[Cargo](https://doc.rust-lang.org/cargo/).
+依存関係をインストールしたら、[Cargo](https://doc.rust-lang.org/cargo/)を使って Gram をビルドできます。
 
-For a debug build of the editor:
+エディターのデバッグビルド:
 
 ```sh
 cargo run
 ```
 
-And to run the tests:
+テストを実行する場合:
 
 ```sh
 cargo test --workspace
 ```
 
-In release mode, the primary user interface is the `cli` crate. You can run it
-in development with:
+リリースモードでは、主要なユーザーインターフェースは `cli` クレートです。開発中に実行するには次のコマンドを使います:
 
 ```sh
 cargo run -p cli
 ```
 
-## Troubleshooting
+## トラブルシューティング
 
-### Cargo errors claiming that a dependency is using unstable features
+### 依存関係が不安定な機能を使用しているという Cargo のエラー
 
-Try `cargo clean` and `cargo build`.
+`cargo clean` を実行してから `cargo build` を試してください。

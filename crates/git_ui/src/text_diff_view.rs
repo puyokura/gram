@@ -185,7 +185,7 @@ impl TextDiffView {
                     .file()
                     .map(|f| f.full_path(cx).compact().to_string_lossy().into_owned())
             })
-            .unwrap_or("untitled".into());
+            .unwrap_or("無題".into());
 
         let selection_location_path = selection_location_text
             .map(|text| format!("{} @ {}", path, text))
@@ -193,8 +193,8 @@ impl TextDiffView {
 
         Self {
             diff_editor,
-            title: format!("Clipboard ↔ {selection_location_title}").into(),
-            path: Some(format!("Clipboard ↔ {selection_location_path}").into()),
+            title: format!("クリップボード ↔ {selection_location_title}").into(),
+            path: Some(format!("クリップボード ↔ {selection_location_path}").into()),
             buffer_changes_tx,
             _recalculate_diff_task: cx.spawn(async move |_, cx| {
                 while buffer_changes_rx.recv().await.is_ok() {
@@ -439,8 +439,8 @@ mod tests {
                       pass
                 ",
             ),
-            "Clipboard ↔ text.txt @ L1:1-L3:1",
-            &format!("Clipboard ↔ {} @ L1:1-L3:1", path!("test/text.txt")),
+            "クリップボード ↔ text.txt @ L1:1-L3:1",
+            &format!("クリップボード ↔ {} @ L1:1-L3:1", path!("test/text.txt")),
             cx,
         )
         .await;
@@ -460,8 +460,8 @@ mod tests {
                       pass
                 ",
             ),
-            "Clipboard ↔ text.txt @ L1:1-L3:1",
-            &format!("Clipboard ↔ {} @ L1:1-L3:1", path!("test/text.txt")),
+            "クリップボード ↔ text.txt @ L1:1-L3:1",
+            &format!("クリップボード ↔ {} @ L1:1-L3:1", path!("test/text.txt")),
             cx,
         )
         .await;
@@ -479,8 +479,8 @@ mod tests {
                 - a
                 + ˇbb",
             ),
-            "Clipboard ↔ text.txt @ L1:1-3",
-            &format!("Clipboard ↔ {} @ L1:1-3", path!("test/text.txt")),
+            "クリップボード ↔ text.txt @ L1:1-3",
+            &format!("クリップボード ↔ {} @ L1:1-3", path!("test/text.txt")),
             cx,
         )
         .await;
@@ -498,8 +498,8 @@ mod tests {
                 -     a
                 + ˇbb",
             ),
-            "Clipboard ↔ text.txt @ L1:1-3",
-            &format!("Clipboard ↔ {} @ L1:1-3", path!("test/text.txt")),
+            "クリップボード ↔ text.txt @ L1:1-3",
+            &format!("クリップボード ↔ {} @ L1:1-3", path!("test/text.txt")),
             cx,
         )
         .await;
@@ -517,8 +517,8 @@ mod tests {
                 - a
                 + ˇ    bb",
             ),
-            "Clipboard ↔ text.txt @ L1:1-7",
-            &format!("Clipboard ↔ {} @ L1:1-7", path!("test/text.txt")),
+            "クリップボード ↔ text.txt @ L1:1-7",
+            &format!("クリップボード ↔ {} @ L1:1-7", path!("test/text.txt")),
             cx,
         )
         .await;
@@ -538,8 +538,8 @@ mod tests {
                 - a
                 + ˇ    bb",
             ),
-            "Clipboard ↔ text.txt @ L1:1-7",
-            &format!("Clipboard ↔ {} @ L1:1-7", path!("test/text.txt")),
+            "クリップボード ↔ text.txt @ L1:1-7",
+            &format!("クリップボード ↔ {} @ L1:1-7", path!("test/text.txt")),
             cx,
         )
         .await;
@@ -559,8 +559,8 @@ mod tests {
                 -     a
                 + ˇ    bb",
             ),
-            "Clipboard ↔ text.txt @ L1:1-7",
-            &format!("Clipboard ↔ {} @ L1:1-7", path!("test/text.txt")),
+            "クリップボード ↔ text.txt @ L1:1-7",
+            &format!("クリップボード ↔ {} @ L1:1-7", path!("test/text.txt")),
             cx,
         )
         .await;
@@ -580,8 +580,8 @@ mod tests {
                 -     a
                 + ˇ    bb",
             ),
-            "Clipboard ↔ text.txt @ L1:1-7",
-            &format!("Clipboard ↔ {} @ L1:1-7", path!("test/text.txt")),
+            "クリップボード ↔ text.txt @ L1:1-7",
+            &format!("クリップボード ↔ {} @ L1:1-7", path!("test/text.txt")),
             cx,
         )
         .await;
@@ -601,8 +601,8 @@ mod tests {
                 - a
                 + ˇbb",
             ),
-            "Clipboard ↔ text.txt @ L1:1-3",
-            &format!("Clipboard ↔ {} @ L1:1-3", path!("test/text.txt")),
+            "クリップボード ↔ text.txt @ L1:1-3",
+            &format!("クリップボード ↔ {} @ L1:1-3", path!("test/text.txt")),
             cx,
         )
         .await;

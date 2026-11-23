@@ -1,28 +1,27 @@
 # SQL
 
-Syntax highlighting and formatting support for SQL is built into the editor.
+SQL のシンタックスハイライトとフォーマットのサポートは、エディターに組み込まれています。
 
-- [Tree sitter grammar](https://github.com/DerekStride/tree-sitter-sql)
+- [Tree-sitter 文法](https://github.com/DerekStride/tree-sitter-sql)
 
-### Formatting
+### フォーマット
 
-SQL auto-formatting can be added to the editor using external tools like
-[`sql-formatter`](https://github.com/sql-formatter-org/sql-formatter).
+SQL の自動フォーマットは、[`sql-formatter`](https://github.com/sql-formatter-org/sql-formatter) などの外部ツールを使ってエディターに追加できます。
 
-1. Install `sql-formatter`:
+1. `sql-formatter` をインストールします:
 
 ```sh
 npm install -g sql-formatter
 ```
 
-2. Ensure `sql-formatter` is available in your path and check the version:
+2. `sql-formatter` がパス上にあることを確認し、バージョンを表示します:
 
 ```sh
 which sql-formatter
 sql-formatter --version
 ```
 
-3. Configure Gram to automatically format SQL with `sql-formatter`:
+3. `sql-formatter` で SQL を自動フォーマットするよう Gram を設定します:
 
 ```json
   "languages": {
@@ -37,17 +36,14 @@ sql-formatter --version
   },
 ```
 
-Substitute your preferred [SQL Dialect] for `mysql` above (`duckdb`, `hive`,
-`mariadb`, `postgresql`, `redshift`, `snowflake`, `sqlite`, `spark`, etc).
+上記の `mysql` を、好みの [SQL 方言]（`duckdb`、`hive`、
+`mariadb`、`postgresql`、`redshift`、`snowflake`、`sqlite`、`spark` など）に置き換えてください。
 
-You can add this to Gram project settings (`.gram/settings.json`) or via your
-Gram user settings (`~/.config/gram/settings.json`).
+これは Gram のプロジェクト設定（`.gram/settings.json`）に追加するか、Gram のユーザー設定（`~/.config/gram/settings.json`）で設定できます。
 
-### Advanced Formatting
+### 高度なフォーマット
 
-Sql-formatter also allows more precise control by providing
-[sql-formatter configuration options](https://github.com/sql-formatter-org/sql-formatter#configuration-options).
-To provide these, create a `.sql-formatter.json` file in your project:
+sql-formatter では、[sql-formatter の設定オプション](https://github.com/sql-formatter-org/sql-formatter#configuration-options)を指定することで、より精密な制御も可能です。設定するには、プロジェクトに `.sql-formatter.json` ファイルを作成します:
 
 ```json
 {
@@ -58,8 +54,7 @@ To provide these, create a `.sql-formatter.json` file in your project:
 }
 ```
 
-When using a `.sql-formatter.json` file you can use a more simplified set of
-Gram settings since the language need not be specified inline:
+`.sql-formatter.json` ファイルを使用する場合、言語をインラインで指定する必要がないため、より簡素な Gram の設定で済みます:
 
 ```json
   "languages": {

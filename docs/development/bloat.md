@@ -1,60 +1,49 @@
-# Bloat
+# 肥大化
 
-My current focus is to reduce the size of the binary and make code more readble.
-So far I have mainly been trying to do this by removing dependencies and code
-wherever I can. These are some notes on tools and techniques that have been
-helpful.
+現在の主な課題は、バイナリのサイズを減らし、コードを読みやすくすることです。
+これまでは主に、依存関係とコードを可能な限り削除する形で取り組んできました。
+ここでは、その作業に役立ったツールと手法についてのメモを残します。
 
-First helpful source is the
-[Rust performance book](https://nnethercote.github.io/perf-book/title-page.html).
+まず有用な情報源は
+[Rust performance book](https://nnethercote.github.io/perf-book/title-page.html)
+です。
 
-This repository had some helpful tips, mainly on cargo options:
+次のリポジトリには、主に cargo のオプションに関する役立つヒントがありました:
 <https://github.com/johnthagen/min-sized-rust>
 
-## Unused dependencies
+## 未使用の依存関係
 
-There are two tools to find unused dependencies:
+未使用の依存関係を見つけるツールは2つあります:
 
-- `cargo-machete`: <https://github.com/bnjbvr/cargo-machete>.
-- `cargo-shear`: <https://github.com/Boshen/cargo-shear>.
+- `cargo-machete`: <https://github.com/bnjbvr/cargo-machete>
+- `cargo-shear`: <https://github.com/Boshen/cargo-shear>
 
-I run both. `cargo-shear` seems to be both more accurate / to find more unused
-dependencies, and less prone to false positives.
+両方とも実行しています。`cargo-shear` のほうが精度が高く、より多くの未使用依存関係を見つけられるうえ、誤検知も少ないようです。
 
-## Async cost
+## async のコスト
 
-So far this is not something I've really looked at, but async code in rust has a
-significant cost in code amplification due to rewriting function bodies into
-state machines. See:
-<https://tweedegolf.nl/en/blog/237/async-rust-never-left-the-mvp-state>.
+まだ本格的に調べていませんが、Rust の async コードは、関数本体をステートマシンに書き換えるため、コード量が大きく膨らむコストがあります。詳細は次の記事を参照してください:
+<https://tweedegolf.nl/en/blog/237/async-rust-never-left-the-mvp-state>
 
-Since this code base is so heavily into async everywhere I expect that there
-should be a lot of wins possible by rewriting code that doesn't need to be async
-into straight-line code and running longer tasks on background threads more.
+このコードベースはどこでも async を多用しているため、async である必要のないコードを直線的なコードに書き換え、長く走るタスクをバックグラウンドスレッドで実行するようにすれば、多くの改善が見込めるはずです。
 
-## Generic code amplification
+## ジェネリックコードの増幅
 
 > [!NOTE]
 >
-> AKA. Monomorphization Bloat.
+> 別名: 単相化（モノモルフィゼーション）による肥大化。
 
-Functions and structs that take generic arguments are compiled as a separate
-copy for each variant in use. I found a couple of tools that help with finding
-flarge functions as well as functions that end up generating a lot of copies:
+ジェネリック引数を取る関数や構造体は、使用されている各バリアントごとに別々のコピーとしてコンパイルされます。大きな関数や、コピーを大量に生成している関数を見つけるのに役立つツールをいくつか見つけました:
 
 - `cargo-bloat`: <https://github.com/RazrFalcon/cargo-bloat>
 - `cargo-llvm-lines`: <https://github.com/dtolnay/cargo-llvm-lines>
 
-`cargo llvm-lines` reveals how much code is generated for each function:
+`cargo llvm-lines` は、関数ごとに生成されるコード量を示します:
 
 ```bash
 CARGO_PROFILE_RELEASE_LTO=fat cargo llvm-lines --release --sort copies -p gram --bin gram > llvm-lines.txt
 ```
 
-Full LTO so all monomorphizations appear in the same crate, `--sort copies` to
-get the functions with the most variants listed first.
+完全な LTO を有効にすると、すべての単相化が同じクレートに現れます。`--sort copies` を付けると、バリアント数が多い関数から順に一覧できます。
 
-This turned out to be huge: The settings code in particular generates crazy
-amounts of code, and while I have managed to reduce the size a lot just by
-finding ways to move code out of generic functions the whole settings
-implementation should probably be rewritten from scratch.
+これは大きな問題であることが分かりました。とくに設定関連のコードが膨大な量のコードを生成しており、ジェネリック関数の外にコードを移す工夫でサイズをかなり削減できましたが、設定の実装全体はおそらくゼロから書き直すべきです。

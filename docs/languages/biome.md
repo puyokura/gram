@@ -1,15 +1,15 @@
 # Biome
 
-[Biome](https://biomejs.dev/) support in Gram is provided by the
-community-maintained [Biome extension](https://github.com/biomejs/biome-zed).
-Report issues to:
+Gram での [Biome](https://biomejs.dev/) サポートは、コミュニティが保守する
+[Biome 拡張機能](https://github.com/biomejs/biome-zed) によって提供されます。
+問題はこちらへ報告してください:
 [https://github.com/biomejs/biome-zed/issues](https://github.com/biomejs/biome-zed/issues)
 
-- Language Server: [biomejs/biome](https://github.com/biomejs/biome)
+- 言語サーバー: [biomejs/biome](https://github.com/biomejs/biome)
 
-## Biome Language Support
+## Biome がサポートする言語
 
-The Biome extension includes support for the following languages:
+Biome 拡張機能は次の言語をサポートしています:
 
 - JavaScript
 - TypeScript
@@ -22,10 +22,9 @@ The Biome extension includes support for the following languages:
 - Svelte
 - CSS
 
-## Configuration
+## 構成
 
-By default, the `biome.json` file is required to be in the root of the
-workspace.
+既定では、`biome.json` ファイルがワークスペースのルートにある必要があります。
 
 ```json
 {
@@ -33,9 +32,9 @@ workspace.
 }
 ```
 
-For a full list of `biome.json` options see
-[Biome Configuration](https://biomejs.dev/reference/configuration/)
-documentation.
+`biome.json` のオプションの完全な一覧は
+[Biome の設定](https://biomejs.dev/reference/configuration/)
+ドキュメントを参照してください。
 
-See the [Biome Gram Extension README](https://github.com/biomejs/biome-zed) for
-a complete list of features and configuration options.
+機能と設定オプションの完全な一覧は、
+[Biome Gram 拡張機能の README](https://github.com/biomejs/biome-zed) を参照してください。

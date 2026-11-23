@@ -41,86 +41,86 @@ trait InstalledApp {
 #[command(
     name = "gram",
     disable_version_flag = true,
-    before_help = "The Gram CLI binary.
-This CLI is a separate binary that invokes Gram.
+    before_help = "Gram の CLI バイナリ。
+この CLI は Gram を起動するための独立したバイナリです。
 
-Examples:
+例:
     `gram`
-          Simply opens Gram
+          Gram を開くだけ
     `gram --foreground`
-          Runs in foreground (shows all logs)
+          フォアグラウンドで実行 (すべてのログを表示)
     `gram path-to-your-project`
-          Open your project in Gram
+          プロジェクトを Gram で開く
     `gram -n path-to-file `
-          Open file/folder in a new window",
-    after_help = "To read from stdin, append '-', e.g. 'ps axf | gram -'"
+          ファイル/フォルダを新しいウィンドウで開く",
+    after_help = "標準入力から読み込むには '-' を付けてください (例: 'ps axf | gram -')"
 )]
 struct Args {
-    /// Wait for all of the given paths to be opened/closed before exiting.
+    /// 指定したすべてのパスが開かれる/閉じられるまで待機します。
     ///
-    /// When opening a directory, waits until the created window is closed.
+    /// ディレクトリを開く場合は、作成されたウィンドウが閉じるまで待機します。
     #[arg(short, long)]
     wait: bool,
-    /// Add files to the currently open workspace
+    /// 現在開いているワークスペースにファイルを追加します
     #[arg(short, long, overrides_with_all = ["new", "reuse"])]
     add: bool,
-    /// Create a new workspace
+    /// 新しいワークスペースを作成します
     #[arg(short, long, overrides_with_all = ["add", "reuse"])]
     new: bool,
-    /// Reuse an existing window, replacing its workspace
+    /// 既存のウィンドウを再利用し、そのワークスペースを置き換えます
     #[arg(short, long, overrides_with_all = ["add", "new"])]
     reuse: bool,
-    /// Sets a custom directory for all user data (e.g., database, extensions, logs).
-    /// This overrides the default platform-specific data directory location:
+    /// すべてのユーザーデータ (データベース、拡張機能、ログなど) を保存するディレクトリを指定します。
+    /// これはプラットフォーム固有の既定のデータディレクトリを上書きします:
     #[cfg_attr(target_os = "macos", doc = "`~/Library/Application Support/Gram`.")]
     #[cfg_attr(target_os = "windows", doc = "`%LOCALAPPDATA%\\Gram`.")]
     #[cfg_attr(not(any(target_os = "windows", target_os = "macos")), doc = "`$XDG_DATA_HOME/gram`.")]
     #[arg(long, value_name = "DIR")]
     user_data_dir: Option<String>,
-    /// The paths to open in Gram (space-separated).
+    /// Gram で開くパス (スペース区切り)。
     ///
-    /// Use `path:line:column` syntax to open a file at the given line and column.
+    /// `path:line:column` 形式を使うと、ファイルを指定した行と列で開きます。
     paths_with_position: Vec<String>,
-    /// Print Gram's version and the app path.
+    /// Gram のバージョンとアプリのパスを表示します。
     #[arg(short, long)]
     version: bool,
-    /// Generate a shell completion script for the given shell and print it to stdout.
+    /// 指定したシェル用の補完スクリプトを生成し、標準出力に表示します。
     ///
-    /// Example: `gram --completions fish > ~/.config/fish/conf.d/gram.fish`
+    /// 例: `gram --completions fish > ~/.config/fish/conf.d/gram.fish`
     #[arg(long, value_enum, value_name = "SHELL")]
     completions: Option<clap_complete::Shell>,
-    /// Run gram in the foreground (useful for debugging)
+    /// Gram をフォアグラウンドで実行します (デバッグ用)
     #[arg(long)]
     foreground: bool,
-    /// Custom path to Gram.app or the editor binary
+    /// Gram.app またはエディタバイナリへのカスタムパス
     #[arg(long)]
     gram: Option<PathBuf>,
-    /// The username and WSL distribution to use when opening paths. If not specified,
-    /// Gram will attempt to open the paths directly.
+    /// パスを開くときに使用するユーザー名と WSL ディストリビューション。指定しない場合、
+    /// Gram はパスを直接開こうとします。
     ///
-    /// The username is optional, and if not specified, the default user for the distribution
-    /// will be used.
+    /// ユーザー名は省略可能で、省略した場合はそのディストリビューションの既定ユーザーが
+    /// 使用されます。
     ///
-    /// Example: `me@Ubuntu` or `Ubuntu`.
+    /// 例: `me@Ubuntu` または `Ubuntu`。
     ///
-    /// WARN: You should not fill in this field by hand.
+    /// 警告: このフィールドは手動で入力しないでください。
     #[cfg(target_os = "windows")]
     #[arg(long, value_name = "USER@DISTRO")]
     wsl: Option<String>,
-    /// Not supported in Gram CLI, only supported on Gram binary
-    /// Will attempt to give the correct command to run
+    /// Gram CLI ではサポートされていません (Gram バイナリでのみ対応)
+    /// 実行すべき正しいコマンドを案内します
     #[arg(long)]
     system_specs: bool,
-    /// Pairs of file paths to diff. Can be specified multiple times.
+    /// 差分を表示するファイルパスの組。複数回指定できます。
     #[arg(long, action = clap::ArgAction::Append, num_args = 2, value_names = ["OLD_PATH", "NEW_PATH"])]
     diff: Vec<String>,
-    /// Uninstall Gram from user system
+    /// Gram をシステムからアンインストールします
     #[cfg(all(any(target_os = "linux", target_os = "macos"), not(feature = "no-bundled-uninstall")))]
     #[arg(long)]
     uninstall: bool,
 
-    /// Used for SSH/Git password authentication, to remove the need for netcat as a dependency,
-    /// by having Gram act like netcat communicating over a Unix socket.
+    /// SSH/Git のパスワード認証で、netcat への依存をなくすために使用します。
+    /// Gram が Unix ソケット経由で通信する netcat のように振る舞います。
     #[arg(long, hide = true)]
     askpass: Option<String>,
 }
@@ -137,7 +137,7 @@ fn parse_path_with_position(argument_str: &str) -> anyhow::Result<String> {
     match Path::new(argument_str).canonicalize() {
         Ok(existing_path) => Ok(PathWithPosition::from_path(existing_path)),
         Err(_) => PathWithPosition::parse_str(argument_str).map_path(|mut path| {
-            let curdir = env::current_dir().context("retrieving current directory")?;
+            let curdir = env::current_dir().context("カレントディレクトリを取得できません")?;
             let mut children = Vec::new();
             let root;
             loop {
@@ -156,11 +156,11 @@ fn parse_path_with_position(argument_str: &str) -> anyhow::Result<String> {
                 }
                 children.push(
                     path.file_name()
-                        .with_context(|| format!("parsing as path with position {argument_str}"))?
+                        .with_context(|| format!("位置指定パスとしての解析: {argument_str}"))?
                         .to_owned(),
                 );
                 if !path.pop() {
-                    unreachable!("parsing as path with position {argument_str}");
+                    unreachable!("位置指定パスとしての解析: {argument_str}");
                 }
             }
             Ok(children.iter().rev().fold(root, |mut path, child| {
@@ -296,7 +296,7 @@ fn parse_path_in_wsl(source: &str, wsl: &str) -> Result<String> {
 
     let (user, distro_name) = if let Some((user, distro)) = wsl.split_once('@') {
         if user.is_empty() {
-            anyhow::bail!("user is empty in wsl argument");
+            anyhow::bail!("wsl 引数のユーザー名が空です");
         }
         (Some(user), distro)
     } else {
@@ -378,7 +378,7 @@ fn main() -> Result<()> {
     #[cfg(target_os = "linux")]
     let args = flatpak::set_bin_if_no_escape(args);
 
-    let app = Detect::detect(args.gram.as_deref()).context("Bundle detection")?;
+    let app = Detect::detect(args.gram.as_deref()).context("バンドルの検出")?;
 
     if args.version {
         println!("{}", app.gram_version_string());
@@ -388,8 +388,8 @@ fn main() -> Result<()> {
     if args.system_specs {
         let path = app.path();
         let msg = [
-            "The `--system-specs` argument is not supported in the Gram CLI, only on Gram binary.",
-            "To retrieve the system specs on the command line, run the following command:",
+            "`--system-specs` 引数は Gram CLI ではサポートされていません。Gram バイナリでのみ使用できます。",
+            "コマンドラインでシステム情報を取得するには、次のコマンドを実行してください:",
             &format!("{} --system-specs", path.display()),
         ];
         anyhow::bail!(msg.join("\n"));
@@ -410,12 +410,12 @@ fn main() -> Result<()> {
             .arg(&script_path)
             .env("GRAM_CHANNEL", &*release_channel::RELEASE_CHANNEL_NAME)
             .status()
-            .context("Failed to execute uninstall script")?;
+            .context("アンインストールスクリプトの実行に失敗しました")?;
 
         std::process::exit(status.code().unwrap_or(1));
     }
 
-    let (server, server_name) = IpcOneShotServer::<IpcHandshake>::new().context("Handshake before Gram spawn")?;
+    let (server, server_name) = IpcOneShotServer::<IpcHandshake>::new().context("Gram 起動前のハンドシェイク")?;
     let url = format!("gram-cli://{server_name}");
 
     let open_new_workspace = if args.new {
@@ -513,7 +513,7 @@ fn main() -> Result<()> {
             let exit_status = exit_status.clone();
             let user_data_dir_for_thread = user_data_dir.clone();
             move || {
-                let (_, handshake) = server.accept().context("Handshake after Gram spawn")?;
+                let (_, handshake) = server.accept().context("Gram 起動後のハンドシェイク")?;
                 let (tx, rx) = (handshake.requests, handshake.responses);
 
                 #[cfg(target_os = "windows")]
@@ -663,7 +663,7 @@ mod linux {
                 path.to_path_buf().canonicalize()?
             } else {
                 let cli = env::current_exe()?;
-                let dir = cli.parent().context("no parent path for cli")?;
+                let dir = cli.parent().context("cli の親パスが見つかりません")?;
 
                 // libexec is the standard, lib/gram is for Arch (and other non-libexec distros),
                 // ./gram is for the target directory in development builds.
@@ -671,7 +671,7 @@ mod linux {
                 possible_locations
                     .iter()
                     .find_map(|p| dir.join(p).canonicalize().ok().filter(|path| path != &cli))
-                    .with_context(|| format!("could not find any of: {}", possible_locations.join(", ")))?
+                    .with_context(|| format!("次のいずれも見つかりません: {}", possible_locations.join(", ")))?
             };
 
             Ok(App(path))
@@ -740,11 +740,11 @@ mod linux {
                 Ok(Fork::Child) => {
                     unsafe { std::env::set_var(FORCE_CLI_MODE_ENV_VAR_NAME, "") };
                     if fork::setsid().is_err() {
-                        eprintln!("failed to setsid: {}", std::io::Error::last_os_error());
+                        eprintln!("setsid に失敗しました: {}", std::io::Error::last_os_error());
                         process::exit(1);
                     }
                     if fork::close_fd().is_err() {
-                        eprintln!("failed to close_fd: {}", std::io::Error::last_os_error());
+                        eprintln!("close_fd に失敗しました: {}", std::io::Error::last_os_error());
                     }
                     let mut args: Vec<OsString> = vec![OsString::from(ipc_url)];
                     if let Some(dir) = user_data_dir {
@@ -753,7 +753,7 @@ mod linux {
                     }
                     let error = std::process::Command::new(path.clone()).args(&args).exec();
                     // if exec succeeded, we never get here.
-                    eprintln!("failed to exec {:?}: {}", path, error);
+                    eprintln!("exec に失敗しました {:?}: {}", path, error);
                     process::exit(1)
                 }
                 Err(_) => Err(anyhow!(io::Error::last_os_error())),
@@ -803,7 +803,7 @@ mod flatpak {
         if let Some(flatpak_dir) = get_flatpak_dir() {
             let mut args = vec!["--host".into()];
             args.append(&mut get_xdg_env_args());
-            args.push("--env=GRAM_NO_BUNDLED_UNINSTALL=Please use flatpak to uninstall gram".into());
+            args.push("--env=GRAM_NO_BUNDLED_UNINSTALL=アンインストールには flatpak を使用してください".into());
             args.push(
                 format!(
                     "--env={EXTRA_LIB_ENV_NAME}={}",
@@ -825,7 +825,7 @@ mod flatpak {
             }
 
             let error = std::process::Command::new("/usr/bin/flatpak-spawn").args(&args).exec();
-            eprintln!("failed restart cli on host: {:?}", error);
+            eprintln!("ホスト上での CLI 再起動に失敗しました: {:?}", error);
             process::exit(1);
         }
     }
@@ -836,7 +836,12 @@ mod flatpak {
             && args.gram.is_none()
         {
             args.gram = Some("/app/libexec/gram-editor".into());
-            unsafe { env::set_var("GRAM_NO_BUNDLED_UNINSTALL", "Use flatpak to uninstall gram") };
+            unsafe {
+                env::set_var(
+                    "GRAM_NO_BUNDLED_UNINSTALL",
+                    "アンインストールには flatpak を使用してください",
+                )
+            };
         }
         args
     }
@@ -906,7 +911,7 @@ mod windows {
                 false,
                 &HSTRING::from(format!("{}-Instance-Mutex", app_identifier())),
             )
-            .expect("Unable to create instance sync event")
+            .expect("インスタンス同期イベントを作成できません")
         };
         let last_err = unsafe { GetLastError() };
         let _ = unsafe { CloseHandle(mutex) };
@@ -987,7 +992,7 @@ mod windows {
                 path.to_path_buf().canonicalize()?
             } else {
                 let cli = std::env::current_exe()?;
-                let dir = cli.parent().context("no parent path for cli")?;
+                let dir = cli.parent().context("cli の親パスが見つかりません")?;
 
                 // ../Gram.exe is the standard, lib/gram is for MSYS2, ./gram.exe is for the target
                 // directory in development builds.
@@ -995,7 +1000,7 @@ mod windows {
                 possible_locations
                     .iter()
                     .find_map(|p| dir.join(p).canonicalize().ok().filter(|path| path != &cli))
-                    .context(format!("could not find any of: {}", possible_locations.join(", ")))?
+                    .context(format!("次のいずれも見つかりません: {}", possible_locations.join(", ")))?
             };
 
             Ok(App(path))
@@ -1036,7 +1041,7 @@ mod mac_os {
         let cli_path = std::env::current_exe()?.canonicalize()?;
         let mut app_path = cli_path.clone();
         while app_path.extension() != Some(OsStr::new("app")) {
-            anyhow::ensure!(app_path.pop(), "cannot find app bundle containing {cli_path:?}");
+            anyhow::ensure!(app_path.pop(), "アプリバンドルが見つかりません: {cli_path:?}");
         }
         Ok(app_path)
     }
@@ -1046,16 +1051,16 @@ mod mac_os {
             let bundle_path = if let Some(bundle_path) = path {
                 bundle_path
                     .canonicalize()
-                    .with_context(|| format!("Args bundle path {bundle_path:?} canonicalization"))?
+                    .with_context(|| format!("引数のバンドルパス {bundle_path:?} の正規化"))?
             } else {
-                locate_bundle().context("bundle autodiscovery")?
+                locate_bundle().context("バンドルの自動検出")?
             };
 
             match bundle_path.extension().and_then(|ext| ext.to_str()) {
                 Some("app") => {
                     let plist_path = bundle_path.join("Contents/Info.plist");
                     let plist = plist::from_file::<_, InfoPlist>(&plist_path)
-                        .with_context(|| format!("Reading *.app bundle plist file at {plist_path:?}"))?;
+                        .with_context(|| format!("*.app バンドルの plist ファイルを読み込み中: {plist_path:?}"))?;
                     Ok(Bundle::App {
                         app_bundle: bundle_path,
                         plist,
@@ -1079,7 +1084,7 @@ mod mac_os {
                     let app_path = app_bundle;
 
                     let app_url = CFURL::from_directory_path(app_path)
-                        .with_context(|| format!("invalid app path {app_path:?}"))?;
+                        .with_context(|| format!("無効なアプリパス {app_path:?}"))?;
                     let url_to_open = unsafe {
                         CFURL::with_bytes(
                             None,
@@ -1088,7 +1093,7 @@ mod mac_os {
                             CFStringBuiltInEncodings::EncodingUTF8.0,
                             None,
                         )
-                        .with_context(|| format!("invalid url {url:?}"))?
+                        .with_context(|| format!("無効な URL {url:?}"))?
                     };
                     // equivalent to: open gram-cli:... -a /Applications/Gram\ Preview.app
                     let urls_to_open = CFArray::from_retained_objects(&[url_to_open]);
@@ -1105,18 +1110,22 @@ mod mac_os {
                         )
                     };
 
-                    anyhow::ensure!(status == 0, "cannot start app bundle {}", self.gram_version_string());
+                    anyhow::ensure!(
+                        status == 0,
+                        "アプリバンドルを起動できません: {}",
+                        self.gram_version_string()
+                    );
                 }
 
                 Self::LocalPath { executable, .. } => {
                     let executable_parent = executable
                         .parent()
-                        .with_context(|| format!("Executable {executable:?} path has no parent"))?;
+                        .with_context(|| format!("実行ファイル {executable:?} の親パスがありません"))?;
                     let subprocess_stdout_file = fs::File::create(executable_parent.join("gram_dev.log"))
-                        .with_context(|| format!("Log file creation in {executable_parent:?}"))?;
+                        .with_context(|| format!("ログファイルを作成できません: {executable_parent:?}"))?;
                     let subprocess_stdin_file = subprocess_stdout_file
                         .try_clone()
-                        .with_context(|| format!("Cloning descriptor for file {subprocess_stdout_file:?}"))?;
+                        .with_context(|| format!("ファイル {subprocess_stdout_file:?} のディスクリプタ複製"))?;
                     let mut command = std::process::Command::new(executable);
                     command.env(FORCE_CLI_MODE_ENV_VAR_NAME, "");
                     if let Some(dir) = user_data_dir {
@@ -1127,7 +1136,7 @@ mod mac_os {
                         .stdout(subprocess_stdin_file)
                         .arg(url);
 
-                    command.spawn().with_context(|| format!("Spawning {command:?}"))?;
+                    command.spawn().with_context(|| format!("{command:?} の起動"))?;
                 }
             }
 
@@ -1187,7 +1196,7 @@ mod mac_os {
         let app_path_prompt = format!("POSIX path of (path to application \"{}\")", channel.display_name());
         let app_path_output = Command::new("osascript").arg("-e").arg(&app_path_prompt).output()?;
         if !app_path_output.status.success() {
-            bail!("Could not determine app path for {}", channel.display_name());
+            bail!("アプリのパスを特定できません: {}", channel.display_name());
         }
         let app_path = String::from_utf8(app_path_output.stdout)?.trim().to_owned();
         let cli_path = format!("{app_path}/Contents/MacOS/cli");

@@ -819,7 +819,7 @@ impl Item for Editor {
                     } else if multibuffer.is_singleton() {
                         multibuffer.title(cx).to_string()
                     } else {
-                        "untitled".to_string()
+                        "無題".to_string()
                     }
                 })
         });

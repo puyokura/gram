@@ -1,27 +1,27 @@
 # Elixir
 
-Elixir support is available through the
-[Elixir extension](https://github.com/zed-extensions/elixir).
+Elixir のサポートは
+[Elixir 拡張機能](https://github.com/zed-extensions/elixir) から利用できます。
 
 - Tree-sitter:
   - [elixir-lang/tree-sitter-elixir](https://github.com/elixir-lang/tree-sitter-elixir)
   - [phoenixframework/tree-sitter-heex](https://github.com/phoenixframework/tree-sitter-heex)
-- Language servers:
+- 言語サーバー:
   - [elixir-lang/expert](https://github.com/elixir-lang/expert)
   - [elixir-lsp/elixir-ls](https://github.com/elixir-lsp/elixir-ls)
   - [elixir-tools/next-ls](https://github.com/elixir-tools/next-ls)
   - [lexical-lsp/lexical](https://github.com/lexical-lsp/lexical)
 
-## Choosing a language server
+## 言語サーバーの選択
 
-The Elixir extension offers language server support for `expert`, `elixir-ls`,
-`next-ls`, and `lexical`.
+Elixir 拡張機能は `expert`、`elixir-ls`、`next-ls`、`lexical` の言語サーバーを
+サポートしています。
 
-`elixir-ls` is enabled by default.
+既定では `elixir-ls` が有効です。
 
 ### Expert
 
-To switch to `expert`, add the following to your `settings.jsonc`:
+`expert` に切り替えるには、`settings.jsonc` に次を追加します:
 
 ```json
   "languages": {
@@ -36,7 +36,7 @@ To switch to `expert`, add the following to your `settings.jsonc`:
 
 ### Next LS
 
-To switch to `next-ls`, add the following to your `settings.jsonc`:
+`next-ls` に切り替えるには、`settings.jsonc` に次を追加します:
 
 ```json
   "languages": {
@@ -51,7 +51,7 @@ To switch to `next-ls`, add the following to your `settings.jsonc`:
 
 ### Lexical
 
-To switch to `lexical`, add the following to your `settings.jsonc`:
+`lexical` に切り替えるには、`settings.jsonc` に次を追加します:
 
 ```json
   "languages": {
@@ -64,34 +64,34 @@ To switch to `lexical`, add the following to your `settings.jsonc`:
   }
 ```
 
-## Setting up `elixir-ls`
+## `elixir-ls` のセットアップ
 
-1. Install `elixir`:
+1. `elixir` をインストール:
 
 ```sh
 brew install elixir
 ```
 
-2. Install `elixir-ls`:
+2. `elixir-ls` をインストール:
 
 ```sh
 brew install elixir-ls
 ```
 
-3. Restart Gram
+3. Gram を再起動
 
-> If `elixir-ls` is not running in an elixir project, check the error log via
-> the command palette action `gram: open log`. If you find an error message
-> mentioning:
+> `elixir-ls` が elixir プロジェクトで動作していない場合は、コマンドパレットの
+> `gram: open log` アクションでエラーログを確認してください。次のメッセージを含む
+> エラーが見つかった場合:
 > `invalid LSP message header "Shall I install Hex? (if running non-interactively, use \"mix local.hex --force\") [Yn]`,
-> you might need to install [`Hex`](https://hex.pm). You run `elixir-ls` from
-> the command line and accept the prompt to install `Hex`.
+> [`Hex`](https://hex.pm) をインストールする必要があるかもしれません。コマンドラインから
+> `elixir-ls` を実行し、`Hex` のインストールを求めるプロンプトを承認してください。
 
-### Formatting with Mix
+### Mix でのフォーマット
 
-If you prefer to format your code with [Mix](https://hexdocs.pm/mix/Mix.html),
-use the following snippet in your `settings.jsonc` file to configure it as an
-external formatter. Formatting will occur on file save.
+[Mix](https://hexdocs.pm/mix/Mix.html) でコードをフォーマットしたい場合は、
+`settings.jsonc` ファイルで次のスニペットを使って外部フォーマッターとして設定します。
+フォーマットはファイル保存時に実行されます。
 
 ```json
 {
@@ -109,12 +109,12 @@ external formatter. Formatting will occur on file save.
 }
 ```
 
-### Additional workspace configuration options
+### 追加のワークスペース構成オプション
 
-You can pass additional elixir-ls workspace configuration options via lsp
-settings in `settings.jsonc`.
+追加の elixir-ls ワークスペース構成オプションは、`settings.jsonc` の lsp 設定で
+渡せます。
 
-The following example disables dialyzer:
+次の例は dialyzer を無効にします:
 
 ```json
   "lsp": {
@@ -126,15 +126,15 @@ The following example disables dialyzer:
   }
 ```
 
-See
-[ElixirLS configuration settings](https://github.com/elixir-lsp/elixir-ls#elixirls-configuration-settings)
-for more options.
+より多くのオプションは
+[ElixirLS の設定項目](https://github.com/elixir-lsp/elixir-ls#elixirls-configuration-settings)
+を参照してください。
 
 ### HEEx
 
-Gram also supports HEEx templates. HEEx is a mix of
-[EEx](https://hexdocs.pm/eex/1.12.3/EEx.html) (Embedded Elixir) and HTML, and is
-used in Phoenix LiveView applications.
+Gram は HEEx テンプレートもサポートしています。HEEx は
+[EEx](https://hexdocs.pm/eex/1.12.3/EEx.html)（Embedded Elixir）と HTML を
+組み合わせたもので、Phoenix LiveView アプリケーションで使われます。
 
 - Tree-sitter:
   [phoenixframework/tree-sitter-heex](https://github.com/phoenixframework/tree-sitter-heex)

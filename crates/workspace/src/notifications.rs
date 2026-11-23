@@ -119,7 +119,7 @@ impl Workspace {
         E: std::fmt::Debug + std::fmt::Display,
     {
         self.show_notification(workspace_error_notification_id(), cx, |cx| {
-            cx.new(|cx| ErrorMessagePrompt::new(format!("Error: {err}"), cx))
+            cx.new(|cx| ErrorMessagePrompt::new(format!("エラー: {err}"), cx))
         });
     }
 
@@ -129,7 +129,7 @@ impl Workspace {
         self.show_notification(NotificationId::unique::<PortalError>(), cx, |cx| {
             cx.new(|cx| {
                 ErrorMessagePrompt::new(err.to_string(), cx)
-                    .with_link_button("See docs", "gram://docs/i-cant-open-any-files")
+                    .with_link_button("ドキュメントを見る", "gram://docs/i-cant-open-any-files")
             })
         });
     }
@@ -301,23 +301,23 @@ impl Render for LanguageServerPrompt {
                                     .gap_1()
                                     .child(
                                         CopyButton::new("copy-description", request.message.clone())
-                                            .tooltip_label("Copy Description"),
+                                            .tooltip_label("説明をコピー"),
                                     )
                                     .child(
                                         IconButton::new(close_id, close_icon)
                                             .tooltip(move |_window, cx| {
                                                 if suppress {
                                                     Tooltip::with_meta(
-                                                        "Suppress",
+                                                        "非表示にする",
                                                         Some(&SuppressNotification),
-                                                        "Click to close",
+                                                        "クリックして閉じる",
                                                         cx,
                                                     )
                                                 } else {
                                                     Tooltip::with_meta(
-                                                        "Close",
+                                                        "閉じる",
                                                         Some(&menu::Cancel),
-                                                        "Suppress with shift-click",
+                                                        "Shift+クリックで非表示",
                                                         cx,
                                                     )
                                                 }
@@ -590,11 +590,19 @@ impl RenderOnce for NotificationFrame {
                             IconButton::new(close_id, close_icon)
                                 .tooltip(move |_window, cx| {
                                     if suppress {
-                                        Tooltip::for_action("Suppress.\nClose with click.", &SuppressNotification, cx)
+                                        Tooltip::for_action(
+                                            "非表示にします。\nクリックで閉じます。",
+                                            &SuppressNotification,
+                                            cx,
+                                        )
                                     } else if show_suppress_button {
-                                        Tooltip::for_action("Close.\nSuppress with shift-click.", &menu::Cancel, cx)
+                                        Tooltip::for_action(
+                                            "閉じます。\nShift+クリックで非表示にします。",
+                                            &menu::Cancel,
+                                            cx,
+                                        )
                                     } else {
-                                        Tooltip::for_action("Close", &menu::Cancel, cx)
+                                        Tooltip::for_action("閉じる", &menu::Cancel, cx)
                                     }
                                 })
                                 .on_click({
@@ -1063,7 +1071,7 @@ where
         match self {
             Ok(value) => Some(value),
             Err(err) => {
-                let message: SharedString = format!("Error: {err}").into();
+                let message: SharedString = format!("エラー: {err}").into();
                 log::error!("Showing error notification in app: {message}");
                 show_app_notification(workspace_error_notification_id(), cx, {
                     move |cx| {
@@ -1133,7 +1141,7 @@ where
                 if let Ok(prompt) = cx.update(|window, cx| {
                     let display = format!("{err:#}");
                     let detail = f(err, window, cx).unwrap_or(display);
-                    window.prompt(PromptLevel::Critical, &msg, Some(&detail), &["Ok"], cx)
+                    window.prompt(PromptLevel::Critical, &msg, Some(&detail), &["OK"], cx)
                 }) {
                     prompt.await.ok();
                 }

@@ -1,21 +1,16 @@
-# Extension Capabilities
+# 拡張機能のケーパビリティ
 
-The operations that Gram extensions are able to perform are governed by a
-capability system.
+Gram の拡張機能が実行できる操作は、ケーパビリティ（権限）システムによって制御されます。
 
-## Restricting capabilities
+## ケーパビリティの制限
 
-As a user, you have the option of restricting the capabilities that are granted
-to extensions.
+ユーザーは、拡張機能に付与されるケーパビリティを制限するオプションを持っています。
 
-This is controlled via the `granted_extension_capabilities` setting.
+これは `granted_extension_capabilities` 設定で制御します。
 
-Restricting or removing a capability will cause an error to be returned when an
-extension attempts to call the corresponding extension API without sufficient
-capabilities.
+ケーパビリティを制限または削除すると、拡張機能が十分なケーパビリティなしで対応する拡張 API を呼び出そうとしたときにエラーが返されます。
 
-For instance, if you wanted to restrict downloads to just files from GitHub, you
-could modify `host` for the `download_file` capability:
+たとえば、ダウンロードを GitHub 上のファイルのみに制限したい場合は、`download_file` ケーパビリティの `host` を変更できます:
 
 ```diff
 {
@@ -28,8 +23,7 @@ could modify `host` for the `download_file` capability:
 }
 ```
 
-If you don't want extensions to be able to perform _any_ capabilities, you can
-remove all granted capabilities:
+拡張機能が _いかなる_ ケーパビリティも実行できるようにしたくない場合は、付与したケーパビリティをすべて削除できます:
 
 ```json
 {
@@ -37,26 +31,23 @@ remove all granted capabilities:
 }
 ```
 
-> Note that this will likely make many extensions non-functional, at least in
-> their default configuration.
+> これにより、少なくとも既定の構成では、多くの拡張機能が機能しなくなる可能性が高いことに注意してください。
 
-## Capabilities
+## ケーパビリティ
 
 ### `process:exec`
 
-The `process:exec` capability grants extensions the ability to invoke commands
-using
-[`zed_extension_api::process::Command`](https://docs.rs/zed_extension_api/latest/zed_extension_api/process/struct.Command.html).
+`process:exec` ケーパビリティは、拡張機能に [`zed_extension_api::process::Command`](https://docs.rs/zed_extension_api/latest/zed_extension_api/process/struct.Command.html) を使ってコマンドを呼び出す権限を付与します。
 
-#### Examples
+#### 例
 
-To allow any command to be executed with any arguments:
+任意のコマンドを任意の引数で実行できるようにするには:
 
 ```toml
 { kind = "process:exec", command = "*", args = ["**"] }
 ```
 
-To allow a specific command (e.g., `gem`) to be executed with any arguments:
+特定のコマンド（例: `gem`）を任意の引数で実行できるようにするには:
 
 ```toml
 { kind = "process:exec", command = "gem", args = ["**"] }
@@ -64,25 +55,23 @@ To allow a specific command (e.g., `gem`) to be executed with any arguments:
 
 ### `download_file`
 
-The `download_file` capability grants extensions the ability to download files
-using
-[`zed_extension_api::download_file`](https://docs.rs/zed_extension_api/latest/zed_extension_api/fn.download_file.html).
+`download_file` ケーパビリティは、拡張機能に [`zed_extension_api::download_file`](https://docs.rs/zed_extension_api/latest/zed_extension_api/fn.download_file.html) を使ってファイルをダウンロードする権限を付与します。
 
-#### Examples
+#### 例
 
-To allow any file to be downloaded:
+任意のファイルをダウンロードできるようにするには:
 
 ```toml
 { kind = "download_file", host = "github.com", path = ["**"] }
 ```
 
-To allow any file to be downloaded from `github.com`:
+`github.com` から任意のファイルをダウンロードできるようにするには:
 
 ```toml
 { kind = "download_file", host = "github.com", path = ["**"] }
 ```
 
-To allow any file to be downloaded from a specific GitHub repository:
+特定の GitHub リポジトリから任意のファイルをダウンロードできるようにするには:
 
 ```toml
 { kind = "download_file", host = "github.com", path = ["zed-industries", "zed", "**"] }
@@ -90,19 +79,17 @@ To allow any file to be downloaded from a specific GitHub repository:
 
 ### `npm:install`
 
-The `npm:install` capability grants extensions the ability to install npm
-packages using
-[`zed_extension_api::npm_install_package`](https://docs.rs/zed_extension_api/latest/zed_extension_api/fn.npm_install_package.html).
+`npm:install` ケーパビリティは、拡張機能に [`zed_extension_api::npm_install_package`](https://docs.rs/zed_extension_api/latest/zed_extension_api/fn.npm_install_package.html) を使って npm パッケージをインストールする権限を付与します。
 
-#### Examples
+#### 例
 
-To allow any npm package to be installed:
+任意の npm パッケージをインストールできるようにするには:
 
 ```toml
 { kind = "npm:install", package = "*" }
 ```
 
-To allow a specific npm package (e.g., `typescript`) to be installed:
+特定の npm パッケージ（例: `typescript`）をインストールできるようにするには:
 
 ```toml
 { kind = "npm:install", package = "typescript" }

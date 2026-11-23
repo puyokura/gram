@@ -43,9 +43,9 @@ pub struct IndentGuidesSettings {
 
 #[derive(Copy, Clone, Debug, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 pub struct ScrollbarSettings {
-    /// When to show the scrollbar in the project panel.
+    /// プロジェクトパネルでスクロールバーを表示するタイミング。
     ///
-    /// Default: inherits editor scrollbar settings
+    /// 既定: エディターのスクロールバー設定を継承します
     pub show: Option<ShowScrollbar>,
 }
 

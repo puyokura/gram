@@ -1,4 +1,5 @@
 mod components;
+mod enum_labels;
 mod page_data;
 
 use anyhow::Result;
@@ -52,31 +53,31 @@ const CONTENT_GROUP_TAB_INDEX: isize = 5;
 actions!(
     settings_editor,
     [
-        /// Minimizes the settings UI window.
+        /// 設定ウィンドウを最小化します。
         Minimize,
-        /// Toggles focus between the navbar and the main content.
+        /// ナビゲーションバーとメインコンテンツの間でフォーカスを切り替えます。
         ToggleFocusNav,
-        /// Expands the navigation entry.
+        /// ナビゲーション項目を展開します。
         ExpandNavEntry,
-        /// Collapses the navigation entry.
+        /// ナビゲーション項目を折りたたみます。
         CollapseNavEntry,
-        /// Focuses the next file in the file list.
+        /// ファイル一覧の次のファイルにフォーカスを移します。
         FocusNextFile,
-        /// Focuses the previous file in the file list.
+        /// ファイル一覧の前のファイルにフォーカスを移します。
         FocusPreviousFile,
-        /// Opens an editor for the current file
+        /// 現在の設定ファイルをエディターで開きます。
         OpenCurrentFile,
-        /// Focuses the previous root navigation entry.
+        /// 前のルートナビゲーション項目にフォーカスを移します。
         FocusPreviousRootNavEntry,
-        /// Focuses the next root navigation entry.
+        /// 次のルートナビゲーション項目にフォーカスを移します。
         FocusNextRootNavEntry,
-        /// Focuses the first navigation entry.
+        /// 最初のナビゲーション項目にフォーカスを移します。
         FocusFirstNavEntry,
-        /// Focuses the last navigation entry.
+        /// 最後のナビゲーション項目にフォーカスを移します。
         FocusLastNavEntry,
-        /// Focuses and opens the next navigation entry without moving focus to content.
+        /// コンテンツへフォーカスを移さずに次のナビゲーション項目を開きます。
         FocusNextNavEntry,
-        /// Focuses and opens the previous navigation entry without moving focus to content.
+        /// コンテンツへフォーカスを移さずに前のナビゲーション項目を開きます。
         FocusPreviousNavEntry
     ]
 );
@@ -398,12 +399,12 @@ fn init_renderers(cx: &mut App) {
                     settings_window,
                     item,
                     settings_file,
-                    Button::new("open-in-settings-file", "Edit in settings.jsonc")
+                    Button::new("open-in-settings-file", "settings.jsonc で編集")
                         .style(ButtonStyle::Outlined)
                         .size(ButtonSize::Medium)
                         .tab_index(0_isize)
                         .tooltip(Tooltip::for_action_title_in(
-                            "Edit in settings.jsonc",
+                            "settings.jsonc で編集",
                             &OpenCurrentFile,
                             &settings_window.focus_handle,
                         ))
@@ -594,7 +595,7 @@ pub fn open_settings_editor(
         cx.open_window(
             WindowOptions {
                 titlebar: Some(TitlebarOptions {
-                    title: Some("Gram — Settings".into()),
+                    title: Some("Gram — 設定".into()),
                     appears_transparent: true,
                     traffic_light_position: Some(point(px(12.0), px(12.0))),
                 }),
@@ -854,7 +855,7 @@ impl SettingsPageItem {
                                 }),
                         )
                         .child(
-                            Button::new(("sub-page".into(), sub_page_link.title.clone()), "Configure")
+                            Button::new(("sub-page".into(), sub_page_link.title.clone()), "構成")
                                 .icon(IconName::ChevronRight)
                                 .tab_index(0_isize)
                                 .icon_position(IconPosition::End)
@@ -1029,7 +1030,7 @@ fn render_settings_item(
                                     IconButton::new("reset-to-default-btn", IconName::Undo)
                                         .icon_color(Color::Muted)
                                         .icon_size(IconSize::Small)
-                                        .tooltip(Tooltip::text("Reset to Default"))
+                                        .tooltip(Tooltip::text("既定値にリセット"))
                                         .on_click({
                                             move |_, _, cx| {
                                                 reset_to_default(cx);
@@ -1043,7 +1044,7 @@ fn render_settings_item(
                             |this, file_set_in| {
                                 this.child(
                                     Label::new(format!(
-                                        "—  Modified in {}",
+                                        "—  {} で変更済み",
                                         settings_window
                                             .display_name(&file_set_in)
                                             .expect("File name should exist")
@@ -1103,7 +1104,7 @@ fn render_settings_item_link(
                 .icon_color(link_icon_color)
                 .icon_size(IconSize::Small)
                 .shape(IconButtonShape::Square)
-                .tooltip(Tooltip::text("Copy Link"))
+                .tooltip(Tooltip::text("リンクをコピー"))
                 .when_some(json_path, |this, path| {
                     this.on_click(cx.listener(move |_, _, _, cx| {
                         let link = format!("gram://settings/{}", path);
@@ -1305,7 +1306,7 @@ impl SettingsWindow {
         let current_file = SettingsUiFile::User;
         let search_bar = cx.new(|cx| {
             let mut editor = Editor::single_line(window, cx);
-            editor.set_placeholder_text("Search settings…", window, cx);
+            editor.set_placeholder_text("設定を検索…", window, cx);
             editor
         });
 
@@ -2122,7 +2123,7 @@ impl SettingsWindow {
                                         }),
                                     )
                                     .style(DropdownStyle::Subtle)
-                                    .trigger_tooltip(Tooltip::text("View Other Projects"))
+                                    .trigger_tooltip(Tooltip::text("他のプロジェクトを表示"))
                                     .trigger_icon(IconName::ChevronDown)
                                     .attach(gpui::Corner::BottomLeft)
                                     .offset(gpui::Point { x: px(0.0), y: px(2.0) })
@@ -2133,11 +2134,11 @@ impl SettingsWindow {
                     }),
             )
             .child(
-                Button::new(edit_in_json_id, "Edit in settings.jsonc")
+                Button::new(edit_in_json_id, "settings.jsonc で編集")
                     .tab_index(0_isize)
                     .style(ButtonStyle::OutlinedGhost)
                     .tooltip(Tooltip::for_action_title_in(
-                        "Edit in settings.jsonc",
+                        "settings.jsonc で編集",
                         &OpenCurrentFile,
                         &self.focus_handle,
                     ))
@@ -2149,7 +2150,7 @@ impl SettingsWindow {
 
     pub(crate) fn display_name(&self, file: &SettingsUiFile) -> Option<String> {
         match file {
-            SettingsUiFile::User => Some("User".to_string()),
+            SettingsUiFile::User => Some("ユーザー".to_string()),
             SettingsUiFile::Project((worktree_id, path)) => {
                 self.worktree_root_dirs.get(worktree_id).map(|directory_name| {
                     let path_style = PathStyle::local();
@@ -2561,7 +2562,7 @@ impl SettingsWindow {
             .items_center()
             .justify_center()
             .gap_1()
-            .child(Label::new("No Results"))
+            .child(Label::new("一致する結果がありません"))
             .child(Label::new(search_query).size(LabelSize::Small).color(Color::Muted))
     }
 
@@ -2578,8 +2579,8 @@ impl SettingsWindow {
 
         if has_no_results {
             let search_query = self.search_bar.read(cx).text(cx);
-            page_content =
-                page_content.child(self.render_empty_state(format!("No settings match \"{}\"", search_query).into()))
+            page_content = page_content
+                .child(self.render_empty_state(format!("「{}」に一致する設定はありません", search_query).into()))
         } else {
             let last_non_header_index = self
                 .visible_page_items()
@@ -2673,8 +2674,8 @@ impl SettingsWindow {
 
         if has_no_results {
             let search_query = self.search_bar.read(cx).text(cx);
-            page_content =
-                page_content.child(self.render_empty_state(format!("No settings match \"{}\"", search_query).into()))
+            page_content = page_content
+                .child(self.render_empty_state(format!("「{}」に一致する設定はありません", search_query).into()))
         } else {
             let last_non_header_index = items
                 .iter()
@@ -2758,11 +2759,11 @@ impl SettingsWindow {
                     sub_page_stack().last().is_none_or(|sub_page| sub_page.link.in_json),
                     |this| {
                         this.child(
-                            Button::new("open-in-settings-file", "Edit in settings.jsonc")
+                            Button::new("open-in-settings-file", "settings.jsonc で編集")
                                 .tab_index(0_isize)
                                 .style(ButtonStyle::OutlinedGhost)
                                 .tooltip(Tooltip::for_action_title_in(
-                                    "Edit in settings.jsonc",
+                                    "settings.jsonc で編集",
                                     &OpenCurrentFile,
                                     &self.focus_handle,
                                 ))
@@ -2797,7 +2798,7 @@ impl SettingsWindow {
                     )
                     .action_slot(
                         div().pr_1().pb_1().child(
-                            Button::new("fix-in-json", "Fix in settings.jsonc")
+                            Button::new("fix-in-json", "settings.jsonc で修正")
                                 .tab_index(0_isize)
                                 .style(ButtonStyle::Tinted(ui::TintColor::Warning))
                                 .on_click(cx.listener(|this, _, window, cx| {
@@ -2814,7 +2815,7 @@ impl SettingsWindow {
                 .gap_2()
                 .when_some(parse_error, |this, err| {
                     this.child(banner(
-                        "Failed to load your settings. Some values may be incorrect and changes may be lost.",
+                        "設定の読み込みに失敗しました。一部の値が正しくないか、変更が失われる可能性があります。",
                         err,
                         &mut self.shown_errors,
                         cx,
@@ -2822,11 +2823,11 @@ impl SettingsWindow {
                 })
                 .map(|this| match &error.migration_status {
                     settings::MigrationStatus::Succeeded => this.child(banner(
-                        "Your settings are out of date, and need to be updated.",
+                        "設定の形式が古いため、更新が必要です。",
                         match &self.current_file {
-                            SettingsUiFile::User => "They can be automatically migrated to the latest version.",
+                            SettingsUiFile::User => "最新バージョンへ自動的に移行できます。",
                             SettingsUiFile::Server(_) | SettingsUiFile::Project(_) => {
-                                "They must be manually migrated to the latest version."
+                                "最新バージョンへ手動で移行する必要があります。"
                             }
                         }
                         .to_string(),
@@ -2834,7 +2835,7 @@ impl SettingsWindow {
                         cx,
                     )),
                     settings::MigrationStatus::Failed { error: err } if !parse_failed => this.child(banner(
-                        "Your settings file is out of date, automatic migration failed",
+                        "設定ファイルの形式が古く、自動移行に失敗しました。",
                         err.clone(),
                         &mut self.shown_errors,
                         cx,

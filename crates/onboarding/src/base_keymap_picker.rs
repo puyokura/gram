@@ -11,7 +11,7 @@ use workspace::{ModalView, Workspace, ui::HighlightedLabel};
 actions!(
     gram,
     [
-        /// Toggles the base keymap selector modal.
+        /// ベースキーマップ選択モーダルを切り替える。
         ToggleBaseKeymapSelector
     ]
 );
@@ -96,7 +96,7 @@ impl PickerDelegate for BaseKeymapSelectorDelegate {
     type ListItem = ui::ListItem;
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Select a base keymap...".into()
+        "ベースキーマップを選択…".into()
     }
 
     fn match_count(&self) -> usize {

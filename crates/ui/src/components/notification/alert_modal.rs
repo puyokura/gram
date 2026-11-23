@@ -18,8 +18,8 @@ impl AlertModal {
             id: id.into(),
             children: smallvec![],
             title: title.into(),
-            primary_action: "Ok".into(),
-            dismiss_label: "Cancel".into(),
+            primary_action: "OK".into(),
+            dismiss_label: "キャンセル".into(),
         }
     }
 

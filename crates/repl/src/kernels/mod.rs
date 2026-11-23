@@ -186,13 +186,13 @@ impl KernelStatus {
 impl std::fmt::Display for KernelStatus {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str(match self {
-            KernelStatus::Idle => "Idle",
-            KernelStatus::Busy => "Busy",
-            KernelStatus::Starting => "Starting",
-            KernelStatus::Error => "Error",
-            KernelStatus::ShuttingDown => "Shutting Down",
-            KernelStatus::Shutdown => "Shutdown",
-            KernelStatus::Restarting => "Restarting",
+            KernelStatus::Idle => "待機中",
+            KernelStatus::Busy => "実行中",
+            KernelStatus::Starting => "起動中",
+            KernelStatus::Error => "エラー",
+            KernelStatus::ShuttingDown => "停止中",
+            KernelStatus::Shutdown => "停止済み",
+            KernelStatus::Restarting => "再起動中",
         })
     }
 }

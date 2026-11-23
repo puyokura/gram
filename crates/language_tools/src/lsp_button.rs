@@ -28,7 +28,7 @@ use crate::{lsp_config_view::OpenLanguageServerConfig, lsp_log_view};
 actions!(
     lsp_tool,
     [
-        /// Toggles the language server tool menu.
+        /// 言語サーバーツールのメニューを切り替えます。
         ToggleMenu
     ]
 );
@@ -233,9 +233,9 @@ impl LanguageServerState {
         for item in &self.items {
             if let LspMenuItem::ToggleServersButton { restart } = item {
                 let label = if *restart {
-                    "Restart All Servers"
+                    "すべてのサーバーを再起動"
                 } else {
-                    "Stop All Servers"
+                    "すべてのサーバーを停止"
                 };
 
                 let restart = *restart;
@@ -307,7 +307,7 @@ impl LanguageServerState {
                 continue;
             } else {
                 if let LspMenuItem::OpenConfigView = item {
-                    menu = menu.entry("Configure Servers", None, move |window, cx| {
+                    menu = menu.entry("サーバーを設定", None, move |window, cx| {
                         window.dispatch_action(Box::new(OpenLanguageServerConfig), cx);
                     })
                 }
@@ -329,19 +329,19 @@ impl LanguageServerState {
                 .and_then(|binary_status| match binary_status.status {
                     BinaryStatus::None => None,
                     BinaryStatus::CheckingForUpdate | BinaryStatus::Downloading | BinaryStatus::Starting => {
-                        Some((Color::Modified, "Starting…"))
+                        Some((Color::Modified, "起動中…"))
                     }
-                    BinaryStatus::Stopping | BinaryStatus::Stopped => Some((Color::Disabled, "Stopped")),
-                    BinaryStatus::Failed { .. } => Some((Color::Error, "Error")),
+                    BinaryStatus::Stopping | BinaryStatus::Stopped => Some((Color::Disabled, "停止")),
+                    BinaryStatus::Failed { .. } => Some((Color::Error, "エラー")),
                 })
                 .or_else(|| {
                     Some(match server_info.health? {
-                        ServerHealth::Ok => (Color::Success, "Running"),
-                        ServerHealth::Warning => (Color::Warning, "Warning"),
-                        ServerHealth::Error => (Color::Error, "Error"),
+                        ServerHealth::Ok => (Color::Success, "実行中"),
+                        ServerHealth::Warning => (Color::Warning, "警告"),
+                        ServerHealth::Error => (Color::Error, "エラー"),
                     })
                 })
-                .unwrap_or((Color::Success, "Running"));
+                .unwrap_or((Color::Success, "実行中"));
 
             let message = server_info
                 .message
@@ -381,7 +381,7 @@ impl LanguageServerState {
                         let workspace_for_message = workspace.clone();
                         let message_for_handler = message.clone();
                         let server_name_for_message = submenu_server_name.clone();
-                        submenu = submenu.entry("View Message", None, move |window, cx| {
+                        submenu = submenu.entry("メッセージを表示", None, move |window, cx| {
                             let Some(create_buffer) = workspace_for_message
                                 .update(cx, |workspace, cx| {
                                     workspace
@@ -401,7 +401,7 @@ impl LanguageServerState {
                                 let buffer = create_buffer.await?;
                                 buffer.update(cx, |buffer, cx| {
                                     buffer.edit(
-                                        [(0..0, format!("Language server {server_name}:\n\n{message}"))],
+                                        [(0..0, format!("言語サーバー {server_name}:\n\n{message}"))],
                                         None,
                                         cx,
                                     );
@@ -435,7 +435,7 @@ impl LanguageServerState {
                         let lsp_logs_for_debug = lsp_logs.clone();
                         let workspace_for_debug = workspace.clone();
                         let server_selector_for_debug = server_selector.clone();
-                        submenu = submenu.entry("View Logs", None, move |window, cx| {
+                        submenu = submenu.entry("ログを表示", None, move |window, cx| {
                             lsp_log_view::open_server_trace(
                                 &lsp_logs_for_debug,
                                 workspace_for_debug.clone(),
@@ -450,7 +450,7 @@ impl LanguageServerState {
                     let workspace_for_restart = workspace.clone();
                     let lsp_store_for_restart = lsp_store.clone();
                     let server_name_for_restart = submenu_server_name.clone();
-                    submenu = submenu.entry("Restart Server", None, move |_window, cx| {
+                    submenu = submenu.entry("サーバーを再起動", None, move |_window, cx| {
                         let Some(workspace) = workspace_for_restart.upgrade() else {
                             return;
                         };
@@ -526,7 +526,7 @@ impl LanguageServerState {
                         let lsp_store_for_stop = lsp_store.clone();
                         let server_selector_for_stop = server_selector.clone();
 
-                        submenu = submenu.entry("Stop Server", None, move |_window, cx| {
+                        submenu = submenu.entry("サーバーを停止", None, move |_window, cx| {
                             lsp_store_for_stop
                                 .update(cx, |lsp_store, cx| {
                                     lsp_store
@@ -1196,22 +1196,22 @@ impl Render for LspButton {
             (
                 IconName::BotOff,
                 Some(Indicator::dot().color(Color::Error)),
-                "One or more servers cannot run. Check Configure Servers.",
+                "1 つ以上のサーバーを実行できません。「サーバーを設定」を確認してください。",
             )
         } else if has_warnings {
             (
                 IconName::BotMessage,
                 Some(Indicator::dot().color(Color::Warning)),
-                "One or more servers have warnings.",
+                "1 つ以上のサーバーに警告があります。",
             )
         } else if has_other_notifications {
             (
                 IconName::BotMessage,
                 Some(Indicator::dot().color(Color::Modified)),
-                "One or more servers have notifications.",
+                "1 つ以上のサーバーに通知があります。",
             )
         } else {
-            (IconName::Bot, None, "All servers are running.")
+            (IconName::Bot, None, "すべてのサーバーが実行中です。")
         };
 
         let lsp_button = cx.weak_entity();
@@ -1238,7 +1238,7 @@ impl Render for LspButton {
                         .when_some(indicator, IconButton::indicator)
                         .icon_size(icon_size.icon_size())
                         .indicator_border_color(Some(cx.theme().colors().status_bar_background)),
-                    move |_window, cx| Tooltip::with_meta("Language Servers", Some(&ToggleMenu), description, cx),
+                    move |_window, cx| Tooltip::with_meta("言語サーバー", Some(&ToggleMenu), description, cx),
                 ),
         )
     }

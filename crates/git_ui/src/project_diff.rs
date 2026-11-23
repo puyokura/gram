@@ -50,12 +50,11 @@ use workspace::{
 actions!(
     git,
     [
-        /// Shows the diff between the working directory and the index.
+        /// 作業ディレクトリとインデックスの差分を表示します。
         Diff,
-        /// Adds files to the git staging area.
+        /// ファイルを Git のステージング領域に追加します。
         Add,
-        /// Shows the diff between the working directory and your default
-        /// branch (typically main or master).
+        /// 作業ディレクトリと既定ブランチ（通常は main または master）の差分を表示します。
         BranchDiff,
         LeaderAndFollower,
     ]
@@ -647,7 +646,7 @@ impl Item for ProjectDiff {
     }
 
     fn tab_tooltip_text(&self, _: &App) -> Option<SharedString> {
-        Some("Project Diff".into())
+        Some("プロジェクト差分".into())
     }
 
     fn tab_content(&self, params: TabContentParams, _window: &Window, cx: &App) -> AnyElement {
@@ -658,8 +657,8 @@ impl Item for ProjectDiff {
 
     fn tab_content_text(&self, _detail: usize, cx: &App) -> SharedString {
         match self.branch_diff.read(cx).diff_base() {
-            DiffBase::Head => "Uncommitted Changes".into(),
-            DiffBase::Merge { base_ref } => format!("Changes since {}", base_ref).into(),
+            DiffBase::Head => "未コミットの変更".into(),
+            DiffBase::Merge { base_ref } => format!("{} からの変更", base_ref).into(),
         }
     }
 
@@ -808,14 +807,18 @@ impl Render for ProjectDiff {
                 el.child(
                     v_flex()
                         .gap_1()
-                        .child(h_flex().justify_around().child(Label::new("No uncommitted changes")))
+                        .child(
+                            h_flex()
+                                .justify_around()
+                                .child(Label::new("未コミットの変更はありません")),
+                        )
                         .map(|el| match remote_button {
                             Some(button) => el.child(h_flex().justify_around().child(button)),
-                            None => el.child(h_flex().justify_around().child(Label::new("Remote up to date"))),
+                            None => el.child(h_flex().justify_around().child(Label::new("リモートは最新です"))),
                         })
                         .child(
                             h_flex().justify_around().mt_1().child(
-                                Button::new("project-diff-close-button", "Close")
+                                Button::new("project-diff-close-button", "閉じる")
                                     // .style(ButtonStyle::Transparent)
                                     .key_binding(KeyBinding::for_action_in(
                                         &CloseActiveItem::default(),
@@ -1059,9 +1062,9 @@ impl Render for ProjectDiffToolbar {
                 h_group_sm()
                     .when(button_states.selection, |el| {
                         el.child(
-                            Button::new("stage", "Toggle Staged")
+                            Button::new("stage", "ステージ切替")
                                 .tooltip(Tooltip::for_action_title_in(
-                                    "Toggle Staged",
+                                    "ステージを切り替え",
                                     &ToggleStaged,
                                     &focus_handle,
                                 ))
@@ -1073,9 +1076,9 @@ impl Render for ProjectDiffToolbar {
                     })
                     .when(!button_states.selection, |el| {
                         el.child(
-                            Button::new("stage", "Stage")
+                            Button::new("stage", "ステージ")
                                 .tooltip(Tooltip::for_action_title_in(
-                                    "Stage and go to next hunk",
+                                    "ステージして次のハンクへ移動",
                                     &StageAndNext,
                                     &focus_handle,
                                 ))
@@ -1087,9 +1090,9 @@ impl Render for ProjectDiffToolbar {
                                 ),
                         )
                         .child(
-                            Button::new("unstage", "Unstage")
+                            Button::new("unstage", "ステージ解除")
                                 .tooltip(Tooltip::for_action_title_in(
-                                    "Unstage and go to next hunk",
+                                    "ステージ解除して次のハンクへ移動",
                                     &UnstageAndNext,
                                     &focus_handle,
                                 ))
@@ -1112,7 +1115,7 @@ impl Render for ProjectDiffToolbar {
                         IconButton::new("up", IconName::ArrowUp)
                             .shape(ui::IconButtonShape::Square)
                             .tooltip(Tooltip::for_action_title_in(
-                                "Go to previous hunk",
+                                "前のハンクへ移動",
                                 &GoToPreviousHunk,
                                 &focus_handle,
                             ))
@@ -1125,7 +1128,7 @@ impl Render for ProjectDiffToolbar {
                         IconButton::new("down", IconName::ArrowDown)
                             .shape(ui::IconButtonShape::Square)
                             .tooltip(Tooltip::for_action_title_in(
-                                "Go to next hunk",
+                                "次のハンクへ移動",
                                 &GoToHunk,
                                 &focus_handle,
                             ))
@@ -1138,9 +1141,9 @@ impl Render for ProjectDiffToolbar {
                 h_group_sm()
                     .when(button_states.unstage_all && !button_states.stage_all, |el| {
                         el.child(
-                            Button::new("unstage-all", "Unstage All")
+                            Button::new("unstage-all", "すべてステージ解除")
                                 .tooltip(Tooltip::for_action_title_in(
-                                    "Unstage all changes",
+                                    "すべての変更をステージ解除",
                                     &UnstageAll,
                                     &focus_handle,
                                 ))
@@ -1152,10 +1155,10 @@ impl Render for ProjectDiffToolbar {
                             // todo make it so that changing to say "Unstaged"
                             // doesn't change the position.
                             div().child(
-                                Button::new("stage-all", "Stage All")
+                                Button::new("stage-all", "すべてステージ")
                                     .disabled(!button_states.stage_all)
                                     .tooltip(Tooltip::for_action_title_in(
-                                        "Stage all changes",
+                                        "すべての変更をステージ",
                                         &StageAll,
                                         &focus_handle,
                                     ))
@@ -1164,8 +1167,8 @@ impl Render for ProjectDiffToolbar {
                         )
                     })
                     .child(
-                        Button::new("commit", "Commit")
-                            .tooltip(Tooltip::for_action_title_in("Commit", &Commit, &focus_handle))
+                        Button::new("commit", "コミット")
+                            .tooltip(Tooltip::for_action_title_in("コミット", &Commit, &focus_handle))
                             .on_click(cx.listener(|this, _, window, cx| {
                                 this.dispatch_action(&Commit, window, cx);
                             })),
@@ -1236,12 +1239,13 @@ impl RenderOnce for ProjectDiffEmptyState {
                 .map(|this| {
                     if ahead_of_remote {
                         let ahead_count = change_count(branch).0;
-                        let ahead_string = format!("{} Commits Ahead", ahead_count);
+                        let ahead_string = format!("{} 件のコミットが進んでいます", ahead_count);
                         this.child(
                             v_flex()
                                 .child(Headline::new(ahead_string).size(HeadlineSize::Small))
                                 .child(
-                                    Label::new(format!("Push your changes to {}", branch.name())).color(Color::Muted),
+                                    Label::new(format!("{} に変更をプッシュしてください", branch.name()))
+                                        .color(Color::Muted),
                                 ),
                         )
                         .child(div().child(render_push_button(
@@ -1252,12 +1256,15 @@ impl RenderOnce for ProjectDiffEmptyState {
                     } else if branch_not_on_remote {
                         this.child(
                             v_flex()
-                                .child(Headline::new("Publish Branch").size(HeadlineSize::Small))
-                                .child(Label::new(format!("Create {} on remote", branch.name())).color(Color::Muted)),
+                                .child(Headline::new("ブランチを公開").size(HeadlineSize::Small))
+                                .child(
+                                    Label::new(format!("リモートに {} を作成します", branch.name()))
+                                        .color(Color::Muted),
+                                ),
                         )
                         .child(div().child(render_publish_button(self.focus_handle, "publish".into())))
                     } else {
-                        this.child(Label::new("Remote status unknown").color(Color::Muted))
+                        this.child(Label::new("リモートの状態が不明です").color(Color::Muted))
                     }
                 })
         };
@@ -1268,11 +1275,12 @@ impl RenderOnce for ProjectDiffEmptyState {
                 .when(self.no_repo, |this| {
                     // TODO: add git init
                     this.text_center()
-                        .child(Label::new("No Repository").color(Color::Muted))
+                        .child(Label::new("リポジトリがありません").color(Color::Muted))
                 })
                 .map(|this| {
                     if not_ahead_or_behind && self.current_branch.is_some() {
-                        this.text_center().child(Label::new("No Changes").color(Color::Muted))
+                        this.text_center()
+                            .child(Label::new("変更はありません").color(Color::Muted))
                     } else {
                         this.when_some(self.current_branch.as_ref(), |this, branch| {
                             this.child(has_branch_container(branch))

@@ -1,17 +1,15 @@
 # Svelte
 
-Svelte support is available through the
-[Svelte extension](https://github.com/zed-extensions/svelte).
+Svelte のサポートは、[Svelte 拡張機能](https://github.com/zed-extensions/svelte)を通じて利用できます。
 
 - Tree-sitter:
   [tree-sitter-grammars/tree-sitter-svelte](https://github.com/tree-sitter-grammars/tree-sitter-svelte)
-- Language Server:
+- 言語サーバー:
   [sveltejs/language-tools](https://github.com/sveltejs/language-tools)
 
-## Extra theme styling configuration
+## 追加のテーマスタイル設定
 
-You can modify how certain styles, such as directives and modifiers, appear in
-attributes:
+ディレクティブやモディファイアーなど、属性内の特定のスタイルの表示方法を変更できます:
 
 ```json
 "syntax": {
@@ -26,10 +24,9 @@ attributes:
 }
 ```
 
-## Inlay Hints
+## インレイヒント
 
-When inlay hints is enabled in Gram, to make the language server send them back,
-Gram sets the following initialization options:
+Gram でインレイヒントが有効になっているとき、言語サーバーがインレイヒントを返すよう、Gram は次の初期化オプションを設定します:
 
 ```json
 "inlayHints": {
@@ -56,7 +53,7 @@ Gram sets the following initialization options:
 }
 ```
 
-To override these settings, use the following:
+これらの設定を上書きするには、次のようにします:
 
 ```json
 "lsp": {
@@ -75,6 +72,6 @@ To override these settings, use the following:
 }
 ```
 
-See
-[the TypeScript language server `package.json`](https://github.com/microsoft/vscode/blob/main/extensions/typescript-language-features/package.json)
-for more information.
+詳しくは
+[TypeScript 言語サーバーの `package.json`](https://github.com/microsoft/vscode/blob/main/extensions/typescript-language-features/package.json)
+を参照してください。

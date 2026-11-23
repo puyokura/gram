@@ -1,36 +1,30 @@
-# Building Gram for Linux
+# Linux 向け Gram のビルド
 
-## Repository
+## リポジトリ
 
-Clone the [Gram repository](https://codeberg.org/GramEditor/gram).
+[Gram リポジトリ](https://codeberg.org/GramEditor/gram)をクローンします。
 
-## Dependencies
+## 依存関係
 
-- Install [rustup](https://www.rust-lang.org/tools/install)
+- [rustup](https://www.rust-lang.org/tools/install) をインストールします
 
-- Install the necessary system libraries:
+- 必要なシステムライブラリをインストールします:
 
   ```sh
   script/linux
   ```
 
-  If you prefer to install the system libraries manually, you can find the list
-  of required packages in the `script/linux` file.
+  システムライブラリを手動でインストールしたい場合は、必要なパッケージの一覧を `script/linux` ファイルで確認できます。
 
-### Linkers {#linker}
+### リンカー {#linker}
 
-On Linux, Rust's default linker is
-[LLVM's `lld`](https://blog.rust-lang.org/2025/09/18/Rust-1.90.0/). Alternative
-linkers, especially [Wild](https://github.com/davidlattimore/wild) and
-[Mold](https://github.com/rui314/mold) can significantly improve clean and
-incremental build time.
+Linux では、Rust の既定のリンカーは [LLVM の `lld`](https://blog.rust-lang.org/2025/09/18/Rust-1.90.0/) です。代替のリンカー、とくに [Wild](https://github.com/davidlattimore/wild) と [Mold](https://github.com/rui314/mold) は、クリーンビルドとインクリメンタルビルドの時間を大幅に改善できます。
 
-For local development Wild is recommended because it's 5-20% faster than Mold.
+ローカル開発では、Mold より 5〜20% 高速なため Wild を推奨します。
 
-These linkers can be installed with `script/install-mold` and
-`script/install-wild`.
+これらのリンカーは `script/install-mold` と `script/install-wild` でインストールできます。
 
-To use Wild as your default, add these lines to your `~/.cargo/config.toml`:
+Wild を既定として使うには、次の行を `~/.cargo/config.toml` に追加します:
 
 ```toml
 [target.x86_64-unknown-linux-gnu]
@@ -42,49 +36,46 @@ linker = "clang"
 rustflags = ["-C", "link-arg=--ld-path=wild"]
 ```
 
-To use Mold as your default:
+Mold を既定として使うには:
 
 ```toml
 [target.'cfg(target_os = "linux")']
 rustflags = ["-C", "link-arg=-fuse-ld=mold"]
 ```
 
-## Building from source
+## ソースからのビルド
 
-Once the dependencies are installed, you can build using
-[Cargo](https://doc.rust-lang.org/cargo/).
+依存関係をインストールしたら、[Cargo](https://doc.rust-lang.org/cargo/)を使ってビルドできます。
 
-For a debug build of the editor:
+エディターのデバッグビルド:
 
 ```sh
 cargo run
 ```
 
-To run the tests:
+テストを実行する場合:
 
 ```sh
 cargo test --workspace
 ```
 
-In release mode, the primary user interface is the `cli` crate. You can run it
-in development with:
+リリースモードでは、主要なユーザーインターフェースは `cli` クレートです。開発中に実行するには次のコマンドを使います:
 
 ```sh
 cargo run -p cli
 ```
 
-## Installing a development build
+## 開発用ビルドのインストール
 
-You can install a local build on your machine with:
+ローカルでビルドしたものをマシンにインストールするには、次のコマンドを実行します:
 
 ```sh
 ./script/install.sh --build
 ```
 
-This will build gram and the cli in release mode and make them available at
-`~/.local/bin/gram`, installing .desktop files to `~/.local/share`.
+これにより gram と cli がリリースモードでビルドされ、`~/.local/bin/gram` から利用できるようになり、`.desktop` ファイルが `~/.local/share` にインストールされます。
 
-> **_Note_**: If you encounter linker errors similar to the following:
+> **_注_**: 次のようなリンカーエラーが発生した場合:
 >
 > ```bash
 > error: linking with `cc` failed: exit status: 1 ...
@@ -100,160 +91,107 @@ This will build gram and the cli in release mode and make them available at
 > error: could not compile `remote_server` (bin "remote_server") due to 1 previous error
 > ```
 >
-> **Cause**: this is caused by known bugs in aws-lc-rs(doesn't support GCC >=
-> 14):
+> **原因**: aws-lc-rs の既知のバグ（GCC 14 以降をサポートしていない）が原因です:
 > [FIPS fails to build with GCC >= 14](https://github.com/aws/aws-lc-rs/issues/569)
 > &
 > [GCC-14 - build failure for FIPS module](https://github.com/aws/aws-lc/issues/2010)
 >
-> You can refer to
+> 詳細は
 > [linux: Linker error for remote_server when using script/install-linux](https://github.com/zed-industries/zed/issues/24880)
-> for more information.
+> を参照してください。
 >
-> **Workarounds**: Set the remote server target to `x86_64-unknown-linux-gnu`
-> like so
+> **回避策**: リモートサーバーのターゲットを次のように `x86_64-unknown-linux-gnu` に設定します
 > `export REMOTE_SERVER_TARGET=x86_64-unknown-linux-gnu; script/install-linux`
 
-## Wayland & X11
+## Wayland と X11
 
-Gram supports both X11 and Wayland. By default, we pick whichever we can find at
-runtime. If you're on Wayland and want to run in X11 mode, use the environment
-variable `WAYLAND_DISPLAY=''`.
+Gram は X11 と Wayland の両方をサポートしています。既定では、実行時に見つかったほうを使用します。Wayland 上で X11 モードで実行したい場合は、環境変数 `WAYLAND_DISPLAY=''` を使用します。
 
-## Packaging Gram
+## Gram のパッケージング
 
-Gram has two main binaries:
+Gram には2つの主要なバイナリがあります:
 
-- You will need to build `crates/cli` and make its binary available in `$PATH`
-  with the name `gram`.
-- You will need to build `crates/gram` and put it at
-  `$PATH/to/cli/../../libexec/gram-editor`. For example, if you are going to put
-  the cli at `~/.local/bin/gram` put gram at `~/.local/libexec/gram-editor`. As
-  some linux distributions (notably Arch) discourage the use of `libexec`, you
-  can also put this binary at `$PATH/to/cli/../../lib/gram/gram-editor` (e.g.
-  `~/.local/lib/gram/gram-editor`) instead.
-- If you are going to provide a `.desktop` file you can find a template in
-  `crates/gram/resources/gram.desktop.in`, and use `envsubst` to populate it
-  with the values required. This file should also be renamed to
-  `$APP_ID.desktop` so that the file
-  [follows the FreeDesktop standards](https://github.com/zed-industries/zed/issues/12707#issuecomment-2168742761).
-  Use `app.liten.Gram` for stable builds and `app.liten.Gram-Dev` for
-  development builds, matching the window application ID and `StartupWMClass`.
-  Desktop entries installed under `share/applications` can use mode `644`.
-- Install application icons under `share/icons/hicolor/scalable/apps` and
-  symbolic icons under `share/icons/hicolor/symbolic/apps`. Keep `Icon` as an
-  icon name so the desktop can look it up through the selected icon theme.
-- You will need to ensure that the necessary libraries are installed. You can
-  get the current list by
-  [inspecting the built binary](https://github.com/zed-industries/zed/blob/935cf542aebf55122ce6ed1c91d0fe8711970c82/script/bundle-linux#L65-L67)
-  on your system.
-- For an example of a complete build script, see
-  [script/bundle-linux](https://github.com/zed-industries/zed/blob/935cf542aebf55122ce6ed1c91d0fe8711970c82/script/bundle-linux).
-- Set the environment variable `GRAM_NO_BUNDLED_UNINSTALL` to something like
-  "Use flatpak to uninstall" so that the CLI uninstall command doesn't try to
-  run the uninstallation script.
+- `crates/cli` をビルドし、そのバイナリを `gram` という名前で `$PATH` から利用できるようにする必要があります。
+- `crates/gram` をビルドし、`$PATH/to/cli/../../libexec/gram-editor` に配置する必要があります。たとえば cli を `~/.local/bin/gram` に置く場合は、gram を `~/.local/libexec/gram-editor` に置きます。一部の Linux ディストリビューション（とくに Arch）は `libexec` の使用を推奨していないため、代わりにこのバイナリを `$PATH/to/cli/../../lib/gram/gram-editor`（例: `~/.local/lib/gram/gram-editor`）に置くこともできます。
+- `.desktop` ファイルを提供する場合は、テンプレートが `crates/gram/resources/gram.desktop.in` にあります。`envsubst` を使って必要な値を埋めてください。また、ファイルが[FreeDesktop 標準](https://github.com/zed-industries/zed/issues/12707#issuecomment-2168742761)に従うよう、ファイル名を `$APP_ID.desktop` に変更する必要があります。安定版ビルドには `app.liten.Gram` を、開発版ビルドには `app.liten.Gram-Dev` を使用し、ウィンドウのアプリケーション ID と `StartupWMClass` に合わせてください。`share/applications` 以下にインストールされるデスクトップエントリーはモード `644` を使用できます。
+- アプリケーションのアイコンは `share/icons/hicolor/scalable/apps` に、シンボリックアイコンは `share/icons/hicolor/symbolic/apps` にインストールします。`Icon` はアイコン名のままにしておき、デスクトップが選択中のアイコンテーマを通じて解決できるようにしてください。
+- 必要なライブラリがインストールされていることを確認する必要があります。現在の一覧は、システム上で[ビルド済みバイナリを検査する](https://github.com/zed-industries/zed/blob/935cf542aebf55122ce6ed1c91d0fe8711970c82/script/bundle-linux#L65-L67)ことで取得できます。
+- 完全なビルドスクリプトの例は [script/bundle-linux](https://github.com/zed-industries/zed/blob/935cf542aebf55122ce6ed1c91d0fe8711970c82/script/bundle-linux) を参照してください。
+- 環境変数 `GRAM_NO_BUNDLED_UNINSTALL` に「Use flatpak to uninstall」のような値を設定して、CLI のアンインストールコマンドがアンインストールスクリプトを実行しようとしないようにします。
 
-### Other things to note
+### その他の注意点
 
-Zed comes with some (in our opinion) pretty severe caveats:
+Zed には、（私たちの見解では）かなり重大な問題があります:
 
-- It automatically downloads and installs binaries without explicit user
-  prompting in the same way as rustup/rbenv/pyenv, etc. They say that they
-  "understand this is contentious", and yet they insist on doing it.
-  [See here](https://github.com/zed-industries/zed/issues/12589).
-- They download and install extension binaries from
-  [zed-industries/extensions](https://github.com/zed-industries/extensions)
-  without explicit permission or any way to inspect what is being installed.
-  These extensions may in turn install further software without explicit
-  permission or control. For more details,
-  [see here](https://github.com/zed-industries/zed/issues/12358).
-- It does not play nice with sandboxes,
-  [see here](https://github.com/zed-industries/zed/pull/12006#issuecomment-2130421220)
+- rustup/rbenv/pyenv などと同じように、ユーザーへの明示的な確認なしにバイナリを自動でダウンロードしてインストールします。彼らは「これが議論の的になることは理解している」と言いながらも、それを続けると主張しています。[こちらを参照](https://github.com/zed-industries/zed/issues/12589)。
+- 明示的な許可や、何がインストールされるかを検査する手段なしに、[zed-industries/extensions](https://github.com/zed-industries/extensions) から拡張機能のバイナリをダウンロードしてインストールします。これらの拡張機能はさらに、明示的な許可や制御なしに追加のソフトウェアをインストールする可能性があります。詳細は[こちらを参照](https://github.com/zed-industries/zed/issues/12358)。
+- サンドボックスとの相性が悪いです。[こちらを参照](https://github.com/zed-industries/zed/pull/12006#issuecomment-2130421220)
 
-Our (Gram's) intention is to resolve all of these problems.
+私たち（Gram）の意図は、これらの問題をすべて解決することです。
 
-## Distro Packages
+## ディストリビューションパッケージ
 
-The Gram project includes scripts to build binary packages for various targets,
-including `.deb`, `.rpm` and `AppImage`. The driver for all these is the
-`scripts/bundle-linux` script which takes the following flags (among others):
+Gram プロジェクトには、`.deb`、`.rpm`、`AppImage` など、さまざまなターゲット向けのバイナリパッケージをビルドするスクリプトが含まれています。これらの共通ドライバーは `scripts/bundle-linux` スクリプトで、次のフラグ（など）を受け取ります:
 
-- `--deb` (requires [`cargo-deb`](https://github.com/kornelski/cargo-deb))
-- `--rpm` (requires
-  [`cargo-generate-rpm`](https://github.com/cat-in-136/cargo-generate-rpm))
-- `--appimage` (requires
-  [`pkg2appimage`](https://github.com/AppImageCommunity/pkg2appimage))
+- `--deb`（[`cargo-deb`](https://github.com/kornelski/cargo-deb) が必要）
+- `--rpm`（[`cargo-generate-rpm`](https://github.com/cat-in-136/cargo-generate-rpm) が必要）
+- `--appimage`（[`pkg2appimage`](https://github.com/AppImageCommunity/pkg2appimage) が必要）
 
-Adding any of these will build the corresponding package. Note that the
-`AppImage` is created from the `.deb.` package so while you can only provide the
-`--appimage` flag it will automatically build a `.deb` as well.
+いずれかを追加すると、対応するパッケージがビルドされます。`AppImage` は `.deb.` パッケージから作成されるため、`--appimage` フラグだけを指定しても `.deb` も自動的にビルドされることに注意してください。
 
-Note that each of these package builds requires an additional dependency as
-noted above.
+これらのパッケージのビルドには、上記のとおりそれぞれ追加の依存関係が必要です。
 
 ## Flatpak
 
-> Gram's current Flatpak integration exits the sandbox on startup. Workflows
-> that rely on Flatpak's sandboxing may not work as expected.
+> Gram の現在の Flatpak 連携は、起動時にサンドボックスを抜け出します。Flatpak のサンドボックスに依存するワークフローは、期待どおりに動作しない可能性があります。
 
-To build & install the Flatpak package locally follow the steps below:
+Flatpak パッケージをローカルでビルドしてインストールするには、次の手順に従います:
 
-1. Install Flatpak for your distribution as outlined
-   [here](https://flathub.org/setup).
-2. Run `script/linux` to install Linux dependencies.
-3. Run `script/flatpak/deps` script to install the required dependencies.
-4. Run `script/flatpak/bundle-flatpak`.
-5. Now the package has been installed and has a bundle available at
-   `target/release/{app-id}.flatpak`.
+1. お使いのディストリビューション向けに Flatpak を[こちら](https://flathub.org/setup)の手順でインストールします。
+2. `script/linux` を実行して Linux の依存関係をインストールします。
+3. `script/flatpak/deps` スクリプトを実行して必要な依存関係をインストールします。
+4. `script/flatpak/bundle-flatpak` を実行します。
+5. これでパッケージがインストールされ、バンドルが `target/release/{app-id}.flatpak` に生成されます。
 
-## Memory profiling
+## メモリプロファイリング
 
-[`heaptrack`](https://github.com/KDE/heaptrack) is quite useful for diagnosing
-memory leaks. To install it:
+[`heaptrack`](https://github.com/KDE/heaptrack) はメモリリークの診断に非常に有用です。インストールするには:
 
 ```sh
 $ sudo apt install heaptrack heaptrack-gui
 $ cargo install cargo-heaptrack
 ```
 
-Then, to build and run Gram with the profiler attached:
+次に、プロファイラーを接続した状態で Gram をビルドして実行します:
 
 ```sh
 $ cargo heaptrack -b gram
 ```
 
-When this editor instance is exited, terminal output will include a command to
-run `heaptrack_interpret` to convert the `*.raw.zst` profile to a `*.zst` file
-which can be passed to `heaptrack_gui` for viewing.
+このエディターインスタンスを終了すると、ターミナル出力に、`*.raw.zst` プロファイルを `*.zst` ファイルに変換する `heaptrack_interpret` の実行コマンドが表示されます。このファイルは表示用に `heaptrack_gui` に渡せます。
 
-## Perf recording
+## perf による記録
 
-This section describes how to generate a flamegraph with resolved symbols from a
-running editor instance. This can be used to debug when the editor is using a
-lot of CPU. It's not useful for debugging hangs or memory usage.
+このセクションでは、実行中のエディターインスタンスから、シンボルが解決されたフレームグラフを生成する方法を説明します。これはエディターが CPU を大量に使用しているときのデバッグに使えます。ハングやメモリ使用量のデバッグには役立ちません。
 
-### During the incident
+### 問題の発生中に
 
-- Find the PID (process ID) using:
-  `ps -eo size,pid,comm | grep gram | sort | head -n 1 | cut -d ' ' -f 2` Or
-  find the pid of the command gram-editor with the most ram usage in something
-  like htop/btop/top.
+- PID（プロセス ID）を次のコマンドで特定します:
+  `ps -eo size,pid,comm | grep gram | sort | head -n 1 | cut -d ' ' -f 2` あるいは、htop/btop/top などで、RAM 使用量が最も多い gram-editor コマンドの PID を探します。
 
-- Install perf: On Ubuntu (derivatives) run `sudo apt install linux-tools`.
+- perf をインストールします: Ubuntu（および派生版）では `sudo apt install linux-tools` を実行します。
 
-- Perf Record: run `sudo perf record -p <pid you just found>`, wait a few
-  seconds to gather data then press Ctrl+C. You should now have a perf.data file
+- perf record を実行します: `sudo perf record -p <先ほど特定した PID>` を実行し、数秒待ってデータを収集したら Ctrl+C を押します。これで perf.data ファイルが生成されるはずです。
 
-- Make the output file user owned: run `sudo chown $USER:$USER perf.data`
+- 出力ファイルの所有者をユーザーに変更します: `sudo chown $USER:$USER perf.data`
 
-- Get build info: Run gram again and type `gram: about` in the command pallet to
-  get the exact commit.
+- ビルド情報を取得します: Gram を再度起動し、コマンドパレットで `gram: about` と入力して正確なコミットを取得します。
 
-### Later
+### 後日
 
-- Build Gram with symbols:
-  - Check out the commit found previously and modify `Cargo.toml`.
-  - Apply the following diff, then make a release build.
+- シンボル付きで Gram をビルドします:
+  - 先ほど特定したコミットをチェックアウトし、`Cargo.toml` を変更します。
+  - 次の差分を適用してから、リリースビルドを行います。
 
     ```diff
     [profile.release]
@@ -261,18 +199,18 @@ lot of CPU. It's not useful for debugging hangs or memory usage.
     +debug = "full"
     ```
 
-- Add the symbols to perf database:
-  `pref buildid-cache -v -a <path to release gram binary>`
+- シンボルを perf データベースに追加します:
+  `pref buildid-cache -v -a <リリース版 gram バイナリへのパス>`
 
-- Resolve the symbols from the db:
+- データベースからシンボルを解決します:
   `perf inject -i perf.data -o perf_with_symbols.data`
 
-- Install flamegraph: `cargo install cargo-flamegraph`
+- flamegraph をインストールします: `cargo install cargo-flamegraph`
 
-- Render the flamegraph: `flamegraph --perfdata perf_with_symbols.data`
+- フレームグラフを描画します: `flamegraph --perfdata perf_with_symbols.data`
 
-## Troubleshooting
+## トラブルシューティング
 
-### Cargo errors claiming that a dependency is using unstable features
+### 依存関係が不安定な機能を使用しているという Cargo のエラー
 
-Try `cargo clean` and `cargo build`.
+`cargo clean` を実行してから `cargo build` を試してください。

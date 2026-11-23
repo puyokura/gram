@@ -23,8 +23,8 @@ fn process_settings(cx: &mut App) {
     }
 }
 
-/// Use this function in conjunction with [App::set_prompt_builder] to force
-/// GPUI to use the internal prompt system.
+/// [App::set_prompt_builder] と合わせて使い、GPUI に内部の
+/// プロンプトシステムを強制的に使わせます。
 fn gram_prompt_renderer(
     level: PromptLevel,
     message: &str,
@@ -65,7 +65,7 @@ impl GramPromptRenderer {
     }
 
     fn cancel(&mut self, _: &menu::Cancel, _window: &mut Window, cx: &mut Context<Self>) {
-        if let Some(ix) = self.actions.iter().position(|a| a == "Cancel") {
+        if let Some(ix) = self.actions.iter().position(|a| a == "Cancel" || a == "キャンセル") {
             cx.emit(PromptResponse(ix));
         }
     }

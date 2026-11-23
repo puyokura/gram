@@ -1,135 +1,114 @@
-# Documentation
+# ドキュメント
 
-Gram is a source code editor and an IDE. It has a lot of features but is also
-very much a work in progress. It is a community project, although the community
-right now consists of one grumpy toad in its spare time and a small but
-dedicated group of contributors (much love to them). The project hopes to move
-slowly but steadily in the direction of stability, reliability and respect.
+Gram はソースコードエディター兼統合開発環境（IDE）です。豊富な機能を備えていますが、まだまだ開発途上のプロジェクトでもあります。コミュニティプロジェクトであり、現在のコミュニティは余暇に開発を進める 1 人の気難しいヒキガエルと、少数ながら熱心なコントリビューターたち（彼らに多大なる愛を）で構成されています。本プロジェクトは、安定性、信頼性、そして敬意を重んじる方向へと、ゆっくりと着実に前進することを目指しています。
 
-It has a lot of things going for it:
+Gram には数多くの魅力があります。
 
-- It mostly works today. I use it every day to write code.
-- Decent performance.
-- Cross-platform support for Mac, Linux, FreeBSD and Windows.
-- Remote development over SSH.
-- Integrated debugger support via the `DAP` protocol.
-- Jupyter Notebook support (REPL mode).
-- Built in git support.
-- Pretty decent Vim and Helix modal editing modes.
-- Partial/limited support for Zed Wasm extensions.
-- No AI integration or monetization scheme.
-- No telemetry or proprietary server component.
-- No video or audio chat.
-- No involuntary auto updates.
-- Tries not to install anything without explicit permission.
-- Integrated documentation.
-- Built in support for a lot of languages and language servers.
-- Lots of builtin themes.
+- 現在の時点でほぼ問題なく動作します。私自身、日々のコード作成に毎日使用しています。
+- 優れたパフォーマンス。
+- Mac、Linux、FreeBSD、Windows のクロスプラットフォーム対応。
+- SSH 経由のリモート開発。
+- `DAP` プロトコルによる統合デバッガー対応。
+- Jupyter Notebook 対応（REPL モード）。
+- 組み込みの Git 対応。
+- 実用的な Vim および Helix モーダル編集モード。
+- Zed Wasm 拡張機能の一部/限定的なサポート。
+- AI 連携や収益化スキームは一切なし。
+- テレメトリーやプロプライエタリなサーバーコンポーネントは一切なし。
+- ビデオや音声によるチャット機能はなし。
+- 勝手な自動アップデートはなし。
+- 明示的な許可なしに何かをインストールしないよう配慮。
+- 統合ドキュメント。
+- 多数の言語と言語サーバーの組み込みサポート。
+- 豊富な組み込みテーマ。
 
-This project did not start with a vision of the perfect editor, but as a
-reaction against what was and still is happening to the world of software
-development, the world at large and to editors like VS Code, Zed and Vim. Its
-core philosophy is that writing code by hand with care is good and righteous,
-and aims to be a good tool for doing just that.
+本プロジェクトは「完璧なエディター」というビジョンから始まったのではなく、ソフトウェア開発の世界、世界全体、そして VS Code、Zed、Vim などのエディターで起きてきた、そして今も起きていることに対する反発から始まりました。その核となる哲学は「手間を惜しまず手作業でコードを書くことは正しく、素晴らしいことである」ということであり、まさにそれを行うための優れたツールとなることを目指しています。
 
-Gram started as a **hard fork** of the Zed editor. For more details on the
-background and motivation behind this fork, read the
-[Mission Statement](./mission.md).
+Gram は Zed エディターの **ハードフォーク** としてスタートしました。このフォークの背景と動機の詳細については、[ミッションステートメント](./mission.md) をお読みください。
 
-### Migrating
+### 移行ガイド
 
-- From [Zed](./migrate/zed.md)
-- From [VS Code](./migrate/vs-code.md)
+- [Zed](./migrate/zed.md) からの移行
+- [VS Code](./migrate/vs-code.md) からの移行
 
-## Features
+## 主な機能
 
-- [Debugger](./debugger.md): Integrated support for DAP, the debugger adapter
-  protocol.
-- [Remote Development](./remote-development.md): Connect to remote servers via
-  SSH and edit as if working on a local project.
-- [Extensions](./extensions.md): Add support for additional languages, themes
-  and icons using the extension system.
-- [Supported Languages](./languages.md)
-- [Language Servers](./language-servers.md): Gram relies on language servers for
-  providing advanced semantic functionality for various programming languages.
+- [デバッガー](./debugger.md): デバッガーアダプタープロトコル（DAP）の統合サポート。
+- [リモート開発](./remote-development.md): SSH 経由でリモートサーバーに接続し、ローカルプロジェクトのように編集。
+- [拡張機能](./extensions.md): 拡張機能システムを使用して、言語、テーマ、アイコンの追加サポートを導入。
+- [対応言語](./languages.md)
+- [言語サーバー](./language-servers.md): Gram は言語サーバーを利用して、さまざまなプログラミング言語の高度なセマンティック機能を提供します。
 
-## Development
+## 開発
 
-- [Development](./development.md)
+- [開発](./development.md)
   - [macOS](./development/macos.md)
   - [Linux](./development/linux.md)
   - [Windows](./development/windows.md)
   - [FreeBSD](./development/freebsd.md)
-  - [Using Debuggers](./development/debuggers.md)
-  - [Glossary](./development/glossary.md)
-- [Debugging Crashes](./development/debugging-crashes.md)
-- [Chasing Bloat](./development/bloat.md)
-- [Ownership and Data flow](./development/ownership-and-data-flow.md)
+  - [デバッガーの使用方法](./development/debuggers.md)
+  - [用語集](./development/glossary.md)
+- [クラッシュのデバッグ](./development/debugging-crashes.md)
+- [肥大化の調査](./development/bloat.md)
+- [所有権とデータフロー](./development/ownership-and-data-flow.md)
 
-## Configuration
+## 設定
 
-- [Configuring Gram](./configuring-gram.md)
-- [Configuring Languages](./configuring-languages.md)
-  - [Toolchains](./toolchains.md)
-- [Key bindings](./key-bindings.md)
-  - [All Actions](./all-actions.md)
-- [Snippets](./snippets.md)
-- [Themes](./themes.md)
-- [Icon Themes](./icon-themes.md)
-- [Visual Customization](./visual-customization.md)
-- [Vim Mode](./vim.md)
-- [Helix Mode](./helix.md)
+- [Gram の設定](./configuring-gram.md)
+- [言語の設定](./configuring-languages.md)
+  - [ツールチェーン](./toolchains.md)
+- [キーバインド](./key-bindings.md)
+  - [すべてのアクション](./all-actions.md)
+- [スニペット](./snippets.md)
+- [テーマ](./themes.md)
+- [アイコンテーマ](./icon-themes.md)
+- [外観のカスタマイズ](./visual-customization.md)
+- [Vim モード](./vim.md)
+- [Helix モード](./helix.md)
 - [SuperTab](./supertab.md)
 
-## Using Gram
+## Gram の使い方
 
-- [Multibuffers](./multibuffers.md)
-- [Command Palette](./command-palette.md)
-- [Command-line Interface](./command-line-interface.md)
-- [Outline Panel](./outline-panel.md)
-- [Code Completions](./completions.md)
+- [マルチバッファー](./multibuffers.md)
+- [コマンドパレット](./command-palette.md)
+- [コマンドラインインターフェイス](./command-line-interface.md)
+- [アウトラインパネル](./outline-panel.md)
+- [コード補完](./completions.md)
 - [Git](./git.md)
-- [Debugger](./debugger.md)
-- [Diagnostics](./diagnostics.md)
-- [Tasks](./tasks.md)
-- [Tab Switcher](./tab-switcher.md)
-- [Remote Development](./remote-development.md)
-- [Environment Variables](./environment.md)
+- [デバッガー](./debugger.md)
+- [診断](./diagnostics.md)
+- [タスク](./tasks.md)
+- [タブスイッチャー](./tab-switcher.md)
+- [リモート開発](./remote-development.md)
+- [環境変数](./environment.md)
 - [REPL](./repl.md)
 
-## Platform Support
+## プラットフォーム対応
 
 - [Windows](./windows.md)
 - [Linux](./linux.md)
 
-## Handling Problems
+## トラブルシューティング
 
-- [Troubleshooting](./troubleshooting.md)
-- [Uninstall](./uninstall.md)
+- [トラブルシューティング](./troubleshooting.md)
+- [アンインストール](./uninstall.md)
 
-## Extensions
+## 拡張機能
 
-> **NOTE:** The Zed extension system relies on a closed-source server component,
-> which is stripped from Gram. Instead, all extensions have to be built from
-> source. Currently, there is no extension registry so the extensions have to be
-> installed either via the suggestion popups or an URL and Wasm extensions need
-> rustup installed in order to compile.
+> **注意:** Zed の拡張機能システムはクローズドソースのサーバーコンポーネントに依存していましたが、Gram ではそれが完全に除去されています。代わりに、すべての拡張機能はソースコードからビルドする必要があります。現在、拡張機能レジストリは存在しないため、拡張機能はサジェストポップアップまたは URL 経由でインストールする必要があり、Wasm 拡張機能のコンパイルには rustup がインストールされている必要があります。
 
-- [Overview](./extensions.md)
-- [Installing Extensions](./extensions/installing-extensions.md)
-- [Developing Extensions](./extensions/developing-extensions.md)
-- [Extension Capabilities](./extensions/capabilities.md)
-- [Language Extensions](./extensions/languages.md)
-- [Debugger Extensions](./extensions/debugger-extensions.md)
-- [Theme Extensions](./extensions/themes.md)
-- [Icon Theme Extensions](./extensions/icon-themes.md)
+- [概要](./extensions.md)
+- [拡張機能のインストール](./extensions/installing-extensions.md)
+- [拡張機能の開発](./extensions/developing-extensions.md)
+- [拡張機能の機能](./extensions/capabilities.md)
+- [言語拡張機能](./extensions/languages.md)
+- [デバッガー拡張機能](./extensions/debugger-extensions.md)
+- [テーマ拡張機能](./extensions/themes.md)
+- [アイコンテーマ拡張機能](./extensions/icon-themes.md)
 
-## Integrations and related tools
+## 統合および関連ツール
 
-There are some related projects mostly around making Gram available in various
-package managers and Linux distributions. This list is not complete, if you know
-of any packaging effort, Gram-specific extensions or anything like that, feel
-free to submit a PR at <https://codeberg.org/GramEditor/gram>.
+主に各種パッケージマネージャーや Linux ディストリビューションで Gram を利用できるようにするための関連プロジェクトがいくつかあります。このリストはすべてを網羅しているわけではありません。パッケージングの取り組みや Gram 固有の拡張機能などをご存知の場合は、<https://codeberg.org/GramEditor/gram> へお気軽にプルリクエストをお寄せください。
 
 - **Homebrew (Mac):** <https://formulae.brew.sh/cask/gram>
 - **Arch Linux:** <https://archlinux.org/packages/extra/x86_64/gram>
@@ -140,59 +119,36 @@ free to submit a PR at <https://codeberg.org/GramEditor/gram>.
 - **Raycast (Mac):** <https://www.raycast.com/justyt65/gram>
 - **Chimera Linux (WIP):** <https://github.com/chimera-linux/cports/pull/5506>
 
-## Legal note on accepting contributions
+## 貢献の受け入れに関する法的注意
 
-If you have previously installed Zed and agreed to their license agreement, you
-may be legally prevented from contributing to Gram despite the open source
-license of the code. I am not a lawyer and I suspect that the license that they
-use would not hold up at least in European court, but I don't know. For that
-exact reason, I never agreed to their license. This is the main reason this fork
-even exists.
+過去に Zed をインストールし、そのライセンス契約に同意したことがある場合、コードがオープンソースライセンスであるにもかかわらず、Gram への貢献が法的に制限される可能性があります。私は弁護士ではありませんし、彼らが使用しているライセンスは少なくともヨーロッパの法廷では通用しないのではないかと推測していますが、確かなことはわかりません。まさにその理由から、私は彼らのライセンスに決して同意しませんでした。それこそが、このフォークが存在する主な理由です。
 
-If you do want to contribute patches, you will have to accept full
-responsibility for ensuring and warranting that you are legally allowed to do
-so.
+パッチの貢献を希望される場合は、ご自身に法的な貢献の権利があることを確認および保証する全責任を負っていただく必要があります。
 
-## You are the community
+## コミュニティはあなた自身です
 
-Gram is proudly open source, in spirit, not just in words. That said, we have
-strong opinions about what we want to include in the editor. For example, the
-main reason for this fork from Zed is to remove certain "features" that we
-disagree with, morally. However, you are of course free to make it your own in
-any way you see fit.
+Gram は、単なる言葉だけでなく精神的にもオープンソースであることを誇りにしています。とはいえ、エディターに何を含めるかについては強い意見を持っています。たとえば、Zed からフォークした主な動機は、道徳的に同意できない特定の「機能」を削除することでした。しかしもちろん、ご自身が適切と思われる方法で自由にカスタマイズしていただいて構いません。
 
-There is no official discord or reddit community, but there is an XMPP chat for
-Gram at [gram@rooms.slidge.im][xmpp-link]. Any XMPP client should be able to
-connect, and there is a [basic web UI][xmpp-webui] available. There are chat
-logs available in an [online archive][xmpp-archive] as well.
+公式の Discord や Reddit コミュニティはありませんが、[gram@rooms.slidge.im][xmpp-link] に Gram 向けの XMPP チャットがあります。任意の XMPP クライアントから接続可能であり、[簡易 Web UI][xmpp-webui] も利用できます。チャットログは [オンラインアーカイブ][xmpp-archive] でも閲覧可能です。
 
 [xmpp-link]: xmpp:gram@rooms.slidge.im?join
 [xmpp-webui]: https://slidge.im/gram/#/guest?join=gram@rooms.slidge.im
 [xmpp-archive]: https://rooms.slidge.im:5281/muc_log/gram/
 
-## Strict No AI/LLM Policy
+## 厳格な AI/LLM 不採用ポリシー
 
-No more AI. I used to have a milder version of this statement here before, which
-I wrote early on when I wasn't really aware of "vibe-coding" as such and was
-mostly annoyed purely at the chatbox / autocomplete version of AI. That was bad
-enough, but I really am not a fan of what that has become (in March 2026 when I
-am writing this). I have copied this policy from the
-[Zig language project Code of Conduct][zig-coc]:
+AI はもうお断りです。以前はここに、もっとマイルドな表現の声明を載せていました。それはまだ「バイブコーディング（vibe-coding）」といった概念をよく知らず、単にチャットボックスやオートコンプリート形式の AI にうんざりしていた初期の頃に書いたものでした。当時でも十分酷かったのですが、それが（これを書いている2026年3月時点で）どのような姿になったかを見て、私はまったく賛同できなくなりました。このポリシーは、[Zig 言語プロジェクトの行動規範][zig-coc] から引用したものです。
 
-> No LLMs for issues.
+> Issue での LLM の使用禁止。
 >
-> No LLMs for pull requests.
+> プルリクエストでの LLM の使用禁止。
 >
-> No LLMs for comments on the bug tracker, including translation. English is
-> encouraged, but not required. You are welcome to post in your native language
-> and rely on others to have their own translation tools of choice to interpret
-> your words.
+> バグトラッカーへのコメント（翻訳を含む）での LLM の使用禁止。英語での投稿を推奨しますが、必須ではありません。母国語で投稿し、他のメンバーが各自好みの翻訳ツールを使って意図を読み取ることに任せていただいて構いません。
 
-The Zed code base contains a lot of AI-generated code. It doesn't need a single
-line more.
+Zed のコードベースには大量の AI 生成コードが含まれています。これ以上 1 行たりとも増やす必要はありません。
 
 [zig-coc]: https://ziglang.org/code-of-conduct/
 
-## SciActive's Human Contribution Policy
+## SciActive 人間による貢献ポリシー
 
-Gram adheres to [SciActive's human contribution policy 2 UP](./HUMAN-CONTRIBUTION-POLICY-2-UP.md).
+Gram は [SciActive 人間による貢献ポリシー 2-UP](./HUMAN-CONTRIBUTION-POLICY-2-UP.md) に準拠しています。

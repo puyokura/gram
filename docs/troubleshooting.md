@@ -1,128 +1,87 @@
-# Troubleshooting
+# トラブルシューティング
 
-This guide covers common troubleshooting techniques for Gram. Sometimes you'll
-be able to identify and resolve issues on your own using this information. Other
-times, troubleshooting means gathering the right information—logs, profiles, or
-reproduction steps—to help developers diagnose and fix the problem.
+このガイドでは、Gram でよく使われるトラブルシューティング手法を説明します。ここに書かれた情報を使って、自分で問題を特定して解決できることもあります。そうでない場合のトラブルシューティングとは、開発者が問題を診断して修正できるように、ログ、プロファイル、再現手順といった適切な情報を収集することを意味します。
 
-> **Note**: To open the command palette, use `cmd-shift-p` on macOS or
-> `ctrl-shift-p` on Windows / Linux.
+> **注意**: コマンドパレットを開くには、macOS では `cmd-shift-p`、Windows / Linux では `ctrl-shift-p` を使います。
 
-## Retrieve Gram and System Information
+## Gram とシステムの情報を取得する
 
-When reporting issues or seeking help, it's useful to know your Gram version and
-system specifications. You can retrieve this information using the following
-actions from the command palette:
+問題を報告したり助けを求めたりするときには、Gram のバージョンとシステム仕様を把握しておくと役立ちます。この情報は、コマンドパレットから次のアクションで取得できます:
 
-- {#action gram::About}: Find your Gram version number
-- {#action gram::CopySystemSpecsIntoClipboard}: Populate your clipboard with
-  Gram version number, operating system version, and hardware specs
+- {#action gram::About}: Gram のバージョン番号を確認します
+- {#action gram::CopySystemSpecsIntoClipboard}: Gram のバージョン番号、OS のバージョン、ハードウェア仕様をクリップボードにコピーします
 
-## Gram Log
+## Gram のログ
 
-Often, a good first place to look when troubleshooting any issue in Gram is the
-Gram log, which might contain clues about what's going wrong. You can review the
-most recent 1000 lines of the log by running the {#action gram::OpenLog} action
-from the command palette. If you want to view the full file, you can reveal it
-in your operating system's native file manager via {#action
-gram::RevealLogInFileManager} from the command palette.
+Gram で問題が起きたとき、まず確認すべきなのは Gram のログであることがよくあります。何が問題なのかの手がかりが含まれている可能性があるためです。コマンドパレットから {#action gram::OpenLog} アクションを実行すると、ログの直近 1000 行を確認できます。ファイル全体を確認したい場合は、コマンドパレットから {#action gram::RevealLogInFileManager} を実行して、OS 標準のファイルマネージャーで表示できます。
 
-You'll find the Gram log in the respective location on each operating system:
+Gram のログは、各 OS の次の場所にあります:
 
 - macOS: `~/Library/Logs/Gram/Gram.log`
 - Windows: `C:\Users\YOU\AppData\Local\Gram\logs\Gram.log`
-- Linux: `~/.local/share/gram/logs/Gram.log` or `$XDG_DATA_HOME`
+- Linux: `~/.local/share/gram/logs/Gram.log` または `$XDG_DATA_HOME`
 
-> Note: In some cases, it might be useful to monitor the log live, such as when
-> [developing a Gram extension](./extensions/developing-extensions.md). Example:
+> 注意: 場合によっては、[Gram 拡張機能の開発](./extensions/developing-extensions.md) 時などに、ログをリアルタイムで監視するのが有効です。例:
 > `tail -f ~/Library/Logs/Gram/Gram.log`
 
-The log may contain enough context to help you debug the issue yourself, or you
-may find specific errors that are useful when filing an issue.
+ログには、自分で問題をデバッグするのに十分な文脈が含まれていることもありますし、Issue を報告する際に役立つ具体的なエラーが見つかることもあります。
 
-## Performance Issues (Profiling)
+## パフォーマンスの問題（プロファイリング）
 
-If you're running into performance issues — such as hitches, hangs, or general
-unresponsiveness — having a performance profile will help zero in on what is
-getting stuck.
+カクつき、フリーズ、全体的な応答性の低下といったパフォーマンスの問題が起きている場合は、パフォーマンスプロファイルがあれば、どこで処理が止まっているかを絞り込めます。
 
-## Minidumps
+## ミニダンプ
 
-If Gram is crashing you can set `GRAM_GENERATE_MINIDUMPS=1` when running Gram to
-get the editor to generate a crash dump file that can be analyzed to debug the
-issue. See [debugging-crashes.md](./development/debugging-crashes.md) for more
-details.
+Gram がクラッシュしている場合は、Gram の実行時に `GRAM_GENERATE_MINIDUMPS=1` を設定すると、エディターがクラッシュダンプファイルを生成し、問題のデバッグに分析できます。詳細は [debugging-crashes.md](./development/debugging-crashes.md) を参照してください。
 
 ### macOS
 
-Xcode Instruments (which comes bundled with
-[Xcode](https://apps.apple.com/us/app/xcode/id497799835)) is the standard tool
-for profiling on macOS.
+Xcode Instruments（[Xcode](https://apps.apple.com/us/app/xcode/id497799835) に同梱されています）は、macOS でのプロファイリングの標準的なツールです。
 
-1. With Gram running, open Instruments
-1. Select `Time Profiler` as the profiling template
-1. In the `Time Profiler` configuration, set the target to the running Gram
-   process
-1. Start recording
-1. If the performance issue occurs when performing a specific action in Gram,
-   perform that action now
-1. Stop recording
-1. Save the trace file
+1. Gram を起動した状態で Instruments を開きます
+1. プロファイリングテンプレートとして `Time Profiler` を選択します
+1. `Time Profiler` の構成で、対象を実行中の Gram プロセスに設定します
+1. 記録を開始します
+1. Gram で特定の操作を行ったときにパフォーマンスの問題が発生する場合は、ここでその操作を行います
+1. 記録を停止します
+1. トレースファイルを保存します
 
 <!--### Windows-->
 
 <!--### Linux-->
 
-## Startup and Workspace Issues
+## 起動とワークスペースの問題
 
-Gram creates local SQLite databases to persist data relating to its workspace
-and your projects. These databases store, for instance, the tabs and panes you
-have open in a project, the scroll position of each open file, the list of all
-projects you've opened (for the recent projects modal picker), etc. You can find
-and explore these databases in the following locations:
+Gram は、ワークスペースとプロジェクトに関するデータを永続化するためにローカルの SQLite データベースを作成します。これらのデータベースには、たとえばプロジェクトで開いているタブやペイン、開いている各ファイルのスクロール位置、開いたことのあるプロジェクトの一覧（最近のプロジェクトのモーダルピッカー用）などが保存されます。これらのデータベースは次の場所で確認・調査できます:
 
 - macOS: `~/Library/Application Support/Gram/db`
-- Linux and FreeBSD: `~/.local/share/gram/db` (or within `XDG_DATA_HOME` or
-  `FLATPAK_XDG_DATA_HOME`)
+- Linux および FreeBSD: `~/.local/share/gram/db`（`XDG_DATA_HOME` または `FLATPAK_XDG_DATA_HOME` 内にある場合もあります）
 - Windows: `%LOCALAPPDATA%\Gram\db`
 
-The naming convention of these databases takes on the form of
-`0-<release_channel>`:
+これらのデータベースの命名規則は `0-<release_channel>` の形式です:
 
 - Stable: `0-stable`
 - Dev: `0-dev`
 
-While rare, we've seen a few cases where workspace databases became corrupted,
-which prevented Gram from starting. If you're experiencing startup issues, you
-can test whether it's workspace-related by temporarily moving the database from
-its location, then trying to start Gram again.
+まれなケースですが、ワークスペースのデータベースが壊れて Gram が起動できなくなる事例をいくつか確認しています。起動に問題が起きている場合は、データベースを一時的にその場所から移動してから Gram を再度起動し、ワークスペースが原因かどうかを切り分けられます。
 
-> **Note**: Moving the workspace database will cause Gram to create a fresh one.
-> Your recent projects, open tabs, etc. will be reset to "factory".
+> **注意**: ワークスペースのデータベースを移動すると、Gram は新しいデータベースを作成します。最近のプロジェクト、開いているタブなどは「初期状態」にリセットされます。
 
-If your issue persists after regenerating the database, please file an issue.
+データベースを再生成しても問題が解決しない場合は、Issue を報告してください。
 
-## Language Server Issues
+## 言語サーバーの問題
 
-If you're experiencing language-server related issues, such as stale diagnostics
-or issues jumping to definitions, restarting the language server via {#action
-editor::RestartLanguageServer} from the command palette will often resolve the
-issue.
+診断情報が古い、定義へのジャンプが機能しないといった言語サーバー関連の問題が起きている場合は、コマンドパレットから {#action editor::RestartLanguageServer} で言語サーバーを再起動すると、たいてい解決します。
 
-## Unable to watch for file system changes
+## ファイルシステムの変更を監視できない
 
-By default, Gram uses a method native to the current platform to watch for file
-system changes (inotify on Linux, FSEvents on Mac). For some file systems, this
-method does not work, for example for NFS or SSHfs mounts, or when connecting to
-a Windows remote.
+既定では、Gram はファイルシステムの変更を監視するために、現在のプラットフォームに固有の方法（Linux では inotify、Mac では FSEvents）を使います。一部のファイルシステムではこの方法が機能しません。たとえば NFS や SSHfs のマウント、Windows リモートへの接続時などが該当します。
 
-It is possible to use a poll-based file watcher on these file systems instead.
-The polling watcher is more resource-intensive than the native file watchers,
-but works in more scenarios.
+こうしたファイルシステムでは、代わりにポーリングベースのファイル監視を使えます。ポーリング監視はネイティブのファイル監視よりリソースを消費しますが、より多くの環境で動作します。
 
-To use the poll watcher, set the `file_watcher` option in the Worktree settings.
+ポーリング監視を使うには、Worktree 設定の `file_watcher` オプションを設定します。
 
-For example:
+例:
 
 ```json
 {

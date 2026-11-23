@@ -1,8 +1,9 @@
 use std::rc::Rc;
 
 use gpui::{App, ElementId, IntoElement, RenderOnce};
-use heck::ToTitleCase;
 use ui::{ButtonSize, ContextMenu, DropdownMenu, DropdownStyle, FluentBuilder as _, IconPosition, px};
+
+use crate::enum_labels::localize_enum_label;
 
 #[derive(IntoElement)]
 pub struct EnumVariantDropdown {
@@ -52,11 +53,7 @@ impl RenderOnce for EnumVariantDropdown {
                     let on_change = self.on_change.clone();
                     let current = self.current;
                     menu = menu.toggleable_entry(
-                        if self.should_do_title_case {
-                            label.to_title_case()
-                        } else {
-                            label.to_string()
-                        },
+                        localize_enum_label(label, self.should_do_title_case),
                         index == current,
                         IconPosition::End,
                         None,
@@ -71,11 +68,7 @@ impl RenderOnce for EnumVariantDropdown {
 
         DropdownMenu::new(
             self.id,
-            if self.should_do_title_case {
-                current_value_label.to_title_case()
-            } else {
-                current_value_label.to_string()
-            },
+            localize_enum_label(current_value_label, self.should_do_title_case),
             context_menu,
         )
         .when_some(self.tab_index, |elem, tab_index| elem.tab_index(tab_index))

@@ -1,65 +1,44 @@
-# Configuration
+# 設定
 
-There are separate pages describing how to configure these aspects of the
-editor:
+エディターの各機能の設定方法については、以下の個別ページで説明しています。
 
-- [Theme](./themes.md)
-- [Key bindings](./key-bindings.md)
-- [Tasks](./tasks.md)
-- [Extensions](./extensions.md)
+- [テーマ](./themes.md)
+- [キーバインド](./key-bindings.md)
+- [タスク](./tasks.md)
+- [拡張機能](./extensions.md)
 
-## Settings Editor
+## 設定エディター
 
-The Settings Editor can be opened with the {#kb gram::OpenSettings} keybinding,
-or through the `gram: open settings` action in the command palette. Through it,
-you can customize your local, user settings as well as project settings.
+設定エディターは、{#kb gram::OpenSettings} キーバインド、またはコマンドパレットの `gram: open settings` アクションから開くことができます。ローカル設定、ユーザー設定、プロジェクト設定をカスタマイズできます。
 
-> Note that not all settings that Gram supports are available through the
-> Settings Editor yet. Some more intricate ones, such as language formatters,
-> can only be changed through the JSON settings file {#kb
-> gram::OpenSettingsFile}.
+> Gram がサポートするすべての設定が現在設定エディターから利用できるわけではありません。言語フォーマッターなどのより複雑な設定は、JSON 設定ファイル {#kb
+> gram::OpenSettingsFile} からのみ変更できます。
 
-## User Settings File
+## ユーザー設定ファイル
 
-Your settings.jsonc file can be opened with {#kb gram::OpenSettingsFile}. By
-default it is located at `~/.config/gram/settings.jsonc`, though if you have
-`XDG_CONFIG_HOME` in your environment on Linux it will be at
-`$XDG_CONFIG_HOME/gram/settings.json` instead.
+`settings.jsonc` ファイルは {#kb gram::OpenSettingsFile} で開くことができます。デフォルトでは `~/.config/gram/settings.jsonc` に配置されますが、Linux で環境変数 `XDG_CONFIG_HOME` が設定されている場合は `$XDG_CONFIG_HOME/gram/settings.json` に配置されます。
 
-Whatever you have added to your user settings file gets merged with any local
-configuration inside your projects.
+ユーザー設定ファイルに追加した内容は、プロジェクト内のローカル設定とマージされます。
 
-### Default Settings
+### デフォルト設定
 
-In the Settings Editor, the values you see set are the default ones. You can
-also verify them in JSON by running {#action gram::OpenDefaultSettings} from the
-command palette.
+設定エディターに表示されている値はデフォルト値です。コマンドパレットから {#action gram::OpenDefaultSettings} を実行して、JSON 形式でデフォルト値を確認することもできます。
 
-Extensions that provide language servers may also provide default settings for
-those language servers.
+言語サーバーを提供する拡張機能は、それらの言語サーバー用のデフォルト設定を提供する場合もあります。
 
-## Project Settings File
+## プロジェクト設定ファイル
 
-Similarly to user files, you can open your project settings file by running
-{#action gram::OpenProjectSettings} from the command palette. This will create a
-`.gram` directory containing`.gram/settings.jsonc`.
+ユーザーファイルと同様に、コマンドパレットから {#action gram::OpenProjectSettings} を実行してプロジェクト設定ファイルを開くことができます。これにより、`.gram/settings.jsonc` を含む `.gram` ディレクトリが作成されます。
 
-Although most projects will only need one settings file at the root, you can add
-more local settings files for subdirectories as needed. Not all settings can be
-set in local files, just those that impact the behavior of the editor and
-language tooling. For example you can set `tab_size`, `formatter` etc. but not
-`theme`, `vim_mode` and similar.
+大半のプロジェクトではルートに 1 つの設定ファイルがあれば十分ですが、必要に応じてサブディレクトリにローカル設定ファイルを追加することも可能です。ローカルファイルにはすべての設定を指定できるわけではなく、エディターの挙動や言語ツールに影響を与える設定のみを指定できます。たとえば `tab_size` や `formatter` などは設定できますが、`theme` や `vim_mode` などは設定できません。
 
-The syntax for configuration files is a super-set of JSON that allows `//`
-comments.
+設定ファイルの構文は、`//` コメントを許可する JSON のスーパーセット（JSONC）です。
 
-## Per-release Channel Overrides
+## リリースチャンネル別の上書き
 
-You can scope overrides to a specific channel by adding top-level `stable` or
-`dev` objects.
+最上位に `stable` または `dev` オブジェクトを追加することで、特定のリリースチャンネルを対象とした上書きを行えます。
 
-They are merged into the base configuration with settings from these keys taking
-precedence upon launching the specified build. For example:
+これらは基本設定にマージされ、指定されたビルドの起動時にこれらのキーの設定が優先されます。例:
 
 ```json
 {
@@ -71,21 +50,19 @@ precedence upon launching the specified build. For example:
 }
 ```
 
-With this configuration, Dev keeps all base preferences while Stable switches to
-`gram-dark`.
+この設定では、Dev チャンネルではすべての基本設定が維持され、Stable チャンネルでは `gram-dark` に切り替わります。
 
-Changing settings in the Settings Editor will always apply the change across all
-channels.
+設定エディターで設定を変更すると、常にすべてのチャンネルにその変更が適用されます。
 
-# Settings
+# 設定一覧
 
-Find below an extensive run-through of many supported settings by Gram.
+以下に、Gram でサポートされている多数の設定の詳細を網羅して説明します。
 
 ## Active Pane Modifiers
 
-- Description: Styling settings applied to the active pane.
-- Setting: `active_pane_modifiers`
-- Default:
+- 説明: アクティブなペインに適用されるスタイル設定。
+- 設定: `active_pane_modifiers`
+- デフォルト:
 
 ```json
 {
@@ -98,39 +75,33 @@ Find below an extensive run-through of many supported settings by Gram.
 
 ### Border size
 
-- Description: Size of the border surrounding the active pane. When set to 0,
-  the active pane doesn't have any border. The border is drawn inset.
-- Setting: `border_size`
-- Default: `0.0`
+- 説明: アクティブなペインを囲むボーダーのサイズ。0 に設定すると、アクティブなペインにボーダーは表示されません。ボーダーは内側に描画されます。
+- 設定: `border_size`
+- デフォルト: `0.0`
 
-**Options**
+**選択肢**
 
-Non-negative `float` values
+0 以上の `float` 値
 
 ### Inactive Opacity
 
-- Description: Opacity of inactive panels. When set to 1.0, the inactive panes
-  have the same opacity as the active one. If set to 0, the inactive panes
-  content will not be visible at all. Values are clamped to the [0.0, 1.0]
-  range.
-- Setting: `inactive_opacity`
-- Default: `1.0`
+- 説明: 非アクティブなパネルの不透明度。1.0 に設定すると、非アクティブなペインはアクティブなペインと同じ不透明度になります。0 に設定すると、非アクティブなペインのコンテンツはまったく表示されなくなります。値は [0.0, 1.0] の範囲に制限されます。
+- 設定: `inactive_opacity`
+- デフォルト: `1.0`
 
-**Options**
+**選択肢**
 
-`float` values
+`float` 値
 
 ## Bottom Dock Layout
 
-- Description: Control the layout of the bottom dock, relative to the left and
-  right docks.
-- Setting: `bottom_dock_layout`
-- Default: `"contained"`
+- 説明: 左右のドックに対するボトムドックのレイアウトを制御します。
+- 設定: `bottom_dock_layout`
+- デフォルト: `"contained"`
 
-**Options**
+**選択肢**
 
-1. Contain the bottom dock, giving the full height of the window to the left and
-   right docks.
+1. ボトムドックを包含し、左右のドックにウィンドウ全体の高さを割り当てます。
 
 ```json
 {
@@ -138,8 +109,7 @@ Non-negative `float` values
 }
 ```
 
-2. Give the bottom dock the full width of the window, truncating the left and
-   right docks.
+2. ボトムドックにウィンドウ全体の幅を割り当て、左右のドックを切り詰めます。
 
 ```json
 {
@@ -147,8 +117,7 @@ Non-negative `float` values
 }
 ```
 
-3. Left align the bottom dock, truncating the left dock and giving the right
-   dock the full height of the window.
+3. ボトムドックを左寄せにし、左ドックを切り詰めて右ドックにウィンドウ全体の高さを割り当てます。
 
 ```json
 {
@@ -156,8 +125,7 @@ Non-negative `float` values
 }
 ```
 
-4. Right align the bottom dock, giving the left dock the full height of the
-   window and truncating the right dock.
+4. ボトムドックを右寄せにし、左ドックにウィンドウ全体の高さを割り当てて右ドックを切り詰めます。
 
 ```json
 {
@@ -167,14 +135,13 @@ Non-negative `float` values
 
 ## Allow Rewrap
 
-- Description: Controls where the {#action editor::Rewrap} action is allowed in
-  the current language scope
-- Setting: `allow_rewrap`
-- Default: `"in_comments"`
+- 説明: 現在の言語スコープで {#action editor::Rewrap} アクションを許可する場所を制御します。
+- 設定: `allow_rewrap`
+- デフォルト: `"in_comments"`
 
-**Options**
+**選択肢**
 
-1. Allow rewrap in comments only:
+1. コメント内でのみ再折り返しを許可:
 
 ```json
 {
@@ -182,7 +149,7 @@ Non-negative `float` values
 }
 ```
 
-2. Allow rewrap in selections only:
+2. 選択範囲内でのみ再折り返しを許可:
 
 ```json
 {
@@ -190,7 +157,7 @@ Non-negative `float` values
 }
 ```
 
-3. Allow rewrap anywhere:
+3. 任意の場所で再折り返しを許可:
 
 ```json
 {
@@ -198,46 +165,41 @@ Non-negative `float` values
 }
 ```
 
-Note: This setting has no effect in Vim mode, as rewrap is already allowed
-everywhere.
+注意: Vim モードではすでにすべての場所で再折り返しが許可されているため、この設定は効果がありません。
 
 ## Auto Indent
 
-- Description: Whether indentation should be adjusted based on the context
-  whilst typing. This can be specified on a per-language basis.
-- Setting: `auto_indent`
-- Default: `true`
+- 説明: 入力中にコンテキストに基づいてインデントを調整するかどうか。言語ごとに個別に指定できます。
+- 設定: `auto_indent`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Auto Indent On Paste
 
-- Description: Whether indentation of pasted content should be adjusted based on
-  the context
-- Setting: `auto_indent_on_paste`
-- Default: `true`
+- 説明: 貼り付けたコンテンツのインデントをコンテキストに基づいて調整するかどうか。
+- 設定: `auto_indent_on_paste`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Auto Install extensions
 
-Extensions have to be manually installed in Gram.
+Gram では拡張機能を手動でインストールする必要があります。
 
-You can find the names of your currently installed extensions by listing the
-subfolders under the
-[extension installation location](./extensions/installing-extensions.md#installation-location):
+現在インストールされている拡張機能の名前は、[拡張機能のインストール先](./extensions/installing-extensions.md#installation-location) 配下のサブフォルダーを一覧表示することで確認できます。
 
-On macOS:
+macOS の場合:
 
 ```sh
 ls ~/Library/Application\ Support/Gram/extensions/installed/
 ```
 
-On Linux:
+Linux の場合:
 
 ```sh
 ls ~/.local/share/gram/extensions/installed
@@ -245,13 +207,13 @@ ls ~/.local/share/gram/extensions/installed
 
 ## Autosave
 
-- Description: When to automatically save edited buffers.
-- Setting: `autosave`
-- Default: `off`
+- 説明: 編集されたバッファーを自動保存するタイミング。
+- 設定: `autosave`
+- デフォルト: `off`
 
-**Options**
+**選択肢**
 
-1. To disable autosave, set it to `off`:
+1. 自動保存を無効化するには、`off` に設定します:
 
 ```json
 {
@@ -259,7 +221,7 @@ ls ~/.local/share/gram/extensions/installed
 }
 ```
 
-2. To autosave when focus changes, use `on_focus_change`:
+2. フォーカスが切り替わったときに自動保存するには、`on_focus_change` を使用します:
 
 ```json
 {
@@ -267,7 +229,7 @@ ls ~/.local/share/gram/extensions/installed
 }
 ```
 
-3. To autosave when the active window changes, use `on_window_change`:
+3. アクティブウィンドウが切り替わったときに自動保存するには、`on_window_change` を使用します:
 
 ```json
 {
@@ -275,7 +237,7 @@ ls ~/.local/share/gram/extensions/installed
 }
 ```
 
-4. To autosave after an inactivity period, use `after_delay`:
+4. 一定時間操作がなかった後に自動保存するには、`after_delay` を使用します:
 
 ```json
 {
@@ -287,50 +249,45 @@ ls ~/.local/share/gram/extensions/installed
 }
 ```
 
-Note that a save will be triggered when an unsaved tab is closed, even if this
-is earlier than the configured inactivity period.
+未保存のタブを閉じる際は、設定された待機時間よりも前であっても保存がトリガーされる点に注意してください。
 
 ## Autoscroll on Clicks
 
-- Description: Whether to scroll when clicking near the edge of the visible text
-  area.
-- Setting: `autoscroll_on_clicks`
-- Default: `false`
+- 説明: 表示可能なテキスト領域の端付近をクリックしたときにスクロールするかどうか。
+- 設定: `autoscroll_on_clicks`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Auto Signature Help
 
-- Description: Show method signatures in the editor, when inside parentheses
-- Setting: `auto_signature_help`
-- Default: `false`
+- 説明: 括弧の内部にいるときに、エディター内にメソッドシグネチャを表示します。
+- 設定: `auto_signature_help`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Show Signature Help After Edits
 
-- Description: Whether to show the signature help after completion or a bracket
-  pair inserted. If `auto_signature_help` is enabled, this setting will be
-  treated as enabled also.
-- Setting: `show_signature_help_after_edits`
-- Default: `false`
+- 説明: 補完の確定後や括弧ペアの挿入後にシグネチャヘルプを表示するかどうか。`auto_signature_help` が有効な場合、この設定も有効として扱われます。
+- 設定: `show_signature_help_after_edits`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Base Keymap
 
-- Description: Base key bindings scheme. Base keymaps can be overridden with
-  user keymaps.
-- Setting: `base_keymap`
-- Default: `Emacs`
+- 説明: ベースとなるキーバインドスキーム。ベースキーマップはユーザーキーマップで上書きできます。
+- 設定: `base_keymap`
+- デフォルト: `Emacs`
 
-**Options**
+**選択肢**
 
 1. VS Code
 
@@ -398,27 +355,26 @@ is earlier than the configured inactivity period.
 
 ## Buffer Font Family
 
-- Description: The name of a font to use for rendering text in the editor.
-- Setting: `buffer_font_family`
-- Default: `.GramMono`.
+- 説明: エディター内のテキスト描画に使用するフォント名。
+- 設定: `buffer_font_family`
+- デフォルト: `.GramMono`
 
-**Options**
+**選択肢**
 
-The name of any font family installed on the user's system, or `".GramMono"`.
+ユーザーのシステムにインストールされている任意のフォントファミリー名、または `".GramMono"`。
 
 ## Buffer Font Features
 
-- Description: The OpenType features to enable for text in the editor.
-- Setting: `buffer_font_features`
-- Default: `null`
-- Platform: macOS and Windows.
+- 説明: エディター内のテキストに対して有効にする OpenType 機能。
+- 設定: `buffer_font_features`
+- デフォルト: `null`
+- プラットフォーム: macOS および Windows。
 
-**Options**
+**選択肢**
 
-Gram supports all OpenType features that can be enabled or disabled for a given
-buffer or terminal font, as well as setting values for font features.
+Gram は、指定されたバッファーまたはターミナルのフォントに対して有効化または無効化できるすべての OpenType 機能、およびフォント機能の値の設定をサポートしています。
 
-For example, to disable font ligatures, add the following to your settings:
+たとえば、フォントの合字（リガチャ）を無効化するには、設定に以下を追加します:
 
 ```json
 {
@@ -428,7 +384,7 @@ For example, to disable font ligatures, add the following to your settings:
 }
 ```
 
-You can also set other OpenType features, like setting `cv01` to `7`:
+また、`cv01` を `7` に設定するなど、その他の OpenType 機能を設定することもできます:
 
 ```json
 {
@@ -440,16 +396,14 @@ You can also set other OpenType features, like setting `cv01` to `7`:
 
 ## Buffer Font Fallbacks
 
-- Description: Set the buffer text's font fallbacks, this will be merged with
-  the platform's default fallbacks.
-- Setting: `buffer_font_fallbacks`
-- Default: `null`
-- Platform: macOS and Windows.
+- 説明: バッファーテキストのフォントフォールバックを設定します。プラットフォームのデフォルトのフォールバックとマージされます。
+- 設定: `buffer_font_fallbacks`
+- デフォルト: `null`
+- プラットフォーム: macOS および Windows。
 
-**Options**
+**選択肢**
 
-For example, to use `Nerd Font` as a fallback, add the following to your
-settings:
+たとえば、フォールバックとして `Nerd Font` を使用するには、設定に以下を追加します:
 
 ```json
 {
@@ -459,40 +413,39 @@ settings:
 
 ## Buffer Font Size
 
-- Description: The default font size for text in the editor.
-- Setting: `buffer_font_size`
-- Default: `15`
+- 説明: エディター内のテキストのデフォルトフォントサイズ。
+- 設定: `buffer_font_size`
+- デフォルト: `15`
 
-**Options**
+**選択肢**
 
-A font size from `6` to `100` pixels (inclusive)
+`6` から `100` ピクセル（両端を含む）のフォントサイズ
 
 ## Buffer Font Weight
 
-- Description: The default font weight for text in the editor.
-- Setting: `buffer_font_weight`
-- Default: `400`
+- 説明: エディター内のテキストのデフォルトフォント太さ（ウェイト）。
+- 設定: `buffer_font_weight`
+- デフォルト: `400`
 
-**Options**
+**選択肢**
 
-`integer` values between `100` and `900`
+`100` から `900` までの `integer` 値
 
 ## Buffer Line Height
 
-- Description: The default line height for text in the editor.
-- Setting: `buffer_line_height`
-- Default: `"comfortable"`
+- 説明: エディター内のテキストのデフォルトの行の高さ。
+- 設定: `buffer_line_height`
+- デフォルト: `"comfortable"`
 
-**Options**
+**選択肢**
 
-`"standard"`, `"comfortable"` or `{ "custom": float }` (`1` is compact, `2` is
-loose)
+`"standard"`、`"comfortable"`、または `{ "custom": float }`（`1` はコンパクト、`2` はゆったり）
 
 ## Centered Layout
 
-- Description: Configuration for the centered layout mode.
-- Setting: `centered_layout`
-- Default:
+- 説明: センタリングレイアウトモードの設定。
+- 設定: `centered_layout`
+- デフォルト:
 
 ```json
 "centered_layout": {
@@ -501,53 +454,43 @@ loose)
 }
 ```
 
-**Options**
+**選択肢**
 
-The `left_padding` and `right_padding` options define the relative width of the
-left and right padding of the central pane from the workspace when the centered
-layout mode is activated. Valid values range is from `0` to `0.4`.
+`left_padding` および `right_padding` オプションは、センタリングレイアウトモードがアクティブになった際の、ワークスペースに対する中央ペインの左右のパディングの相対的な幅を定義します。有効な値の範囲は `0` から `0.4` です。
 
 ## Close on File Delete
 
-- Description: Whether to automatically close editor tabs when their
-  corresponding files are deleted from disk.
-- Setting: `close_on_file_delete`
-- Default: `false`
+- 説明: 対応するファイルがディスクから削除されたときに、エディタータブを自動的に閉じるかどうか。
+- 設定: `close_on_file_delete`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
-When enabled, this setting will automatically close tabs for files that have
-been deleted from the file system. This is particularly useful for workflows
-involving temporary or scratch files that are frequently created and deleted.
-When disabled (default), deleted files remain open with a strikethrough through
-their tab title.
+有効にすると、ファイルシステムから削除されたファイルのタブが自動的に閉じられます。これは、頻繁に作成・削除される一時ファイルやスクラッチファイルを扱うワークフローで特に便利です。無効（デフォルト）の場合、削除されたファイルはタブタイトルに取り消し線が引かれた状態で開いたまま残ります。
 
-Note: Dirty files (files with unsaved changes) will not be automatically closed
-even when this setting is enabled, ensuring you don't lose unsaved work.
+注意: ダーティファイル（未保存の変更があるファイル）は、この設定が有効であっても自動的に閉じられることはないため、未保存の作業が失われる心配はありません。
 
 ## Confirm Quit
 
-- Description: Whether or not to prompt the user to confirm before closing the
-  application.
-- Setting: `confirm_quit`
-- Default: `false`
+- 説明: アプリケーションを終了する前にユーザーに確認を促すかどうか。
+- 設定: `confirm_quit`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Diagnostics Max Severity
 
-- Description: Which level to use to filter out diagnostics displayed in the
-  editor
-- Setting: `diagnostics_max_severity`
-- Default: `null`
+- 説明: エディターに表示される診断情報をフィルタリングするためのレベル。
+- 設定: `diagnostics_max_severity`
+- デフォルト: `null`
 
-**Options**
+**選択肢**
 
-1. Allow all diagnostics (default):
+1. すべての診断を許可（デフォルト）:
 
 ```json
 {
@@ -555,7 +498,7 @@ even when this setting is enabled, ensuring you don't lose unsaved work.
 }
 ```
 
-2. Show only errors:
+2. エラーのみ表示:
 
 ```json
 {
@@ -563,7 +506,7 @@ even when this setting is enabled, ensuring you don't lose unsaved work.
 }
 ```
 
-3. Show errors and warnings:
+3. エラーと警告を表示:
 
 ```json
 {
@@ -571,7 +514,7 @@ even when this setting is enabled, ensuring you don't lose unsaved work.
 }
 ```
 
-4. Show errors, warnings, and information:
+4. エラー、警告、情報を表示:
 
 ```json
 {
@@ -579,7 +522,7 @@ even when this setting is enabled, ensuring you don't lose unsaved work.
 }
 ```
 
-5. Show all including hints:
+5. ヒントを含むすべてを表示:
 
 ```json
 {
@@ -589,36 +532,27 @@ even when this setting is enabled, ensuring you don't lose unsaved work.
 
 ## Direnv Integration
 
-- Description: Settings for [direnv](https://direnv.net/) integration. Requires
-  `direnv` to be installed. `direnv` integration make it possible to use the
-  environment variables set by a `direnv` configuration to detect some language
-  servers in `$PATH` instead of installing them. It also allows for those
-  environment variables to be used in tasks.
-- Setting: `load_direnv`
-- Default: `"direct"`
+- 説明: [direnv](https://direnv.net/) 連携の設定。`direnv` がインストールされている必要があります。`direnv` 連携により、`direnv` 構成によって設定された環境変数を使用して、言語サーバーをインストールする代わりに `$PATH` から検出できるようになります。また、これらの環境変数をタスク内で使用することも可能になります。
+- 設定: `load_direnv`
+- デフォルト: `"direct"`
 
-**Options**
+**選択肢**
 
-There are three options to choose from:
+選択可能なオプションは 3 つあります:
 
-1. `shell_hook`: Use the shell hook to load direnv. This relies on direnv to
-   activate upon entering the directory. Supports POSIX shells and fish.
-2. `direct`: Use `direnv export json` to load direnv. This will load direnv
-   directly without relying on the shell hook and might cause some
-   inconsistencies. This allows direnv to work with any shell.
-3. `disabled`: No shell environment will be loaded automatically; direnv must be
-   invoked manually (e.g. with `direnv exec`) to be used.
+1. `shell_hook`: シェルフックを使用して direnv を読み込みます。ディレクトリに入ったときに direnv が有効化されることに依存します。POSIX シェルおよび fish をサポートします。
+2. `direct`: `direnv export json` を使用して direnv を読み込みます。シェルフックに依存せずに direnv を直接読み込むため、若干の不整合が生じる可能性があります。任意のシェルで direnv を動作させることができます。
+3. `disabled`: シェル環境は自動的に読み込まれません。direnv を使用するには手動で呼び出す必要があります（例: `direnv exec`）。
 
 ## Double Click In Multibuffer
 
-- Description: What to do when multibuffer is double clicked in some of its
-  excerpts (parts of singleton buffers)
-- Setting: `double_click_in_multibuffer`
-- Default: `"select"`
+- 説明: マルチバッファー内の抜粋部分（単一バッファーの一部）をダブルクリックしたときの動作。
+- 設定: `double_click_in_multibuffer`
+- デフォルト: `"select"`
 
-**Options**
+**選択肢**
 
-1. Behave as a regular buffer and select the whole word (default):
+1. 通常のバッファーと同様に動作し、単語全体を選択（デフォルト）:
 
 ```json
 {
@@ -626,7 +560,7 @@ There are three options to choose from:
 }
 ```
 
-2. Open the excerpt clicked as a new buffer in the new tab:
+2. クリックした抜粋部分を新しいタブの新規バッファーとして開く:
 
 ```json
 {
@@ -634,50 +568,45 @@ There are three options to choose from:
 }
 ```
 
-For the case of "open", regular selection behavior can be achieved by holding
-`alt` when double clicking.
+「open」の場合でも、ダブルクリック時に `Alt` を押したままにすることで通常の選択動作を行えます。
 
 ## Drop Target Size
 
-- Description: Relative size of the drop target in the editor that will open
-  dropped file as a split pane (0-0.5). For example, 0.25 means if you drop onto
-  the top/bottom quarter of the pane a new vertical split will be used, if you
-  drop onto the left/right quarter of the pane a new horizontal split will be
-  used.
-- Setting: `drop_target_size`
-- Default: `0.2`
+- 説明: ドロップされたファイルを分割ペインとして開くエディター内のドロップターゲットの相対サイズ（0〜0.5）。たとえば 0.25 の場合、ペインの上部/下部 4 分の 1 にドロップすると垂直分割が使用され、ペインの左側/右側 4 分の 1 にドロップすると水平分割が使用されます。
+- 設定: `drop_target_size`
+- デフォルト: `0.2`
 
-**Options**
+**選択肢**
 
-`float` values between `0` and `0.5`
+`0` から `0.5` までの `float` 値
 
 ## Current Line Highlight
 
-- Description: How to highlight the current line in the editor.
-- Setting: `current_line_highlight`
-- Default: `all`
+- 説明: エディター内で現在の行をハイライトする方法。
+- 設定: `current_line_highlight`
+- デフォルト: `all`
 
-**Options**
+**選択肢**
 
-1. Don't highlight the current line:
+1. 現在の行をハイライトしない:
 
 ```json
 "current_line_highlight": "none"
 ```
 
-2. Highlight the gutter area:
+2. ガター領域をハイライト:
 
 ```json
 "current_line_highlight": "gutter"
 ```
 
-3. Highlight the editor area:
+3. エディター領域をハイライト:
 
 ```json
 "current_line_highlight": "line"
 ```
 
-4. Highlight the full line:
+4. 行全体をハイライト:
 
 ```json
 "current_line_highlight": "all"
@@ -685,54 +614,53 @@ For the case of "open", regular selection behavior can be achieved by holding
 
 ## Selection Highlight
 
-- Description: Whether to highlight all occurrences of the selected text in an
-  editor.
-- Setting: `selection_highlight`
-- Default: `true`
+- 説明: エディター内で選択されたテキストのすべての出現箇所をハイライトするかどうか。
+- 設定: `selection_highlight`
+- デフォルト: `true`
 
 ## Rounded Selection
 
-- Description: Whether the text selection should have rounded corners.
-- Setting: `rounded_selection`
-- Default: `true`
+- 説明: テキストの選択範囲の角を丸くするかどうか。
+- 設定: `rounded_selection`
+- デフォルト: `true`
 
 ## Cursor Blink
 
-- Description: Whether or not the cursor blinks.
-- Setting: `cursor_blink`
-- Default: `true`
+- 説明: カーソルを点滅させるかどうか。
+- 設定: `cursor_blink`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Cursor Shape
 
-- Description: Cursor shape for the default editor.
-- Setting: `cursor_shape`
-- Default: `bar`
+- 説明: デフォルトエディターのカーソル形状。
+- 設定: `cursor_shape`
+- デフォルト: `bar`
 
-**Options**
+**選択肢**
 
-1. A vertical bar:
+1. 垂直バー:
 
 ```json
 "cursor_shape": "bar"
 ```
 
-2. A block that surrounds the following character:
+2. 後続の文字を囲むブロック:
 
 ```json
 "cursor_shape": "block"
 ```
 
-3. An underline / underscore that runs along the following character:
+3. 後続の文字に沿って引かれる下線 / アンダースコア:
 
 ```json
 "cursor_shape": "underline"
 ```
 
-4. An box drawn around the following character:
+4. 後続の文字の周囲に描画される中空ボックス:
 
 ```json
 "cursor_shape": "hollow"
@@ -740,9 +668,9 @@ For the case of "open", regular selection behavior can be achieved by holding
 
 ## Gutter
 
-- Description: Settings for the editor gutter
-- Setting: `gutter`
-- Default:
+- 説明: エディターガターの設定。
+- 設定: `gutter`
+- デフォルト:
 
 ```json
 {
@@ -756,37 +684,35 @@ For the case of "open", regular selection behavior can be achieved by holding
 }
 ```
 
-**Options**
+**選択肢**
 
-- `line_numbers`: Whether to show line numbers in the gutter
-- `runnables`: Whether to show runnable buttons in the gutter
-- `breakpoints`: Whether to show breakpoints in the gutter
-- `folds`: Whether to show fold buttons in the gutter
-- `min_line_number_digits`: Minimum number of characters to reserve space for in
-  the gutter
+- `line_numbers`: ガターに行番号を表示するかどうか
+- `runnables`: ガターに実行可能ボタンを表示するかどうか
+- `breakpoints`: ガターにブレークポイントを表示するかどうか
+- `folds`: ガターに折りたたみボタンを表示するかどうか
+- `min_line_number_digits`: ガター内でスペースを確保する最小文字数
 
 ## Hide Mouse
 
-- Description: Determines when the mouse cursor should be hidden in an editor or
-  input box.
-- Setting: `hide_mouse`
-- Default: `on_typing_and_movement`
+- 説明: エディターまたは入力ボックス内でマウスカーソルを非表示にするタイミングを決定します。
+- 設定: `hide_mouse`
+- デフォルト: `on_typing_and_movement`
 
-**Options**
+**選択肢**
 
-1. Never hide the mouse cursor:
+1. マウスカーソルを非表示にしない:
 
 ```json
 "hide_mouse": "never"
 ```
 
-2. Hide only when typing:
+2. 入力時のみ非表示:
 
 ```json
 "hide_mouse": "on_typing"
 ```
 
-3. Hide on both typing and cursor movement:
+3. 入力時およびカーソル移動時の両方で非表示:
 
 ```json
 "hide_mouse": "on_typing_and_movement"
@@ -794,32 +720,31 @@ For the case of "open", regular selection behavior can be achieved by holding
 
 ## Snippet Sort Order
 
-- Description: Determines how snippets are sorted relative to other completion
-  items.
-- Setting: `snippet_sort_order`
-- Default: `inline`
+- 説明: 他の補完項目と比較してスニペットをどのように並べ替えるかを決定します。
+- 設定: `snippet_sort_order`
+- デフォルト: `inline`
 
-**Options**
+**選択肢**
 
-1. Place snippets at the top of the completion list:
+1. 補完リストの先頭にスニペットを配置:
 
 ```json
 "snippet_sort_order": "top"
 ```
 
-2. Place snippets normally without any preference:
+2. 優先度を付けずにスニペットを通常どおり配置:
 
 ```json
 "snippet_sort_order": "inline"
 ```
 
-3. Place snippets at the bottom of the completion list:
+3. 補完リストの末尾にスニペットを配置:
 
 ```json
 "snippet_sort_order": "bottom"
 ```
 
-4. Do not show snippets in the completion list at all:
+4. 補完リストにスニペットを一切表示しない:
 
 ```json
 "snippet_sort_order": "none"
@@ -827,10 +752,9 @@ For the case of "open", regular selection behavior can be achieved by holding
 
 ## Editor Scrollbar
 
-- Description: Whether or not to show the editor scrollbar and various elements
-  in it.
-- Setting: `scrollbar`
-- Default:
+- 説明: エディターのスクロールバーおよびその中の各種要素を表示するかどうか。
+- 設定: `scrollbar`
+- デフォルト:
 
 ```json
 "scrollbar": {
@@ -850,14 +774,13 @@ For the case of "open", regular selection behavior can be achieved by holding
 
 ### Show Mode
 
-- Description: When to show the editor scrollbar.
-- Setting: `show`
-- Default: `auto`
+- 説明: エディターのスクロールバーを表示するタイミング。
+- 設定: `show`
+- デフォルト: `auto`
 
-**Options**
+**選択肢**
 
-1. Show the scrollbar if there's important information or follow the system's
-   configured behavior:
+1. 重要な情報がある場合にスクロールバーを表示するか、システムの設定された動作に従う:
 
 ```json
 "scrollbar": {
@@ -865,7 +788,7 @@ For the case of "open", regular selection behavior can be achieved by holding
 }
 ```
 
-2. Match the system's configured behavior:
+2. システムの設定された動作に合わせる:
 
 ```json
 "scrollbar": {
@@ -873,7 +796,7 @@ For the case of "open", regular selection behavior can be achieved by holding
 }
 ```
 
-3. Always show the scrollbar:
+3. 常にスクロールバーを表示:
 
 ```json
 "scrollbar": {
@@ -881,7 +804,7 @@ For the case of "open", regular selection behavior can be achieved by holding
 }
 ```
 
-4. Never show the scrollbar:
+4. スクロールバーを表示しない:
 
 ```json
 "scrollbar": {
@@ -891,70 +814,63 @@ For the case of "open", regular selection behavior can be achieved by holding
 
 ### Git Diff Indicators
 
-- Description: Whether to show git diff indicators in the scrollbar.
-- Setting: `git_diff`
-- Default: `true`
+- 説明: スクロールバーに Git diff インジケーターを表示するかどうか。
+- 設定: `git_diff`
+- デフォルト: `true`
 
-Git diff indicators appear as colored marks showing lines that have been added,
-modified, or deleted compared to the git HEAD.
+Git diff インジケーターは、Git の HEAD と比較して追加、変更、または削除された行を示す色付きマークとして表示されます。
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Search Results Indicators
 
-- Description: Whether to show buffer search results in the scrollbar.
-- Setting: `search_results`
-- Default: `true`
+- 説明: スクロールバーにバッファー検索結果を表示するかどうか。
+- 設定: `search_results`
+- デフォルト: `true`
 
-Search result indicators appear as marks showing all locations in the file where
-your current search query matches.
+検索結果インジケーターは、現在の検索クエリに一致するファイル内のすべての位置を示すマークとして表示されます。
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Selected Text Indicators
 
-- Description: Whether to show selected text occurrences in the scrollbar.
-- Setting: `selected_text`
-- Default: `true`
+- 説明: スクロールバーに選択テキストの出現箇所を表示するかどうか。
+- 設定: `selected_text`
+- デフォルト: `true`
 
-Selected text indicators appear as marks showing all occurrences of the
-currently selected text throughout the file.
+選択テキストインジケーターは、現在選択されているテキストのファイル全体でのすべての出現箇所を示すマークとして表示されます。
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Selected Symbols Indicators
 
-- Description: Whether to show selected symbol occurrences in the scrollbar.
-- Setting: `selected_symbol`
-- Default: `true`
+- 説明: スクロールバーに選択シンボルの出現箇所を表示するかどうか。
+- 設定: `selected_symbol`
+- デフォルト: `true`
 
-Selected symbol indicators appear as marks showing all occurrences of the
-currently selected symbol (like a function or variable name) throughout the
-file.
+選択シンボルインジケーターは、現在選択されているシンボル（関数名や変数名など）のファイル全体でのすべての出現箇所を示すマークとして表示されます。
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Diagnostics
 
-- Description: Which diagnostic indicators to show in the scrollbar.
-- Setting: `diagnostics`
-- Default: `all`
+- 説明: スクロールバーに表示する診断インジケーター。
+- 設定: `diagnostics`
+- デフォルト: `all`
 
-Diagnostic indicators appear as colored marks showing errors, warnings, and
-other language server diagnostics at their corresponding line positions in the
-file.
+診断インジケーターは、ファイル内の対応する行位置にエラー、警告、およびその他の言語サーバー診断情報を示す色付きマークとして表示されます。
 
-**Options**
+**選択肢**
 
-1. Show all diagnostics:
+1. すべての診断を表示:
 
 ```json
 {
@@ -962,7 +878,7 @@ file.
 }
 ```
 
-2. Do not show any diagnostics:
+2. 診断を一切表示しない:
 
 ```json
 {
@@ -970,7 +886,7 @@ file.
 }
 ```
 
-3. Show only errors:
+3. エラーのみ表示:
 
 ```json
 {
@@ -978,7 +894,7 @@ file.
 }
 ```
 
-4. Show only errors and warnings:
+4. エラーと警告のみ表示:
 
 ```json
 {
@@ -986,7 +902,7 @@ file.
 }
 ```
 
-5. Show only errors, warnings, and information:
+5. エラー、警告、情報のみ表示:
 
 ```json
 {
@@ -996,9 +912,9 @@ file.
 
 ### Axes
 
-- Description: Forcefully enable or disable the scrollbar for each axis
-- Setting: `axes`
-- Default:
+- 説明: 各軸のスクロールバーを強制的に有効化または無効化します。
+- 設定: `axes`
+- デフォルト:
 
 ```json
 "scrollbar": {
@@ -1011,32 +927,29 @@ file.
 
 #### Horizontal
 
-- Description: When false, forcefully disables the horizontal scrollbar.
-  Otherwise, obey other settings.
-- Setting: `horizontal`
-- Default: `true`
+- 説明: false の場合、水平スクロールバーを強制的に無効化します。それ以外の場合は他の設定に従います。
+- 設定: `horizontal`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 #### Vertical
 
-- Description: When false, forcefully disables the vertical scrollbar.
-  Otherwise, obey other settings.
-- Setting: `vertical`
-- Default: `true`
+- 説明: false の場合、垂直スクロールバーを強制的に無効化します。それ以外の場合は他の設定に従います。
+- 設定: `vertical`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Minimap
 
-- Description: Settings related to the editor's minimap, which provides an
-  overview of your document.
-- Setting: `minimap`
-- Default:
+- 説明: ドキュメントの全体像を提供するエディターのミニマップに関する設定。
+- 設定: `minimap`
+- デフォルト:
 
 ```json
 {
@@ -1051,13 +964,13 @@ file.
 
 ### Show Mode
 
-- Description: When to show the minimap in the editor.
-- Setting: `show`
-- Default: `never`
+- 説明: エディターにミニマップを表示するタイミング。
+- 設定: `show`
+- デフォルト: `never`
 
-**Options**
+**選択肢**
 
-1. Always show the minimap:
+1. 常にミニマップを表示:
 
 ```json
 {
@@ -1065,7 +978,7 @@ file.
 }
 ```
 
-2. Show the minimap if the editor's scrollbars are visible:
+2. エディターのスクロールバーが表示されている場合にミニマップを表示:
 
 ```json
 {
@@ -1073,7 +986,7 @@ file.
 }
 ```
 
-3. Never show the minimap:
+3. ミニマップを表示しない:
 
 ```json
 {
@@ -1083,14 +996,13 @@ file.
 
 ### Thumb Display
 
-- Description: When to show the minimap thumb (the visible editor area) in the
-  minimap.
-- Setting: `thumb`
-- Default: `always`
+- 説明: ミニマップ内でサム（エディターの表示領域）を表示するタイミング。
+- 設定: `thumb`
+- デフォルト: `always`
 
-**Options**
+**選択肢**
 
-1. Show the minimap thumb when hovering over the minimap:
+1. ミニマップ上にホバーしたときにミニマップサムを表示:
 
 ```json
 {
@@ -1098,7 +1010,7 @@ file.
 }
 ```
 
-2. Always show the minimap thumb:
+2. 常にミニマップサムを表示:
 
 ```json
 {
@@ -1108,13 +1020,13 @@ file.
 
 ### Thumb Border
 
-- Description: How the minimap thumb border should look.
-- Setting: `thumb_border`
-- Default: `left_open`
+- 説明: ミニマップサムのボーダーの外観。
+- 設定: `thumb_border`
+- デフォルト: `left_open`
 
-**Options**
+**選択肢**
 
-1. Display a border on all sides of the thumb:
+1. サムの四辺すべてにボーダーを表示:
 
 ```json
 {
@@ -1122,7 +1034,7 @@ file.
 }
 ```
 
-2. Display a border on all sides except the left side:
+2. 左側を除くすべての辺にボーダーを表示:
 
 ```json
 {
@@ -1130,7 +1042,7 @@ file.
 }
 ```
 
-3. Display a border on all sides except the right side:
+3. 右側を除くすべての辺にボーダーを表示:
 
 ```json
 {
@@ -1138,7 +1050,7 @@ file.
 }
 ```
 
-4. Display a border only on the left side:
+4. 左側のみにボーダーを表示:
 
 ```json
 {
@@ -1146,7 +1058,7 @@ file.
 }
 ```
 
-5. Display the thumb without any border:
+5. ボーダーなしでサムを表示:
 
 ```json
 {
@@ -1156,13 +1068,13 @@ file.
 
 ### Current Line Highlight
 
-- Description: How to highlight the current line in the minimap.
-- Setting: `current_line_highlight`
-- Default: `null`
+- 説明: ミニマップ内で現在の行をハイライトする方法。
+- 設定: `current_line_highlight`
+- デフォルト: `null`
 
-**Options**
+**選択肢**
 
-1. Inherit the editor's current line highlight setting:
+1. エディターの現在の行ハイライト設定を継承:
 
 ```json
 {
@@ -1172,7 +1084,7 @@ file.
 }
 ```
 
-2. Highlight the current line in the minimap:
+2. ミニマップ内で現在の行をハイライト:
 
 ```json
 {
@@ -1182,7 +1094,7 @@ file.
 }
 ```
 
-or
+または
 
 ```json
 {
@@ -1192,7 +1104,7 @@ or
 }
 ```
 
-3. Do not highlight the current line in the minimap:
+3. ミニマップ内で現在の行をハイライトしない:
 
 ```json
 {
@@ -1202,7 +1114,7 @@ or
 }
 ```
 
-or
+または
 
 ```json
 {
@@ -1214,9 +1126,9 @@ or
 
 ## Editor Tab Bar
 
-- Description: Settings related to the editor's tab bar.
-- Settings: `tab_bar`
-- Default:
+- 説明: エディターのタブバーに関する設定。
+- 設定: `tab_bar`
+- デフォルト:
 
 ```json
 "tab_bar": {
@@ -1230,61 +1142,59 @@ or
 
 ### Show
 
-- Description: Whether or not to show the tab bar in the editor.
-- Setting: `show`
-- Default: `true`
+- 説明: エディター内にタブバーを表示するかどうか。
+- 設定: `show`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Navigation History Buttons
 
-- Description: Whether or not to show the navigation history buttons.
-- Setting: `show_nav_history_buttons`
-- Default: `true`
+- 説明: ナビゲーション履歴ボタンを表示するかどうか。
+- 設定: `show_nav_history_buttons`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Tab Bar Buttons
 
-- Description: When to show the tab bar buttons.
-- Setting: `show_tab_bar_buttons`
-- Default: `on_pane_focus`
+- 説明: タブバーボタンを表示するタイミング。
+- 設定: `show_tab_bar_buttons`
+- デフォルト: `on_pane_focus`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Pinned Tabs in Separate Row
 
-- Description: Whether or not pinned tabs appear in a top row and unpinned
-  tabs in a bottom row. When disabled, all tabs appear in a single row.
-- Setting: `show_pinned_tabs_in_separate_row`
-- Default: `false`
+- 説明: ピン留めされたタブを上の行、ピン留めされていないタブを下の行に分けて表示するかどうか。無効にすると、すべてのタブが 1 行に表示されます。
+- 設定: `show_pinned_tabs_in_separate_row`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Wrap Tabs
 
-- Description: Whether to wrap tabs onto additional rows instead of scrolling
-  horizontally when the tab bar overflows.
-- Setting: `wrap_tabs`
-- Default: `false`
+- 説明: タブバーがあふれたときに、水平スクロールする代わりにタブを複数行に折り返して表示するかどうか。
+- 設定: `wrap_tabs`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Editor Tabs
 
-- Description: Configuration for the editor tabs.
-- Setting: `tabs`
-- Default:
+- 説明: エディタータブの設定。
+- 設定: `tabs`
+- デフォルト:
 
 ```json
 "tabs": {
@@ -1299,13 +1209,13 @@ or
 
 ### Close Position
 
-- Description: Where to display close button within a tab.
-- Setting: `close_position`
-- Default: `right`
+- 説明: タブ内の閉じるボタンを表示する位置。
+- 設定: `close_position`
+- デフォルト: `right`
 
-**Options**
+**選択肢**
 
-1. Display the close button on the right:
+1. 閉じるボタンを右側に表示:
 
 ```json
 {
@@ -1313,7 +1223,7 @@ or
 }
 ```
 
-2. Display the close button on the left:
+2. 閉じるボタンを左側に表示:
 
 ```json
 {
@@ -1323,25 +1233,25 @@ or
 
 ### File Icons
 
-- Description: Whether to show the file icon for a tab.
-- Setting: `file_icons`
-- Default: `false`
+- 説明: タブにファイルアイコンを表示するかどうか。
+- 設定: `file_icons`
+- デフォルト: `false`
 
 ### Git Status
 
-- Description: Whether or not to show Git file status in tab.
-- Setting: `git_status`
-- Default: `false`
+- 説明: タブに Git のファイルステータスを表示するかどうか。
+- 設定: `git_status`
+- デフォルト: `false`
 
 ### Activate on close
 
-- Description: What to do after closing the current tab.
-- Setting: `activate_on_close`
-- Default: `history`
+- 説明: 現在のタブを閉じた後の動作。
+- 設定: `activate_on_close`
+- デフォルト: `history`
 
-**Options**
+**選択肢**
 
-1. Activate the tab that was open previously:
+1. 直前に開いていたタブをアクティブ化:
 
 ```json
 {
@@ -1349,7 +1259,7 @@ or
 }
 ```
 
-2. Activate the right neighbour tab if present:
+2. 右隣のタブが存在する場合はアクティブ化:
 
 ```json
 {
@@ -1357,7 +1267,7 @@ or
 }
 ```
 
-3. Activate the left neighbour tab if present:
+3. 左隣のタブが存在する場合はアクティブ化:
 
 ```json
 {
@@ -1367,13 +1277,13 @@ or
 
 ### Show close button
 
-- Description: Controls the appearance behavior of the tab's close button.
-- Setting: `show_close_button`
-- Default: `hover`
+- 説明: タブの閉じるボタンの表示動作を制御します。
+- 設定: `show_close_button`
+- デフォルト: `hover`
 
-**Options**
+**選択肢**
 
-1. Show it just upon hovering the tab:
+1. タブにホバーしたときのみ表示:
 
 ```json
 {
@@ -1381,7 +1291,7 @@ or
 }
 ```
 
-2. Show it persistently:
+2. 常に表示:
 
 ```json
 {
@@ -1389,7 +1299,7 @@ or
 }
 ```
 
-3. Never show it, even if hovering it:
+3. ホバー時も含め、一切表示しない:
 
 ```json
 {
@@ -1399,15 +1309,13 @@ or
 
 ### Show Diagnostics
 
-- Description: Whether to show diagnostics indicators in tabs. This setting only
-  works when file icons are active and controls which files with diagnostic
-  issues to mark.
-- Setting: `show_diagnostics`
-- Default: `off`
+- 説明: タブに診断インジケーターを表示するかどうか。この設定はファイルアイコンが有効な場合にのみ機能し、診断上の問題があるどのファイルにマークを付けるかを制御します。
+- 設定: `show_diagnostics`
+- デフォルト: `off`
 
-**Options**
+**選択肢**
 
-1. Do not mark any files:
+1. どのファイルにもマークを付けない:
 
 ```json
 {
@@ -1415,7 +1323,7 @@ or
 }
 ```
 
-2. Only mark files with errors:
+2. エラーのあるファイルのみマークを付ける:
 
 ```json
 {
@@ -1423,7 +1331,7 @@ or
 }
 ```
 
-3. Mark files with errors and warnings:
+3. エラーおよび警告のあるファイルにマークを付ける:
 
 ```json
 {
@@ -1433,21 +1341,19 @@ or
 
 ### Show Inline Code Actions
 
-- Description: Whether to show code action button at start of buffer line.
-- Setting: `inline_code_actions`
-- Default: `true`
+- 説明: バッファー行の先頭にコードアクションボタンを表示するかどうか。
+- 設定: `inline_code_actions`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Drag And Drop Selection
 
-- Description: Whether to allow drag and drop text selection in buffer. `delay`
-  is the milliseconds that must elapse before drag and drop is allowed.
-  Otherwise, a new text selection is created.
-- Setting: `drag_and_drop_selection`
-- Default:
+- 説明: バッファー内でのドラッグ＆ドロップによるテキスト選択を許可するかどうか。`delay` はドラッグ＆ドロップが許可されるまでに経過する必要があるミリ秒単位の時間です。それ以外の場合は新しいテキスト選択が作成されます。
+- 設定: `drag_and_drop_selection`
+- デフォルト:
 
 ```json
 "drag_and_drop_selection": {
@@ -1458,9 +1364,9 @@ or
 
 ## Editor Toolbar
 
-- Description: Whether or not to show various elements in the editor toolbar.
-- Setting: `toolbar`
-- Default:
+- 説明: エディターツールバーに各種要素を表示するかどうか。
+- 設定: `toolbar`
+- デフォルト:
 
 ```json
 "toolbar": {
@@ -1471,88 +1377,75 @@ or
 },
 ```
 
-**Options**
+**選択肢**
 
-Each option controls displaying of a particular toolbar element. If all elements
-are hidden, the editor toolbar is not displayed.
+各オプションは、特定のツールバー要素の表示を制御します。すべての要素が非表示の場合、エディターツールバーは表示されません。
 
 ## Use System Tabs
 
-- Description: Whether to allow windows to tab together based on the user’s
-  tabbing preference (macOS only).
-- Setting: `use_system_window_tabs`
-- Default: `false`
+- 説明: ユーザーのタブ設定に基づいてウィンドウ同士をタブとしてまとめることを許可するかどうか（macOS のみ）。
+- 設定: `use_system_window_tabs`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-This setting enables integration with macOS’s native window tabbing feature.
-When set to `true`, Gram windows can be grouped together as tabs in a single
-macOS window, following the system-wide tabbing preferences set by the user
-(such as "Always", "In Full Screen", or "Never"). This setting is only available
-on macOS.
+この設定は、macOS のネイティブウィンドウタブ機能との統合を有効化します。`true` に設定すると、Gram ウィンドウはユーザーが設定したシステム全体のタブ設定（「常に」「フルスクリーン時のみ」「しない」など）に従って、単一の macOS ウィンドウ内のタブとしてグループ化されます。この設定は macOS でのみ利用可能です。
 
 ## Enable Language Server
 
-- Description: Whether or not to use language servers to provide code
-  intelligence.
-- Setting: `enable_language_server`
-- Default: `true`
+- 説明: コードインテリジェンスを提供するために言語サーバーを使用するかどうか。
+- 設定: `enable_language_server`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Ensure Final Newline On Save
 
-- Description: Removes any lines containing only whitespace at the end of the
-  file and ensures just one newline at the end.
-- Setting: `ensure_final_newline_on_save`
-- Default: `true`
+- 説明: ファイル末尾の空白のみを含む行を削除し、末尾に改行が 1 つだけ存在するようにします。
+- 設定: `ensure_final_newline_on_save`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Expand Excerpt Lines
 
-- Description: The default number of lines to expand excerpts in the multibuffer
-  by
-- Setting: `expand_excerpt_lines`
-- Default: `5`
+- 説明: マルチバッファー内で抜粋を展開する際のデフォルト行数。
+- 設定: `expand_excerpt_lines`
+- デフォルト: `5`
 
-**Options**
+**選択肢**
 
-Positive `integer` values
+正の `integer` 値
 
 ## Excerpt Context Lines
 
-- Description: The number of lines of context to provide when showing excerpts
-  in the multibuffer.
-- Setting: `excerpt_context_lines`
-- Default: `2`
+- 説明: マルチバッファー内で抜粋を表示する際に含めるコンテキスト（前後の行）の行数。
+- 設定: `excerpt_context_lines`
+- デフォルト: `2`
 
-**Options**
+**選択肢**
 
-Positive `integer` value between 1 and 32. Values outside of this range will be
-clamped to this range.
+1 から 32 までの正の `integer` 値。この範囲外の値は範囲内にクランプされます。
 
 ## Extend Comment On Newline
 
-- Description: Whether to start a new line with a comment when a previous line
-  is a comment as well.
-- Setting: `extend_comment_on_newline`
-- Default: `true`
+- 説明: 前の行がコメントの場合、改行時に次の行もコメントとして開始するかどうか。
+- 設定: `extend_comment_on_newline`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Status Bar
 
-- Description: Control various elements in the status bar. Note that some items
-  in the status bar have their own settings set elsewhere.
-- Setting: `status_bar`
-- Default:
+- 説明: ステータスバー内の各種要素を制御します。ステータスバー内の一部の項目には、別の場所で定義されている独自の設定がある点に注意してください。
+- 設定: `status_bar`
+- デフォルト:
 
 ```json
 "status_bar": {
@@ -1567,26 +1460,22 @@ clamped to this range.
 
 ## LSP
 
-- Description: Configuration for language servers.
-- Setting: `lsp`
-- Default: `null`
+- 説明: 言語サーバーの設定。
+- 設定: `lsp`
+- デフォルト: `null`
 
-**Options**
+**選択肢**
 
-The following settings can be overridden for specific language servers:
+特定の言語サーバーに対して、以下の設定を上書きできます:
 
 - `initialization_options`
 - `settings`
 
-To override configuration for a language server, add an entry for that language
-server's name to the `lsp` value.
+言語サーバーの設定を上書きするには、その言語サーバーの名前のエントリを `lsp` の値に追加します。
 
-Some options are passed via `initialization_options` to the language server.
-These are for options which must be specified at language server startup and
-when changed will require restarting the language server.
+一部のオプションは `initialization_options` を介して言語サーバーに渡されます。これらは言語サーバーの起動時に指定する必要があるオプションであり、変更した場合は言語サーバーの再起動が必要です。
 
-For example to pass the `check` option to `rust-analyzer`, use the following
-configuration:
+たとえば `rust-analyzer` に `check` オプションを渡すには、以下の設定を使用します:
 
 ```json
 "lsp": {
@@ -1600,8 +1489,7 @@ configuration:
 }
 ```
 
-While other options may be changed at a runtime and should be placed under
-`settings`:
+その他のオプションは実行時に変更可能であり、`settings` 配下に配置する必要があります:
 
 ```json
 "lsp": {
@@ -1617,10 +1505,9 @@ While other options may be changed at a runtime and should be placed under
 
 ## Global LSP Settings
 
-- Description: Configuration for global LSP settings that apply to all language
-  servers
-- Setting: `global_lsp_settings`
-- Default:
+- 説明: すべての言語サーバーに適用されるグローバル LSP 設定。
+- 設定: `global_lsp_settings`
+- デフォルト:
 
 ```json
 {
@@ -1630,26 +1517,25 @@ While other options may be changed at a runtime and should be placed under
 }
 ```
 
-**Options**
+**選択肢**
 
-- `button`: Whether to show the LSP status button in the status bar
+- `button`: ステータスバーに LSP ステータスボタンを表示するかどうか
 
 ## LSP Highlight Debounce
 
-- Description: The debounce delay in milliseconds before querying highlights
-  from the language server based on the current cursor location.
-- Setting: `lsp_highlight_debounce`
-- Default: `75`
+- 説明: 現在のカーソル位置に基づいて言語サーバーからハイライトを取得する前のデバウンス待機時間（ミリ秒）。
+- 設定: `lsp_highlight_debounce`
+- デフォルト: `75`
 
-**Options**
+**選択肢**
 
-`integer` values representing milliseconds
+ミリ秒を表す `integer` 値
 
 ## Features
 
-- Description: Features that can be globally enabled or disabled
-- Setting: `features`
-- Default:
+- 説明: グローバルに有効化または無効化できる機能。
+- 設定: `features`
+- デフォルト:
 
 ```json
 {
@@ -1659,13 +1545,13 @@ While other options may be changed at a runtime and should be placed under
 
 ## Format On Save
 
-- Description: Whether or not to perform a buffer format before saving.
-- Setting: `format_on_save`
-- Default: `on`
+- 説明: 保存前にバッファーのフォーマットを実行するかどうか。
+- 設定: `format_on_save`
+- デフォルト: `on`
 
-**Options**
+**選択肢**
 
-1. `on`, enables format on save obeying `formatter` setting:
+1. `on`: `formatter` 設定に従って保存時フォーマットを有効化します:
 
 ```json
 {
@@ -1673,7 +1559,7 @@ While other options may be changed at a runtime and should be placed under
 }
 ```
 
-2. `off`, disables format on save:
+2. `off`: 保存時フォーマットを無効化します:
 
 ```json
 {
@@ -1683,13 +1569,13 @@ While other options may be changed at a runtime and should be placed under
 
 ## Formatter
 
-- Description: How to perform a buffer format.
-- Setting: `formatter`
-- Default: `auto`
+- 説明: バッファーのフォーマットを実行する方法。
+- 設定: `formatter`
+- デフォルト: `auto`
 
-**Options**
+**選択肢**
 
-1. To use the current language server, use `"language_server"`:
+1. 現在の言語サーバーを使用するには、`"language_server"` を使用します:
 
 ```json
 {
@@ -1697,11 +1583,7 @@ While other options may be changed at a runtime and should be placed under
 }
 ```
 
-2. Or to use an external command, use `"external"`. Specify the name of the
-   formatting program to run, and an array of arguments to pass to the program.
-   The buffer's text will be passed to the program on stdin, and the formatted
-   output should be written to stdout. For example, the following command would
-   strip trailing spaces using [`sed(1)`](https://linux.die.net/man/1/sed):
+2. または外部コマンドを使用するには、`"external"` を使用します。実行するフォーマットプログラムの名前と、プログラムに渡す引数の配列を指定します。バッファーのテキストは標準入力経由でプログラムに渡され、フォーマットされた出力が標準出力に書き込まれる必要があります。たとえば、以下のコマンドは [`sed(1)`](https://linux.die.net/man/1/sed) を使用して末尾のスペースを削除します:
 
 ```json
 {
@@ -1714,17 +1596,9 @@ While other options may be changed at a runtime and should be placed under
 }
 ```
 
-3. External formatters may optionally include a `{buffer_path}` placeholder
-   which at runtime will include the path of the buffer being formatted.
-   Formatters operate by receiving file content via standard input, reformatting
-   it and then outputting it to standard output and so normally don't know the
-   filename of what they are formatting. Tools like Prettier support receiving
-   the file path via a command line argument which can then used to impact
-   formatting decisions.
+3. 外部フォーマッターには、実行時にフォーマット対象バッファーのパスが含まれる `{buffer_path}` プレースホルダーを任意で含めることができます。フォーマッターは標準入力を介してファイルコンテンツを受け取り、再フォーマットして標準出力に出力するため、通常はフォーマット対象のファイル名を知りません。Prettier のようなツールは、コマンドライン引数経由でファイルパスを受け取り、フォーマット動作に反映させることができます。
 
-WARNING: `{buffer_path}` should not be used to direct your formatter to read
-from a filename. Your formatter should only read from standard input and should
-not read or write files directly.
+警告: フォーマッターにファイル名から直接読み取らせるために `{buffer_path}` を使用しないでください。フォーマッターは標準入力からのみ読み取り、ファイルを直接読み書きしてはなりません。
 
 ```json
 "formatter": {
@@ -1735,8 +1609,7 @@ not read or write files directly.
 }
 ```
 
-4. Or to use code actions provided by the connected language servers, use
-   `"code_actions"`:
+4. または接続されている言語サーバーから提供されるコードアクションを使用するには、`"code_actions"` を使用します:
 
 ```json
 {
@@ -1749,7 +1622,7 @@ not read or write files directly.
 }
 ```
 
-5. Or to use multiple formatters consecutively, use an array of formatters:
+5. または複数のフォーマッターを連続して使用するには、フォーマッターの配列を使用します:
 
 ```json
 {
@@ -1765,49 +1638,43 @@ not read or write files directly.
 }
 ```
 
-Here `rust-analyzer` will be used first to format the code, followed by a call
-of sed. If any of the formatters fails, the subsequent ones will still be
-executed.
+ここでは、コードのフォーマットにまず `rust-analyzer` が使用され、続いて sed の呼び出しが行われます。いずれかのフォーマッターが失敗した場合でも、後続のフォーマッターは実行されます。
 
 ## Auto close
 
-- Description: Whether to automatically add matching closing characters when
-  typing opening parenthesis, bracket, brace, single or double quote characters.
-- Setting: `use_autoclose`
-- Default: `true`
+- 説明: 丸括弧、角括弧、波括弧、単一引用符、二重引用符の開き文字を入力したときに、対応する閉じ文字を自動的に追加するかどうか。
+- 設定: `use_autoclose`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Always Treat Brackets As Autoclosed
 
-- Description: Controls how the editor handles the autoclosed characters.
-- Setting: `always_treat_brackets_as_autoclosed`
-- Default: `false`
+- 説明: 自動挿入された閉じ括弧文字をエディターがどのように処理するかを制御します。
+- 設定: `always_treat_brackets_as_autoclosed`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
-**Example**
+**例**
 
-If the setting is set to `true`:
+設定が `true` の場合:
 
-1. Enter in the editor: `)))`
-2. Move the cursor to the start: `^)))`
-3. Enter again: `)))`
+1. エディターに入力: `)))`
+2. カーソルを先頭に移動: `^)))`
+3. 再び入力: `)))`
 
-The result is still `)))` and not `))))))`, which is what it would be by
-default.
+結果はデフォルトの動作である `))))))` ではなく、`)))` のままになります。
 
 ## File Scan Exclusions
 
-- Setting: `file_scan_exclusions`
-- Description: Files or globs of files that will be excluded by Gram entirely.
-  They will be skipped during file scans, file searches, and not be displayed in
-  the project file tree. Overrides `file_scan_inclusions`.
-- Default:
+- 設定: `file_scan_exclusions`
+- 説明: Gram から完全に除外されるファイルまたはファイルの Glob。ファイルスキャンやファイル検索時にスキップされ、プロジェクトファイルツリーにも表示されません。`file_scan_inclusions` を上書きします。
+- デフォルト:
 
 ```json
 "file_scan_exclusions": [
@@ -1823,19 +1690,13 @@ default.
 ],
 ```
 
-Note, specifying `file_scan_exclusions` in settings.jsonc will override the
-defaults (shown above). If you are looking to exclude additional items you will
-need to include all the default values in your settings.
+注意: settings.jsonc で `file_scan_exclusions` を指定すると、デフォルト値（上記）が上書きされます。追加の項目を除外したい場合は、デフォルト値のすべてを設定に含める必要があります。
 
 ## File Scan Inclusions
 
-- Setting: `file_scan_inclusions`
-- Description: Files or globs of files that will be included by Gram, even when
-  ignored by git. This is useful for files that are not tracked by git, but are
-  still important to your project. Note that globs that are overly broad can
-  slow down Gram's file scanning. `file_scan_exclusions` takes precedence over
-  these inclusions.
-- Default:
+- 設定: `file_scan_inclusions`
+- 説明: Git で無視されている場合でも、Gram によって含められるファイルまたはファイルの Glob。Git で追跡されていないものの、プロジェクトにとって重要なファイルに便利です。広すぎる Glob は Gram のファイルスキャンを遅くする可能性がある点に注意してください。`file_scan_exclusions` はこれらの包含設定よりも優先されます。
+- デフォルト:
 
 ```json
 "file_scan_inclusions": [".env*"],
@@ -1843,10 +1704,9 @@ need to include all the default values in your settings.
 
 ## File Types
 
-- Setting: `file_types`
-- Description: Configure how Gram selects a language for a file based on its
-  filename or extension. Supports glob entries.
-- Default:
+- 設定: `file_types`
+- 説明: ファイル名または拡張子に基づいて、Gram がファイルに対応する言語を選択する方法を設定します。Glob エントリーをサポートしています。
+- デフォルト:
 
 ```json
 "file_types": {
@@ -1854,10 +1714,9 @@ need to include all the default values in your settings.
 }
 ```
 
-**Examples**
+**例**
 
-To interpret all `.c` files as C++, files called `MyLockFile` as TOML and files
-starting with `Dockerfile` as Dockerfile:
+すべての `.c` ファイルを C++ として、`MyLockFile` というファイルを TOML として、`Dockerfile` で始まるファイルを Dockerfile として解釈する場合:
 
 ```json
 {
@@ -1871,9 +1730,9 @@ starting with `Dockerfile` as Dockerfile:
 
 ## Diagnostics
 
-- Description: Configuration for diagnostics-related features.
-- Setting: `diagnostics`
-- Default:
+- 説明: 診断関連機能の設定。
+- 設定: `diagnostics`
+- デフォルト:
 
 ```json
 {
@@ -1891,9 +1750,9 @@ starting with `Dockerfile` as Dockerfile:
 
 ### Inline Diagnostics
 
-- Description: Whether or not to show diagnostics information inline.
-- Setting: `inline`
-- Default:
+- 説明: 診断情報をインラインで表示するかどうか。
+- 設定: `inline`
+- デフォルト:
 
 ```json
 {
@@ -1909,9 +1768,9 @@ starting with `Dockerfile` as Dockerfile:
 }
 ```
 
-**Options**
+**選択肢**
 
-1. Enable inline diagnostics.
+1. インライン診断を有効化。
 
 ```json
 {
@@ -1923,7 +1782,7 @@ starting with `Dockerfile` as Dockerfile:
 }
 ```
 
-2. Delay diagnostic updates until some time after the last diagnostic update.
+2. 最後の診断更新から一定時間経過するまで診断更新を遅延。
 
 ```json
 {
@@ -1936,8 +1795,7 @@ starting with `Dockerfile` as Dockerfile:
 }
 ```
 
-3. Set padding between the end of the source line and the start of the
-   diagnostic.
+3. ソース行の末尾と診断表示の開始位置との間のパディングを設定。
 
 ```json
 {
@@ -1950,7 +1808,7 @@ starting with `Dockerfile` as Dockerfile:
 }
 ```
 
-4. Horizontally align inline diagnostics at the given column.
+4. 指定した列位置でインライン診断を水平方向に揃える。
 
 ```json
 {
@@ -1963,7 +1821,7 @@ starting with `Dockerfile` as Dockerfile:
 }
 ```
 
-5. Show only warning and error diagnostics.
+5. 警告およびエラーの診断のみ表示。
 
 ```json
 {
@@ -1978,9 +1836,9 @@ starting with `Dockerfile` as Dockerfile:
 
 ## Git
 
-- Description: Configuration for git-related features.
-- Setting: `git`
-- Default:
+- 説明: Git 関連機能の設定。
+- 設定: `git`
+- デフォルト:
 
 ```json
 {
@@ -1999,13 +1857,13 @@ starting with `Dockerfile` as Dockerfile:
 
 ### Git Gutter
 
-- Description: Whether or not to show the git gutter.
-- Setting: `git_gutter`
-- Default: `tracked_files`
+- 説明: Git ガターを表示するかどうか。
+- 設定: `git_gutter`
+- デフォルト: `tracked_files`
 
-**Options**
+**選択肢**
 
-1. Show git gutter in tracked files
+1. 追跡されているファイルで Git ガターを表示する
 
 ```json
 {
@@ -2015,7 +1873,7 @@ starting with `Dockerfile` as Dockerfile:
 }
 ```
 
-2. Hide git gutter
+2. Git ガターを非表示にする
 
 ```json
 {
@@ -2027,16 +1885,15 @@ starting with `Dockerfile` as Dockerfile:
 
 ### Gutter Debounce
 
-- Description: Sets the debounce threshold (in milliseconds) after which changes
-  are reflected in the git gutter.
-- Setting: `gutter_debounce`
-- Default: `null`
+- 説明: 変更が Git ガターに反映されるまでのデバウンスしきい値（ミリ秒）。
+- 設定: `gutter_debounce`
+- デフォルト: `null`
 
-**Options**
+**選択肢**
 
-`integer` values representing milliseconds
+ミリ秒を表す `integer` 値
 
-Example:
+例:
 
 ```json
 {
@@ -2048,10 +1905,9 @@ Example:
 
 ### Inline Git Blame
 
-- Description: Whether or not to show git blame information inline, on the
-  currently focused line.
-- Setting: `inline_blame`
-- Default:
+- 説明: フォーカス中の行に Git blame の情報をインラインで表示するかどうか。
+- 設定: `inline_blame`
+- デフォルト:
 
 ```json
 {
@@ -2063,9 +1919,9 @@ Example:
 }
 ```
 
-**Options**
+**選択肢**
 
-1. Disable inline git blame:
+1. インラインの Git blame を無効にする:
 
 ```json
 {
@@ -2077,8 +1933,7 @@ Example:
 }
 ```
 
-2. Only show inline git blame after a delay (that starts after cursor stops
-   moving):
+2. カーソルが止まってから一定時間後にのみインラインの Git blame を表示する:
 
 ```json
 {
@@ -2090,7 +1945,7 @@ Example:
 }
 ```
 
-3. Show a commit summary next to the commit date and author:
+3. コミットの日付と作成者の隣にコミットの要約を表示する:
 
 ```json
 {
@@ -2102,7 +1957,7 @@ Example:
 }
 ```
 
-4. Use this as the minimum column at which to display inline blame information:
+4. インラインの blame 情報を表示する最小の列位置を指定する:
 
 ```json
 {
@@ -2114,8 +1969,7 @@ Example:
 }
 ```
 
-5. Set the padding between the end of the line and the inline blame hint, in
-   ems:
+5. 行の末尾とインラインの blame ヒントとの間のパディングを em 単位で設定する:
 
 ```json
 {
@@ -2129,9 +1983,9 @@ Example:
 
 ### Branch Picker
 
-- Description: Configuration related to the branch picker.
-- Setting: `branch_picker`
-- Default:
+- 説明: ブランチピッカーに関する設定。
+- 設定: `branch_picker`
+- デフォルト:
 
 ```json
 {
@@ -2143,9 +1997,9 @@ Example:
 }
 ```
 
-**Options**
+**選択肢**
 
-1. Show the author name in the branch picker:
+1. ブランチピッカーに作成者名を表示する:
 
 ```json
 {
@@ -2159,9 +2013,9 @@ Example:
 
 ### Hunk Style
 
-- Description: What styling we should use for the diff hunks.
-- Setting: `hunk_style`
-- Default:
+- 説明: 差分ハンクに使うスタイル。
+- 設定: `hunk_style`
+- デフォルト:
 
 ```json
 {
@@ -2171,9 +2025,9 @@ Example:
 }
 ```
 
-**Options**
+**選択肢**
 
-1. Show the staged hunks faded out and with a border:
+1. ステージングされたハンクを薄く表示し、枠線を付ける:
 
 ```json
 {
@@ -2183,7 +2037,7 @@ Example:
 }
 ```
 
-2. Show unstaged hunks faded out and with a border:
+2. ステージングされていないハンクを薄く表示し、枠線を付ける:
 
 ```json
 {
@@ -2195,14 +2049,13 @@ Example:
 
 ## Go to Definition Fallback
 
-- Description: What to do when the {#action editor::GoToDefinition} action fails
-  to find a definition
-- Setting: `go_to_definition_fallback`
-- Default: `"find_all_references"`
+- 説明: {#action editor::GoToDefinition} アクションが定義を見つけられなかったときの動作。
+- 設定: `go_to_definition_fallback`
+- デフォルト: `"find_all_references"`
 
-**Options**
+**選択肢**
 
-1. Do nothing:
+1. 何もしない:
 
 ```json
 {
@@ -2210,7 +2063,7 @@ Example:
 }
 ```
 
-2. Find references for the same symbol (default):
+2. 同じシンボルの参照を検索する（既定）:
 
 ```json
 {
@@ -2220,32 +2073,29 @@ Example:
 
 ## Hard Tabs
 
-- Description: Whether to indent lines using tab characters or multiple spaces.
-- Setting: `hard_tabs`
-- Default: `false`
+- 説明: タブ文字と複数のスペースのどちらで行をインデントするか。
+- 設定: `hard_tabs`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Helix Mode
 
-- Description: Whether or not to enable Helix mode. Enabling `helix_mode` also
-  enables `vim_mode`. See the [Helix documentation](./helix.md) for more
-  details.
-- Setting: `helix_mode`
-- Default: `false`
+- 説明: Helix モードを有効にするかどうか。`helix_mode` を有効にすると `vim_mode` も有効になります。詳しくは [Helix のドキュメント](./helix.md)を参照してください。
+- 設定: `helix_mode`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Indent Guides
 
-- Description: Configuration related to indent guides. Indent guides can be
-  configured separately for each language.
-- Setting: `indent_guides`
-- Default:
+- 説明: インデントガイドに関する設定。インデントガイドは言語ごとに個別に設定できます。
+- 設定: `indent_guides`
+- デフォルト:
 
 ```json
 {
@@ -2259,9 +2109,9 @@ Example:
 }
 ```
 
-**Options**
+**選択肢**
 
-1. Disable indent guides
+1. インデントガイドを無効にする
 
 ```json
 {
@@ -2271,7 +2121,7 @@ Example:
 }
 ```
 
-2. Enable indent guides for a specific language.
+2. 特定の言語でインデントガイドを有効にする。
 
 ```json
 {
@@ -2285,9 +2135,7 @@ Example:
 }
 ```
 
-3. Enable indent aware coloring ("rainbow indentation"). The colors that are
-   used for different indentation levels are defined in the theme (theme key:
-   `accents`). They can be customized by using theme overrides.
+3. インデントの深さに応じた色付け（「レインボーインデント」）を有効にする。インデントの深さごとに使う色はテーマ（テーマキー: `accents`）で定義されています。テーマの上書きでカスタマイズできます。
 
 ```json
 {
@@ -2298,9 +2146,7 @@ Example:
 }
 ```
 
-4. Enable indent aware background coloring ("rainbow indentation"). The colors
-   that are used for different indentation levels are defined in the theme
-   (theme key: `accents`). They can be customized by using theme overrides.
+4. インデントの深さに応じた背景色付け（「レインボーインデント」）を有効にする。インデントの深さごとに使う色はテーマ（テーマキー: `accents`）で定義されています。テーマの上書きでカスタマイズできます。
 
 ```json
 {
@@ -2314,40 +2160,35 @@ Example:
 
 ## Hover Popover Enabled
 
-- Description: Whether or not to show the informational hover box when moving
-  the mouse over symbols in the editor.
-- Setting: `hover_popover_enabled`
-- Default: `true`
+- 説明: エディター内のシンボルにマウスを重ねたときに、情報を表示するホバーボックスを表示するかどうか。
+- 設定: `hover_popover_enabled`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Hover Popover Delay
 
-- Description: Time to wait in milliseconds before showing the informational
-  hover box.
-- Setting: `hover_popover_delay`
-- Default: `300`
+- 説明: 情報を表示するホバーボックスを表示するまでの待ち時間（ミリ秒）。
+- 設定: `hover_popover_delay`
+- デフォルト: `300`
 
-**Options**
+**選択肢**
 
-`integer` values representing milliseconds
+ミリ秒を表す `integer` 値
 
 ## Icon Theme
 
-- Description: The icon theme setting can be specified in two forms - either as
-  the name of an icon theme or as an object containing the `mode`, `dark`, and
-  `light` icon themes for files/folders inside Gram.
-- Setting: `icon_theme`
-- Default: `Gram (Default)`
+- 説明: アイコンテーマの設定は2つの形式で指定できます。アイコンテーマ名として指定するか、Gram 内のファイル/フォルダー用の `mode`、`dark`、`light` のアイコンテーマを含むオブジェクトとして指定します。
+- 設定: `icon_theme`
+- デフォルト: `Gram (Default)`
 
 ### Icon Theme Object
 
-- Description: Specify the icon theme using an object that includes the `mode`,
-  `dark`, and `light`.
-- Setting: `icon_theme`
-- Default:
+- 説明: `mode`、`dark`、`light` を含むオブジェクトでアイコンテーマを指定します。
+- 設定: `icon_theme`
+- デフォルト:
 
 ```json
 "icon_theme": {
@@ -2359,13 +2200,13 @@ Example:
 
 ### Mode
 
-- Description: Specify the icon theme mode.
-- Setting: `mode`
-- Default: `system`
+- 説明: アイコンテーマのモードを指定します。
+- 設定: `mode`
+- デフォルト: `system`
 
-**Options**
+**選択肢**
 
-1. Set the icon theme to dark mode
+1. アイコンテーマをダークモードにする
 
 ```json
 {
@@ -2373,7 +2214,7 @@ Example:
 }
 ```
 
-2. Set the icon theme to light mode
+2. アイコンテーマをライトモードにする
 
 ```json
 {
@@ -2381,7 +2222,7 @@ Example:
 }
 ```
 
-3. Set the icon theme to system mode
+3. アイコンテーマをシステムモードにする
 
 ```json
 {
@@ -2391,31 +2232,29 @@ Example:
 
 ### Dark
 
-- Description: The name of the dark icon theme.
-- Setting: `dark`
-- Default: `Gram (Default)`
+- 説明: ダーク用アイコンテーマの名前。
+- 設定: `dark`
+- デフォルト: `Gram (Default)`
 
-**Options**
+**選択肢**
 
-Run the {#action icon_theme_selector::Toggle} action in the command palette to
-see a current list of valid icon themes names.
+コマンドパレットで {#action icon_theme_selector::Toggle} アクションを実行すると、現在有効なアイコンテーマ名の一覧を確認できます。
 
 ### Light
 
-- Description: The name of the light icon theme.
-- Setting: `light`
-- Default: `Gram (Default)`
+- 説明: ライト用アイコンテーマの名前。
+- 設定: `light`
+- デフォルト: `Gram (Default)`
 
-**Options**
+**選択肢**
 
-Run the {#action icon_theme_selector::Toggle} action in the command palette to
-see a current list of valid icon themes names.
+コマンドパレットで {#action icon_theme_selector::Toggle} アクションを実行すると、現在有効なアイコンテーマ名の一覧を確認できます。
 
 ## Image Viewer
 
-- Description: Settings for image viewer functionality
-- Setting: `image_viewer`
-- Default:
+- 説明: 画像ビューアー機能の設定。
+- 設定: `image_viewer`
+- デフォルト:
 
 ```json
 {
@@ -2425,17 +2264,17 @@ see a current list of valid icon themes names.
 }
 ```
 
-**Options**
+**選択肢**
 
 ### Unit
 
-- Description: The unit for image file sizes
-- Setting: `unit`
-- Default: `"binary"`
+- 説明: 画像ファイルサイズの単位。
+- 設定: `unit`
+- デフォルト: `"binary"`
 
-**Options**
+**選択肢**
 
-1. Use binary units (KiB, MiB):
+1. 2進単位（KiB、MiB）を使う:
 
 ```json
 {
@@ -2445,7 +2284,7 @@ see a current list of valid icon themes names.
 }
 ```
 
-2. Use decimal units (KB, MB):
+2. 10進単位（KB、MB）を使う:
 
 ```json
 {
@@ -2457,9 +2296,9 @@ see a current list of valid icon themes names.
 
 ## Inlay hints
 
-- Description: Configuration for displaying extra text with hints in the editor.
-- Setting: `inlay_hints`
-- Default:
+- 説明: エディター内にヒント付きの追加テキストを表示するための設定。
+- 設定: `inlay_hints`
+- デフォルト:
 
 ```json
 "inlay_hints": {
@@ -2474,29 +2313,22 @@ see a current list of valid icon themes names.
 }
 ```
 
-**Options**
+**選択肢**
 
-Inlay hints querying consists of two parts: editor (client) and LSP server. With
-the inlay settings above are changed to enable the hints, editor will start to
-query certain types of hints and react on LSP hint refresh request from the
-server. At this point, the server may or may not return hints depending on its
-implementation, further configuration might be needed, refer to the
-corresponding LSP server documentation.
+インレイヒントの問い合わせは、エディター（クライアント）と LSP サーバーの2つの部分で構成されます。上記のインレイ設定を変更してヒントを有効にすると、エディターは特定の種類のヒントを問い合わせ、サーバーからの LSP ヒント更新要求に反応します。この時点で、サーバーはその実装に応じてヒントを返す場合と返さない場合があり、追加の設定が必要になることもあります。該当する LSP サーバーのドキュメントを参照してください。
 
-The following languages have inlay hints preconfigured by Gram:
+Gram でインレイヒントが既定で設定されている言語:
 
 - Go
 - Rust
 - Svelte
 - TypeScript
 
-Use the `lsp` section for the server configuration. Examples are provided in the
-corresponding language documentation.
+サーバーの設定には `lsp` セクションを使用します。例は各言語のドキュメントに記載されています。
 
-Hints are not instantly queried in Gram, two kinds of debounces are used, either
-may be set to 0 to be disabled. Settings-related hint updates are not debounced.
+Gram ではヒントは即座に問い合わせされず、2種類のデバウンスが使われます。いずれも 0 に設定すると無効になります。設定に関連するヒントの更新はデバウンスされません。
 
-All possible config values for `toggle_on_modifiers_press` are:
+`toggle_on_modifiers_press` に指定できるすべての値は次のとおりです:
 
 ```json
 "inlay_hints": {
@@ -2510,14 +2342,13 @@ All possible config values for `toggle_on_modifiers_press` are:
 }
 ```
 
-Unspecified values have a `false` value, hints won't be toggled if all the
-modifiers are `false` or not all the modifiers are pressed.
+指定のない値は `false` になります。すべての修飾キーが `false` の場合、またはすべての修飾キーが押されていない場合、ヒントは切り替わりません。
 
 ## Journal
 
-- Description: Configuration for the journal.
-- Setting: `journal`
-- Default:
+- 説明: ジャーナルの設定。
+- 設定: `journal`
+- デフォルト:
 
 ```json
 "journal": {
@@ -2528,25 +2359,23 @@ modifiers are `false` or not all the modifiers are pressed.
 
 ### Path
 
-- Description: The path of the directory where journal entries are stored. If an
-  invalid path is specified, the journal will fall back to using `~` (the home
-  directory).
-- Setting: `path`
-- Default: `~`
+- 説明: ジャーナルの項目を保存するフォルダーのパス。無効なパスを指定した場合、ジャーナルは `~`（ホームフォルダー）の使用に戻ります。
+- 設定: `path`
+- デフォルト: `~`
 
-**Options**
+**選択肢**
 
-`string` values
+`string` 値
 
 ### Hour Format
 
-- Description: The format to use for displaying hours in the journal.
-- Setting: `hour_format`
-- Default: `hour12`
+- 説明: ジャーナルで時刻を表示する形式。
+- 設定: `hour_format`
+- デフォルト: `hour12`
 
-**Options**
+**選択肢**
 
-1. 12-hour format:
+1. 12時間形式:
 
 ```json
 {
@@ -2554,7 +2383,7 @@ modifiers are `false` or not all the modifiers are pressed.
 }
 ```
 
-2. 24-hour format:
+2. 24時間形式:
 
 ```json
 {
@@ -2564,9 +2393,9 @@ modifiers are `false` or not all the modifiers are pressed.
 
 ## JSX Tag Auto Close
 
-- Description: Whether to automatically close JSX tags
-- Setting: `jsx_tag_auto_close`
-- Default:
+- 説明: JSX タグを自動的に閉じるかどうか。
+- 設定: `jsx_tag_auto_close`
+- デフォルト:
 
 ```json
 {
@@ -2576,20 +2405,19 @@ modifiers are `false` or not all the modifiers are pressed.
 }
 ```
 
-**Options**
+**選択肢**
 
-- `enabled`: Whether to enable automatic JSX tag closing
+- `enabled`: JSX タグの自動閉じを有効にするかどうか
 
 ## Languages
 
-- Description: Configuration for specific languages.
-- Setting: `languages`
-- Default: `null`
+- 説明: 言語ごとの設定。
+- 設定: `languages`
+- デフォルト: `null`
 
-**Options**
+**選択肢**
 
-To override settings for a language, add an entry for that languages name to the
-`languages` value. Example:
+言語の設定を上書きするには、`languages` の値にその言語名のエントリーを追加します。例:
 
 ```json
 "languages": {
@@ -2604,7 +2432,7 @@ To override settings for a language, add an entry for that languages name to the
 }
 ```
 
-The following settings can be overridden for each specific language:
+次の設定は言語ごとに上書きできます:
 
 - [`enable_language_server`](#enable-language-server)
 - [`ensure_final_newline_on_save`](#ensure-final-newline-on-save)
@@ -2620,18 +2448,17 @@ The following settings can be overridden for each specific language:
 - [`use_autoclose`](#use-autoclose)
 - [`always_treat_brackets_as_autoclosed`](#always-treat-brackets-as-autoclosed)
 
-These values take in the same options as the root-level settings with the same
-name.
+これらの値は、同じ名前のルートレベルの設定と同じオプションを受け取ります。
 
 ## Line Indicator Format
 
-- Description: Format for line indicator in the status bar
-- Setting: `line_indicator_format`
-- Default: `"short"`
+- 説明: ステータスバーの行表示の形式。
+- 設定: `line_indicator_format`
+- デフォルト: `"short"`
 
-**Options**
+**選択肢**
 
-1. Short format:
+1. 短い形式:
 
 ```json
 {
@@ -2639,7 +2466,7 @@ name.
 }
 ```
 
-2. Long format:
+2. 長い形式:
 
 ```json
 {
@@ -2649,58 +2476,53 @@ name.
 
 ## Linked Edits
 
-- Description: Whether to perform linked edits of associated ranges, if the
-  language server supports it. For example, when editing opening `<html>` tag,
-  the contents of the closing `</html>` tag will be edited as well.
-- Setting: `linked_edits`
-- Default: `true`
+- 説明: 言語サーバーが対応している場合に、関連する範囲を連動して編集するかどうか。たとえば `<html>` の開始タグを編集すると、`</html>` の終了タグの内容も同様に編集されます。
+- 設定: `linked_edits`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## LSP Document Colors
 
-- Description: Whether to show document color information from the language
-  server
-- Setting: `lsp_document_colors`
-- Default: `true`
+- 説明: 言語サーバーからのドキュメントの色情報を表示するかどうか。
+- 設定: `lsp_document_colors`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Max Tabs
 
-- Description: Maximum number of tabs to show in the tab bar
-- Setting: `max_tabs`
-- Default: `null`
+- 説明: タブバーに表示するタブの最大数。
+- 設定: `max_tabs`
+- デフォルト: `null`
 
-**Options**
+**選択肢**
 
-Positive `integer` values or `null` for unlimited tabs
+正の `integer` 値、またはタブ数を無制限にする場合は `null`
 
 ## Middle Click Paste (Linux only)
 
-- Description: Enable middle-click paste on Linux
-- Setting: `middle_click_paste`
-- Default: `true`
+- 説明: Linux で中クリックによる貼り付けを有効にします。
+- 設定: `middle_click_paste`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Multi Cursor Modifier
 
-- Description: Determines the modifier to be used to add multiple cursors with
-  the mouse. The open hover link mouse gestures will adapt such that it do not
-  conflict with the multicursor modifier.
-- Setting: `multi_cursor_modifier`
-- Default: `alt`
+- 説明: マウスで複数のカーソルを追加するときに使う修飾キーを指定します。ホバーリンクのマウス操作は、マルチカーソル用の修飾キーと競合しないように調整されます。
+- 設定: `multi_cursor_modifier`
+- デフォルト: `alt`
 
-**Options**
+**選択肢**
 
-1. Maps to `Alt` on Linux and Windows and to `Option` on macOS:
+1. Linux と Windows では `Alt`、macOS では `Option` に対応します:
 
 ```json
 {
@@ -2708,7 +2530,7 @@ Positive `integer` values or `null` for unlimited tabs
 }
 ```
 
-2. Maps `Control` on Linux and Windows and to `Command` on macOS:
+2. Linux と Windows では `Control`、macOS では `Command` に対応します:
 
 ```json
 {
@@ -2718,9 +2540,9 @@ Positive `integer` values or `null` for unlimited tabs
 
 ## Node
 
-- Description: Configuration for Node.js integration
-- Setting: `node`
-- Default:
+- 説明: Node.js 連携の設定。
+- 設定: `node`
+- デフォルト:
 
 ```json
 {
@@ -2732,39 +2554,36 @@ Positive `integer` values or `null` for unlimited tabs
 }
 ```
 
-**Options**
+**選択肢**
 
-- `ignore_system_version`: Whether to ignore the system Node.js version
-- `path`: Custom path to Node.js binary
-- `npm_path`: Custom path to npm binary
+- `ignore_system_version`: システムの Node.js バージョンを無視するかどうか
+- `path`: Node.js バイナリへのカスタムパス
+- `npm_path`: npm バイナリへのカスタムパス
 
 ## Network Proxy
 
-- Description: Configure a network proxy for Gram.
-- Setting: `proxy`
-- Default: `null`
+- 説明: Gram のネットワークプロキシを設定します。
+- 設定: `proxy`
+- デフォルト: `null`
 
-**Options**
+**選択肢**
 
-The proxy setting must contain a URL to the proxy.
+プロキシの設定には、プロキシの URL を含める必要があります。
 
-The following URI schemes are supported:
+次の URI スキームをサポートしています:
 
 - `http`
 - `https`
-- `socks4` - SOCKS4 proxy with local DNS
-- `socks4a` - SOCKS4 proxy with remote DNS
-- `socks5` - SOCKS5 proxy with local DNS
-- `socks5h` - SOCKS5 proxy with remote DNS
+- `socks4` - ローカル DNS を使う SOCKS4 プロキシ
+- `socks4a` - リモート DNS を使う SOCKS4 プロキシ
+- `socks5` - ローカル DNS を使う SOCKS5 プロキシ
+- `socks5h` - リモート DNS を使う SOCKS5 プロキシ
 
-`http` will be used when no scheme is specified.
+スキームを指定しない場合は `http` が使われます。
 
-By default no proxy will be used, or Gram will attempt to retrieve proxy
-settings from environment variables, such as `http_proxy`, `HTTP_PROXY`,
-`https_proxy`, `HTTPS_PROXY`, `all_proxy`, `ALL_PROXY`, `no_proxy` and
-`NO_PROXY`.
+既定ではプロキシは使用されません。または、Gram が `http_proxy`、`HTTP_PROXY`、`https_proxy`、`HTTPS_PROXY`、`all_proxy`、`ALL_PROXY`、`no_proxy`、`NO_PROXY` などの環境変数からプロキシ設定を取得しようとします。
 
-For example, to set an `http` proxy, add the following to your settings:
+たとえば `http` プロキシを設定するには、設定に次を追加します:
 
 ```json
 {
@@ -2772,7 +2591,7 @@ For example, to set an `http` proxy, add the following to your settings:
 }
 ```
 
-Or to set a `socks5` proxy:
+`socks5` プロキシを設定する場合は次のとおりです:
 
 ```json
 {
@@ -2780,24 +2599,17 @@ Or to set a `socks5` proxy:
 }
 ```
 
-If you wish to exclude certain hosts from using the proxy, set the `NO_PROXY`
-environment variable. This accepts a comma-separated list of hostnames, host
-suffixes, IPv4/IPv6 addresses or blocks that should not use the proxy. For
-example if your environment included `NO_PROXY="google.com, 192.168.1.0/24"` all
-hosts in `192.168.1.*`, `google.com` and `*.google.com` would bypass the proxy.
-See
-[reqwest NoProxy docs](https://docs.rs/reqwest/latest/reqwest/struct.NoProxy.html#method.from_string)
-for more.
+特定のホストにプロキシを使わせたくない場合は、環境変数 `NO_PROXY` を設定します。プロキシを使わないホスト名、ホストサフィックス、IPv4/IPv6 アドレスまたはブロックをカンマ区切りで指定できます。たとえば環境に `NO_PROXY="google.com, 192.168.1.0/24"` が含まれている場合、`192.168.1.*` 内のすべてのホスト、`google.com`、`*.google.com` はプロキシを経由しません。詳しくは [reqwest NoProxy のドキュメント](https://docs.rs/reqwest/latest/reqwest/struct.NoProxy.html#method.from_string)を参照してください。
 
 ## On Last Window Closed
 
-- Description: What to do when the last window is closed
-- Setting: `on_last_window_closed`
-- Default: `"platform_default"`
+- 説明: 最後のウィンドウを閉じたときの動作。
+- 設定: `on_last_window_closed`
+- デフォルト: `"platform_default"`
 
-**Options**
+**選択肢**
 
-1. Use platform default behavior:
+1. プラットフォームの既定の動作を使う:
 
 ```json
 {
@@ -2805,7 +2617,7 @@ for more.
 }
 ```
 
-2. Always quit the application:
+2. 常にアプリケーションを終了する:
 
 ```json
 {
@@ -2815,14 +2627,13 @@ for more.
 
 ## Profiles
 
-- Description: Configuration profiles that can be applied on top of existing
-  settings
-- Setting: `profiles`
-- Default: `{}`
+- 説明: 既存の設定の上に適用できる設定プロファイル。
+- 設定: `profiles`
+- デフォルト: `{}`
 
-**Options**
+**選択肢**
 
-Configuration object for defining settings profiles. Example:
+設定プロファイルを定義するための設定オブジェクト。例:
 
 ```json
 {
@@ -2838,20 +2649,16 @@ Configuration object for defining settings profiles. Example:
 
 ## Preview tabs
 
-- Description: Preview tabs allow you to open files in preview mode, where they
-  close automatically when you switch to another file unless you explicitly pin
-  them. This is useful for quickly viewing files without cluttering your
-  workspace. Preview tabs display their file names in italics.\
-  There are several ways to convert a preview tab into a regular tab:
+- 説明: プレビュータブを使うと、ファイルをプレビューモードで開けます。明示的にピン留めしない限り、別のファイルに切り替えると自動的に閉じます。ワークスペースを散らかさずにファイルを素早く確認したいときに便利です。プレビュータブはファイル名を斜体で表示します。\ プレビュータブを通常のタブに変換する方法はいくつかあります:
 
-  - Double-clicking on the file
-  - Double-clicking on the tab header
-  - Using the {#action project_panel::OpenPermanent} action
-  - Editing the file
-  - Dragging the file to a different pane
+- ファイルをダブルクリックする
+- タブのヘッダーをダブルクリックする
+- {#action project_panel::OpenPermanent} アクションを使う
+- ファイルを編集する
+- ファイルを別のペインへドラッグする
 
-- Setting: `preview_tabs`
-- Default:
+- 設定: `preview_tabs`
+- デフォルト:
 
 ```json
 "preview_tabs": {
@@ -2867,104 +2674,93 @@ Configuration object for defining settings profiles. Example:
 
 ### Enable preview from project panel
 
-- Description: Determines whether to open files in preview mode when opened from
-  the project panel with a single click.
-- Setting: `enable_preview_from_project_panel`
-- Default: `true`
+- 説明: プロジェクトパネルから1回のクリックで開いたファイルをプレビューモードで開くかどうかを指定します。
+- 設定: `enable_preview_from_project_panel`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Enable preview from file finder
 
-- Description: Determines whether to open files in preview mode when selected
-  from the file finder.
-- Setting: `enable_preview_from_file_finder`
-- Default: `false`
+- 説明: ファイル検索から選択したファイルをプレビューモードで開くかどうかを指定します。
+- 設定: `enable_preview_from_file_finder`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Enable preview from multibuffer
 
-- Description: Determines whether to open files in preview mode when opened from
-  a multibuffer.
-- Setting: `enable_preview_from_multibuffer`
-- Default: `true`
+- 説明: マルチバッファーから開いたファイルをプレビューモードで開くかどうかを指定します。
+- 設定: `enable_preview_from_multibuffer`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Enable preview multibuffer from code navigation
 
-- Description: Determines whether to open tabs in preview mode when code
-  navigation is used to open a multibuffer.
-- Setting: `enable_preview_multibuffer_from_code_navigation`
-- Default: `false`
+- 説明: コードナビゲーションでマルチバッファーを開くとき、プレビューモードでタブを開くかどうかを指定します。
+- 設定: `enable_preview_multibuffer_from_code_navigation`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Enable preview file from code navigation
 
-- Description: Determines whether to open tabs in preview mode when code
-  navigation is used to open a single file.
-- Setting: `enable_preview_file_from_code_navigation`
-- Default: `true`
+- 説明: コードナビゲーションで単一ファイルを開くとき、プレビューモードでタブを開くかどうかを指定します。
+- 設定: `enable_preview_file_from_code_navigation`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### Enable keep preview on code navigation
 
-- Description: Determines whether to keep tabs in preview mode when code
-  navigation is used to navigate away from them. If
-  `enable_preview_file_from_code_navigation` or
-  `enable_preview_multibuffer_from_code_navigation` is also true, the new tab
-  may replace the existing one.
-- Setting: `enable_keep_preview_on_code_navigation`
-- Default: `false`
+- 説明: コードナビゲーションでタブから離れたとき、そのタブをプレビューモードのまま維持するかどうかを指定します。`enable_preview_file_from_code_navigation` または `enable_preview_multibuffer_from_code_navigation` も true の場合、新しいタブが既存のタブを置き換えることがあります。
+- 設定: `enable_keep_preview_on_code_navigation`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## File Finder
 
 ### File Icons
 
-- Description: Whether to show file icons in the file finder.
-- Setting: `file_icons`
-- Default: `true`
+- 説明: ファイル検索にファイルのアイコンを表示するかどうか。
+- 設定: `file_icons`
+- デフォルト: `true`
 
 ### Modal Max Width
 
-- Description: Max-width of the file finder modal. It can take one of these
-  values: `small`, `medium`, `large`, `xlarge`, and `full`.
-- Setting: `modal_max_width`
-- Default: `small`
+- 説明: ファイル検索モーダルの最大幅。`small`、`medium`、`large`、`xlarge`、`full` のいずれかを指定できます。
+- 設定: `modal_max_width`
+- デフォルト: `small`
 
 ### Skip Focus For Active In Search
 
-- Description: Determines whether the file finder should skip focus for the
-  active file in search results.
-- Setting: `skip_focus_for_active_in_search`
-- Default: `true`
+- 説明: 検索結果の中でアクティブなファイルにフォーカスを移すかどうかを、ファイル検索側で判定します。
+- 設定: `skip_focus_for_active_in_search`
+- デフォルト: `true`
 
 ## Pane Split Direction Horizontal
 
-- Description: The direction that you want to split panes horizontally
-- Setting: `pane_split_direction_horizontal`
-- Default: `"up"`
+- 説明: ペインを水平方向に分割する向き。
+- 設定: `pane_split_direction_horizontal`
+- デフォルト: `"up"`
 
-**Options**
+**選択肢**
 
-1. Split upward:
+1. 上方向に分割する:
 
 ```json
 {
@@ -2972,7 +2768,7 @@ Configuration object for defining settings profiles. Example:
 }
 ```
 
-2. Split downward:
+2. 下方向に分割する:
 
 ```json
 {
@@ -2982,13 +2778,13 @@ Configuration object for defining settings profiles. Example:
 
 ## Pane Split Direction Vertical
 
-- Description: The direction that you want to split panes vertically
-- Setting: `pane_split_direction_vertical`
-- Default: `"left"`
+- 説明: ペインを垂直方向に分割する向き。
+- 設定: `pane_split_direction_vertical`
+- デフォルト: `"left"`
 
-**Options**
+**選択肢**
 
-1. Split to the left:
+1. 左方向に分割する:
 
 ```json
 {
@@ -2996,7 +2792,7 @@ Configuration object for defining settings profiles. Example:
 }
 ```
 
-2. Split to the right:
+2. 右方向に分割する:
 
 ```json
 {
@@ -3006,67 +2802,63 @@ Configuration object for defining settings profiles. Example:
 
 ## Preferred Line Length
 
-- Description: The column at which to soft-wrap lines, for buffers where
-  soft-wrap is enabled.
-- Setting: `preferred_line_length`
-- Default: `80`
+- 説明: ソフト折り返しが有効なバッファーで、行を折り返す列位置。
+- 設定: `preferred_line_length`
+- デフォルト: `80`
 
-**Options**
+**選択肢**
 
-`integer` values
+`integer` 値
 
 ## Private Files
 
-- Description: Globs to match against file paths to determine if a file is
-  private
-- Setting: `private_files`
-- Default:
-  `["**/.env*", "**/*.pem", "**/*.key", "**/*.cert", "**/*.crt", "**/secrets.yml"]`
+- 説明: ファイルがプライベートかどうかを判定するために、ファイルパスと照合する Glob。
+- 設定: `private_files`
+- デフォルト: `["**/.env*", "**/*.pem", "**/*.key", "**/*.cert", "**/*.crt", "**/secrets.yml"]`
 
-**Options**
+**選択肢**
 
-List of `string` glob patterns
+`string` の Glob パターンのリスト
 
 ## Projects Online By Default
 
-- Description: Whether or not to show the online projects view by default.
-- Setting: `projects_online_by_default`
-- Default: `true`
+- 説明: オンラインプロジェクトのビューを既定で表示するかどうか。
+- 設定: `projects_online_by_default`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Read SSH Config
 
-- Description: Whether to read SSH configuration files
-- Setting: `read_ssh_config`
-- Default: `true`
+- 説明: SSH の設定ファイルを読み取るかどうか。
+- 設定: `read_ssh_config`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Redact Private Values
 
-- Description: Hide the values of variables from visual display in private files
-- Setting: `redact_private_values`
-- Default: `false`
+- 説明: プライベートファイル内で変数の値を表示から隠します。
+- 設定: `redact_private_values`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Relative Line Numbers
 
-- Description: Whether to show relative line numbers in the gutter
-- Setting: `relative_line_numbers`
-- Default: `"disabled"`
+- 説明: ガターに相対行番号を表示するかどうか。
+- 設定: `relative_line_numbers`
+- デフォルト: `"disabled"`
 
-**Options**
+**選択肢**
 
-1. Show relative line numbers in the gutter whilst counting wrapped lines as one
-   line:
+1. 折り返した行を1行として数え、ガターに相対行番号を表示する:
 
 ```json
 {
@@ -3074,8 +2866,7 @@ List of `string` glob patterns
 }
 ```
 
-2. Show relative line numbers in the gutter, including wrapped lines in the
-   counting:
+2. 折り返した行も数に含めて、ガターに相対行番号を表示する:
 
 ```json
 {
@@ -3083,7 +2874,7 @@ List of `string` glob patterns
 }
 ```
 
-2. Do not use relative line numbers:
+2. 相対行番号を使わない:
 
 ```json
 {
@@ -3093,50 +2884,47 @@ List of `string` glob patterns
 
 ## Remove Trailing Whitespace On Save
 
-- Description: Whether or not to remove any trailing whitespace from lines of a
-  buffer before saving it.
-- Setting: `remove_trailing_whitespace_on_save`
-- Default: `true`
+- 説明: バッファーを保存する前に、各行の末尾の空白を削除するかどうか。
+- 設定: `remove_trailing_whitespace_on_save`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Resize All Panels In Dock
 
-- Description: Whether to resize all the panels in a dock when resizing the
-  dock. Can be a combination of "left", "right" and "bottom".
-- Setting: `resize_all_panels_in_dock`
-- Default: `["left"]`
+- 説明: ドックのサイズを変更するときに、そのドック内のすべてのパネルのサイズも変更するかどうか。"left"、"right"、"bottom" の組み合わせを指定できます。
+- 設定: `resize_all_panels_in_dock`
+- デフォルト: `["left"]`
 
-**Options**
+**選択肢**
 
-List of strings containing any combination of:
+次の任意の組み合わせを含む文字列のリスト:
 
-- `"left"`: Resize left dock panels together
-- `"right"`: Resize right dock panels together
-- `"bottom"`: Resize bottom dock panels together
+- `"left"`: 左ドックのパネルをまとめてサイズ変更する
+- `"right"`: 右ドックのパネルをまとめてサイズ変更する
+- `"bottom"`: ボトムドックのパネルをまとめてサイズ変更する
 
 ## Restore on File Reopen
 
-- Description: Whether to attempt to restore previous file's state when opening
-  it again. The state is stored per pane.
-- Setting: `restore_on_file_reopen`
-- Default: `true`
+- 説明: ファイルを再度開いたときに、以前の状態を復元しようとするかどうか。状態はペインごとに保存されます。
+- 設定: `restore_on_file_reopen`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Restore on Startup
 
-- Description: Controls session restoration on startup.
-- Setting: `restore_on_startup`
-- Default: `last_session`
+- 説明: 起動時のセッション復元を制御します。
+- 設定: `restore_on_startup`
+- デフォルト: `last_session`
 
-**Options**
+**選択肢**
 
-1. Restore all workspaces that were open when quitting Gram:
+1. Gram の終了時に開いていたすべてのワークスペースを復元する:
 
 ```json
 {
@@ -3144,7 +2932,7 @@ List of strings containing any combination of:
 }
 ```
 
-2. Restore the workspace that was closed last:
+2. 最後に閉じたワークスペースを復元する:
 
 ```json
 {
@@ -3152,7 +2940,7 @@ List of strings containing any combination of:
 }
 ```
 
-3. Always start with an empty editor:
+3. 常に空のエディターで起動する:
 
 ```json
 {
@@ -3160,7 +2948,7 @@ List of strings containing any combination of:
 }
 ```
 
-4. Always start with the welcome launchpad:
+4. 常にウェルカムランチパッドで起動する:
 
 ```json
 {
@@ -3170,13 +2958,13 @@ List of strings containing any combination of:
 
 ## Scroll Beyond Last Line
 
-- Description: Whether the editor will scroll beyond the last line
-- Setting: `scroll_beyond_last_line`
-- Default: `"one_page"`
+- 説明: エディターが最終行より先までスクロールできるかどうか。
+- 設定: `scroll_beyond_last_line`
+- デフォルト: `"one_page"`
 
-**Options**
+**選択肢**
 
-1. Scroll one page beyond the last line by one page:
+1. 最終行の先まで1ページ分スクロールできるようにする:
 
 ```json
 {
@@ -3184,8 +2972,7 @@ List of strings containing any combination of:
 }
 ```
 
-2. The editor will scroll beyond the last line by the same amount of lines as
-   `vertical_scroll_margin`:
+2. `vertical_scroll_margin` と同じ行数だけ最終行の先までスクロールする:
 
 ```json
 {
@@ -3193,7 +2980,7 @@ List of strings containing any combination of:
 }
 ```
 
-3. The editor will not scroll beyond the last line:
+3. 最終行の先へはスクロールしない:
 
 ```json
 {
@@ -3201,62 +2988,55 @@ List of strings containing any combination of:
 }
 ```
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Scroll Sensitivity
 
-- Description: Scroll sensitivity multiplier. This multiplier is applied to both
-  the horizontal and vertical delta values while scrolling.
-- Setting: `scroll_sensitivity`
-- Default: `1.0`
+- 説明: スクロール感度の倍率。この倍率はスクロール中の水平方向と垂直方向の移動量の両方に適用されます。
+- 設定: `scroll_sensitivity`
+- デフォルト: `1.0`
 
-**Options**
+**選択肢**
 
-Positive `float` values
+正の `float` 値
 
 ### Fast Scroll Sensitivity
 
-- Description: Scroll sensitivity multiplier for fast scrolling. This multiplier
-  is applied to both the horizontal and vertical delta values while scrolling.
-  Fast scrolling happens when a user holds the alt or option key while
-  scrolling.
-- Setting: `fast_scroll_sensitivity`
-- Default: `4.0`
+- 説明: 高速スクロール時のスクロール感度の倍率。この倍率はスクロール中の水平方向と垂直方向の移動量の両方に適用されます。高速スクロールは、スクロール中に alt キーまたは option キーを押しているときに発生します。
+- 設定: `fast_scroll_sensitivity`
+- デフォルト: `4.0`
 
-**Options**
+**選択肢**
 
-Positive `float` values
+正の `float` 値
 
 ### Horizontal Scroll Margin
 
-- Description: The number of characters to keep on either side when scrolling
-  with the mouse
-- Setting: `horizontal_scroll_margin`
-- Default: `5`
+- 説明: マウスでスクロールするときに、左右に残しておく文字数。
+- 設定: `horizontal_scroll_margin`
+- デフォルト: `5`
 
-**Options**
+**選択肢**
 
-Non-negative `integer` values
+0 以上の `integer` 値
 
 ### Vertical Scroll Margin
 
-- Description: The number of lines to keep above/below the cursor when scrolling
-  with the keyboard
-- Setting: `vertical_scroll_margin`
-- Default: `3`
+- 説明: キーボードでスクロールするときに、カーソルの上下に残しておく行数。
+- 設定: `vertical_scroll_margin`
+- デフォルト: `3`
 
-**Options**
+**選択肢**
 
-Non-negative `integer` values
+0 以上の `integer` 値
 
 ## Search
 
-- Description: Search options to enable by default when opening new project and
-  buffer searches.
-- Setting: `search`
-- Default:
+- 説明: 新しいプロジェクト検索およびバッファー検索を開いたときに既定で有効にする検索オプション。
+- 設定: `search`
+- デフォルト:
 
 ```json
 "search": {
@@ -3271,95 +3051,84 @@ Non-negative `integer` values
 
 ### Button
 
-- Description: Whether to show the project search button in the status bar.
-- Setting: `button`
-- Default: `true`
+- 説明: ステータスバーにプロジェクト検索のボタンを表示するかどうか。
+- 設定: `button`
+- デフォルト: `true`
 
 ### Whole Word
 
-- Description: Whether to only match on whole words.
-- Setting: `whole_word`
-- Default: `false`
+- 説明: 単語単位でのみ一致させるかどうか。
+- 設定: `whole_word`
+- デフォルト: `false`
 
 ### Case Sensitive
 
-- Description: Whether to match case sensitively. This setting affects both
-  searches and editor actions like "Select Next Occurrence", "Select Previous
-  Occurrence", and "Select All Occurrences".
-- Setting: `case_sensitive`
-- Default: `false`
+- 説明: 大文字小文字を区別して一致させるかどうか。この設定は検索と、"Select Next Occurrence"、"Select Previous Occurrence"、"Select All Occurrences" などのエディターアクションの両方に影響します。
+- 設定: `case_sensitive`
+- デフォルト: `false`
 
 ### Include Ignore
 
-- Description: Whether to include gitignored files in search results.
-- Setting: `include_ignored`
-- Default: `false`
+- 説明: 検索結果に Git で無視されているファイルを含めるかどうか。
+- 設定: `include_ignored`
+- デフォルト: `false`
 
 ### Regex
 
-- Description: Whether to interpret the search query as a regular expression.
-- Setting: `regex`
-- Default: `false`
+- 説明: 検索クエリを正規表現として解釈するかどうか。
+- 設定: `regex`
+- デフォルト: `false`
 
 ### Center On Match
 
-- Description: Whether to center the cursor on each search match when
-  navigating.
-- Setting: `center_on_match`
-- Default: `false`
+- 説明: 移動中に、各検索の一致箇所へカーソルを中央揃えするかどうか。
+- 設定: `center_on_match`
+- デフォルト: `false`
 
 ## Search Wrap
 
-- Description: If `search_wrap` is disabled, search result do not wrap around
-  the end of the file
-- Setting: `search_wrap`
-- Default: `true`
+- 説明: `search_wrap` が無効な場合、検索結果はファイル末尾から先頭へ折り返されません。
+- 設定: `search_wrap`
+- デフォルト: `true`
 
 ## Center on Match
 
-- Description: If `center_on_match` is enabled, the editor will center the
-  cursor on the current match when searching.
-- Setting: `center_on_match`
-- Default: `false`
+- 説明: `center_on_match` が有効な場合、検索時にカーソルを現在の一致箇所の中央に配置します。
+- 設定: `center_on_match`
+- デフォルト: `false`
 
 ## Seed Search Query From Cursor
 
-- Description: When to populate a new search's query based on the text under the
-  cursor.
-- Setting: `seed_search_query_from_cursor`
-- Default: `always`
+- 説明: カーソル下のテキストに基づいて、新しい検索のクエリをいつ設定するか。
+- 設定: `seed_search_query_from_cursor`
+- デフォルト: `always`
 
-**Options**
+**選択肢**
 
-1. `always` always populate the search query with the word under the cursor
-2. `selection` only populate the search query when there is text selected
-3. `never` never populate the search query
+1. `always` カーソル下の単語で常に検索クエリを設定する
+2. `selection` テキストを選択している場合にのみ検索クエリを設定する
+3. `never` 検索クエリを設定しない
 
 ## Use Smartcase Search
 
-- Description: When enabled, automatically adjusts search case sensitivity based
-  on your query. If your search query contains any uppercase letters, the search
-  becomes case-sensitive; if it contains only lowercase letters, the search
-  becomes case-insensitive.\
-  This applies to both in-file searches and project-wide searches.
-- Setting: `use_smartcase_search`
-- Default: `false`
+- 説明: 有効にすると、検索クエリに応じて検索の大文字小文字の区別を自動的に調整します。検索クエリに大文字が含まれる場合は大文字小文字を区別し、小文字のみの場合は区別しません。\ これはファイル内検索とプロジェクト全体の検索の両方に適用されます。
+- 設定: `use_smartcase_search`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
-Examples:
+例:
 
-- Searching for "function" would match "function", "Function", "FUNCTION", etc.
-- Searching for "Function" would only match "Function", not "function" or
-  "FUNCTION"
+- "function" を検索すると "function"、"Function"、"FUNCTION" などに一致します
+- "Function" を検索すると "Function" にのみ一致し、"function" や "FUNCTION" には一致しません
 
 ## Completions
 
-- Description: Controls how completions are processed for this language.
-- Setting: `completions`
-- Default:
+- 説明: この言語で補完をどのように処理するかを制御します。
+- 設定: `completions`
+- デフォルト:
 
 ```json
 {
@@ -3375,99 +3144,86 @@ Examples:
 
 ### Words
 
-- Description: Controls how words are completed. For large documents, not all
-  words may be fetched for completion.
-- Setting: `words`
-- Default: `fallback`
+- 説明: 単語補完の処理方法を制御します。大きなドキュメントでは、すべての単語が補完用に取得されるとは限りません。
+- 設定: `words`
+- デフォルト: `fallback`
 
-**Options**
+**選択肢**
 
-1. `enabled` - Always fetch document's words for completions along with LSP
-   completions
-2. `fallback` - Only if LSP response errors or times out, use document's words
-   to show completions
-3. `disabled` - Never fetch or complete document's words for completions
-   (word-based completions can still be queried via a separate action)
+1. `enabled` - LSP の補完とあわせて、常にドキュメント内の単語も補完用に取得する
+2. `fallback` - LSP の応答がエラーまたはタイムアウトした場合にのみ、ドキュメント内の単語を使って補完を表示する
+3. `disabled` - ドキュメント内の単語を補完用に取得・補完しない（単語ベースの補完は別のアクションから問い合わせできます）
 
 ### Min Words Query Length
 
-- Description: Minimum number of characters required to automatically trigger
-  word-based completions. Before that value, it's still possible to trigger the
-  words-based completion manually with the corresponding editor command.
-- Setting: `words_min_length`
-- Default: `3`
+- 説明: 単語ベースの補完を自動的に起動するために必要な最小文字数。この値に満たない場合でも、対応するエディターコマンドで手動で単語ベースの補完を起動できます。
+- 設定: `words_min_length`
+- デフォルト: `3`
 
-**Options**
+**選択肢**
 
-Positive integer values
+正の整数値
 
 ### LSP
 
-- Description: Whether to fetch LSP completions or not.
-- Setting: `lsp`
-- Default: `true`
+- 説明: LSP の補完を取得するかどうか。
+- 設定: `lsp`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ### LSP Fetch Timeout (ms)
 
-- Description: When fetching LSP completions, determines how long to wait for a
-  response of a particular server. When set to 0, waits indefinitely.
-- Setting: `lsp_fetch_timeout_ms`
-- Default: `0`
+- 説明: LSP の補完を取得するときに、特定のサーバーの応答を待つ時間を指定します。0 に設定すると無制限に待機します。
+- 設定: `lsp_fetch_timeout_ms`
+- デフォルト: `0`
 
-**Options**
+**選択肢**
 
-`integer` values representing milliseconds
+ミリ秒を表す `integer` 値
 
 ### LSP Insert Mode
 
-- Description: Controls what range to replace when accepting LSP completions.
-- Setting: `lsp_insert_mode`
-- Default: `replace_suffix`
+- 説明: LSP の補完を確定したときに置き換える範囲を制御します。
+- 設定: `lsp_insert_mode`
+- デフォルト: `replace_suffix`
 
-**Options**
+**選択肢**
 
-1. `insert` - Replaces text before the cursor, using the `insert` range
-   described in the LSP specification
-2. `replace` - Replaces text before and after the cursor, using the `replace`
-   range described in the LSP specification
-3. `replace_subsequence` - Behaves like `"replace"` if the text that would be
-   replaced is a subsequence of the completion text, and like `"insert"`
-   otherwise
-4. `replace_suffix` - Behaves like `"replace"` if the text after the cursor is a
-   suffix of the completion, and like `"insert"` otherwise
+1. `insert` - LSP 仕様の `insert` 範囲を使い、カーソルより前のテキストを置き換える
+2. `replace` - LSP 仕様の `replace` 範囲を使い、カーソルの前後のテキストを置き換える
+3. `replace_subsequence` - 置き換え対象のテキストが補完テキストの部分列であれば `"replace"` と同じ動作、そうでなければ `"insert"` と同じ動作
+4. `replace_suffix` - カーソルより後のテキストが補完テキストの末尾と一致すれば `"replace"` と同じ動作、そうでなければ `"insert"` と同じ動作
 
 ## Show Completions On Input
 
-- Description: Whether or not to show completions as you type.
-- Setting: `show_completions_on_input`
-- Default: `true`
+- 説明: 入力中に補完を表示するかどうか。
+- 設定: `show_completions_on_input`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Show Completion Documentation
 
-- Description: Whether to display inline and alongside documentation for items
-  in the completions menu.
-- Setting: `show_completion_documentation`
-- Default: `true`
+- 説明: 補完メニューの項目について、インラインおよび並べてドキュメントを表示するかどうか。
+- 設定: `show_completion_documentation`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Show Whitespaces
 
-- Description: Whether or not to render whitespace characters in the editor.
-- Setting: `show_whitespaces`
-- Default: `selection`
+- 説明: エディター内で空白文字を描画するかどうか。
+- 設定: `show_whitespaces`
+- デフォルト: `selection`
 
-**Options**
+**選択肢**
 
 1. `all`
 2. `selection`
@@ -3476,10 +3232,9 @@ Positive integer values
 
 ## Whitespace Map
 
-- Description: Specify the characters used to render whitespace when
-  show_whitespaces is enabled.
-- Setting: `whitespace_map`
-- Default:
+- 説明: `show_whitespaces` が有効なときに、空白文字の描画に使う文字を指定します。
+- 設定: `whitespace_map`
+- デフォルト:
 
 ```json
 {
@@ -3492,108 +3247,93 @@ Positive integer values
 
 ## Soft Wrap
 
-- Description: Whether or not to automatically wrap lines of text to fit editor
-  / preferred width.
-- Setting: `soft_wrap`
-- Default: `none`
+- 説明: テキストの行をエディターの幅または優先幅に合わせて自動的に折り返すかどうか。
+- 設定: `soft_wrap`
+- デフォルト: `none`
 
-**Options**
+**選択肢**
 
-1. `none` to avoid wrapping completely.
-2. `prefer_line` (deprecated, same as `none`)
-3. `editor_width` to wrap lines that overflow the editor width
-4. `preferred_line_length` to wrap lines that overflow `preferred_line_length`
-   config value
-5. `bounded` to wrap lines at the minimum of `editor_width` and
-   `preferred_line_length`
+1. `none` 折り返しを完全に行わない
+2. `prefer_line`（非推奨。`none` と同じ）
+3. `editor_width` エディターの幅を超える行を折り返す
+4. `preferred_line_length` `preferred_line_length` の設定値を超える行を折り返す
+5. `bounded` `editor_width` と `preferred_line_length` の小さいほうで行を折り返す
 
 ## Show Wrap Guides
 
-- Description: Whether to show wrap guides (vertical rulers) in the editor.
-  Setting this to true will show a guide at the 'preferred_line_length' value if
-  'soft_wrap' is set to 'preferred_line_length', and will show any additional
-  guides as specified by the 'wrap_guides' setting.
-- Setting: `show_wrap_guides`
-- Default: `true`
+- 説明: エディターに折り返しガイド（縦のルーラー）を表示するかどうか。true に設定すると、'soft_wrap' が 'preferred_line_length' の場合は 'preferred_line_length' の値の位置にガイドが表示され、'wrap_guides' の設定で指定した追加のガイドも表示されます。
+- 設定: `show_wrap_guides`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Use On Type Format
 
-- Description: Whether to use additional LSP queries to format (and amend) the
-  code after every "trigger" symbol input, defined by LSP server capabilities
-- Setting: `use_on_type_format`
-- Default: `true`
+- 説明: "trigger" シンボルの入力のたびに（LSP サーバーの機能で定義されたもの）、追加の LSP クエリでコードを整形（修正）するかどうか。
+- 設定: `use_on_type_format`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Use Auto Surround
 
-- Description: Whether to automatically surround selected text when typing
-  opening parenthesis, bracket, brace, single or double quote characters. For
-  example, when you select text and type '(', Gram will surround the text with
-  ().
-- Setting: `use_auto_surround`
-- Default: `true`
+- 説明: 開き丸括弧、角括弧、波括弧、単一引用符、二重引用符を入力したときに、選択中のテキストを自動的に囲むかどうか。たとえばテキストを選択して '(' と入力すると、Gram はそのテキストを () で囲みます。
+- 設定: `use_auto_surround`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Use System Path Prompts
 
-- Description: Whether to use the system provided dialogs for Open and Save As.
-  When set to false, Gram will use the built-in keyboard-first pickers.
-- Setting: `use_system_path_prompts`
-- Default: `true`
+- 説明: 開くときと名前を付けて保存するときに、システム提供のダイアログを使うかどうか。false に設定すると、Gram は組み込みのキーボード中心のピッカーを使用します。
+- 設定: `use_system_path_prompts`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Use System Prompts
 
-- Description: Whether to use the system provided dialogs for prompts, such as
-  confirmation prompts. When set to false, Gram will use its built-in prompts.
-  Note that on Linux, this option is ignored and Gram will always use the
-  built-in prompts.
-- Setting: `use_system_prompts`
-- Default: `true`
+- 説明: 確認プロンプトなどのプロンプトに、システム提供のダイアログを使うかどうか。false に設定すると、Gram は組み込みのプロンプトを使用します。Linux ではこのオプションは無視され、Gram は常に組み込みのプロンプトを使用します。
+- 設定: `use_system_prompts`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Wrap Guides (Vertical Rulers)
 
-- Description: Where to display vertical rulers as wrap-guides. Disable by
-  setting `show_wrap_guides` to `false`.
-- Setting: `wrap_guides`
-- Default: []
+- 説明: 縦のルーラーを折り返しガイドとして表示する位置。`show_wrap_guides` を `false` に設定すると無効になります。
+- 設定: `wrap_guides`
+- デフォルト: []
 
-**Options**
+**選択肢**
 
-List of `integer` column numbers
+`integer` の列番号のリスト
 
 ## Tab Size
 
-- Description: The number of spaces to use for each tab character.
-- Setting: `tab_size`
-- Default: `4`
+- 説明: タブ文字1つに使うスペースの数。
+- 設定: `tab_size`
+- デフォルト: `4`
 
-**Options**
+**選択肢**
 
-`integer` values
+`integer` 値
 
 ## Tasks
 
-- Description: Configuration for tasks that can be run within Gram
-- Setting: `tasks`
-- Default:
+- 説明: Gram 内で実行できるタスクの設定。
+- 設定: `tasks`
+- デフォルト:
 
 ```json
 {
@@ -3605,28 +3345,27 @@ List of `integer` column numbers
 }
 ```
 
-**Options**
+**選択肢**
 
-- `variables`: Custom variables for task configuration
-- `enabled`: Whether tasks are enabled
-- `prefer_lsp`: Whether to prefer LSP-provided tasks over Gram language
-  extension ones
+- `variables`: タスク設定用のカスタム変数
+- `enabled`: タスクを有効にするかどうか
+- `prefer_lsp`: Gram の言語拡張機能のタスクより LSP 提供のタスクを優先するかどうか
 
 ### Diagnostics
 
-- Description: Setting for sending debug-related data, such as crash reports.
-- Setting: `diagnostics`
-- Default: `true`
+- 説明: クラッシュレポートなど、デバッグ関連のデータを送信するための設定。
+- 設定: `diagnostics`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ## Terminal
 
-- Description: Configuration for the terminal.
-- Setting: `terminal`
-- Default:
+- 説明: ターミナルの設定。
+- 設定: `terminal`
+- デフォルト:
 
 ```json
 {
@@ -3667,27 +3406,23 @@ List of `integer` column numbers
 
 ### Terminal: Dock
 
-- Description: Control the position of the dock
-- Setting: `dock`
-- Default: `bottom`
+- 説明: ドックの位置を制御します。
+- 設定: `dock`
+- デフォルト: `bottom`
 
-**Options**
+**選択肢**
 
-`"bottom"`, `"left"` or `"right"`
+`"bottom"`、`"left"`、`"right"` のいずれか
 
 ### Terminal: Alternate Scroll
 
-- Description: Set whether Alternate Scroll mode (DECSET code: `?1007`) is
-  active by default. Alternate Scroll mode converts mouse scroll events into up
-  / down key presses when in the alternate screen (e.g. when running
-  applications like vim or less). The terminal can still set and unset this mode
-  with ANSI escape codes.
-- Setting: `alternate_scroll`
-- Default: `off`
+- 説明: Alternate Scroll モード（DECSET コード: `?1007`）を既定で有効にするかどうかを設定します。Alternate Scroll モードでは、代替画面（vim や less などのアプリケーションの実行中など）でマウスのスクロールイベントを上下キーの押下に変換します。ターミナル側では ANSI エスケープシーケンスでこのモードを設定・解除できます。
+- 設定: `alternate_scroll`
+- デフォルト: `off`
 
-**Options**
+**選択肢**
 
-1. Default alternate scroll mode to off
+1. Alternate Scroll モードを既定でオフにする
 
 ```json
 {
@@ -3697,7 +3432,7 @@ List of `integer` column numbers
 }
 ```
 
-2. Default alternate scroll mode to on
+2. Alternate Scroll モードを既定でオンにする
 
 ```json
 {
@@ -3709,13 +3444,13 @@ List of `integer` column numbers
 
 ### Terminal: Blinking
 
-- Description: Set the cursor blinking behavior in the terminal
-- Setting: `blinking`
-- Default: `terminal_controlled`
+- 説明: ターミナルにおけるカーソルの点滅動作を設定します。
+- 設定: `blinking`
+- デフォルト: `terminal_controlled`
 
-**Options**
+**選択肢**
 
-1. Never blink the cursor, ignore the terminal mode
+1. カーソルを点滅させない（ターミナルのモードを無視する）
 
 ```json
 {
@@ -3725,7 +3460,7 @@ List of `integer` column numbers
 }
 ```
 
-2. Default the cursor blink to off, but allow the terminal to turn blinking on
+2. カーソルの点滅を既定でオフにし、ターミナル側で点滅をオンにできるようにする
 
 ```json
 {
@@ -3735,7 +3470,7 @@ List of `integer` column numbers
 }
 ```
 
-3. Always blink the cursor, ignore the terminal mode
+3. 常にカーソルを点滅させる（ターミナルのモードを無視する）
 
 ```json
 {
@@ -3747,16 +3482,15 @@ List of `integer` column numbers
 
 ### Terminal: Copy On Select
 
-- Description: Whether or not selecting text in the terminal will automatically
-  copy to the system clipboard.
-- Setting: `copy_on_select`
-- Default: `false`
+- 説明: ターミナル内でテキストを選択したときに、自動的にシステムのクリップボードへコピーするかどうか。
+- 設定: `copy_on_select`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
-**Example**
+**例**
 
 ```json
 {
@@ -3768,14 +3502,13 @@ List of `integer` column numbers
 
 ### Terminal: Cursor Shape
 
-- Description: Controls the visual shape of the cursor in the terminal. When not
-  explicitly set, it defaults to a block shape.
-- Setting: `cursor_shape`
-- Default: `null` (defaults to block)
+- 説明: ターミナルにおけるカーソルの形状を制御します。明示的に設定しない場合はブロック形状になります。
+- 設定: `cursor_shape`
+- デフォルト: `null` (defaults to block)
 
-**Options**
+**選択肢**
 
-1. A block that surrounds the following character
+1. 後続の文字を囲むブロック
 
 ```json
 {
@@ -3785,7 +3518,7 @@ List of `integer` column numbers
 }
 ```
 
-2. A vertical bar
+2. 縦棒
 
 ```json
 {
@@ -3795,7 +3528,7 @@ List of `integer` column numbers
 }
 ```
 
-3. An underline / underscore that runs along the following character
+3. 後続の文字の下に沿って描かれる下線
 
 ```json
 {
@@ -3805,7 +3538,7 @@ List of `integer` column numbers
 }
 ```
 
-4. A box drawn around the following character
+4. 後続の文字の周りに描かれる枠
 
 ```json
 {
@@ -3817,16 +3550,15 @@ List of `integer` column numbers
 
 ### Terminal: Keep Selection On Copy
 
-- Description: Whether or not to keep the selection in the terminal after
-  copying text.
-- Setting: `keep_selection_on_copy`
-- Default: `true`
+- 説明: テキストをコピーした後も、ターミナル内の選択範囲を維持するかどうか。
+- 設定: `keep_selection_on_copy`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
-**Example**
+**例**
 
 ```json
 {
@@ -3838,13 +3570,11 @@ List of `integer` column numbers
 
 ### Terminal: Env
 
-- Description: Any key-value pairs added to this object will be added to the
-  terminal's environment. Keys must be unique, use `:` to separate multiple
-  values in a single variable
-- Setting: `env`
-- Default: `{}`
+- 説明: このオブジェクトに追加したキーと値のペアは、ターミナルの環境変数に追加されます。キーは一意である必要があり、1つの変数に複数の値を設定する場合は `:` で区切ります。
+- 設定: `env`
+- デフォルト: `{}`
 
-**Example**
+**例**
 
 ```json
 {
@@ -3859,14 +3589,13 @@ List of `integer` column numbers
 
 ### Terminal: Font Size
 
-- Description: What font size to use for the terminal. When not set defaults to
-  matching the editor's font size
-- Setting: `font_size`
-- Default: `null`
+- 説明: ターミナルに使うフォントサイズ。設定しない場合は、エディターのフォントサイズに合わせて既定値が決まります。
+- 設定: `font_size`
+- デフォルト: `null`
 
-**Options**
+**選択肢**
 
-`integer` values
+`integer` 値
 
 ```json
 {
@@ -3878,14 +3607,13 @@ List of `integer` column numbers
 
 ### Terminal: Font Family
 
-- Description: What font to use for the terminal. When not set, defaults to
-  matching the editor's font.
-- Setting: `font_family`
-- Default: `null`
+- 説明: ターミナルに使うフォント。設定しない場合は、エディターのフォントに合わせて既定値が決まります。
+- 設定: `font_family`
+- デフォルト: `null`
 
-**Options**
+**選択肢**
 
-The name of any font family installed on the user's system
+ユーザーのシステムにインストールされている任意のフォントファミリー名
 
 ```json
 {
@@ -3897,15 +3625,14 @@ The name of any font family installed on the user's system
 
 ### Terminal: Font Features
 
-- Description: What font features to use for the terminal. When not set,
-  defaults to matching the editor's font features.
-- Setting: `font_features`
-- Default: `null`
-- Platform: macOS and Windows.
+- 説明: ターミナルに使うフォントの機能。設定しない場合は、エディターのフォント機能に合わせて既定値が決まります。
+- 設定: `font_features`
+- デフォルト: `null`
+- プラットフォーム: macOS and Windows.
 
-**Options**
+**選択肢**
 
-See Buffer Font Features
+Buffer Font Features を参照してください
 
 ```json
 {
@@ -3920,13 +3647,13 @@ See Buffer Font Features
 
 ### Terminal: Line Height
 
-- Description: Set the terminal's line height.
-- Setting: `line_height`
-- Default: `standard`
+- 説明: ターミナルの行の高さを設定します。
+- 設定: `line_height`
+- デフォルト: `standard`
 
-**Options**
+**選択肢**
 
-1. Use a line height that's `comfortable` for reading, 1.618.
+1. 読みやすさを重視した `comfortable` な行の高さ（1.618）を使う。
 
 ```json
 {
@@ -3936,8 +3663,7 @@ See Buffer Font Features
 }
 ```
 
-2. Use a `standard` line height, 1.3. This option is useful for TUIs,
-   particularly if they use box characters. (default)
+2. `standard` な行の高さ（1.3）を使う。このオプションは TUI、とくに罫線文字を使う TUI に適しています（既定）。
 
 ```json
 {
@@ -3947,7 +3673,7 @@ See Buffer Font Features
 }
 ```
 
-3. Use a custom line height.
+3. 任意の行の高さを使う。
 
 ```json
 {
@@ -3961,21 +3687,19 @@ See Buffer Font Features
 
 ### Terminal: Minimum Contrast
 
-- Description: Controls the minimum contrast between foreground and background
-  colors in the terminal. Uses the APCA (Accessible Perceptual Contrast
-  Algorithm) for color adjustments. Set this to 0 to disable this feature.
-- Setting: `minimum_contrast`
-- Default: `45`
+- 説明: ターミナルにおける前景色と背景色の最小コントラストを制御します。色の調整には APCA（Accessible Perceptual Contrast Algorithm）を使用します。0 に設定するとこの機能は無効になります。
+- 設定: `minimum_contrast`
+- デフォルト: `45`
 
-**Options**
+**選択肢**
 
-`integer` values from 0 to 106. Common recommended values:
+0 から 106 までの `integer` 値。よく推奨される値:
 
-- `0`: No contrast adjustment
-- `45`: Minimum for large fluent text (default)
-- `60`: Minimum for other content text
-- `75`: Minimum for body text
-- `90`: Preferred for body text
+- `0`: コントラスト調整なし
+- `45`: 大きな流暢なテキストの最小値（既定）
+- `60`: その他の本文テキストの最小値
+- `75`: 本文テキストの最小値
+- `90`: 本文テキストの推奨値
 
 ```json
 {
@@ -3987,14 +3711,13 @@ See Buffer Font Features
 
 ### Terminal: Option As Meta
 
-- Description: Re-interprets the option keys to act like a 'meta' key, like in
-  Emacs.
-- Setting: `option_as_meta`
-- Default: `false`
+- 説明: option キーを Emacs の 'meta' キーのように再解釈します。
+- 設定: `option_as_meta`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ```json
 {
@@ -4006,14 +3729,13 @@ See Buffer Font Features
 
 ### Terminal: Shell
 
-- Description: What shell to use when launching the terminal.
-- Setting: `shell`
-- Default: `system`
+- 説明: ターミナルを起動するときに使うシェル。
+- 設定: `shell`
+- デフォルト: `system`
 
-**Options**
+**選択肢**
 
-1. Use the system's default terminal configuration (usually the `/etc/passwd`
-   file).
+1. システムの既定のターミナル設定（通常は `/etc/passwd` ファイル）を使う。
 
 ```json
 {
@@ -4023,7 +3745,7 @@ See Buffer Font Features
 }
 ```
 
-2. A program to launch:
+2. 起動するプログラム:
 
 ```json
 {
@@ -4035,7 +3757,7 @@ See Buffer Font Features
 }
 ```
 
-3. A program with arguments:
+3. 引数付きで起動するプログラム:
 
 ```json
 {
@@ -4052,12 +3774,9 @@ See Buffer Font Features
 
 ## Terminal: Detect Virtual Environments {#terminal-detect_venv}
 
-- Description: Activate the
-  [Python Virtual Environment](https://docs.python.org/3/library/venv.html), if
-  one is found, in the terminal's working directory (as resolved by the
-  working_directory and automatically activating the virtual environment.
-- Setting: `detect_venv`
-- Default:
+- 説明: [Python 仮想環境](https://docs.python.org/3/library/venv.html)がターミナルの作業フォルダー（`working_directory` で解決）に見つかった場合に有効化し、自動的に仮想環境をアクティブ化します。
+- 設定: `detect_venv`
+- デフォルト:
 
 ```json
 {
@@ -4076,7 +3795,7 @@ See Buffer Font Features
 }
 ```
 
-Disable with:
+無効にするには次のようにします:
 
 ```json
 {
@@ -4088,17 +3807,15 @@ Disable with:
 
 ### Terminal: Scroll Multiplier
 
-- Description: The multiplier for scrolling speed in the terminal when using
-  mouse wheel or trackpad.
-- Setting: `scroll_multiplier`
-- Default: `1.0`
+- 説明: マウスホイールやトラックパッドを使ったときの、ターミナルでのスクロール速度の倍率。
+- 設定: `scroll_multiplier`
+- デフォルト: `1.0`
 
-**Options**
+**選択肢**
 
-Positive floating point values. Values less than or equal to 0 will be clamped
-to a minimum of 0.01.
+正の浮動小数点値。0 以下の値は最小値 0.01 に丸められます。
 
-**Example**
+**例**
 
 ```json
 {
@@ -4110,9 +3827,9 @@ to a minimum of 0.01.
 
 ## Terminal: Toolbar
 
-- Description: Whether or not to show various elements in the terminal toolbar.
-- Setting: `toolbar`
-- Default:
+- 説明: ターミナルのツールバーに各種の要素を表示するかどうか。
+- 設定: `toolbar`
+- デフォルト:
 
 ```json
 {
@@ -4124,26 +3841,25 @@ to a minimum of 0.01.
 }
 ```
 
-**Options**
+**選択肢**
 
-At the moment, only the `breadcrumbs` option is available, it controls
-displaying of the terminal title that can be changed via `PROMPT_COMMAND`.
+現時点では `breadcrumbs` オプションのみが利用できます。これは `PROMPT_COMMAND` で変更できるターミナルのタイトルの表示を制御します。
 
-If the terminal title is empty, the breadcrumbs won't be shown.
+ターミナルのタイトルが空の場合、ブレッドクラムは表示されません。
 
-The shell running in the terminal needs to be configured to emit the title.
+ターミナルで動作するシェルがタイトルを出力するよう設定されている必要があります。
 
-Example command to set the title: `echo -e "\e]2;New Title\007";`
+タイトルを設定するコマンドの例: `echo -e "\e]2;New Title\007";`
 
 ### Terminal: Button
 
-- Description: Control to show or hide the terminal button in the status bar
-- Setting: `button`
-- Default: `true`
+- 説明: ステータスバーにターミナルボタンを表示するかどうかを制御します。
+- 設定: `button`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ```json
 {
@@ -4155,14 +3871,13 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 
 ### Terminal: Working Directory
 
-- Description: What working directory to use when launching the terminal.
-- Setting: `working_directory`
-- Default: `"current_project_directory"`
+- 説明: ターミナルを起動するときに使う作業フォルダー。
+- 設定: `working_directory`
+- デフォルト: `"current_project_directory"`
 
-**Options**
+**選択肢**
 
-1. Use the current file's project directory. Fallback to the first project
-   directory strategy if unsuccessful.
+1. 現在のファイルのプロジェクトフォルダーを使う。失敗した場合は「最初のプロジェクトのフォルダー」の方法に戻ります。
 
 ```json
 {
@@ -4172,8 +3887,7 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 }
 ```
 
-2. Use the first project in this workspace's directory. Fallback to using this
-   platform's home directory.
+2. このワークスペースの最初のプロジェクトのフォルダーを使う。失敗した場合はこのプラットフォームのホームフォルダーを使います。
 
 ```json
 {
@@ -4183,7 +3897,7 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 }
 ```
 
-3. Always use this platform's home directory if it can be found.
+3. 見つかれば常にこのプラットフォームのホームフォルダーを使う。
 
 ```json
 {
@@ -4193,9 +3907,7 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 }
 ```
 
-4. Always use a specific directory. This value will be shell expanded. If this
-   path is not a valid directory the terminal will default to this platform's
-   home directory.
+4. 常に特定のフォルダーを使う。この値はシェルで展開されます。このパスが有効なフォルダーでない場合、ターミナルはこのプラットフォームのホームフォルダーを使います。
 
 ```json
 {
@@ -4211,11 +3923,9 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 
 ### Terminal: Path Hyperlink Regexes
 
-- Description: Regexes used to identify path hyperlinks. The regexes can be
-  specified in two forms - a single regex string, or an array of strings (which
-  will be collected into a single multi-line regex string).
-- Setting: `path_hyperlink_regexes`
-- Default:
+- 説明: パスへのハイパーリンクを識別するための正規表現。正規表現は、単一の正規表現文字列と、文字列の配列（1つの複数行正規表現にまとめられます）の2つの形式で指定できます。
+- 設定: `path_hyperlink_regexes`
+- デフォルト:
 
 ```json
 {
@@ -4254,16 +3964,15 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 
 ### Terminal: Path Hyperlink Timeout (ms)
 
-- Description: Maximum time to search for a path hyperlink. When set to 0, path
-  hyperlinks are disabled.
-- Setting: `path_hyperlink_timeout_ms`
-- Default: `1`
+- 説明: パスへのハイパーリンクを探す最大時間。0 に設定するとパスのハイパーリンクは無効になります。
+- 設定: `path_hyperlink_timeout_ms`
+- デフォルト: `1`
 
 ## REPL
 
-- Description: Repl settings.
-- Setting: `repl`
-- Default:
+- 説明: REPL の設定。
+- 設定: `repl`
+- デフォルト:
 
 ```json
 "repl": {
@@ -4278,18 +3987,15 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 
 ## Theme
 
-- Description: The theme setting can be specified in two forms - either as the
-  name of a theme or as an object containing the `mode`, `dark`, and `light`
-  themes for the Gram UI.
-- Setting: `theme`
-- Default: `One Dark`
+- 説明: テーマの設定は2つの形式で指定できます。テーマ名として指定するか、Gram UI 用の `mode`、`dark`、`light` のテーマを含むオブジェクトとして指定します。
+- 設定: `theme`
+- デフォルト: `One Dark`
 
 ### Theme Object
 
-- Description: Specify the theme using an object that includes the `mode`,
-  `dark`, and `light` themes.
-- Setting: `theme`
-- Default:
+- 説明: `mode`、`dark`、`light` のテーマを含むオブジェクトでテーマを指定します。
+- 設定: `theme`
+- デフォルト:
 
 ```json
 "theme": {
@@ -4301,13 +4007,13 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 
 ### Mode
 
-- Description: Specify theme mode.
-- Setting: `mode`
-- Default: `system`
+- 説明: テーマのモードを指定します。
+- 設定: `mode`
+- デフォルト: `system`
 
-**Options**
+**選択肢**
 
-1. Set the theme to dark mode
+1. テーマをダークモードにする
 
 ```json
 {
@@ -4315,7 +4021,7 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 }
 ```
 
-2. Set the theme to light mode
+2. テーマをライトモードにする
 
 ```json
 {
@@ -4323,7 +4029,7 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 }
 ```
 
-3. Set the theme to system mode
+3. テーマをシステムモードにする
 
 ```json
 {
@@ -4333,31 +4039,29 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 
 ### Dark
 
-- Description: The name of the dark Gram theme to use for the UI.
-- Setting: `dark`
-- Default: `One Dark`
+- 説明: UI に使うダークテーマの名前。
+- 設定: `dark`
+- デフォルト: `One Dark`
 
-**Options**
+**選択肢**
 
-Run the {#action theme_selector::Toggle} action in the command palette to see a
-current list of valid themes names.
+コマンドパレットで {#action theme_selector::Toggle} アクションを実行すると、現在有効なテーマ名の一覧を確認できます。
 
 ### Light
 
-- Description: The name of the light Gram theme to use for the UI.
-- Setting: `light`
-- Default: `One Light`
+- 説明: UI に使うライトテーマの名前。
+- 設定: `light`
+- デフォルト: `One Light`
 
-**Options**
+**選択肢**
 
-Run the {#action theme_selector::Toggle} action in the command palette to see a
-current list of valid themes names.
+コマンドパレットで {#action theme_selector::Toggle} アクションを実行すると、現在有効なテーマ名の一覧を確認できます。
 
 ## Title Bar
 
-- Description: Whether or not to show various elements in the title bar
-- Setting: `title_bar`
-- Default:
+- 説明: タイトルバーに各種の要素を表示するかどうか。
+- 設定: `title_bar`
+- デフォルト:
 
 ```json
 "title_bar": {
@@ -4371,33 +4075,30 @@ current list of valid themes names.
 }
 ```
 
-**Options**
+**選択肢**
 
-- `show_branch_icon`: Whether to show the branch icon beside branch switcher in
-  the titlebar
-- `show_branch_name`: Whether to show the branch name button in the titlebar
-- `show_project_items`: Whether to show the project host and name in the
-  titlebar
-- `show_onboarding_banner`: Whether to show onboarding banners in the titlebar
-- `show_user_picture`: Whether to show user picture in the titlebar
-- `show_menus`: Whether to show the menus in the titlebar
+- `show_branch_icon`: タイトルバーのブランチ切り替えの横にブランチアイコンを表示するかどうか
+- `show_branch_name`: タイトルバーにブランチ名のボタンを表示するかどうか
+- `show_project_items`: タイトルバーにプロジェクトのホストと名前を表示するかどうか
+- `show_onboarding_banner`: タイトルバーにオンボーディングのバナーを表示するかどうか
+- `show_user_picture`: タイトルバーにユーザーの画像を表示するかどうか
+- `show_menus`: タイトルバーにメニューを表示するかどうか
 
 ## Vim
 
-- Description: Whether or not to enable vim mode.
-- Setting: `vim_mode`
-- Default: `false`
+- 説明: Vim モードを有効にするかどうか。
+- 設定: `vim_mode`
+- デフォルト: `false`
 
 ## When Closing With No Tabs
 
-- Description: Whether the window should be closed when using 'close active
-  item' on a window with no tabs
-- Setting: `when_closing_with_no_tabs`
-- Default: `"platform_default"`
+- 説明: タブのないウィンドウで 'close active item' を使用したときに、そのウィンドウを閉じるかどうか。
+- 設定: `when_closing_with_no_tabs`
+- デフォルト: `"platform_default"`
 
-**Options**
+**選択肢**
 
-1. Use platform default behavior:
+1. プラットフォームの既定の動作を使う:
 
 ```json
 {
@@ -4405,7 +4106,7 @@ current list of valid themes names.
 }
 ```
 
-2. Always close the window:
+2. 常にウィンドウを閉じる:
 
 ```json
 {
@@ -4413,7 +4114,7 @@ current list of valid themes names.
 }
 ```
 
-3. Never close the window:
+3. ウィンドウを閉じない:
 
 ```json
 {
@@ -4423,9 +4124,9 @@ current list of valid themes names.
 
 ## Project Panel
 
-- Description: Customize project panel
-- Setting: `project_panel`
-- Default:
+- 説明: プロジェクトパネルをカスタマイズします。
+- 設定: `project_panel`
+- デフォルト:
 
 ```json
 {
@@ -4464,13 +4165,13 @@ current list of valid themes names.
 
 ### Dock
 
-- Description: Control the position of the dock
-- Setting: `dock`
-- Default: `left`
+- 説明: ドックの位置を制御します。
+- 設定: `dock`
+- デフォルト: `left`
 
-**Options**
+**選択肢**
 
-1. Default dock position to left
+1. ドックの既定位置を左にする
 
 ```json
 {
@@ -4478,7 +4179,7 @@ current list of valid themes names.
 }
 ```
 
-2. Default dock position to right
+2. ドックの既定位置を右にする
 
 ```json
 {
@@ -4488,13 +4189,13 @@ current list of valid themes names.
 
 ### Entry Spacing
 
-- Description: Spacing between worktree entries
-- Setting: `entry_spacing`
-- Default: `comfortable`
+- 説明: ワークツリーの項目間の間隔。
+- 設定: `entry_spacing`
+- デフォルト: `comfortable`
 
-**Options**
+**選択肢**
 
-1. Comfortable entry spacing
+1. ゆとりのある項目間隔
 
 ```json
 {
@@ -4502,7 +4203,7 @@ current list of valid themes names.
 }
 ```
 
-2. Standard entry spacing
+2. 標準の項目間隔
 
 ```json
 {
@@ -4512,13 +4213,13 @@ current list of valid themes names.
 
 ### Git Status
 
-- Description: Indicates newly created and updated files
-- Setting: `git_status`
-- Default: `true`
+- 説明: 新規作成されたファイルと更新されたファイルを表示します。
+- 設定: `git_status`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-1. Default enable git status
+1. Git ステータスを既定で有効にする
 
 ```json
 {
@@ -4526,7 +4227,7 @@ current list of valid themes names.
 }
 ```
 
-2. Default disable git status
+2. Git ステータスを既定で無効にする
 
 ```json
 {
@@ -4536,25 +4237,23 @@ current list of valid themes names.
 
 ### Default Width
 
-- Description: Customize default width taken by project panel
-- Setting: `default_width`
-- Default: `240`
+- 説明: プロジェクトパネルが使用する既定の幅をカスタマイズします。
+- 設定: `default_width`
+- デフォルト: `240`
 
-**Options**
+**選択肢**
 
-`float` values
+`float` 値
 
 ### Auto Reveal Entries
 
-- Description: Whether to reveal it in the project panel automatically, when a
-  corresponding project entry becomes active. Gitignored entries are never auto
-  revealed.
-- Setting: `auto_reveal_entries`
-- Default: `true`
+- 説明: 対応するプロジェクト項目がアクティブになったときに、プロジェクトパネル内で自動的に表示するかどうか。Git で無視されている項目は自動表示されません。
+- 設定: `auto_reveal_entries`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-1. Enable auto reveal entries
+1. 項目の自動表示を有効にする
 
 ```json
 {
@@ -4562,7 +4261,7 @@ current list of valid themes names.
 }
 ```
 
-2. Disable auto reveal entries
+2. 項目の自動表示を無効にする
 
 ```json
 {
@@ -4572,14 +4271,13 @@ current list of valid themes names.
 
 ### Auto Fold Dirs
 
-- Description: Whether to fold directories automatically when directory has only
-  one directory inside.
-- Setting: `auto_fold_dirs`
-- Default: `true`
+- 説明: フォルダー内にフォルダーが1つしかない場合に、そのフォルダーを自動的に折りたたむかどうか。
+- 設定: `auto_fold_dirs`
+- デフォルト: `true`
 
-**Options**
+**選択肢**
 
-1. Enable auto fold dirs
+1. フォルダーの自動折りたたみを有効にする
 
 ```json
 {
@@ -4587,7 +4285,7 @@ current list of valid themes names.
 }
 ```
 
-2. Disable auto fold dirs
+2. フォルダーの自動折りたたみを無効にする
 
 ```json
 {
@@ -4597,15 +4295,15 @@ current list of valid themes names.
 
 ### Indent Size
 
-- Description: Amount of indentation (in pixels) for nested items.
-- Setting: `indent_size`
-- Default: `20`
+- 説明: ネストした項目のインデント量（ピクセル単位）。
+- 設定: `indent_size`
+- デフォルト: `20`
 
 ### Indent Guides: Show
 
-- Description: Whether to show indent guides in the project panel.
-- Setting: `indent_guides`
-- Default:
+- 説明: プロジェクトパネルにインデントガイドを表示するかどうか。
+- 設定: `indent_guides`
+- デフォルト:
 
 ```json
 "indent_guides": {
@@ -4613,9 +4311,9 @@ current list of valid themes names.
 }
 ```
 
-**Options**
+**選択肢**
 
-1. Show indent guides in the project panel
+1. プロジェクトパネルにインデントガイドを表示する
 
 ```json
 {
@@ -4625,7 +4323,7 @@ current list of valid themes names.
 }
 ```
 
-2. Hide indent guides in the project panel
+2. プロジェクトパネルのインデントガイドを非表示にする
 
 ```json
 {
@@ -4637,11 +4335,9 @@ current list of valid themes names.
 
 ### Scrollbar: Show
 
-- Description: Whether to show a scrollbar in the project panel. Possible
-  values: null, "auto", "system", "always", "never". Inherits editor settings
-  when absent, see its description for more details.
-- Setting: `scrollbar`
-- Default:
+- 説明: プロジェクトパネルにスクロールバーを表示するかどうか。指定できる値は null、"auto"、"system"、"always"、"never" です。省略した場合はエディターの設定を継承します。詳しくはその説明を参照してください。
+- 設定: `scrollbar`
+- デフォルト:
 
 ```json
 "scrollbar": {
@@ -4649,9 +4345,9 @@ current list of valid themes names.
 }
 ```
 
-**Options**
+**選択肢**
 
-1. Show scrollbar in the project panel
+1. プロジェクトパネルにスクロールバーを表示する
 
 ```json
 {
@@ -4661,7 +4357,7 @@ current list of valid themes names.
 }
 ```
 
-2. Hide scrollbar in the project panel
+2. プロジェクトパネルのスクロールバーを非表示にする
 
 ```json
 {
@@ -4673,13 +4369,13 @@ current list of valid themes names.
 
 ### Sort Mode
 
-- Description: Sort order for entries in the project panel
-- Setting: `sort_mode`
-- Default: `directories_first`
+- 説明: プロジェクトパネル内の項目の並び順。
+- 設定: `sort_mode`
+- デフォルト: `directories_first`
 
-**Options**
+**選択肢**
 
-1. Show directories first, then files
+1. フォルダーを先に、次にファイルを表示する
 
 ```json
 {
@@ -4687,7 +4383,7 @@ current list of valid themes names.
 }
 ```
 
-2. Show directories, then mod.rs files, then everything else
+2. フォルダー、次に mod.rs ファイル、次にその他すべてを表示する
 
 ```json
 {
@@ -4702,7 +4398,7 @@ current list of valid themes names.
 }
 ```
 
-4. Show files first, then directories
+4. ファイルを先に、次にフォルダーを表示する
 
 ```json
 {
@@ -4712,10 +4408,9 @@ current list of valid themes names.
 
 ### Auto Open
 
-- Description: Control whether files are opened automatically after different
-  creation flows in the project panel.
-- Setting: `auto_open`
-- Default:
+- 説明: プロジェクトパネルでのさまざまな作成操作の後、ファイルを自動的に開くかどうかを制御します。
+- 設定: `auto_open`
+- デフォルト:
 
 ```json
 "auto_open": {
@@ -4725,19 +4420,18 @@ current list of valid themes names.
 }
 ```
 
-**Options**
+**選択肢**
 
-- `on_create`: Whether to automatically open newly created files in the editor.
-- `on_paste`: Whether to automatically open files after pasting or duplicating
-  them.
-- `on_drop`: Whether to automatically open files dropped from external sources.
-- `should_focus`: Whether to focus on files automatically opened.
+- `on_create`: 新しく作成したファイルをエディターで自動的に開くかどうか。
+- `on_paste`: 貼り付けまたは複製した後にファイルを自動的に開くかどうか。
+- `on_drop`: 外部からドロップしたファイルを自動的に開くかどうか。
+- `should_focus`: 自動的に開いたファイルにフォーカスするかどうか。
 
 ## Debugger
 
-- Description: Configuration for debugger panel and settings
-- Setting: `debugger`
-- Default:
+- 説明: デバッガーパネルとその設定の構成。
+- 設定: `debugger`
+- デフォルト:
 
 ```json
 {
@@ -4750,14 +4444,13 @@ current list of valid themes names.
 }
 ```
 
-See the [debugger page](./debugger.md) for more information about debugging
-support within Gram.
+Gram のデバッグサポートについて詳しくは、[デバッガーのページ](./debugger.md)を参照してください。
 
 ## Git Panel
 
-- Description: Setting to customize the behavior of the git panel.
-- Setting: `git_panel`
-- Default:
+- 説明: Git パネルの動作をカスタマイズするための設定。
+- 設定: `git_panel`
+- デフォルト:
 
 ```json
 {
@@ -4778,40 +4471,34 @@ support within Gram.
 }
 ```
 
-**Options**
+**選択肢**
 
-- `button`: Whether to show the git panel button in the status bar
-- `dock`: Where to dock the git panel. Can be `left` or `right`
-- `default_width`: Default width of the git panel
-- `status_style`: How to display git status. Can be `label_color` or `icon`
-- `fallback_branch_name`: What branch name to use if `init.defaultBranch` is not
-  set
-- `sort_by_path`: Whether to sort entries in the panel by path or by status (the
-  default)
-- `collapse_untracked_diff`: Whether to collapse untracked files in the diff
-  panel
-- `tree_view`: Whether to show entries as a tree rather than a flat list
-- `diff_stats`: Whether to show the number of added and deleted lines for each
-  entry, and the total for the repository
-- `scrollbar`: When to show the scrollbar in the git panel
+- `button`: ステータスバーに Git パネルのボタンを表示するかどうか
+- `dock`: Git パネルをドックする位置。`left` または `right` を指定できます
+- `default_width`: Git パネルの既定の幅
+- `status_style`: Git ステータスの表示方法。`label_color` または `icon` を指定できます
+- `fallback_branch_name`: `init.defaultBranch` が設定されていないときに使うブランチ名
+- `sort_by_path`: パネル内の項目をパス順で並べるか、ステータス順（既定）で並べるか
+- `collapse_untracked_diff`: 差分パネルで未追跡ファイルを折りたたむかどうか
+- `tree_view`: 項目をフラットなリストではなくツリーで表示するかどうか
+- `diff_stats`: 項目ごとの追加行数と削除行数、およびリポジトリ全体の合計を表示するかどうか
+- `scrollbar`: Git パネルでスクロールバーを表示する条件
 
 ## Git Hosting Providers
 
-- Description: Register self-hosted GitHub, GitLab, or Bitbucket instances so
-  commit hashes, issue references, and permalinks resolve to the right host.
-- Setting: `git_hosting_providers`
-- Default: `[]`
+- 説明: セルフホストの GitHub、GitLab、Bitbucket インスタンスを登録し、コミットハッシュ、issue 参照、パーマリンクが正しいホストに解決されるようにします。
+- 設定: `git_hosting_providers`
+- デフォルト: `[]`
 
-**Options**
+**選択肢**
 
-Each entry accepts:
+各エントリーには次を指定できます:
 
-- `provider`: One of `github`, `gitlab`, or `bitbucket`
-- `name`: Display name for the instance
-- `base_url`: Base URL, e.g. `https://git.example.corp`
+- `provider`: `github`、`gitlab`、`bitbucket` のいずれか
+- `name`: インスタンスの表示名
+- `base_url`: ベース URL（例: `https://git.example.corp`）
 
-You can define these in user or project settings; project settings are merged on
-top of user settings.
+これらはユーザー設定またはプロジェクト設定で定義できます。プロジェクト設定はユーザー設定の上にマージされます。
 
 ```json
 {
@@ -4827,9 +4514,9 @@ top of user settings.
 
 ## Outline Panel
 
-- Description: Customize outline Panel
-- Setting: `outline_panel`
-- Default:
+- 説明: アウトラインパネルをカスタマイズします。
+- 設定: `outline_panel`
+- デフォルト:
 
 ```json
 "outline_panel": {
@@ -4853,9 +4540,9 @@ top of user settings.
 
 ## Calls
 
-- Description: Customize behavior when participating in a call
-- Setting: `calls`
-- Default:
+- 説明: 通話に参加したときの動作をカスタマイズします。
+- 設定: `calls`
+- デフォルト:
 
 ```json
 "calls": {
@@ -4868,32 +4555,30 @@ top of user settings.
 
 ## Colorize Brackets
 
-- Description: Whether to use tree-sitter bracket queries to detect and colorize
-  the brackets in the editor (also known as "rainbow brackets").
-- Setting: `colorize_brackets`
-- Default: `false`
+- 説明: tree-sitter の括弧クエリを使ってエディター内の括弧を検出し、色分けするかどうか（「レインボーブラケット」とも呼ばれます）。
+- 設定: `colorize_brackets`
+- デフォルト: `false`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
-The colors that are used for different indentation levels are defined in the
-theme (theme key: `accents`). They can be customized by using theme overrides.
+インデントの深さごとに使う色はテーマ（テーマキー: `accents`）で定義されています。テーマの上書きでカスタマイズできます。
 
 ## Unnecessary Code Fade
 
-- Description: How much to fade out unused code.
-- Setting: `unnecessary_code_fade`
-- Default: `0.3`
+- 説明: 未使用のコードをどの程度薄く表示するか。
+- 設定: `unnecessary_code_fade`
+- デフォルト: `0.3`
 
-**Options**
+**選択肢**
 
-Float values between `0.0` and `0.9`, where:
+`0.0` から `0.9` までの浮動小数点値。意味は次のとおりです:
 
-- `0.0` means no fading (unused code looks the same as used code)
-- `0.9` means maximum fading (unused code is very faint but still visible)
+- `0.0` はフェードなし（未使用のコードが使用中のコードと同じ見た目）
+- `0.9` は最大のフェード（未使用のコードが非常に薄く表示されますが、判読は可能）
 
-**Example**
+**例**
 
 ```json
 {
@@ -4903,22 +4588,19 @@ Float values between `0.0` and `0.9`, where:
 
 ## UI Font Family
 
-- Description: The name of the font to use for text in the UI.
-- Setting: `ui_font_family`
-- Default: `.GramSans`. This currently aliases to
-  [IBM Plex](https://www.ibm.com/plex/).
+- 説明: UI のテキストに使うフォントの名前。
+- 設定: `ui_font_family`
+- デフォルト: `.GramSans`. This currently aliases to [IBM Plex](https://www.ibm.com/plex/).
 
-**Options**
+**選択肢**
 
-The name of any font family installed on the system, `".GramSans"` to use the
-Gram-provided default, or `".SystemUIFont"` to use the system's default UI font
-(on macOS and Windows).
+システムにインストールされている任意のフォントファミリー名、Gram が提供する既定値を使う場合は `".GramSans"`、システムの既定 UI フォント（macOS と Windows）を使う場合は `".SystemUIFont"` を指定します。
 
 ## UI Font Features
 
-- Description: The OpenType features to enable for text in the UI.
-- Setting: `ui_font_features`
-- Default:
+- 説明: UI のテキストで有効にする OpenType の機能。
+- 設定: `ui_font_features`
+- デフォルト:
 
 ```json
 "ui_font_features": {
@@ -4926,14 +4608,13 @@ Gram-provided default, or `".SystemUIFont"` to use the system's default UI font
 }
 ```
 
-- Platform: macOS and Windows.
+- プラットフォーム: macOS and Windows.
 
-**Options**
+**選択肢**
 
-Gram supports all OpenType features that can be enabled or disabled for a given
-UI font, as well as setting values for font features.
+Gram は、特定の UI フォントで有効化・無効化できるすべての OpenType 機能をサポートし、フォント機能に値を設定することもできます。
 
-For example, to disable font ligatures, add the following to your settings:
+たとえばフォントの合字を無効にするには、設定に次を追加します:
 
 ```json
 {
@@ -4943,7 +4624,7 @@ For example, to disable font ligatures, add the following to your settings:
 }
 ```
 
-You can also set other OpenType features, like setting `cv01` to `7`:
+`cv01` を `7` に設定するなど、他の OpenType 機能も設定できます:
 
 ```json
 {
@@ -4955,15 +4636,14 @@ You can also set other OpenType features, like setting `cv01` to `7`:
 
 ## UI Font Fallbacks
 
-- Description: The font fallbacks to use for text in the UI.
-- Setting: `ui_font_fallbacks`
-- Default: `null`
-- Platform: macOS and Windows.
+- 説明: UI のテキストに使うフォールバックフォント。
+- 設定: `ui_font_fallbacks`
+- デフォルト: `null`
+- プラットフォーム: macOS and Windows.
 
-**Options**
+**選択肢**
 
-For example, to use `Nerd Font` as a fallback, add the following to your
-settings:
+たとえば `Nerd Font` をフォールバックとして使うには、設定に次を追加します:
 
 ```json
 {
@@ -4973,51 +4653,45 @@ settings:
 
 ## UI Font Size
 
-- Description: The default font size for text in the UI.
-- Setting: `ui_font_size`
-- Default: `16`
+- 説明: UI のテキストの既定のフォントサイズ。
+- 設定: `ui_font_size`
+- デフォルト: `16`
 
-**Options**
+**選択肢**
 
-`integer` values from `6` to `100` pixels (inclusive)
+`6` から `100` ピクセルまで（両端を含む）の `integer` 値
 
 ## UI Font Weight
 
-- Description: The default font weight for text in the UI.
-- Setting: `ui_font_weight`
-- Default: `400`
+- 説明: UI のテキストの既定のフォントの太さ。
+- 設定: `ui_font_weight`
+- デフォルト: `400`
 
-**Options**
+**選択肢**
 
-`integer` values between `100` and `900`
+`100` から `900` までの `integer` 値
 
 ## Client Side Decoration Rounding
 
-- Description: Defines window border radius for platforms that use client side
-  decorations.
-- Setting: `client_side_decoration_rounding`
-- Default: `10.0`
+- 説明: クライアント側の装飾を使用するプラットフォームでのウィンドウの枠線の角丸半径を定義します。
+- 設定: `client_side_decoration_rounding`
+- デフォルト: `10.0`
 
 ## Client Side Decoration Shadow
 
-- Description: Defines window shadow size for platforms that use client side
-  decorations.
-- Setting: `client_side_decoration_shadow`
-- Default: `10.0`
+- 説明: クライアント側の装飾を使用するプラットフォームでのウィンドウの影のサイズを定義します。
+- 設定: `client_side_decoration_shadow`
+- デフォルト: `10.0`
 
 ## Settings Profiles
 
-- Description: Configure any number of settings profiles that are temporarily
-  applied on top of your existing user settings when selected from
-  `settings profile selector: toggle`.
-- Setting: `profiles`
-- Default: `{}`
+- 説明: 設定プロファイルを任意の数だけ定義できます。`settings profile selector: toggle` から選択すると、既存のユーザー設定の上に一時的に適用されます。
+- 設定: `profiles`
+- デフォルト: `{}`
 
-In your `settings.jsonc` file, add the `profiles` object. Each key within this
-object is the name of a settings profile, and each value is an object that can
-include any of Gram's settings.
+`settings.jsonc` ファイルに `profiles` オブジェクトを追加します。このオブジェクト内の各キーが設定プロファイルの名前で、各値は Gram の任意の設定を含められるオブジェクトです。
 
-Example:
+例:
 
 ```json
 "profiles": {
@@ -5041,8 +4715,7 @@ Example:
 }
 ```
 
-To preview and enable a settings profile, open the command palette via {#kb
-command_palette::Toggle} and search for `settings profile selector: toggle`.
+設定プロファイルをプレビューして有効にするには、{#kb command_palette::Toggle} でコマンドパレットを開き、`settings profile selector: toggle` を検索します。
 
 ## An example configuration:
 

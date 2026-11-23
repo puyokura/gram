@@ -72,7 +72,7 @@ pub fn init(cx: &mut App) {
                     "#};
 
                     let _ = cx
-                        .prompt(gpui::PromptLevel::Critical, "Invalid path", Some(message), &["Ok"])
+                        .prompt(gpui::PromptLevel::Critical, "無効なパス", Some(message), &["OK"])
                         .await;
                     return;
                 }
@@ -330,7 +330,7 @@ impl PickerDelegate for RecentProjectsDelegate {
             )
         };
         Arc::from(format!(
-            "{reuse_window} reuses this window, {create_window} opens a new one",
+            "{reuse_window} でこのウィンドウを再利用、{create_window} で新しいウィンドウを開きます",
         ))
     }
 
@@ -452,7 +452,7 @@ impl PickerDelegate for RecentProjectsDelegate {
                         })
                     }
                 }
-                .detach_and_prompt_err("Failed to open project", window, cx, |_, _, _| None);
+                .detach_and_prompt_err("プロジェクトを開けませんでした", window, cx, |_, _, _| None);
             });
             cx.emit(DismissEvent);
         }
@@ -462,9 +462,9 @@ impl PickerDelegate for RecentProjectsDelegate {
 
     fn no_matches_text(&self, _window: &mut Window, _cx: &mut App) -> Option<SharedString> {
         let text = if self.workspaces.is_empty() {
-            "Recently opened projects will show up here".into()
+            "最近開いたプロジェクトがここに表示されます".into()
         } else {
-            "No matches".into()
+            "一致する項目がありません".into()
         };
         Some(text)
     }
@@ -513,7 +513,7 @@ impl PickerDelegate for RecentProjectsDelegate {
                     .tooltip({
                         move |_, cx| {
                             Tooltip::for_action_in(
-                                "Open Project in New Window",
+                                "新しいウィンドウでプロジェクトを開く",
                                 &menu::SecondaryConfirm,
                                 &focus_handle,
                                 cx,
@@ -530,7 +530,7 @@ impl PickerDelegate for RecentProjectsDelegate {
             .child(
                 IconButton::new("delete", IconName::Close)
                     .icon_size(IconSize::Small)
-                    .tooltip(Tooltip::text("Delete from Recent Projects"))
+                    .tooltip(Tooltip::text("最近のプロジェクトから削除"))
                     .on_click(cx.listener(move |this, _event, window, cx| {
                         cx.stop_propagation();
                         window.prevent_default();
@@ -598,7 +598,7 @@ impl PickerDelegate for RecentProjectsDelegate {
                 .border_t_1()
                 .border_color(cx.theme().colors().border_variant)
                 .child(
-                    Button::new("remote", "Open Remote Folder")
+                    Button::new("remote", "リモートフォルダーを開く")
                         .key_binding(KeyBinding::for_action(
                             &OpenRemote {
                                 from_existing_connection: false,
@@ -618,7 +618,7 @@ impl PickerDelegate for RecentProjectsDelegate {
                         }),
                 )
                 .child(
-                    Button::new("local", "Open Local Folder")
+                    Button::new("local", "ローカルフォルダーを開く")
                         .key_binding(KeyBinding::for_action(&workspace::Open, cx))
                         .on_click(|_, window, cx| window.dispatch_action(workspace::Open.boxed_clone(), cx)),
                 )
@@ -828,7 +828,7 @@ mod tests {
             cx.has_pending_prompt(),
             "Dirty workspace should prompt before opening the new recent project"
         );
-        cx.simulate_prompt_answer("Cancel");
+        cx.simulate_prompt_answer("キャンセル");
         assert!(
             !cx.has_pending_prompt(),
             "Should have no pending prompt after cancelling"

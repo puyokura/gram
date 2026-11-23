@@ -1,42 +1,39 @@
 # PowerShell
 
-PowerShell language support in Gram is provided by the community-maintained
-[Gram PowerShell extension](https://github.com/wingyplus/zed-powershell). Please
-report issues to:
+Gram での PowerShell 言語サポートは、コミュニティが管理する
+[Gram PowerShell 拡張機能](https://github.com/wingyplus/zed-powershell) によって提供されます。問題の報告先:
 [github.com/wingyplus/zed-powershell/issues](https://github.com/wingyplus/zed-powershell/issues)
 
 - Tree-sitter:
   [airbus-cert/tree-sitter-powershell](https://github.com/airbus-cert/tree-sitter-powershell)
-- Language Server:
+- 言語サーバー:
   [PowerShell/PowerShellEditorServices](https://github.com/PowerShell/PowerShellEditorServices)
 
-## Setup
+## セットアップ
 
-### Install PowerShell 7+ {#powershell-install}
+### PowerShell 7+ のインストール {#powershell-install}
 
 - macOS: `brew install powershell/tap/powershell`
 - Alpine:
-  [Installing PowerShell on Alpine Linux](https://learn.microsoft.com/en-us/powershell/scripting/install/install-alpine)
+  [Alpine Linux への PowerShell のインストール](https://learn.microsoft.com/en-us/powershell/scripting/install/install-alpine)
 - Debian:
-  [Install PowerShell on Debian Linux](https://learn.microsoft.com/en-us/powershell/scripting/install/install-debian)
+  [Debian Linux への PowerShell のインストール](https://learn.microsoft.com/en-us/powershell/scripting/install/install-debian)
 - RedHat:
-  [Install PowerShell on RHEL](https://learn.microsoft.com/en-us/powershell/scripting/install/install-rhel)
+  [RHEL への PowerShell のインストール](https://learn.microsoft.com/en-us/powershell/scripting/install/install-rhel)
 - Ubuntu:
-  [Install PowerShell on RHEL](https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu)
+  [Ubuntu への PowerShell のインストール](https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu)
 - Windows:
-  [Install PowerShell on Windows](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows)
+  [Windows への PowerShell のインストール](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows)
 
-The Gram PowerShell extension will default to the `pwsh` executable found in
-your path.
+Gram PowerShell 拡張機能は、PATH 内で見つかった `pwsh` 実行可能ファイルを既定で使用します。
 
-### Install PowerShell Editor Services (Optional) {#powershell-editor-services}
+### PowerShell Editor Services のインストール（任意） {#powershell-editor-services}
 
-The Gram PowerShell extensions will attempt to download
+Gram PowerShell 拡張機能は
 [PowerShell Editor Services](https://github.com/PowerShell/PowerShellEditorServices)
-automatically.
+を自動的にダウンロードしようとします。
 
-If want to use a specific binary, you can specify in your that in your Gram
-settings.json:
+特定のバイナリを使用したい場合は、Gram の `settings.json` で指定できます:
 
 ```json
   "lsp": {

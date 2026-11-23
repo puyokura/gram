@@ -1,21 +1,21 @@
 # C++
 
-C++ support is available natively in Gram.
+C++ のサポートは Gram にネイティブで組み込まれています。
 
 - Tree-sitter:
   [tree-sitter/tree-sitter-cpp](https://github.com/tree-sitter/tree-sitter-cpp)
-- Language Server: [clangd/clangd](https://github.com/clangd/clangd)
+- 言語サーバー: [clangd/clangd](https://github.com/clangd/clangd)
 
-## Binary
+## バイナリ
 
-You can configure which `clangd` binary Gram should use.
+Gram が使用する `clangd` バイナリを設定できます。
 
-By default, Gram will try to find a `clangd` in your `$PATH` and try to use
-that. If that binary successfully executes, it's used. Otherwise, Gram will fall
-back to installing its own `clangd` version and use that.
+既定では、Gram は `$PATH` から `clangd` を探して使用します。そのバイナリが正常に
+実行できればそれを使用し、そうでなければ Gram が独自にインストールした `clangd`
+バージョンにフォールバックします。
 
-If you want to install a pre-release `clangd` version instead you can instruct
-Gram to do so by setting `pre_release` to `true` in your `settings.jsonc`:
+プレリリース版の `clangd` をインストールしたい場合は、`settings.jsonc` で
+`pre_release` を `true` に設定して Gram に指示できます:
 
 ```json
 {
@@ -29,8 +29,8 @@ Gram to do so by setting `pre_release` to `true` in your `settings.jsonc`:
 }
 ```
 
-If you want to disable Gram looking for a `clangd` binary, you can set
-`ignore_system_version` to `true` in your `settings.jsonc`:
+Gram による `clangd` バイナリの探索を無効にしたい場合は、`settings.jsonc` で
+`ignore_system_version` を `true` に設定します:
 
 ```json
 {
@@ -44,8 +44,8 @@ If you want to disable Gram looking for a `clangd` binary, you can set
 }
 ```
 
-If you want to use a binary in a custom location, you can specify a `path` and
-optional `arguments`:
+独自の場所にあるバイナリを使いたい場合は、`path` と任意の `arguments` を
+指定できます:
 
 ```json
 {
@@ -60,15 +60,15 @@ optional `arguments`:
 }
 ```
 
-This `"path"` has to be an absolute path.
+この `"path"` は絶対パスである必要があります。
 
-## Arguments
+## 引数
 
-You can pass any number of arguments to clangd. To see a full set of available
-options, run `clangd --help` from the command line. For example with
-`--function-arg-placeholders=0` completions contain only parentheses for
-function calls, while the default (`--function-arg-placeholders=1`) completions
-also contain placeholders for method parameters.
+clangd には任意の数の引数を渡せます。利用可能なオプションの完全な一覧は、
+コマンドラインから `clangd --help` を実行して確認してください。たとえば
+`--function-arg-placeholders=0` を指定すると、補完には関数呼び出しの括弧だけが
+含まれます。一方、既定値（`--function-arg-placeholders=1`）では、メソッドの
+パラメーターのプレースホルダーも含まれます。
 
 ```json
 {
@@ -83,11 +83,11 @@ also contain placeholders for method parameters.
 }
 ```
 
-## Formatting
+## フォーマット
 
-By default Gram will use the `clangd` language server for formatting C++ code.
-The Clangd is the same as the `clang-format` CLI tool. To configure this you can
-add a `.clang-format` file. For example:
+既定では、Gram は C++ コードのフォーマットに `clangd` 言語サーバーを使用します。
+Clangd は `clang-format` CLI ツールと同じものです。設定を変えるには
+`.clang-format` ファイルを追加します。例:
 
 ```yaml
 # yaml-language-server: $schema=https://json.schemastore.org/clang-format-21.x.json
@@ -96,19 +96,18 @@ BasedOnStyle: LLVM
 IndentWidth: 4
 ---
 Language: Cpp
-# Force pointers to the type for C++.
+# C++ ではポインターを型側に揃える。
 DerivePointerAlignment: false
 PointerAlignment: Left
 ---
 ```
 
-See
-[Clang-Format Style Options](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
-for a complete list of options.
+オプションの完全な一覧は
+[Clang-Format のスタイルオプション](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
+を参照してください。
 
-You can trigger formatting via {#kb editor::Format} or the `editor: format`
-action from the command palette or by adding `format_on_save` to your Gram
-settings:
+フォーマットは {#kb editor::Format} で、またはコマンドパレットの `editor: format`
+アクションで、あるいは Gram 設定に `format_on_save` を追加して実行できます:
 
 ```json
   "languages": {
@@ -119,10 +118,9 @@ settings:
   }
 ```
 
-## More server configuration
+## その他のサーバー構成
 
-In the root of your project, it is generally common to create a `.clangd` file
-to set extra configuration.
+プロジェクトのルートに `.clangd` ファイルを作成して追加の設定を行うのが一般的です。
 
 ```yaml
 # yaml-language-server: $schema=https://json.schemastore.org/clangd.json
@@ -134,39 +132,38 @@ Diagnostics:
   UnusedIncludes: Strict
 ```
 
-For more advanced usage of clangd configuration file, take a look into their
-[official page](https://clangd.llvm.org/config.html).
+clangd 設定ファイルのより高度な使い方については、
+[公式ページ](https://clangd.llvm.org/config.html) を参照してください。
 
-## Compile Commands
+## コンパイルコマンド
 
-For some projects Clangd requires a `compile_commands.json` file to properly
-analyze your project. This file contains the compilation database that tells
-clangd how your project should be built.
+プロジェクトによっては、Clangd が正しく解析するために `compile_commands.json`
+ファイルが必要です。このファイルには、プロジェクトをどうビルドすべきかを clangd に
+伝えるコンパイルデータベースが含まれます。
 
-### CMake Compile Commands
+### CMake のコンパイルコマンド
 
-With CMake, you can generate `compile_commands.json` automatically by adding the
-following line to your `CMakeLists.txt`:
+CMake では、`CMakeLists.txt` に次の行を追加すると `compile_commands.json` を
+自動生成できます:
 
 ```cmake
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 ```
 
-After building your project, CMake will generate the `compile_commands.json`
-file in the build directory and clangd will automatically pick it up.
+プロジェクトをビルドすると、CMake がビルドディレクトリに `compile_commands.json` を
+生成し、clangd が自動的にそれを読み取ります。
 
-## Debugging
+## デバッグ
 
-You can use CodeLLDB or GDB to debug native binaries. (Make sure that your build
-process passes `-g` to the C++ compiler, so that debug information is included
-in the resulting binary.) See below for examples of debug configurations that
-you can add to `.gram/debug.json`.
+CodeLLDB または GDB を使ってネイティブバイナリをデバッグできます。（ビルドプロセスが
+C++ コンパイラーに `-g` を渡し、生成されるバイナリにデバッグ情報を含めるように
+してください。）`.gram/debug.json` に追加できるデバッグ構成の例を以下に示します。
 
-- [CodeLLDB configuration documentation](https://github.com/vadimcn/codelldb/blob/master/MANUAL.md#starting-a-new-debug-session)
-- [GDB configuration documentation](https://sourceware.org/gdb/current/onlinedocs/gdb.html/Debugger-Adapter-Protocol.html)
-  - GDB needs to be at least v14.1
+- [CodeLLDB 設定ドキュメント](https://github.com/vadimcn/codelldb/blob/master/MANUAL.md#starting-a-new-debug-session)
+- [GDB 設定ドキュメント](https://sourceware.org/gdb/current/onlinedocs/gdb.html/Debugger-Adapter-Protocol.html)
+  - GDB は v14.1 以上が必要です
 
-### Build and Debug Binary
+### バイナリのビルドとデバッグ
 
 ```json [debug]
 [
@@ -184,22 +181,22 @@ you can add to `.gram/debug.json`.
 ]
 ```
 
-## Protocol Extensions
+## プロトコル拡張
 
-Zed currently implements the following `clangd`
-[extensions](https://clangd.llvm.org/extensions):
+Zed は現在、次の `clangd`
+[拡張](https://clangd.llvm.org/extensions) を実装しています:
 
-### Inactive Regions
+### 非アクティブな領域
 
-Automatically dims inactive sections of code due to preprocessor directives,
-such as `#if`, `#ifdef`, or `#ifndef` blocks that evaluate to false.
+プリプロセッサ指令（`#if`、`#ifdef`、`#ifndef` など）によって偽と評価された
+非アクティブなコード領域を自動的に淡色表示します。
 
-### Switch Between Source and Header Files
+### ソースファイルとヘッダーファイルの切り替え
 
-Allows switching between corresponding C++ source files (e.g., `.cpp`) and
-header files (e.g., `.h`). by running the command {#action
-editor::SwitchSourceHeader} from the command palette or by setting a keybinding
-for the `editor::SwitchSourceHeader` action.
+対応する C++ ソースファイル（`.cpp` など）とヘッダーファイル（`.h` など）を
+切り替えられます。コマンドパレットから {#action
+editor::SwitchSourceHeader} コマンドを実行するか、`editor::SwitchSourceHeader`
+アクションにキーバインドを設定します。
 
 ```json
 {

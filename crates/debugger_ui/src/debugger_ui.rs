@@ -28,74 +28,74 @@ pub mod tests;
 actions!(
     debugger,
     [
-        /// Starts a new debugging session.
+        /// 新しいデバッグセッションを開始します。
         Start,
-        /// Continues execution until the next breakpoint.
+        /// 次のブレークポイントまで実行を続行します。
         Continue,
-        /// Detaches the debugger from the running process.
+        /// 実行中のプロセスからデバッガーを切断します。
         Detach,
-        /// Pauses the currently running program.
+        /// 実行中のプログラムを一時停止します。
         Pause,
-        /// Restarts the current debugging session.
+        /// 現在のデバッグセッションを再起動します。
         Restart,
-        /// Reruns the current debugging session with the same configuration.
+        /// 同じ構成で現在のデバッグセッションを再実行します。
         RerunSession,
-        /// Steps into the next function call.
+        /// 次の関数呼び出しにステップインします。
         StepInto,
-        /// Steps over the current line.
+        /// 現在の行をステップオーバーします。
         StepOver,
-        /// Steps out of the current function.
+        /// 現在の関数からステップアウトします。
         StepOut,
-        /// Steps back to the previous statement.
+        /// 前のステートメントにステップバックします。
         StepBack,
-        /// Stops the debugging session.
+        /// デバッグセッションを停止します。
         Stop,
-        /// Toggles whether to ignore all breakpoints.
+        /// すべてのブレークポイントを無視するかどうかを切り替えます。
         ToggleIgnoreBreakpoints,
-        /// Clears all breakpoints in the project.
+        /// プロジェクト内のすべてのブレークポイントを消去します。
         ClearAllBreakpoints,
-        /// Focuses on the debugger console panel.
+        /// デバッガーコンソールパネルにフォーカスします。
         FocusConsole,
-        /// Focuses on the variables panel.
+        /// 変数パネルにフォーカスします。
         FocusVariables,
-        /// Focuses on the breakpoint list panel.
+        /// ブレークポイント一覧パネルにフォーカスします。
         FocusBreakpointList,
-        /// Focuses on the call stack frames panel.
+        /// コールスタックフレームパネルにフォーカスします。
         FocusFrames,
-        /// Focuses on the loaded modules panel.
+        /// 読み込み済みモジュールパネルにフォーカスします。
         FocusModules,
-        /// Focuses on the loaded sources panel.
+        /// 読み込み済みソースパネルにフォーカスします。
         FocusLoadedSources,
-        /// Focuses on the terminal panel.
+        /// ターミナルパネルにフォーカスします。
         FocusTerminal,
-        /// Shows the stack trace for the current thread.
+        /// 現在のスレッドのスタックトレースを表示します。
         ShowStackTrace,
-        /// Toggles the thread picker dropdown.
+        /// スレッド選択ドロップダウンを切り替えます。
         ToggleThreadPicker,
-        /// Toggles the session picker dropdown.
+        /// セッション選択ドロップダウンを切り替えます。
         ToggleSessionPicker,
-        /// Reruns the last debugging session.
+        /// 最後のデバッグセッションを再実行します。
         #[action(deprecated_aliases = ["debugger::RerunLastSession"])]
         Rerun,
-        /// Toggles expansion of the selected item in the debugger UI.
+        /// デバッガーUI内の選択項目の展開/折りたたみを切り替えます。
         ToggleExpandItem,
-        /// Toggle the user frame filter in the stack frame list
-        /// When toggled on, only frames from the user's code are shown
-        /// When toggled off, all frames are shown
+        /// スタックフレーム一覧のユーザーフレームフィルターを切り替えます。
+        /// 有効にすると、ユーザーコードのフレームのみが表示されます。
+        /// 無効にすると、すべてのフレームが表示されます。
         ToggleUserFrames,
     ]
 );
 
-/// Extends selection down by a specified number of lines.
+/// 指定した行数だけ選択範囲を下へ拡張します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = debugger)]
 #[serde(deny_unknown_fields)]
-/// Set a data breakpoint on the selected variable or memory region.
+/// 選択した変数またはメモリ領域にデータブレークポイントを設定します。
 pub struct ToggleDataBreakpoint {
-    /// The type of data breakpoint
-    /// Read & Write
-    /// Read
-    /// Write
+    /// データブレークポイントの種類
+    /// 読み書き
+    /// 読み取り
+    /// 書き込み
     #[serde(default)]
     pub access_type: Option<dap::DataBreakpointAccessType>,
 }
@@ -103,7 +103,7 @@ pub struct ToggleDataBreakpoint {
 actions!(
     dev,
     [
-        /// Copies debug adapter launch arguments to clipboard.
+        /// デバッグアダプターの起動引数をクリップボードにコピーします。
         CopyDebugAdapterArguments
     ]
 );

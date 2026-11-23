@@ -1,18 +1,10 @@
 # SuperTab
 
-Inspired by the Vim
-[SuperTab](https://www.vim.org/scripts/script.php?script_id=1643) plugin, this
-feature makes the Tab key context-sensitive so that the same key can indent,
-produce a literal tab character and perform completion, all in one.
+Vim の [SuperTab](https://www.vim.org/scripts/script.php?script_id=1643) プラグインに着想を得たこの機能は、Tab キーにコンテキスト依存の動作を持たせることで、同じキーでインデント、タブ文字の直接挿入、コード補完のすべてをまかなえるようにします。
 
-The basic concept is that it's possible to figure out what to do when the user
-presses tab based on the current context. If the cursor is at the end of some
-text, activating SuperTab will open the completion menu. If the cursor is at the
-beginning of the line or only preceded by whitespace, it will indent the line.
-In any other scenario, it will produce a tab character.
+基本的な考え方は、ユーザーが Tab キーを押したときの現在のコンテキスト（文脈）に基づいて、最適な動作を判断するというものです。カーソルがテキストの末尾にある場合、SuperTab を起動すると補完メニューが開きます。カーソルが行頭にあるか空白文字のみが前にある場合は、その行をインデントします。それ以外の状況では、タブ文字を挿入します。
 
-To enable SuperTab, bind the tab key to {#action editor::SuperTab} in your
-`keymap.jsonc`:
+SuperTab を有効にするには、`keymap.jsonc` で Tab キーを {#action editor::SuperTab} に割り当ててください:
 
 ```json
 {
@@ -24,15 +16,12 @@ To enable SuperTab, bind the tab key to {#action editor::SuperTab} in your
 }
 ```
 
-## Fallback mode
+## フォールバックモード
 
-By default, Supertab will fall back to inserting a literal `tab` character when
-not at the beginning of the line or at a completion point. To have it always
-indent unless completing, you can configure `supertab_fallback` in
-`settings.jsonc` or via the Settings interface:
+デフォルトでは、行頭でも補完ポイントでもない場合、SuperTab はリテラルの `tab` 文字の挿入にフォールバックします。補完中以外は常にインデントさせたい場合は、`settings.jsonc` または設定インターフェースで `supertab_fallback` を設定できます:
 
 ```json
 {
-  "supertab_fallback": "indent", // default is "tab"
+  "supertab_fallback": "indent", // デフォルトは "tab"
 }
 ```

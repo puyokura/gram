@@ -53,13 +53,13 @@ use workspace::{
 actions!(
     diagnostics,
     [
-        /// Opens the project diagnostics view.
+        /// プロジェクトの診断ビューを開く。
         Deploy,
-        /// Toggle the project diagnostics view.
+        /// プロジェクトの診断ビューを切り替える。
         Toggle,
-        /// Toggles the display of warning-level diagnostics.
+        /// 警告レベルの診断を表示するかどうかを切り替える。
         ToggleWarnings,
-        /// Toggles automatic refresh of diagnostics.
+        /// 診断の自動更新を切り替える。
         ToggleDiagnosticsRefresh
     ]
 );
@@ -105,9 +105,9 @@ impl Render for ProjectDiagnosticsEditor {
 
         let child = if warning_count + self.summary.error_count == 0 && self.editor.read(cx).is_empty(cx) {
             let label = if self.summary.warning_count == 0 {
-                SharedString::new_static("No problems in workspace")
+                SharedString::new_static("ワークスペースに問題はありません")
             } else {
-                SharedString::new_static("No errors in workspace")
+                SharedString::new_static("ワークスペースにエラーはありません")
             };
             v_flex()
                 .key_context("EmptyPane")
@@ -119,8 +119,7 @@ impl Render for ProjectDiagnosticsEditor {
                 .bg(cx.theme().colors().editor_background)
                 .child(Label::new(label).color(Color::Muted))
                 .when(self.summary.warning_count > 0, |this| {
-                    let plural_suffix = if self.summary.warning_count > 1 { "s" } else { "" };
-                    let label = format!("Show {} warning{}", self.summary.warning_count, plural_suffix);
+                    let label = format!("警告を{}件表示", self.summary.warning_count);
                     this.child(
                         Button::new("diagnostics-show-warning-label", label).on_click(cx.listener(
                             |this, _, window, cx| {
@@ -710,11 +709,11 @@ impl Item for ProjectDiagnosticsEditor {
     }
 
     fn tab_tooltip_text(&self, _: &App) -> Option<SharedString> {
-        Some("Project Diagnostics".into())
+        Some("プロジェクトの診断".into())
     }
 
     fn tab_content_text(&self, _detail: usize, _: &App) -> SharedString {
-        "Diagnostics".into()
+        "診断".into()
     }
 
     fn tab_content(&self, params: TabContentParams, _window: &Window, _: &App) -> AnyElement {
@@ -727,7 +726,7 @@ impl Item for ProjectDiagnosticsEditor {
                         h_flex()
                             .gap_1()
                             .child(Icon::new(IconName::Check).color(Color::Success))
-                            .child(Label::new("No problems").color(params.text_color())),
+                            .child(Label::new("問題はありません").color(params.text_color())),
                     )
                 },
             )

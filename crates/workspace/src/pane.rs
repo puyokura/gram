@@ -95,12 +95,12 @@ pub enum SaveIntent {
     Skip,
 }
 
-/// Activates a specific item in the pane by its index.
+/// ペイン内の指定インデックスの項目をアクティブ化
 #[derive(Clone, PartialEq, Debug, Deserialize, JsonSchema, Default, Action)]
 #[action(namespace = pane)]
 pub struct ActivateItem(pub usize);
 
-/// Closes the currently active item in the pane.
+/// ペイン内の現在アクティブな項目を閉じる
 #[derive(Clone, PartialEq, Debug, Deserialize, JsonSchema, Default, Action)]
 #[action(namespace = pane)]
 #[serde(deny_unknown_fields)]
@@ -111,7 +111,7 @@ pub struct CloseActiveItem {
     pub close_pinned: bool,
 }
 
-/// Closes all inactive items in the pane.
+/// ペイン内の非アクティブな項目をすべて閉じる
 #[derive(Clone, PartialEq, Debug, Deserialize, JsonSchema, Default, Action)]
 #[action(namespace = pane)]
 #[serde(deny_unknown_fields)]
@@ -123,7 +123,7 @@ pub struct CloseOtherItems {
     pub close_pinned: bool,
 }
 
-/// Closes all multibuffers in the pane.
+/// ペイン内のすべてのマルチバッファーを閉じる
 #[derive(Clone, PartialEq, Debug, Deserialize, JsonSchema, Default, Action)]
 #[action(namespace = pane)]
 #[serde(deny_unknown_fields)]
@@ -134,7 +134,7 @@ pub struct CloseMultibufferItems {
     pub close_pinned: bool,
 }
 
-/// Closes all items in the pane.
+/// ペイン内のすべての項目を閉じる
 #[derive(Clone, PartialEq, Debug, Deserialize, JsonSchema, Default, Action)]
 #[action(namespace = pane)]
 #[serde(deny_unknown_fields)]
@@ -145,7 +145,7 @@ pub struct CloseAllItems {
     pub close_pinned: bool,
 }
 
-/// Closes all items that have no unsaved changes.
+/// 未保存の変更がない項目をすべて閉じる
 #[derive(Clone, PartialEq, Debug, Deserialize, JsonSchema, Default, Action)]
 #[action(namespace = pane)]
 #[serde(deny_unknown_fields)]
@@ -154,7 +154,7 @@ pub struct CloseCleanItems {
     pub close_pinned: bool,
 }
 
-/// Closes all items to the right of the current item.
+/// 現在の項目より右側の項目をすべて閉じる
 #[derive(Clone, PartialEq, Debug, Deserialize, JsonSchema, Default, Action)]
 #[action(namespace = pane)]
 #[serde(deny_unknown_fields)]
@@ -163,7 +163,7 @@ pub struct CloseItemsToTheRight {
     pub close_pinned: bool,
 }
 
-/// Closes all items to the left of the current item.
+/// 現在の項目より左側の項目をすべて閉じる
 #[derive(Clone, PartialEq, Debug, Deserialize, JsonSchema, Default, Action)]
 #[action(namespace = pane)]
 #[serde(deny_unknown_fields)]
@@ -172,7 +172,7 @@ pub struct CloseItemsToTheLeft {
     pub close_pinned: bool,
 }
 
-/// Reveals the current item in the project panel.
+/// プロジェクトパネルで現在の項目を表示
 #[derive(Clone, PartialEq, Debug, Deserialize, JsonSchema, Default, Action)]
 #[action(namespace = pane)]
 #[serde(deny_unknown_fields)]
@@ -181,7 +181,7 @@ pub struct RevealInProjectPanel {
     pub entry_id: Option<u64>,
 }
 
-/// Opens the search interface with the specified configuration.
+/// 指定された設定で検索インターフェースを開く
 #[derive(Clone, PartialEq, Debug, Deserialize, JsonSchema, Default, Action)]
 #[action(namespace = pane)]
 #[serde(deny_unknown_fields)]
@@ -197,59 +197,59 @@ pub struct DeploySearch {
 actions!(
     pane,
     [
-        /// Activates the previous item in the pane.
+        /// ペイン内の前の項目をアクティブ化
         ActivatePreviousItem,
-        /// Activates the next item in the pane.
+        /// ペイン内の次の項目をアクティブ化
         ActivateNextItem,
-        /// Activates the last item in the pane.
+        /// ペイン内の最後の項目をアクティブ化
         ActivateLastItem,
-        /// Switches to the alternate file.
+        /// 交互ファイルに切り替え
         AlternateFile,
-        /// Navigates back in history.
+        /// 履歴を前に戻る
         GoBack,
-        /// Navigates forward in history.
+        /// 履歴を次に進む
         GoForward,
-        /// Joins this pane into the next pane.
+        /// このペインを次のペインに結合
         JoinIntoNext,
-        /// Joins this pane into the next pane. The destination pane's active tab remains active.
+        /// このペインを次のペインに非アクティブとして結合
         JoinIntoNextAsInactive,
-        /// Joins this pane into the previous pane. The source pane's active tab remains active.
+        /// このペインを前のペインに結合
         JoinIntoPrevious,
-        /// Joins this pane into the previous pane. The destination pane's active tab remains active.
+        /// このペインを前のペインに非アクティブとして結合
         JoinIntoPreviousAsInactive,
-        /// Joins all panes into one.
+        /// すべてのペインを1つに結合
         JoinAll,
-        /// Reopens the most recently closed item.
+        /// 直前に閉じた項目を再度開く
         ReopenClosedItem,
-        /// Splits the pane to the left, cloning the current item.
+        /// 現在の項目を複製して左にペインを分割
         SplitLeft,
-        /// Splits the pane upward, cloning the current item.
+        /// 現在の項目を複製して上にペインを分割
         SplitUp,
-        /// Splits the pane to the right, cloning the current item.
+        /// 現在の項目を複製して右にペインを分割
         SplitRight,
-        /// Splits the pane downward, cloning the current item.
+        /// 現在の項目を複製して下にペインを分割
         SplitDown,
-        /// Splits the pane to the left, moving the current item.
+        /// 現在の項目を移動して左にペインを分割
         SplitAndMoveLeft,
-        /// Splits the pane upward, moving the current item.
+        /// 現在の項目を移動して上にペインを分割
         SplitAndMoveUp,
-        /// Splits the pane to the right, moving the current item.
+        /// 現在の項目を移動して右にペインを分割
         SplitAndMoveRight,
-        /// Splits the pane downward, moving the current item.
+        /// 現在の項目を移動して下にペインを分割
         SplitAndMoveDown,
-        /// Splits the pane horizontally.
+        /// ペインを水平方向に分割
         SplitHorizontal,
-        /// Splits the pane vertically.
+        /// ペインを垂直方向に分割
         SplitVertical,
-        /// Swaps the current item with the one to the left.
+        /// 現在の項目を左の項目と入れ替え
         SwapItemLeft,
-        /// Swaps the current item with the one to the right.
+        /// 現在の項目を右の項目と入れ替え
         SwapItemRight,
-        /// Toggles preview mode for the current tab.
+        /// 現在のタブのプレビューモードを切り替え
         TogglePreviewTab,
-        /// Toggles pin status for the current tab.
+        /// 現在のタブのピン留め状態を切り替え
         TogglePinTab,
-        /// Unpins all tabs in the pane.
+        /// ペイン内のすべてのタブのピン留めを解除
         UnpinAllTabs,
     ]
 );
@@ -1743,9 +1743,9 @@ impl Pane {
                     let detail = Self::file_names_for_prompt(&mut dirty_items.iter(), cx);
                     window.prompt(
                         PromptLevel::Warning,
-                        "Do you want to save changes to the following files?",
+                        "以下のファイルへの変更を保存しますか？",
                         Some(&detail),
-                        &["Save all", "Discard all", "Cancel"],
+                        &["すべて保存", "すべて破棄", "キャンセル"],
                         cx,
                     )
                 })?;
@@ -1780,9 +1780,9 @@ impl Pane {
                                 let detail = Self::file_names_for_prompt(&mut [&item_to_close].into_iter(), cx);
                                 window.prompt(
                                     PromptLevel::Warning,
-                                    &format!("Unable to save file: {}", err),
+                                    &format!("ファイルを保存できませんでした: {}", err),
                                     Some(&detail),
-                                    &["Close Without Saving", "Cancel"],
+                                    &["保存せずに閉じる", "キャンセル"],
                                     cx,
                                 )
                             })?;
@@ -1955,11 +1955,9 @@ impl Pane {
         save_intent: SaveIntent,
         cx: &mut AsyncWindowContext,
     ) -> Result<bool> {
-        const CONFLICT_MESSAGE: &str =
-            "This file has changed on disk since you started editing it. Do you want to overwrite it?";
+        const CONFLICT_MESSAGE: &str = "このファイルは編集開始後にディスク上で変更されました。上書きしますか？";
 
-        const DELETED_MESSAGE: &str =
-            "This file has been deleted on disk since you started editing it. Do you want to recreate it?";
+        const DELETED_MESSAGE: &str = "このファイルは編集開始後にディスク上で削除されました。再作成しますか？";
 
         let path_style = project.read_with(cx, |project, cx| project.path_style(cx))?;
         if save_intent == SaveIntent::Skip {
@@ -2006,7 +2004,7 @@ impl Pane {
                         PromptLevel::Warning,
                         DELETED_MESSAGE,
                         None,
-                        &["Save", "Close", "Cancel"],
+                        &["保存", "閉じる", "キャンセル"],
                         cx,
                     )
                 })?;
@@ -2040,7 +2038,7 @@ impl Pane {
                         PromptLevel::Warning,
                         CONFLICT_MESSAGE,
                         None,
-                        &["Overwrite", "Discard", "Cancel"],
+                        &["上書き", "破棄", "キャンセル"],
                         cx,
                     )
                 })?;
@@ -2081,7 +2079,7 @@ impl Pane {
                                 PromptLevel::Warning,
                                 &prompt,
                                 None,
-                                &["Save", "Don't Save", "Cancel"],
+                                &["保存", "保存しない", "キャンセル"],
                                 cx,
                             ))
                         } else {
@@ -2453,7 +2451,7 @@ impl Pane {
         let end_slot_tooltip_text: &'static str;
         let end_slot = if is_pinned {
             end_slot_action = &TogglePinTab;
-            end_slot_tooltip_text = "Unpin Tab";
+            end_slot_tooltip_text = "タブのピン留めを解除";
             IconButton::new("unpin tab", IconName::Pin)
                 .shape(IconButtonShape::Square)
                 .icon_color(Color::Muted)
@@ -2467,7 +2465,7 @@ impl Pane {
                 save_intent: None,
                 close_pinned: false,
             };
-            end_slot_tooltip_text = "Close Tab";
+            end_slot_tooltip_text = "タブを閉じる";
             match show_close_button {
                 ShowCloseButton::Always => IconButton::new("close tab", IconName::Close),
                 ShowCloseButton::Hover => IconButton::new("close tab", IconName::Close).visible_on_hover(""),
@@ -2653,7 +2651,10 @@ impl Pane {
                 if event.click_count() > 1 {
                     pane.unpreview_item_if_preview(item_id);
                     let extra_actions = item_handle.tab_extra_context_menu_actions(window, cx);
-                    if let Some((_, action)) = extra_actions.into_iter().find(|(label, _)| label.as_ref() == "Rename") {
+                    if let Some((_, action)) = extra_actions
+                        .into_iter()
+                        .find(|(label, _)| label.as_ref() == "Rename" || label.as_ref() == "名前を変更")
+                    {
                         // Dispatch action directly through the focus handle to avoid
                         // relay_action's intermediate focus step which can interfere
                         // with inline editors.
@@ -2780,7 +2781,7 @@ impl Pane {
                 if let Some(pane) = pane.upgrade() {
                     menu = menu
                         .entry(
-                            "Close",
+                            "閉じる",
                             Some(Box::new(close_active_item_action)),
                             window.handler_for(&pane, move |pane, window, cx| {
                                 pane.close_item_by_id(item_id, SaveIntent::Close, window, cx)
@@ -2788,7 +2789,7 @@ impl Pane {
                             }),
                         )
                         .item(ContextMenuItem::Entry(
-                            ContextMenuEntry::new("Close Others")
+                            ContextMenuEntry::new("他をすべて閉じる")
                                 .action(Box::new(close_inactive_items_action.clone()))
                                 .disabled(total_items == 1)
                                 .handler(window.handler_for(&pane, move |pane, window, cx| {
@@ -2799,7 +2800,7 @@ impl Pane {
                         // We make this optional, instead of using disabled as to not overwhelm the context menu unnecessarily
                         .extend(has_multibuffer_items.then(|| {
                             ContextMenuItem::Entry(
-                                ContextMenuEntry::new("Close Multibuffers")
+                                ContextMenuEntry::new("マルチバッファーを閉じる")
                                     .action(Box::new(close_multibuffers_action.clone()))
                                     .handler(window.handler_for(&pane, move |pane, window, cx| {
                                         pane.close_multibuffer_items(&close_multibuffers_action, window, cx)
@@ -2809,7 +2810,7 @@ impl Pane {
                         }))
                         .separator()
                         .item(ContextMenuItem::Entry(
-                            ContextMenuEntry::new("Close Left")
+                            ContextMenuEntry::new("左側を閉じる")
                                 .action(Box::new(close_items_to_the_left_action.clone()))
                                 .disabled(!has_items_to_left)
                                 .handler(window.handler_for(&pane, move |pane, window, cx| {
@@ -2823,7 +2824,7 @@ impl Pane {
                                 })),
                         ))
                         .item(ContextMenuItem::Entry(
-                            ContextMenuEntry::new("Close Right")
+                            ContextMenuEntry::new("右側を閉じる")
                                 .action(Box::new(close_items_to_the_right_action.clone()))
                                 .disabled(!has_items_to_right)
                                 .handler(window.handler_for(&pane, move |pane, window, cx| {
@@ -2838,7 +2839,7 @@ impl Pane {
                         ))
                         .separator()
                         .item(ContextMenuItem::Entry(
-                            ContextMenuEntry::new("Close Clean")
+                            ContextMenuEntry::new("未変更を閉じる")
                                 .action(Box::new(close_clean_items_action.clone()))
                                 .disabled(!has_clean_items)
                                 .handler(window.handler_for(&pane, move |pane, window, cx| {
@@ -2847,7 +2848,7 @@ impl Pane {
                                 })),
                         ))
                         .entry(
-                            "Close All",
+                            "すべて閉じる",
                             Some(Box::new(close_all_items_action.clone())),
                             window.handler_for(&pane, move |pane, window, cx| {
                                 pane.close_all_items(&close_all_items_action, window, cx)
@@ -2859,7 +2860,7 @@ impl Pane {
                         menu.separator().map(|this| {
                             if is_pinned {
                                 this.entry(
-                                    "Unpin Tab",
+                                    "タブのピン留めを解除",
                                     Some(TogglePinTab.boxed_clone()),
                                     window.handler_for(&pane, move |pane, window, cx| {
                                         pane.unpin_tab_at(ix, window, cx);
@@ -2867,7 +2868,7 @@ impl Pane {
                                 )
                             } else {
                                 this.entry(
-                                    "Pin Tab",
+                                    "タブをピン留め",
                                     Some(TogglePinTab.boxed_clone()),
                                     window.handler_for(&pane, move |pane, window, cx| {
                                         pane.pin_tab_at(ix, window, cx);
@@ -2908,7 +2909,7 @@ impl Pane {
                             .separator()
                             .when_some(entry_abs_path, |menu, abs_path| {
                                 menu.entry(
-                                    "Copy Path",
+                                    "パスをコピー",
                                     Some(Box::new(app_actions::workspace::CopyPath)),
                                     window.handler_for(&pane, move |_, _, cx| {
                                         cx.write_to_clipboard(ClipboardItem::new_string(
@@ -2919,7 +2920,7 @@ impl Pane {
                             })
                             .when_some(relative_path.clone(), |menu, relative_path| {
                                 menu.entry(
-                                    "Copy Relative Path",
+                                    "相対パスをコピー",
                                     Some(Box::new(app_actions::workspace::CopyRelativePath)),
                                     window.handler_for(&pane, move |this, _, cx| {
                                         let Some(project) = this.project.upgrade() else {
@@ -2936,7 +2937,7 @@ impl Pane {
                             .separator()
                             .when(visible_in_project_panel, |menu| {
                                 menu.entry(
-                                    "Reveal In Project Panel",
+                                    "プロジェクトパネルで表示",
                                     Some(Box::new(RevealInProjectPanel::default())),
                                     window.handler_for(&pane, move |pane, _, cx| {
                                         pane.project
@@ -2951,7 +2952,7 @@ impl Pane {
                             })
                             .when_some(parent_abs_path, |menu, parent_abs_path| {
                                 menu.entry(
-                                    "Open in Terminal",
+                                    "ターミナルで開く",
                                     Some(Box::new(OpenInTerminal)),
                                     window.handler_for(&pane, move |_, window, cx| {
                                         window.dispatch_action(
@@ -2966,7 +2967,7 @@ impl Pane {
                             })
                             .when_some(relative_path, |menu, _| {
                                 menu.entry(
-                                    "View File History",
+                                    "ファイルの履歴を表示",
                                     Some(Box::new(git::FileHistory)),
                                     window.handler_for(&pane, move |_, window, cx| {
                                         window.dispatch_action(git::FileHistory.boxed_clone(), cx);
@@ -3003,7 +3004,7 @@ impl Pane {
             .tooltip({
                 move |window, cx| {
                     Tooltip::for_action_in(
-                        "Go Back",
+                        "戻る",
                         &GoBack,
                         &window.focused(cx).unwrap_or_else(|| focus_handle.clone()),
                         cx,
@@ -3021,7 +3022,7 @@ impl Pane {
             .tooltip({
                 move |window, cx| {
                     Tooltip::for_action_in(
-                        "Go Forward",
+                        "進む",
                         &GoForward,
                         &window.focused(cx).unwrap_or_else(|| focus_handle.clone()),
                         cx,
@@ -4227,17 +4228,17 @@ fn render_tab_bar_buttons_laid_out(
             PopoverMenu::new("pane-tab-bar-popover-menu")
                 .trigger_with_tooltip(
                     IconButton::new("plus", IconName::Plus).icon_size(IconSize::Small),
-                    Tooltip::text("New..."),
+                    Tooltip::text("新規…"),
                 )
                 .anchor(Corner::TopRight)
                 .with_handle(pane.new_item_context_menu_handle.clone())
                 .menu(move |window, cx| {
                     Some(ContextMenu::build(window, cx, |menu, _, _| {
-                        menu.action("New File", NewFile.boxed_clone())
-                            .action("Open File", ToggleFileFinder::default().boxed_clone())
+                        menu.action("新規ファイル", NewFile.boxed_clone())
+                            .action("ファイルを開く", ToggleFileFinder::default().boxed_clone())
                             .separator()
                             .action(
-                                "Search Project",
+                                "プロジェクト内を検索",
                                 DeploySearch {
                                     replace_enabled: false,
                                     included_files: None,
@@ -4245,9 +4246,9 @@ fn render_tab_bar_buttons_laid_out(
                                 }
                                 .boxed_clone(),
                             )
-                            .action("Search Symbols", ToggleProjectSymbols.boxed_clone())
+                            .action("シンボルを検索", ToggleProjectSymbols.boxed_clone())
                             .separator()
-                            .action("New Terminal", NewTerminal.boxed_clone())
+                            .action("新規ターミナル", NewTerminal.boxed_clone())
                     }))
                 }),
         )
@@ -4257,22 +4258,22 @@ fn render_tab_bar_buttons_laid_out(
                     IconButton::new("split", IconName::Split)
                         .icon_size(IconSize::Small)
                         .disabled(!can_clone && !can_split_move),
-                    Tooltip::text("Split Pane"),
+                    Tooltip::text("ペインを分割"),
                 )
                 .anchor(Corner::TopRight)
                 .with_handle(pane.split_item_context_menu_handle.clone())
                 .menu(move |window, cx| {
                     ContextMenu::build(window, cx, |menu, _, _| {
                         if can_split_move {
-                            menu.action("Split Right", SplitAndMoveRight.boxed_clone())
-                                .action("Split Left", SplitAndMoveLeft.boxed_clone())
-                                .action("Split Up", SplitAndMoveUp.boxed_clone())
-                                .action("Split Down", SplitAndMoveDown.boxed_clone())
+                            menu.action("右に分割", SplitAndMoveRight.boxed_clone())
+                                .action("左に分割", SplitAndMoveLeft.boxed_clone())
+                                .action("上に分割", SplitAndMoveUp.boxed_clone())
+                                .action("下に分割", SplitAndMoveDown.boxed_clone())
                         } else {
-                            menu.action("Split Right", SplitRight.boxed_clone())
-                                .action("Split Left", SplitLeft.boxed_clone())
-                                .action("Split Up", SplitUp.boxed_clone())
-                                .action("Split Down", SplitDown.boxed_clone())
+                            menu.action("右に分割", SplitRight.boxed_clone())
+                                .action("左に分割", SplitLeft.boxed_clone())
+                                .action("上に分割", SplitUp.boxed_clone())
+                                .action("下に分割", SplitDown.boxed_clone())
                         }
                     })
                     .into()
@@ -4288,7 +4289,15 @@ fn render_tab_bar_buttons_laid_out(
                     pane.toggle_zoom(&crate::ToggleZoom, window, cx);
                 }))
                 .tooltip(move |_window, cx| {
-                    Tooltip::for_action(if zoomed { "Zoom Out" } else { "Zoom In" }, &ToggleZoom, cx)
+                    Tooltip::for_action(
+                        if zoomed {
+                            "ズームアウト"
+                        } else {
+                            "ズームイン"
+                        },
+                        &ToggleZoom,
+                        cx,
+                    )
                 })
         })
         .into_any_element()
@@ -4469,7 +4478,7 @@ impl Render for Pane {
                                 }));
                             if has_worktrees {
                                 placeholder.child(
-                                    Label::new("Select a file to start editing.")
+                                    Label::new("編集するファイルを選択してください。")
                                         .color(Color::Muted)
                                         .italic(),
                                 )
@@ -4737,9 +4746,9 @@ fn dirty_message_for(buffer_path: Option<ProjectPath>, path_style: PathStyle) ->
             let path = p.path.display(path_style);
             if path.is_empty() { None } else { Some(path) }
         })
-        .unwrap_or("This buffer".into());
+        .unwrap_or("このバッファー".into());
     let path = truncate_and_remove_front(&path, 80);
-    format!("{path} contains unsaved edits. Do you want to save it?")
+    format!("{path} には未保存の変更があります。保存しますか？")
 }
 
 fn scaled_char_budget(avail: Pixels, measured: Pixels, char_count: usize) -> usize {
@@ -7752,7 +7761,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Save all");
+        cx.simulate_prompt_answer("すべて保存");
         save.await.unwrap();
         assert_item_labels(&pane, [], cx);
 
@@ -7772,7 +7781,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Discard all");
+        cx.simulate_prompt_answer("すべて破棄");
         save.await.unwrap();
         assert_item_labels(&pane, [], cx);
 
@@ -7799,7 +7808,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Discard all");
+        cx.simulate_prompt_answer("すべて破棄");
         close_task.await.unwrap();
         assert_item_labels(&pane, [], cx);
 
@@ -7822,7 +7831,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Cancel");
+        cx.simulate_prompt_answer("キャンセル");
         close_task.await.unwrap();
         assert_item_labels(&pane, ["Dirty*^"], cx);
     }
@@ -7911,7 +7920,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Save all");
+        cx.simulate_prompt_answer("すべて保存");
         save.await.unwrap();
         assert_item_labels(&pane, ["C", "A*^"], cx);
 
@@ -7934,7 +7943,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Discard all");
+        cx.simulate_prompt_answer("すべて破棄");
         save.await.unwrap();
         assert_item_labels(&pane, ["C", "A*^"], cx);
     }

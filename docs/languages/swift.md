@@ -1,40 +1,33 @@
 # Swift
 
-Swift language support in Gram is provided by the community-maintained
-[Swift extension](https://github.com/zed-extensions/swift). Report issues to:
+Gram での Swift 言語サポートは、コミュニティが保守する
+[Swift 拡張機能](https://github.com/zed-extensions/swift)によって提供されます。問題はこちらへ報告してください:
 [https://github.com/zed-extensions/swift/issues](https://github.com/zed-extensions/swift/issues)
 
 - Tree-sitter:
   [alex-pinkus/tree-sitter-swift](https://github.com/alex-pinkus/tree-sitter-swift)
-- Language Server:
+- 言語サーバー:
   [swiftlang/sourcekit-lsp](https://github.com/swiftlang/sourcekit-lsp)
-- Debug Adapter:
+- デバッグアダプター:
   [`lldb-dap`](https://github.com/swiftlang/llvm-project/blob/next/lldb/tools/lldb-dap/README.md)
 
-## Language Server Configuration
+## 言語サーバーの設定
 
-You can modify the behavior of SourceKit LSP by creating a
-`.sourcekit-lsp/config.json` under your home directory or in your project root.
-See
-[SourceKit-LSP configuration file](https://github.com/swiftlang/sourcekit-lsp/blob/main/Documentation/Configuration%20File.md)
-for complete documentation.
+ホームディレクトリまたはプロジェクトのルートに `.sourcekit-lsp/config.json` を作成することで、SourceKit LSP の動作を変更できます。完全なドキュメントは
+[SourceKit-LSP の設定ファイル](https://github.com/swiftlang/sourcekit-lsp/blob/main/Documentation/Configuration%20File.md)
+を参照してください。
 
-## Debugging
+## デバッグ
 
-The Swift extension provides a debug adapter for debugging Swift code. Gram's
-name for the adapter (in the UI and `debug.jsonc`) is `Swift`, and under the
-hood it uses
-[`lldb-dap`](https://github.com/swiftlang/llvm-project/blob/next/lldb/tools/lldb-dap/README.md),
-as provided by the Swift toolchain. The extension tries to find an `lldb-dap`
-binary using `swiftly`, using `xcrun`, and by searching `$PATH`, in that order
-of preference. The extension doesn't attempt to download `lldb-dap` if it's not
-found.
+Swift 拡張機能は、Swift コードをデバッグするためのデバッグアダプターを提供します。Gram でのアダプター名（UI と `debug.jsonc` 内）は `Swift` で、内部では Swift ツールチェーンが提供する
+[`lldb-dap`](https://github.com/swiftlang/llvm-project/blob/next/lldb/tools/lldb-dap/README.md)
+を使用します。拡張機能は `swiftly` の使用、`xcrun` の使用、`$PATH` の検索の順に優先して `lldb-dap` バイナリを探します。`lldb-dap` が見つからない場合、拡張機能はダウンロードを試みません。
 
-- [lldb-dap configuration documentation](https://github.com/llvm/llvm-project/blob/main/lldb/tools/lldb-dap/README.md#configuration-settings-reference)
+- [lldb-dap の設定ドキュメント](https://github.com/llvm/llvm-project/blob/main/lldb/tools/lldb-dap/README.md#configuration-settings-reference)
 
-### Examples
+### 例
 
-#### Build and debug a Swift binary
+#### Swift バイナリのビルドとデバッグ
 
 ```json [debug]
 [

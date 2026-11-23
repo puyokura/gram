@@ -28,9 +28,9 @@ use workspace::{ModalView, Workspace};
 actions!(
     toolchain,
     [
-        /// Selects a toolchain for the current project.
+        /// 現在のプロジェクトで使用するツールチェーンを選択します。
         Select,
-        /// Adds a new toolchain for the current project.
+        /// 現在のプロジェクトに新しいツールチェーンを追加します。
         AddToolchain
     ]
 );
@@ -155,20 +155,24 @@ impl AddToolchainState {
                                 .p_1()
                                 .justify_between()
                                 .gap_2()
-                                .child(Label::new("Select Toolchain Path").color(Color::Muted).map(|this| {
-                                    if is_loading {
-                                        this.with_animation(
-                                            "select-toolchain-label",
-                                            Animation::new(Duration::from_secs(2))
-                                                .repeat()
-                                                .with_easing(pulsating_between(0.4, 0.8)),
-                                            |label, delta| label.alpha(delta),
-                                        )
-                                        .into_any()
-                                    } else {
-                                        this.into_any_element()
-                                    }
-                                }))
+                                .child(
+                                    Label::new("ツールチェーンのパスを選択")
+                                        .color(Color::Muted)
+                                        .map(|this| {
+                                            if is_loading {
+                                                this.with_animation(
+                                                    "select-toolchain-label",
+                                                    Animation::new(Duration::from_secs(2))
+                                                        .repeat()
+                                                        .with_easing(pulsating_between(0.4, 0.8)),
+                                                    |label, delta| label.alpha(delta),
+                                                )
+                                                .into_any()
+                                            } else {
+                                                this.into_any_element()
+                                            }
+                                        }),
+                                )
                                 .when_some(error, |this, error| this.child(Label::new(error).color(Color::Error))),
                         )
                         .into_any(),
@@ -341,7 +345,7 @@ impl Render for AddToolchainState {
     fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let theme = cx.theme().clone();
         let weak = self.weak.upgrade();
-        let label = SharedString::new_static("Add");
+        let label = SharedString::new_static("追加");
 
         v_flex()
             .size_full()
@@ -386,7 +390,7 @@ impl Render for AddToolchainState {
                             .child(
                                 v_flex()
                                     .child(
-                                        Label::new("Scope")
+                                        Label::new("スコープ")
                                             .size(LabelSize::Small)
                                             .color(Color::Muted)
                                             .mt_1()
@@ -694,7 +698,8 @@ impl ToolchainSelectorDelegate {
                     .await?;
                 let relative_path = this
                     .update(cx, |this, cx| {
-                        this.delegate.add_toolchain_text = format!("Add {}", meta.term.as_ref().to_title_case()).into();
+                        this.delegate.add_toolchain_text =
+                            format!("{} を追加", meta.term.as_ref().to_title_case()).into();
                         cx.notify();
                         this.delegate.relative_path.clone()
                     })
@@ -719,12 +724,12 @@ impl ToolchainSelectorDelegate {
                     .await?;
                 let pretty_path = {
                     if relative_path.is_empty() {
-                        Cow::Borrowed("worktree root")
+                        Cow::Borrowed("ワークツリールート")
                     } else {
                         Cow::Owned(format!("`{}`", relative_path.display(path_style)))
                     }
                 };
-                let placeholder_text = format!("Select a {} for {pretty_path}…", meta.term.to_lowercase(),).into();
+                let placeholder_text = format!("{pretty_path} の {} を選択…", meta.term.to_lowercase()).into();
                 let _ = this.update_in(cx, move |this, window, cx| {
                     this.delegate.relative_path = relative_path;
                     this.delegate.placeholder_text = placeholder_text;
@@ -762,7 +767,7 @@ impl ToolchainSelectorDelegate {
                 Some(())
             }
         });
-        let placeholder_text = "Select a toolchain…".to_string().into();
+        let placeholder_text = "ツールチェーンを選択…".to_string().into();
         Self {
             toolchain_selector,
             candidates: Default::default(),
@@ -776,7 +781,7 @@ impl ToolchainSelectorDelegate {
             _fetch_candidates_task,
             project,
             focus_handle: cx.focus_handle(),
-            add_toolchain_text: Arc::from("Add Toolchain"),
+            add_toolchain_text: Arc::from("ツールチェーンを追加"),
         }
     }
     fn relativize_path(path: SharedString, worktree_root: &Path, path_style: PathStyle) -> SharedString {
@@ -980,7 +985,7 @@ impl PickerDelegate for ToolchainSelectorDelegate {
                                 .on_click(|_, window, cx| window.dispatch_action(Box::new(AddToolchain), cx)),
                         )
                         .child(
-                            Button::new("select", "Select")
+                            Button::new("select", "選択")
                                 .key_binding(KeyBinding::for_action_in(&menu::Confirm, &self.focus_handle, cx))
                                 .on_click(|_, window, cx| window.dispatch_action(menu::Confirm.boxed_clone(), cx)),
                         ),

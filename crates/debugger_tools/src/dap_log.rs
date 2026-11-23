@@ -374,7 +374,7 @@ impl LogStore {
             state.insert(DebugAdapterState::new(
                 id.session_id,
                 adapter_name,
-                session_label.unwrap_or_else(|| format!("Session {} (child)", id.session_id.0).into()),
+                session_label.unwrap_or_else(|| format!("セッション {}（子）", id.session_id.0).into()),
                 has_adapter_logs,
             ));
 
@@ -504,7 +504,7 @@ impl Render for DapLogToolbarItemView {
                             }
                         ))
                     })
-                    .unwrap_or_else(|| "No adapter selected".into()),
+                    .unwrap_or_else(|| "アダプター未選択".into()),
             ))
             .menu(move |window, cx| {
                 let log_view = log_view.clone();
@@ -589,7 +589,7 @@ impl Render for DapLogToolbarItemView {
             .child(
                 div()
                     .child(
-                        Button::new("clear_log_button", "Clear").on_click(cx.listener(|this, _, window, cx| {
+                        Button::new("clear_log_button", "クリア").on_click(cx.listener(|this, _, window, cx| {
                             if let Some(log_view) = this.log_view.as_ref() {
                                 log_view.update(cx, |log_view, cx| {
                                     log_view.editor.update(cx, |editor, cx| {
@@ -876,9 +876,9 @@ struct DapMenuItem {
     selected_entry: View,
 }
 
-const ADAPTER_LOGS: &str = "Adapter Logs";
-const RPC_MESSAGES: &str = "RPC Messages";
-const INITIALIZATION_SEQUENCE: &str = "Initialization Sequence";
+const ADAPTER_LOGS: &str = "アダプターログ";
+const RPC_MESSAGES: &str = "RPC メッセージ";
+const INITIALIZATION_SEQUENCE: &str = "初期化シーケンス";
 
 impl Render for DapLogView {
     fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -890,7 +890,7 @@ impl Render for DapLogView {
 actions!(
     dev,
     [
-        /// Opens the debug adapter protocol logs viewer.
+        /// デバッグアダプタープロトコル（DAP）ログビューアを開きます。
         OpenDebugAdapterLogs
     ]
 );
@@ -930,7 +930,7 @@ impl Item for DapLogView {
     }
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "DAP Logs".into()
+        "DAPログ".into()
     }
 
     fn as_searchable(&self, handle: &Entity<Self>, _: &App) -> Option<Box<dyn SearchableItemHandle>> {

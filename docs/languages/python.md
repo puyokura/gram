@@ -1,35 +1,35 @@
-# How to Set Up Python in Gram
+# Gram での Python のセットアップ方法
 
-Python support is available natively in Gram.
+Python のサポートは Gram にネイティブで組み込まれています。
 
 - Tree-sitter:
   [tree-sitter-python](https://github.com/zed-industries/tree-sitter-python)
-- Language Servers:
+- 言語サーバー:
   - [DetachHead/basedpyright](https://github.com/DetachHead/basedpyright)
   - [astral-sh/ruff](https://github.com/astral-sh/ruff)
   - [astral-sh/ty](https://github.com/astral-sh/ty)
   - [microsoft/pyright](https://github.com/microsoft/pyright)
   - [python-lsp/python-lsp-server](https://github.com/python-lsp/python-lsp-server)
     (PyLSP)
-- Debug Adapter: [debugpy](https://github.com/microsoft/debugpy)
+- デバッグアダプター: [debugpy](https://github.com/microsoft/debugpy)
 
-## Install Python
+## Python のインストール
 
-You'll need both Gram and Python installed before you can begin.
+始める前に、Gram と Python の両方をインストールしておく必要があります。
 
-### Step 1: Install Python
+### ステップ 1: Python のインストール
 
-Gram does not bundle a Python runtime, so you’ll need to install one yourself.
-Choose one of the following options:
+Gram には Python ランタイムが同梱されていないため、ご自身でインストールする必要があります。以下のいずれかの方法を選択してください:
 
-- uv (recommended)
+- uv（推奨）
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-To learn more, visit
-[Astral’s installation guide](https://docs.astral.sh/uv/getting-started/installation/).
+詳細については、
+[Astral のインストールガイド](https://docs.astral.sh/uv/getting-started/installation/)
+を参照してください。
 
 - Homebrew:
 
@@ -37,69 +37,59 @@ To learn more, visit
 brew install python
 ```
 
-- Python.org installer: Download the latest version from
-  [python.org/downloads](https://python.org/downloads).
+- Python.org インストーラー:
+  [python.org/downloads](https://python.org/downloads) から最新バージョンをダウンロードします。
 
-### Step 2: Verify Python Installation
+### ステップ 2: Python インストールの確認
 
-Confirm Python is installed and available in your shell:
+シェルで Python がインストールされ利用可能であることを確認します:
 
 ```bash
 python3 --version
 ```
 
-You should see an output like `Python 3.x.x`.
+`Python 3.x.x` のような出力が表示されるはずです。
 
-## Open Your First Python Project in Gram
+## Gram で最初の Python プロジェクトを開く
 
-Once Gram and Python are installed, open a folder containing Python code to
-start working.
+Gram と Python をインストールしたら、作業を開始するために Python コードを含むフォルダーを開きます。
 
-### Step 1: Launch Gram with a Python Project
+### ステップ 1: Python プロジェクトで Gram を起動する
 
-Open Gram. From the menu bar, choose File > Open Folder, or launch from the
-terminal:
+Gram を開きます。メニューバーから「ファイル > フォルダーを開く」を選択するか、ターミナルから起動します:
 
 ```bash
 gram path/to/your/project
 ```
 
-Gram will recognize `.py` files automatically using its native
-tree-sitter-python parser, with no plugins or manual setup required.
+Gram はネイティブの tree-sitter-python パーサーを使用して `.py` ファイルを自動的に認識するため、プラグインや手動設定は不要です。
 
-### Step 2: Use the Integrated Terminal (Optional)
+### ステップ 2: 統合ターミナルの使用（任意）
 
-Gram includes an integrated terminal, accessible from the bottom panel. If Gram
-detects that your project is using a
-[virtual environment](#virtual-environments), it will be activated automatically
-in newly-created terminals. You can configure this behavior with the
-[`detect_venv`](../configuring-gram.md#terminal-detect_venv) setting.
+Gram には、下部パネルからアクセスできる統合ターミナルが含まれています。プロジェクトが
+[仮想環境](#virtual-environments) を使用していることを Gram が検出した場合、新しく作成されたターミナルで自動的にアクティブ化されます。この動作は
+[`detect_venv`](../configuring-gram.md#terminal-detect_venv) 設定で構成できます。
 
-## Configure Python Language Servers in Gram
+## Gram での Python 言語サーバーの設定
 
-Gram provides several Python language servers out of the box. By default,
-[basedpyright](https://github.com/DetachHead/basedpyright) is the primary
-language server, and [Ruff](https://github.com/astral-sh/ruff) is used for
-formatting and linting.
+Gram は複数の Python 言語サーバーを初期状態で提供しています。既定では、
+[basedpyright](https://github.com/DetachHead/basedpyright) がプライマリ言語サーバーとして使用され、フォーマットとリントには [Ruff](https://github.com/astral-sh/ruff) が使用されます。
 
-Other built-in language servers are:
+その他の組み込み言語サーバーは次のとおりです:
 
-- [Ty](https://docs.astral.sh/ty/), an up-and-coming language server from
-  Astral, built for speed.
-- [Pyright](https://github.com/microsoft/pyright), the basis for basedpyright.
-- [PyLSP](https://github.com/python-lsp/python-lsp-server), a plugin-based
-  language server that integrates with tools like `pycodestyle`, `autopep8`, and
-  `yapf`.
+- [Ty](https://docs.astral.sh/ty/): 速度を重視して構築された Astral 製の先進的な言語サーバー。
+- [Pyright](https://github.com/microsoft/pyright): basedpyright の基礎。
+- [PyLSP](https://github.com/python-lsp/python-lsp-server): `pycodestyle`、`autopep8`、`yapf` などのツールと統合するプラグインベースの言語サーバー。
 
-These are disabled by default, but can be enabled in your settings. For example:
+これらは既定では無効になっていますが、設定で有効にすることができます。例:
 
 ```json
 {
   "languages": {
     "Python": {
       "language_servers": [
-        // Disable basedpyright and enable Ty, and otherwise
-        // use the default configuration.
+        // basedpyright を無効化して Ty を有効化し、
+        // それ以外は既定の設定を使用します。
         "ty",
         "!basedpyright",
         "...",
@@ -109,63 +99,47 @@ These are disabled by default, but can be enabled in your settings. For example:
 }
 ```
 
-See:
-[Working with Language Servers](../configuring-languages.md#working-with-language-servers)
-for more information about how to enable and disable language servers.
+言語サーバーを有効または無効にする方法の詳細については、
+[言語サーバーの操作](../configuring-languages.md#working-with-language-servers)
+を参照してください。
 
 ### Basedpyright
 
-[basedpyright](https://docs.basedpyright.com/latest/) is the primary Python
-language server in Gram beginning with Gram v0.204.0. It provides core language
-server functionality like navigation (go to definition/find all references) and
-type checking. Compared to Pyright, it adds support for additional language
-server features (like inlay hints) and checking rules.
+[basedpyright](https://docs.basedpyright.com/latest/) は、Gram v0.204.0 以降の Gram におけるプライマリ Python 言語サーバーです。定義へ移動やすべての参照の検索などのナビゲーション機能や型チェックなど、コアとなる言語サーバー機能を提供します。Pyright と比較して、追加の言語サーバー機能（インレイヒントなど）やチェックルールのサポートが追加されています。
 
-Note that while basedpyright in isolation defaults to the `recommended`
-[type-checking mode](https://docs.basedpyright.com/latest/benefits-over-pyright/better-defaults/#typecheckingmode),
-Gram configures it to use the less-strict `standard` mode by default, which
-matches the behavior of Pyright. You can set the type-checking mode for your
-project using the `typeCheckingMode` setting in `pyrightconfig.json` or
-`pyproject.toml`, which will override Gram's default. Read on more for more
-details about how to configure basedpyright.
+basedpyright 単体では既定で `recommended` の
+[型チェックモード](https://docs.basedpyright.com/latest/benefits-over-pyright/better-defaults/#typecheckingmode)
+になりますが、Gram では既定でそれより緩やかな `standard` モード（Pyright の動作と一致）を使用するよう設定されています。`pyrightconfig.json` または `pyproject.toml` の `typeCheckingMode` 設定を使用してプロジェクト固有の型チェックモードを設定でき、Gram の既定値が上書きされます。basedpyright の設定方法の詳細については以下をお読みください。
 
-#### Basedpyright Configuration
+#### Basedpyright の設定
 
-basedpyright reads configuration options from two different kinds of sources:
+basedpyright は、次の 2 種類のソースから設定オプションを読み込みます:
 
-- Language server settings ("workspace configuration"), which must be configured
-  per-editor (using `settings.json` in Gram's case) but apply to all projects
-  opened in that editor
-- Configuration files (`pyrightconfig.json`, `pyproject.toml`), which are
-  editor-independent but specific to the project where they are placed
+- 言語サーバー設定（「ワークスペース設定」）: エディターごとに設定する必要があり（Gram では `settings.json` を使用）、そのエディターで開かれたすべてのプロジェクトに適用されます
+- 設定ファイル（`pyrightconfig.json`、`pyproject.toml`）: エディターに依存しませんが、配置されたプロジェクト固有の設定となります
 
-As a rule of thumb, options that are only relevant when using basedpyright from
-an editor must be set in language server settings, and options that are relevant
-even if you're running it
-[as a command-line tool](https://docs.basedpyright.com/latest/configuration/command-line/)
-must be set in configuration files. Settings related to inlay hints are examples
-of the first category, and the
-[diagnostic category](https://docs.basedpyright.com/latest/configuration/config-files/#diagnostic-categories)
-settings are examples of the second category.
+大まかな目安として、エディターから basedpyright を使用する場合にのみ関係するオプションは言語サーバー設定で指定し、
+[コマンドラインツールとして](https://docs.basedpyright.com/latest/configuration/command-line/)
+実行する場合でも関係するオプションは設定ファイルで指定する必要があります。インレイヒントに関する設定は前者の例であり、
+[診断カテゴリ](https://docs.basedpyright.com/latest/configuration/config-files/#diagnostic-categories)
+の設定は後者の例です。
 
-Examples of both kinds of configuration are provided below. Refer to the
-basedpyright documentation on
-[language server settings](https://docs.basedpyright.com/latest/configuration/language-server-settings/)
-and
-[configuration files](https://docs.basedpyright.com/latest/configuration/config-files/)
-for comprehensive lists of available options.
+両方の設定例を以下に示します。利用可能なオプションの完全な一覧については、
+[言語サーバー設定](https://docs.basedpyright.com/latest/configuration/language-server-settings/)
+および
+[設定ファイル](https://docs.basedpyright.com/latest/configuration/config-files/)
+に関する basedpyright のドキュメントを参照してください。
 
-##### Language server settings
+##### 言語サーバー設定
 
-Language server settings for basedpyright in Gram can be set in the `lsp`
-section of your `settings.json`.
+Gram における basedpyright の言語サーバー設定は、`settings.json` の `lsp` セクションで指定できます。
 
-For example, in order to:
+たとえば次のように設定できます:
 
-- diagnose all files in the workspace instead of the only open files default
-- disable inlay hints on function arguments
+- 開いているファイルのみという既定の動作ではなく、ワークスペース内のすべてのファイルを診断する
+- 関数の引数に対するインレイヒントを無効にする
 
-You can use the following configuration:
+次の設定を使用します:
 
 ```json
 {
@@ -184,16 +158,11 @@ You can use the following configuration:
 }
 ```
 
-##### Configuration files
+##### 設定ファイル
 
-basedpyright reads project-specific configuration from the `pyrightconfig.json`
-configuration file and from the `[tool.basedpyright]` and `[tool.pyright]`
-sections of `pyproject.toml` manifests. `pyrightconfig.json` overrides
-`pyproject.toml` if configuration is present in both places.
+basedpyright は、`pyrightconfig.json` 設定ファイル、および `pyproject.toml` マニフェストの `[tool.basedpyright]` と `[tool.pyright]` セクションからプロジェクト固有の設定を読み込みます。両方に設定が存在する場合、`pyrightconfig.json` が `pyproject.toml` よりも優先されます。
 
-Here's an example `pyrightconfig.json` file that configures basedpyright to use
-the `strict` type-checking mode and not to issue diagnostics for any files in
-`__pycache__` directories:
+以下は、basedpyright に `strict` 型チェックモードを使用させ、`__pycache__` ディレクトリ内のファイルに対して診断を発行しないように設定する `pyrightconfig.json` ファイルの例です:
 
 ```json
 {
@@ -204,78 +173,55 @@ the `strict` type-checking mode and not to issue diagnostics for any files in
 
 ### PyLSP
 
-[python-lsp-server](https://github.com/python-lsp/python-lsp-server/), more
-commonly known as PyLSP, by default integrates with a number of external tools
-(autopep8, mccabe, pycodestyle, yapf) while others are optional and must be
-explicitly enabled and configured (flake8, pylint).
+一般に PyLSP として知られる [python-lsp-server](https://github.com/python-lsp/python-lsp-server/) は、既定で多数の外部ツール（autopep8、mccabe、pycodestyle、yapf）と統合されており、その他のツール（flake8、pylint）は任意で明示的に有効化・設定する必要があります。
 
-See
+詳細については、
 [Python Language Server Configuration](https://github.com/python-lsp/python-lsp-server/blob/develop/CONFIGURATION.md)
-for more.
+を参照してください。
 
-## Virtual Environments
+<a id="virtual-environments"></a>
+## 仮想環境
 
-[Virtual environments](https://docs.python.org/3/library/venv.html) are a useful
-tool for fixing a Python version and set of dependencies for a specific project,
-in a way that's isolated from other projects on the same machine. Gram has
-built-in support for discovering, configuring, and activating virtual
-environments, based on the language-agnostic concept of a
-[toolchain](../toolchains.md).
+[仮想環境](https://docs.python.org/3/library/venv.html) は、同一マシン上の他のプロジェクトから隔離された形で、特定のプロジェクトに対して Python バージョンと依存関係のセットを固定するための有用なツールです。Gram には、言語に依存しない
+[ツールチェーン](../toolchains.md)
+の概念に基づいて、仮想環境の検出、設定、アクティブ化のサポートが組み込まれています。
 
-Note that if you have a global Python installation, it is also counted as a
-toolchain for Gram's purposes.
+なお、グローバルな Python インストール環境が存在する場合、それも Gram の用途上はツールチェーンとしてカウントされます。
 
-### Create a Virtual Environment
+### 仮想環境の作成
 
-If your project doesn't have a virtual environment set up already, you can
-create one as follows:
+プロジェクトにまだ仮想環境がセットアップされていない場合は、次のように作成できます:
 
 ```bash
 python3 -m venv .venv
 ```
 
-Alternatively, if you're using `uv`, running `uv sync` will create a virtual
-environment the first time you run it.
+あるいは `uv` を使用している場合、初回実行時に `uv sync` を実行すると仮想環境が作成されます。
 
-### How Gram Uses Python Toolchains
+### Gram による Python ツールチェーンの使用方法
 
-Gram uses the selected Python toolchain for your project in the following ways:
+Gram は、プロジェクトに対して選択された Python ツールチェーンを次のように使用します:
 
-- Built-in language servers will be automatically configured with the path to
-  the toolchain's Python interpreter and, if applicable, virtual environment.
-  This is important so that they can resolve dependencies. (Note that language
-  servers provided by extensions can't be automatically configured like this
-  currently.)
-- Python tasks (such as pytest tests) will be run using the toolchain's Python
-  interpreter.
-- If the toolchain is a virtual environment, the environment's activation script
-  will be run automatically when you launch a new shell in Gram's integrated
-  terminal, giving you convenient access to the selected Python interpreter and
-  dependency set.
-- If a built-in language server is installed in the active virtual environment,
-  that binary will be used instead of Gram's private automatically-installed
-  binary. This also applies to debugpy.
+- 組み込み言語サーバーには、ツールチェーンの Python インタープリターへのパス、および該当する場合は仮想環境へのパスが自動的に設定されます。これは依存関係を解決するために重要です。（現在、拡張機能によって提供される言語サーバーはこのように自動設定することはできません。）
+- Python タスク（pytest テストなど）は、ツールチェーンの Python インタープリターを使用して実行されます。
+- ツールチェーンが仮想環境である場合、Gram の統合ターミナルで新しいシェルを起動すると環境のアクティブ化スクリプトが自動的に実行され、選択した Python インタープリターと依存関係セットに便利にアクセスできます。
+- アクティブな仮想環境内に組み込み言語サーバーがインストールされている場合、Gram がプライベートに自動インストールしたバイナリではなく、そのバイナリが使用されます。これは debugpy にも適用されます。
 
-### Selecting a Toolchain
+### ツールチェーンの選択
 
-For most projects, Gram will automatically select the right Python toolchain. In
-complex projects with multiple virtual environments, it might be necessary to
-override this selection. You can use the
-[toolchain selector](../toolchains.md#selecting-toolchains) to pick a toolchain
-from the list discovered by Gram, or
-[specify the path to a toolchain manually](../toolchains.md#adding-toolchains-manually)
-if it's not on the list.
+ほとんどのプロジェクトでは、Gram が適切な Python ツールチェーンを自動的に選択します。複数の仮想環境を持つ複雑なプロジェクトでは、この選択をオーバーライドする必要がある場合があります。Gram が検出した一覧からツールチェーンを選択するには
+[ツールチェーンセレクター](../toolchains.md#selecting-toolchains)
+を使用し、一覧にない場合は
+[ツールチェーンのパスを手動で指定](../toolchains.md#adding-toolchains-manually)
+できます。
 
-## Code Formatting & Linting
+## コードフォーマットとリント
 
-Gram provides the [Ruff](https://docs.astral.sh/ruff/) formatter and linter for
-Python code. (Specifically, Gram runs Ruff as an LSP server using the
-`ruff server` subcommand.) Both formatting and linting are enabled by default,
-including format-on-save.
+Gram は、Python コード向けに [Ruff](https://docs.astral.sh/ruff/) フォーマッターとリンターを提供します。（具体的には、Gram は `ruff server` サブコマンドを使用して Ruff を LSP サーバーとして実行します。）フォーマット時保存を含め、フォーマットとリントの両方が既定で有効になっています。
 
-### Configuring formatting
+### フォーマットの設定
 
-You can disable format-on-save for Python files in your `settings.json`:
+Python ファイルのフォーマット時保存は、`settings.json` で無効にすることができます:
 
 ```json
 {
@@ -287,8 +233,7 @@ You can disable format-on-save for Python files in your `settings.json`:
 }
 ```
 
-Alternatively, you can use the `black` command-line tool for Python formatting,
-while keeping Ruff enabled for linting:
+あるいは、リント用に Ruff を有効にしたまま、Python のフォーマットに `black` コマンドラインツールを使用することもできます:
 
 ```json
 {
@@ -300,24 +245,17 @@ while keeping Ruff enabled for linting:
           "arguments": ["--stdin-filename", "{buffer_path}", "-"],
         },
       },
-      // Or use `"formatter": null` to disable formatting entirely.
+      // または `"formatter": null` でフォーマットを完全に無効化します。
     },
   },
 }
 ```
 
-### Configuring Ruff
+### Ruff の設定
 
-Like basedpyright, Ruff reads options from both Gram's language server settings
-and configuration files (`ruff.toml`) when used in Gram. Unlike basedpyright,
-_all_ options can be configured in either of these locations, so the choice of
-where to put your Ruff configuration comes down to whether you want it to be
-shared between projects but specific to Gram (in which case you should use
-language server settings), or specific to one project but common to all Ruff
-invocations (in which case you should use `ruff.toml`).
+basedpyright と同様に、Gram で使用する場合、Ruff は Gram の言語サーバー設定と設定ファイル（`ruff.toml`）の両方からオプションを読み込みます。basedpyright とは異なり、_すべての_ オプションをこれらいずれの場所でも設定できるため、Ruff 設定をどこに記述するかは、プロジェクト間で共有しつつ Gram 固有にしたいか（その場合は言語サーバー設定を使用）、あるいは 1 つのプロジェクト固有でありつつすべての Ruff 呼び出しで共通にしたいか（その場合は `ruff.toml` を使用）によって決まります。
 
-Here's an example of using language server settings in Gram's `settings.json` to
-disable all Ruff lints in Gram (while still using Ruff as a formatter):
+以下は、Gram の `settings.json` の言語サーバー設定を使用して、（Ruff をフォーマッターとして使い続けながら）Gram 内のすべての Ruff リントを無効にする例です:
 
 ```json
 {
@@ -333,28 +271,29 @@ disable all Ruff lints in Gram (while still using Ruff as a formatter):
 }
 ```
 
-And here's an example `ruff.toml` with linting and formatting options, adapted
-from the Ruff documentation:
+そして以下は、Ruff のドキュメントから改編した、リントとフォーマットのオプションを含む `ruff.toml` の例です:
 
 ```toml
 [lint]
-# Avoid enforcing line-length violations (`E501`)
+# 行長違反の適用を回避 (`E501`)
 ignore = ["E501"]
 
 [format]
-# Use single quotes when formatting.
+# フォーマット時にシングルクォートを使用。
 quote-style = "single"
 ```
 
-For more details, refer to the Ruff documentation about
-[configuration files](https://docs.astral.sh/ruff/configuration/) and
-[language server settings](https://docs.astral.sh/ruff/editors/settings/), and
-the [list of options](https://docs.astral.sh/ruff/settings/).
+詳細については、
+[設定ファイル](https://docs.astral.sh/ruff/configuration/)
+および
+[言語サーバー設定](https://docs.astral.sh/ruff/editors/settings/)
+に関する Ruff のドキュメント、ならびに
+[オプション一覧](https://docs.astral.sh/ruff/settings/)
+を参照してください。
 
-### Embedded Language Highlighting
+### 埋め込み言語のハイライト
 
-Gram supports syntax highlighting for code embedded in Python strings by adding
-a comment with the language name.
+Gram は、言語名を記載したコメントを追加することで、Python 文字列内に埋め込まれたコードの構文ハイライトをサポートします。
 
 ```python
 # sql
@@ -371,32 +310,27 @@ result = func( #sql
 )
 ```
 
-## Debugging
+## デバッグ
 
-Gram supports Python debugging through the `debugpy` adapter. You can start with
-no configuration or define custom launch profiles in `.gram/debug.json`.
+Gram は `debugpy` アダプターを介した Python デバッグをサポートしています。設定なしで開始することも、`.gram/debug.json` でカスタム起動プロファイルを定義することもできます。
 
-### Start Debugging with No Setup
+### 設定なしでデバッグを開始する
 
-Gram can automatically detect debuggable Python entry points. Press F4 (or run
-debugger: start from the Command Palette) to see available options for your
-current project. This works for:
+Gram はデバッグ可能な Python エントリポイントを自動的に検出できます。F4 を押すか（またはコマンドパレットから `debugger: start` を実行）、現在のプロジェクトで利用可能なオプションを表示します。これは以下に対して機能します:
 
-- Python scripts
-- Modules
-- pytest tests
+- Python スクリプト
+- モジュール
+- pytest テスト
 
-Gram uses `debugpy` under the hood, but no manual adapter configuration is
-required.
+Gram は内部で `debugpy` を使用しますが、手動でのアダプター設定は不要です。
 
-### Define Custom Debug Configurations
+### カスタムデバッグ設定の定義
 
-For reusable setups, create a `.gram/debug.jsonc` file in your project root.
-This gives you more control over how Gram runs and debugs your code.
+再利用可能なセットアップを行うには、プロジェクトルートに `.gram/debug.jsonc` ファイルを作成します。これにより、Gram がコードを実行およびデバッグする方法をより細かく制御できます。
 
-- [debugpy configuration documentation](https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings#launchattach-settings)
+- [debugpy 設定ドキュメント](https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings#launchattach-settings)
 
-#### Debug Active File
+#### アクティブなファイルのデバッグ
 
 ```json [debug]
 [
@@ -409,11 +343,11 @@ This gives you more control over how Gram runs and debugs your code.
 ]
 ```
 
-This runs the file currently open in the editor.
+これにより、エディターで現在開いているファイルが実行されます。
 
-#### Debug a Flask App
+#### Flask アプリのデバッグ
 
-For projects using Flask, you can define a full launch configuration:
+Flask を使用するプロジェクトでは、完全な起動設定を定義できます:
 
 ```
 .venv/
@@ -428,7 +362,7 @@ static/
 requirements.txt
 ```
 
-…the following configuration can be used:
+…以下の設定を使用できます:
 
 ```json [debug]
 [
@@ -444,8 +378,8 @@ requirements.txt
     },
     "args": [
       "run",
-      "--reload", // Enables Flask reloader that watches for file changes
-      "--debugger" // Enables Flask debugger
+      "--reload", // ファイルの変更を監視する Flask のリローダーを有効化
+      "--debugger" // Flask デバッガーを有効化
     ],
     "autoReload": {
       "enable": true
@@ -456,36 +390,22 @@ requirements.txt
 ]
 ```
 
-These can be combined to tailor the experience for web servers, test runners, or
-custom scripts.
+これらを組み合わせて、Web サーバー、テストランナー、またはカスタムスクリプトに合わせてエクスペリエンスを調整できます。
 
-## Troubleshoot and Maintain a Productive Python Setup
+## 生産的な Python 環境のトラブルシューティングと維持
 
-Gram is designed to minimize configuration overhead, but occasional issues can
-still arise—especially around environments, language servers, or tooling. Here's
-how to keep your Python setup working smoothly.
+Gram は設定のオーバーヘッドを最小限に抑えるよう設計されていますが、特に環境、言語サーバー、ツールに関連して問題が発生することがあります。ここでは、Python のセットアップをスムーズに維持する方法を説明します。
 
-### Resolve Language Server Startup Issues
+### 言語サーバー起動問題の解決
 
-If a language server isn't responding or features like diagnostics or
-autocomplete aren't available:
+言語サーバーが応答しない場合や、診断や自動補完などの機能が利用できない場合:
 
-- Check your Gram log (using the {#action gram::OpenLog} action) for errors
-  related to the language server you're trying to use. This is where you're
-  likely to find useful information if the language server failed to start up at
-  all.
-- Use the language server logs view to understand the lifecycle of the affected
-  language server. You can access this view using the {#action
-  dev::OpenLanguageServerLogs} action, or by clicking the lightning bolt icon in
-  the status bar and selecting your language server. The most useful pieces of
-  data in this view are:
-  - "Server Logs", which shows any errors printed by the language server
-  - "Server Info", which shows details about how the language server was started
-- Verify your `settings.json` or `pyrightconfig.json` is syntactically correct.
-- Restart Gram to reinitialize language server connections, or try restarting
-  the language server using the {#action editor::RestartLanguageServer}
+- 使用しようとしている言語サーバーに関するエラーがないか、Gram のログ（{#action gram::OpenLog} アクションを使用）を確認してください。言語サーバーが起動に失敗した場合、ここに有用な情報が見つかる可能性が高いです。
+- 言語サーバーログビューを使用して、影響を受けている言語サーバーのライフサイクルを確認します。このビューには {#action
+  dev::OpenLanguageServerLogs} アクションを使用するか、ステータスバーの稲妻アイコンをクリックして言語サーバーを選択することでアクセスできます。このビューで最も有用なデータは次のとおりです:
+  - 「Server Logs」: 言語サーバーによって出力されたエラーを表示します
+  - 「Server Info」: 言語サーバーがどのように起動されたかに関する詳細を表示します
+- `settings.json` または `pyrightconfig.json` の構文が正しいことを確認します。
+- Gram を再起動して言語サーバーの接続を再初期化するか、{#action editor::RestartLanguageServer} アクションを使用して言語サーバーを再起動してみてください。
 
-If the language server is failing to resolve imports, and you're using a virtual
-environment, make sure that the right environment is chosen in the selector. You
-can use "Server Info" view to confirm which virtual environment Gram is sending
-to the language server. Look for the `* Configuration` section at the end.
+言語サーバーがインポートの解決に失敗しており、仮想環境を使用している場合は、セレクターで正しい環境が選択されていることを確認してください。「Server Info」ビューを使用して、Gram が言語サーバーに送信している仮想環境を確認できます。末尾の `* Configuration` セクションを探してください。

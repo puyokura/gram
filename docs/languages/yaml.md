@@ -1,21 +1,18 @@
 # YAML
 
-YAML support is available natively in Gram.
+YAML のサポートは Gram でネイティブに利用できます。
 
 - Tree-sitter:
   [zed-industries/tree-sitter-yaml](https://github.com/zed-industries/tree-sitter-yaml)
-- Language Servers:
+- 言語サーバー:
   [redhat-developer/yaml-language-server](https://github.com/redhat-developer/yaml-language-server),
   [home-operations/yayamlls](https://github.com/home-operations/yayamlls)
 
-## Choosing a language server
+## 言語サーバーの選択
 
-`yaml-language-server` is Node.js LSP used by default. `yayamlls` is a static Go
-binary with Kubernetes and Flux support, but no formatter.
+`yaml-language-server` は既定で使われる Node.js 製の LSP です。`yayamlls` は静的リンクされた Go バイナリで、Kubernetes と Flux をサポートしますが、フォーマッターはありません。
 
-With the
-[yayamlls extension](https://github.com/home-operations/yayamlls/tree/main/editors/zed)
-installed, which downloads the binary for you:
+[yayamlls 拡張機能](https://github.com/home-operations/yayamlls/tree/main/editors/zed)（バイナリを自動でダウンロードします）をインストールしている場合:
 
 ```json
 "languages": {
@@ -25,8 +22,7 @@ installed, which downloads the binary for you:
 }
 ```
 
-Without the extension, install `yayamlls` yourself and override the bundled
-binary, since the `lsp` key only accepts known LSP identifiers:
+拡張機能を使わない場合は、`yayamlls` を自分でインストールし、同梱のバイナリを上書きします。`lsp` キーは既知の LSP 識別子しか受け付けないためです:
 
 ```json
 "lsp": {
@@ -41,13 +37,11 @@ binary, since the `lsp` key only accepts known LSP identifiers:
 ```
 
 > [!NOTE]
-> `arguments` must be empty: Gram launches this server with `--stdio`, which
-> `yayamlls` does not accept.
+> `arguments` は空でなければなりません。Gram はこのサーバーを `--stdio` 付きで起動しますが、`yayamlls` はそれを受け付けません。
 
-## Formatting
+## フォーマット
 
-By default, Gram uses Prettier for formatting YAML files. For example, to use
-single quotes in yaml files add the following to your `.prettierrc`:
+既定では、Gram は YAML ファイルのフォーマットに Prettier を使用します。たとえば yaml ファイルでシングルクォートを使うには、`.prettierrc` に次を追加します:
 
 ```json
 {
@@ -62,10 +56,9 @@ single quotes in yaml files add the following to your `.prettierrc`:
 }
 ```
 
-### LSP Formatting
+### LSP によるフォーマット
 
-To use `yaml-language-server` instead of Prettier for YAML formatting, add the
-following to your Gram `settings.jsonc`:
+YAML のフォーマットに Prettier の代わりに `yaml-language-server` を使うには、Gram の `settings.jsonc` に次を追加します:
 
 ```json
 "languages": {
@@ -75,20 +68,18 @@ following to your Gram `settings.jsonc`:
 }
 ```
 
-`yayamlls` has no formatting.
+`yayamlls` にはフォーマット機能がありません。
 
-## Configuration
+## 設定
 
-Language server options can be set in the `settings.jsonc` file. See the
-[Configuring Languages](../configuring-languages.md) documentation for more
-information.
+言語サーバーのオプションは `settings.jsonc` ファイルで設定できます。詳しくは
+[言語の設定](../configuring-languages.md)のドキュメントを参照してください。
 
 ### yaml-language-server
 
-For more details, see the
-[yaml-language-server settings](https://github.com/redhat-developer/yaml-language-server?tab=readme-ov-file#language-server-settings).
-Settings keys must be nested, so `yaml.keyOrdering` becomes `{"yaml":
-{"keyOrdering": true}}`:
+詳しくは [yaml-language-server の設定](https://github.com/redhat-developer/yaml-language-server?tab=readme-ov-file#language-server-settings)を参照してください。
+設定キーは入れ子にする必要があるため、`yaml.keyOrdering` は `{"yaml":
+{"keyOrdering": true}}` になります:
 
 ```json
 "lsp": {
@@ -117,12 +108,9 @@ Settings keys must be nested, so `yaml.keyOrdering` becomes `{"yaml":
 }
 ```
 
-Schemas are auto-detected from [Json Schema Store](https://schemastore.org). The
-`schemas` key overrides that, `schemaStore.enable: false` turns it off.
-[Custom tags](https://github.com/redhat-developer/yaml-language-server#adding-custom-tags)
-need a `scalar`, `mapping` or `sequence` suffix, e.g. for CloudFormation.
+スキーマは [Json Schema Store](https://schemastore.org) から自動検出されます。`schemas` キーはそれを上書きし、`schemaStore.enable: false` は無効にします。[カスタムタグ](https://github.com/redhat-developer/yaml-language-server#adding-custom-tags)には `scalar`、`mapping`、`sequence` のサフィックスが必要です（CloudFormation など）。
 
-A modeline pins the schema for a single file and works with both servers:
+モデルインで単一ファイルのスキーマを固定でき、両方のサーバーで動作します:
 
 ```yaml
 # yaml-language-server: $schema=https://www.schemastore.org/github-action.json
@@ -134,10 +122,7 @@ on:
 
 ### yayamlls
 
-For more details, see the
-[yayamlls documentation](https://github.com/home-operations/yayamlls#configuration).
-Configuration lives in `.yayamlls.yaml` at the workspace root, which keeps it
-editor-agnostic:
+詳しくは [yayamlls のドキュメント](https://github.com/home-operations/yayamlls#configuration)を参照してください。設定はワークスペースのルートにある `.yayamlls.yaml` に置かれ、エディターに依存しない形で管理できます:
 
 ```yaml
 schemas:
@@ -150,9 +135,7 @@ customTags:
   - "!Ref"
 ```
 
-The same keys can be set from Gram, flat and without the `yaml` wrapper. Use the
-`yayamlls` key with the extension, or `yaml-language-server` with the binary
-override above:
+同じキーを Gram から設定することもでき、その場合はフラットに、`yaml` ラッパーなしで記述します。拡張機能を使う場合は `yayamlls` キーを、上記のバイナリ上書きを使う場合は `yaml-language-server` キーを使用します:
 
 ```json
 "lsp": {
@@ -165,17 +148,10 @@ override above:
 }
 ```
 
-Schemas resolve per document: modeline, `schemas` globs, the Schema Store
-catalog (`catalog: false` disables it), then Kubernetes `apiVersion`+`kind`.
-Custom tags are listed bare, and nodes carrying one skip validation.
+スキーマはドキュメントごとに、モデルイン、`schemas` の glob、Schema Store カタログ（`catalog: false` で無効化）、Kubernetes の `apiVersion`+`kind` の順で解決されます。カスタムタグは素の形で列挙し、それを持つノードは検証をスキップします。
 
-Diagnostics can be muted with `# yayamlls-disable-line`, `# yayamlls-disable`
-and `# yayamlls-enable` around a block, or `# yayamlls-disable-file`.
+診断は、`# yayamlls-disable-line`、ブロックを囲む `# yayamlls-disable` と `# yayamlls-enable`、または `# yayamlls-disable-file` で抑制できます。
 
-Flux `HelmRelease` and `Kustomization` documents are also validated against
-their rendered manifests, with **View rendered** and **Diff rendered** code
-lenses. The lenses use `window/showDocument`, which Zed ignores for local files
-([zed#53123](https://github.com/zed-industries/zed/discussions/53123)).
+Flux の `HelmRelease` と `Kustomization` ドキュメントは、レンダリング後のマニフェストに対しても検証され、**View rendered** と **Diff rendered** のコードレンズが提供されます。このレンズは `window/showDocument` を使用しますが、Zed はローカルファイルでこれを無視します（[zed#53123](https://github.com/zed-industries/zed/discussions/53123)）。
 
-For CI, `yayamlls validate [--render] <paths>` resolves schemas the same way and
-exits `1` on errors, `2` on usage or I/O failures, `0` otherwise.
+CI では、`yayamlls validate [--render] <paths>` が同じ方法でスキーマを解決し、エラー時は `1`、使用法や I/O の失敗時は `2`、それ以外は `0` で終了します。

@@ -14,7 +14,7 @@ use workspace::{AppState, OpenVisible, Workspace};
 actions!(
     journal,
     [
-        /// Creates a new journal entry for today.
+        /// 本日の新しいジャーナルエントリを作成します。
         NewJournalEntry
     ]
 );

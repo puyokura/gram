@@ -8,9 +8,9 @@ use ui::{Tab, prelude::*};
 actions!(
     panel,
     [
-        /// Navigates to the next tab in the panel.
+        /// パネル内の次のタブへ移動します。
         NextPanelTab,
-        /// Navigates to the previous tab in the panel.
+        /// パネル内の前のタブへ移動します。
         PreviousPanelTab
     ]
 );

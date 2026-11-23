@@ -98,7 +98,7 @@ impl PickerDelegate for KernelPickerDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Select a kernel...".into()
+        "カーネルを選択…".into()
     }
 
     fn update_matches(&mut self, query: String, _window: &mut Window, _cx: &mut Context<Picker<Self>>) -> Task<()> {
@@ -145,12 +145,14 @@ impl PickerDelegate for KernelPickerDelegate {
             KernelSpecification::Jupyter(_) => (kernelspec.name(), "Jupyter", None),
             KernelSpecification::PythonEnv(_) => (
                 kernelspec.name(),
-                "Python Env",
+                "Python 環境",
                 Some(truncate_path(&kernelspec.path(), 42)),
             ),
-            KernelSpecification::Remote(_) => {
-                (kernelspec.name(), "Remote", Some(truncate_path(&kernelspec.path(), 42)))
-            }
+            KernelSpecification::Remote(_) => (
+                kernelspec.name(),
+                "リモート",
+                Some(truncate_path(&kernelspec.path(), 42)),
+            ),
         };
 
         Some(
@@ -205,7 +207,7 @@ impl PickerDelegate for KernelPickerDelegate {
                 .p_1()
                 .gap_4()
                 .child(
-                    Button::new("kernel-docs", "Kernel Docs")
+                    Button::new("kernel-docs", "カーネルのドキュメント")
                         .icon(IconName::ArrowUpRight)
                         .icon_size(IconSize::Small)
                         .icon_color(Color::Muted)

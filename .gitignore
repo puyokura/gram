@@ -44,3 +44,5 @@ xcuserdata/
 /plugins/bin
 /script/node_modules
 /snap
+
+/tmp

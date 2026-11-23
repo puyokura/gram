@@ -1,8 +1,8 @@
-# Building Gram for macOS
+# macOS 向け Gram のビルド
 
-## Repository
+## リポジトリ
 
-Clone down the [Gram repository](https://codeberg.org/GramEditor/gram).
+[Gram リポジトリ](https://codeberg.org/GramEditor/gram)をクローンします。
 
 ```zsh
 # Your apple ID (email)
@@ -17,83 +17,75 @@ export APPLE_SIGNING_KEY=""
 ./script/bundle-mac
 ```
 
-## Dependencies
+## 依存関係
 
-- Install [rustup](https://www.rust-lang.org/tools/install)
+- [rustup](https://www.rust-lang.org/tools/install) をインストールします
 
-- Install [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12) from
-  the macOS App Store, or from the
-  [Apple Developer](https://developer.apple.com/download/all/) website. Note
-  this requires a developer account.
+- [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12) を macOS App Store から、または [Apple Developer](https://developer.apple.com/download/all/) の Web サイトからインストールします。開発者アカウントが必要であることに注意してください。
 
-> Ensure you launch Xcode after installing, and install the macOS components,
-> which is the default option.
+> インストール後は必ず Xcode を起動し、既定の選択肢である macOS コンポーネントをインストールしてください。
 
-- Install
-  [Xcode command line tools](https://developer.apple.com/xcode/resources/)
+- [Xcode コマンドラインツール](https://developer.apple.com/xcode/resources/)をインストールします
 
   ```zsh
   xcode-select --install
   ```
 
-- Ensure that the Xcode command line tools are using your newly installed copy
-  of Xcode:
+- Xcode コマンドラインツールが、新しくインストールした Xcode を参照していることを確認します:
 
   ```zsh
   sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
   sudo xcodebuild -license accept
   ```
 
-- Install `cmake` (required by
-  [a dependency](https://docs.rs/wasmtime-c-api-impl/latest/wasmtime_c_api/))
+- `cmake` をインストールします（[依存クレート](https://docs.rs/wasmtime-c-api-impl/latest/wasmtime_c_api/)が必要とするもの）
 
   ```zsh
   brew install cmake
   ```
 
-## Building Gram from Source
+## ソースからの Gram のビルド
 
-Once you have the dependencies installed, you can build Gram using
-[Cargo](https://doc.rust-lang.org/cargo/).
+依存関係をインストールしたら、[Cargo](https://doc.rust-lang.org/cargo/)を使って Gram をビルドできます。
 
-For a debug build:
+デバッグビルド:
 
 ```zsh
 cargo run
 ```
 
-For a release build:
+リリースビルド:
 
 ```zsh
 cargo run --release
 ```
 
-And to run the tests:
+テストを実行する場合:
 
 ```zsh
 cargo test --workspace
 ```
 
-## Troubleshooting
+## トラブルシューティング
 
-### Error compiling metal shaders
+### Metal シェーダーのコンパイルエラー
 
 ```zsh
 error: failed to run custom build command for gpui v0.1.0 (/Users/path/to/gram)`**
 xcrun: error: unable to find utility "metal", not a developer tool or in PATH
 ```
 
-Try `sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer`
+`sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer` を試してください。
 
-If you're on macOS 26, try `xcodebuild -downloadComponent MetalToolchain`
+macOS 26 を使用している場合は、`xcodebuild -downloadComponent MetalToolchain` を試してください。
 
-### Cargo errors claiming that a dependency is using unstable features
+### 依存関係が不安定な機能を使用しているという Cargo のエラー
 
-Try `cargo clean` and `cargo build`.
+`cargo clean` を実行してから `cargo build` を試してください。
 
-### Error: 'dispatch/dispatch.h' file not found
+### エラー: 'dispatch/dispatch.h' が見つからない
 
-If you encounter an error similar to:
+次のようなエラーが発生した場合:
 
 ```zsh
 src/platform/mac/dispatch.h:1:10: fatal error: 'dispatch/dispatch.h' file not found
@@ -110,64 +102,51 @@ Caused by:
   cargo:rerun-if-env-changed=BINDGEN_EXTRA_CLANG_ARGS
 ```
 
-This file is part of Xcode. Ensure you have installed the Xcode command line
-tools and set the correct path:
+このファイルは Xcode の一部です。Xcode コマンドラインツールがインストールされていることを確認し、正しいパスを設定してください:
 
 ```zsh
 xcode-select --install
 sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
 ```
 
-Additionally, set the `BINDGEN_EXTRA_CLANG_ARGS` environment variable:
+さらに、`BINDGEN_EXTRA_CLANG_ARGS` 環境変数を設定します:
 
 ```zsh
 export BINDGEN_EXTRA_CLANG_ARGS="--sysroot=$(xcrun --show-sdk-path)"
 ```
 
-Then clean and rebuild the project:
+その後、プロジェクトをクリーンして再ビルドします:
 
 ```zsh
 cargo clean
 cargo run
 ```
 
-### Tests failing due to `Too many open files (os error 24)`
+### `Too many open files (os error 24)` でテストが失敗する
 
-This error seems to be caused by OS resource constraints. Installing and running
-tests with `cargo-nextest` should resolve the issue.
+このエラーは OS のリソース制約に起因するようです。`cargo-nextest` をインストールしてテストを実行すれば解決するはずです。
 
 - `cargo install cargo-nextest --locked`
 - `cargo nextest run --workspace --no-fail-fast`
 
-## Tips & Tricks
+## ヒントとコツ
 
-### Avoiding continual rebuilds
+### 継続的な再ビルドの回避
 
-If you are finding that Gram is continually rebuilding root crates, it may be
-because you are pointing your development Gram at the codebase itself.
+Gram がルートクレートを継続的に再ビルドしていると感じる場合、開発用の Gram をコードベース自体を対象に起動していることが原因かもしれません。
 
-This causes problems because `cargo run` exports a bunch of environment
-variables which are picked up by the `rust-analyzer` that runs in the
-development build of Gram. These environment variables are in turn passed to
-`cargo check`, which invalidates the build cache of some of the crates we depend
-on.
+これは、`cargo run` が多数の環境変数をエクスポートし、それが開発版 Gram で動作する `rust-analyzer` に取り込まれるために問題になります。これらの環境変数はさらに `cargo check` に渡され、依存している一部クレートのビルドキャッシュが無効になります。
 
-You can easily avoid running the built binary on the checked-out Gram codebase
-using `cargo run ~/path/to/other/project` to ensure that you don't hit this.
+`cargo run ~/path/to/other/project` を使って、チェックアウトした Gram コードベース以外でビルド済みバイナリを実行すれば、この問題を簡単に避けられます。
 
-### Speeding up verification
+### 検証の高速化
 
-If you are building Gram a lot, you may find that macOS continually verifies new
-builds which can add a few seconds to your iteration cycles.
+Gram を頻繁にビルドしている場合、macOS が新しいビルドを毎回検証するため、イテレーションのサイクルに数秒余計にかかることがあります。
 
-To fix this, you can:
+これを解決するには、次の手順を実行します:
 
-- Run `sudo spctl developer-mode enable-terminal` to enable the Developer Tools
-  panel in System Settings.
-- In System Settings, search for "Developer Tools" and add your terminal (e.g.
-  iTerm or Ghostty) to the list under "Allow applications to use developer
-  tools"
-- Restart your terminal.
+- `sudo spctl developer-mode enable-terminal` を実行して、システム設定の「デベロッパーツール」パネルを有効にします。
+- システム設定で「デベロッパーツール」を検索し、「デベロッパーツールの使用を許可するアプリケーション」の一覧にターミナル（例: iTerm や Ghostty）を追加します
+- ターミナルを再起動します。
 
-Thanks to the nextest developers for publishing
-[this](https://nexte.st/docs/installation/macos/#gatekeeper).
+この情報を公開してくれた nextest の開発者に感謝します（[リンク](https://nexte.st/docs/installation/macos/#gatekeeper)）。

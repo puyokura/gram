@@ -11,7 +11,7 @@ use workspace::{Toast, Workspace};
 actions!(
     cli,
     [
-        /// Installs the Gram CLI tool to the system PATH.
+        /// Gram CLI ツールをシステムの PATH にインストールします。
         InstallCliBinary,
     ]
 );
@@ -53,25 +53,27 @@ async fn install_script(cx: &AsyncApp) -> Result<PathBuf> {
         .output()
         .await?
         .status;
-    anyhow::ensure!(status.success(), "error running osascript");
+    anyhow::ensure!(status.success(), "osascript の実行に失敗しました");
     Ok(link_path.into())
 }
 
 pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
-    const LINUX_PROMPT_DETAIL: &str = "If you installed Gram from a release tarball, add ~/.local/bin to your PATH.\n\nIf you installed Gram from a different source like your package manager, then you may need to create an alias/symlink manually.\n\nDepending on your package manager, the CLI might be named gram-editor or something else.";
+    const LINUX_PROMPT_DETAIL: &str = "リリースの tarball から Gram をインストールした場合は、~/.local/bin を PATH に追加してください。\n\nパッケージマネージャーなど別の方法でインストールした場合は、エイリアスまたはシンボリックリンクを手動で作成する必要があるかもしれません。\n\nパッケージマネージャーによっては、CLI の名前が gram-editor などになっている場合があります。";
 
     cx.spawn_in(window, async move |workspace, cx| {
         if cfg!(any(target_os = "linux", target_os = "freebsd")) {
             let prompt = cx.prompt(
                 PromptLevel::Warning,
-                "CLI should already be installed",
+                "CLI はインストール済みのはずです",
                 Some(LINUX_PROMPT_DETAIL),
-                &["Ok"],
+                &["OK"],
             );
             cx.background_spawn(prompt).detach();
             return Ok(());
         }
-        let path = install_script(cx.deref()).await.context("error creating CLI symlink")?;
+        let path = install_script(cx.deref())
+            .await
+            .context("CLI のシンボリックリンク作成に失敗しました")?;
 
         workspace.update_in(cx, |workspace, _, cx| {
             struct InstalledGramCli;
@@ -80,7 +82,7 @@ pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
                 Toast::new(
                     NotificationId::unique::<InstalledGramCli>(),
                     format!(
-                        "Installed `gram` to {}. You can launch {} from your terminal.",
+                        "`gram` を {} にインストールしました。ターミナルから {} を起動できます。",
                         path.to_string_lossy(),
                         ReleaseChannel::global(cx).display_name()
                     ),
@@ -91,5 +93,10 @@ pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
         register_uri_scheme(cx).await.log_err();
         Ok(())
     })
-    .detach_and_prompt_err("Error installing gram cli", window, cx, |_, _, _| None);
+    .detach_and_prompt_err(
+        "gram CLI のインストール中にエラーが発生しました",
+        window,
+        cx,
+        |_, _, _| None,
+    );
 }

@@ -1,7 +1,7 @@
-// Server-specific settings
+// サーバー固有の設定
 //
-// For a full list of overridable settings, and general information on settings,
-// see the documentation: gram://docs/configuring-gram#settings-files
+// 上書き可能な設定の一覧と、設定に関する一般的な情報は、
+// ドキュメントを参照してください: gram://docs/configuring-gram#settings-files
 {
   "lsp": {}
 }

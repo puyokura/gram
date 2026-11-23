@@ -251,7 +251,7 @@ struct StickyDetails {
     sticky_index: usize,
 }
 
-/// Permanently deletes the selected file or directory.
+/// 選択したファイルまたはディレクトリを完全に削除します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = project_panel)]
 #[serde(deny_unknown_fields)]
@@ -260,7 +260,7 @@ struct Delete {
     pub skip_prompt: bool,
 }
 
-/// Moves the selected file or directory to the system trash.
+/// 選択したファイルまたはディレクトリをシステムのゴミ箱へ移動します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = project_panel)]
 #[serde(deny_unknown_fields)]
@@ -269,7 +269,7 @@ struct Trash {
     pub skip_prompt: bool,
 }
 
-/// Selects the next entry with diagnostics.
+/// 診断がある次のエントリを選択します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = project_panel)]
 #[serde(deny_unknown_fields)]
@@ -278,7 +278,7 @@ struct SelectNextDiagnostic {
     pub severity: GoToDiagnosticSeverityFilter,
 }
 
-/// Selects the previous entry with diagnostics.
+/// 診断がある前のエントリを選択します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = project_panel)]
 #[serde(deny_unknown_fields)]
@@ -290,71 +290,71 @@ struct SelectPrevDiagnostic {
 actions!(
     project_panel,
     [
-        /// Expands the selected entry in the project tree.
+        /// プロジェクトツリーで選択中のエントリを展開します。
         ExpandSelectedEntry,
-        /// Collapses the selected entry in the project tree.
+        /// プロジェクトツリーで選択中のエントリを折りたたみます。
         CollapseSelectedEntry,
-        /// Collapses all entries in the project tree.
+        /// プロジェクトツリーのすべてのエントリを折りたたみます。
         CollapseAllEntries,
-        /// Creates a new directory.
+        /// 新しいディレクトリを作成します。
         NewDirectory,
-        /// Creates a new file.
+        /// 新しいファイルを作成します。
         NewFile,
-        /// Copies the selected file or directory.
+        /// 選択したファイルまたはディレクトリをコピーします。
         Copy,
-        /// Duplicates the selected file or directory.
+        /// 選択したファイルまたはディレクトリを複製します。
         Duplicate,
-        /// Reveals the selected item in the system file manager.
+        /// 選択した項目をシステムのファイルマネージャーで表示します。
         RevealInFileManager,
-        /// Removes the selected folder from the project.
+        /// 選択したフォルダーをプロジェクトから削除します。
         RemoveFromProject,
-        /// Cuts the selected file or directory.
+        /// 選択したファイルまたはディレクトリを切り取ります。
         Cut,
-        /// Pastes the previously cut or copied item.
+        /// 切り取りまたはコピーした項目を貼り付けます。
         Paste,
-        /// Renames the selected file or directory.
+        /// 選択したファイルまたはディレクトリの名前を変更します。
         Rename,
-        /// Opens the selected file in the editor.
+        /// 選択したファイルをエディターで開きます。
         Open,
-        /// Opens the selected file in a permanent tab.
+        /// 選択したファイルを固定タブで開きます。
         OpenPermanent,
-        /// Opens the selected file in a vertical split.
+        /// 選択したファイルを垂直分割で開きます。
         OpenSplitVertical,
-        /// Opens the selected file in a horizontal split.
+        /// 選択したファイルを水平分割で開きます。
         OpenSplitHorizontal,
-        /// Toggles visibility of git-ignored files.
+        /// Git で無視されたファイルの表示を切り替えます。
         ToggleHideGitIgnore,
-        /// Toggles visibility of hidden files.
+        /// 隠しファイルの表示を切り替えます。
         ToggleHideHidden,
-        /// Starts a new search in the selected directory.
+        /// 選択したディレクトリで新しい検索を開始します。
         NewSearchInDirectory,
-        /// Unfolds the selected directory.
+        /// 選択したディレクトリを展開します。
         UnfoldDirectory,
-        /// Folds the selected directory.
+        /// 選択したディレクトリを折りたたみます。
         FoldDirectory,
-        /// Refreshes the selected folder from the file system.
+        /// 選択したフォルダーをファイルシステムから更新します。
         RefreshFolder,
-        /// Scroll half a page upwards
+        /// 半ページ上へスクロールします。
         ScrollUp,
-        /// Scroll half a page downwards
+        /// 半ページ下へスクロールします。
         ScrollDown,
-        /// Scroll until the cursor displays at the center
+        /// カーソルが中央に表示されるまでスクロールします。
         ScrollCursorCenter,
-        /// Scroll until the cursor displays at the top
+        /// カーソルが先頭に表示されるまでスクロールします。
         ScrollCursorTop,
-        /// Scroll until the cursor displays at the bottom
+        /// カーソルが末尾に表示されるまでスクロールします。
         ScrollCursorBottom,
-        /// Selects the parent directory.
+        /// 親ディレクトリを選択します。
         SelectParent,
-        /// Selects the next entry with git changes.
+        /// Git の変更がある次のエントリを選択します。
         SelectNextGitEntry,
-        /// Selects the previous entry with git changes.
+        /// Git の変更がある前のエントリを選択します。
         SelectPrevGitEntry,
-        /// Selects the next directory.
+        /// 次のディレクトリを選択します。
         SelectNextDirectory,
-        /// Selects the previous directory.
+        /// 前のディレクトリを選択します。
         SelectPrevDirectory,
-        /// Opens a diff view to compare two marked files.
+        /// マークした 2 つのファイルを比較する差分ビューを開きます。
         CompareMarkedFiles,
     ]
 );
@@ -608,14 +608,22 @@ fn get_item_color(is_sticky: bool, cx: &App) -> ItemColors {
 async fn prompt_replace(filename: &str, cx: &mut AsyncWindowContext) -> bool {
     let prompt_message = format!(
         concat!(
-            "A file or folder with name {} ",
-            "already exists in the destination folder. ",
-            "Do you want to replace it?"
+            "{} という名前のファイルまたはフォルダーが",
+            "保存先にすでに存在します。",
+            "置き換えますか？"
         ),
         filename
     );
     let Some(task) = cx
-        .update(|window, cx| window.prompt(PromptLevel::Info, &prompt_message, None, &["Replace", "Cancel"], cx))
+        .update(|window, cx| {
+            window.prompt(
+                PromptLevel::Info,
+                &prompt_message,
+                None,
+                &["置き換え", "キャンセル"],
+                cx,
+            )
+        })
         .log_err()
     else {
         return false;
@@ -883,15 +891,15 @@ impl ProjectPanel {
                                     true,
                                     window, cx,
                                 )
-                                .detach_and_prompt_err("Failed to open file", window, cx, move |e, _, _| {
+                                .detach_and_prompt_err("ファイルを開けませんでした", window, cx, move |e, _, _| {
                                     match e.error_code() {
                                         ErrorCode::Disconnected => if is_via_ssh {
-                                            Some("Disconnected from SSH host".to_string())
+                                            Some("SSH ホストから切断されました".to_string())
                                         } else {
-                                            Some("Disconnected from remote project".to_string())
+                                            Some("リモートプロジェクトから切断されました".to_string())
                                         },
                                         ErrorCode::UnsharedItem => Some(format!(
-                                            "{} is not shared by the host. This could be because it has been marked as `private`",
+                                            "{} はホストで共有されていません。`private` とマークされている可能性があります",
                                             file_path.display(path_style)
                                         )),
                                         // See note in worktree.rs where this error originates. Returning Some in this case prevents
@@ -954,7 +962,7 @@ impl ProjectPanel {
             Some(serialization_key) => cx
                 .background_spawn(async move { KEY_VALUE_STORE.read_kvp(&serialization_key) })
                 .await
-                .context("loading project panel")
+                .context("プロジェクトパネルを読み込めませんでした")
                 .log_err()
                 .flatten()
                 .map(|panel| serde_json::from_str::<SerializedProjectPanel>(&panel))
@@ -1114,73 +1122,79 @@ impl ProjectPanel {
             let context_menu = ContextMenu::build(window, cx, |menu, _, _| {
                 menu.context(self.focus_handle.clone()).map(|menu| {
                     if is_read_only {
-                        menu.when(is_dir, |menu| {
-                            menu.action("Search Inside", Box::new(NewSearchInDirectory))
-                        })
+                        menu.when(is_dir, |menu| menu.action("内部を検索", Box::new(NewSearchInDirectory)))
                     } else {
-                        menu.action("New File", Box::new(NewFile))
-                            .action("New Folder", Box::new(NewDirectory))
+                        menu.action("新規ファイル", Box::new(NewFile))
+                            .action("新規フォルダー", Box::new(NewDirectory))
                             .separator()
                             .when(is_local && cfg!(target_os = "macos"), |menu| {
-                                menu.action("Reveal in Finder", Box::new(RevealInFileManager))
+                                menu.action("Finder で表示", Box::new(RevealInFileManager))
                             })
                             .when(is_local && cfg!(not(target_os = "macos")), |menu| {
-                                menu.action("Reveal in File Manager", Box::new(RevealInFileManager))
+                                menu.action("ファイルマネージャーで表示", Box::new(RevealInFileManager))
                             })
                             .when(is_local, |menu| {
-                                menu.action("Open in Default App", Box::new(OpenWithSystem))
+                                menu.action("既定のアプリで開く", Box::new(OpenWithSystem))
                             })
-                            .action("Open in Terminal", Box::new(OpenInTerminal))
+                            .action("ターミナルで開く", Box::new(OpenInTerminal))
                             .when(is_dir, |menu| menu.separator())
-                            .when(is_dir, |menu| menu.action("Refresh Folder", Box::new(RefreshFolder)))
+                            .when(is_dir, |menu| menu.action("フォルダーを更新", Box::new(RefreshFolder)))
                             .when(is_dir, |menu| {
-                                menu.action("Find in Folder…", Box::new(NewSearchInDirectory))
+                                menu.action("フォルダー内を検索…", Box::new(NewSearchInDirectory))
                             })
                             .when(is_unfoldable, |menu| {
-                                menu.action("Unfold Directory", Box::new(UnfoldDirectory))
+                                menu.action("ディレクトリを展開", Box::new(UnfoldDirectory))
                             })
                             .when(is_foldable, |menu| {
-                                menu.action("Fold Directory", Box::new(FoldDirectory))
+                                menu.action("ディレクトリを折りたたむ", Box::new(FoldDirectory))
                             })
                             .when(should_show_compare, |menu| {
                                 menu.separator()
-                                    .action("Compare marked files", Box::new(CompareMarkedFiles))
+                                    .action("マークしたファイルを比較", Box::new(CompareMarkedFiles))
                             })
                             .separator()
-                            .action("Cut", Box::new(Cut))
-                            .action("Copy", Box::new(Copy))
-                            .action("Duplicate", Box::new(Duplicate))
+                            .action("切り取り", Box::new(Cut))
+                            .action("コピー", Box::new(Copy))
+                            .action("複製", Box::new(Duplicate))
                             // TODO: Paste should always be visible, cbut disabled when clipboard is empty
-                            .action_disabled_when(self.clipboard.as_ref().is_none(), "Paste", Box::new(Paste))
+                            .action_disabled_when(self.clipboard.as_ref().is_none(), "貼り付け", Box::new(Paste))
                             .separator()
-                            .action("Copy Path", Box::new(app_actions::workspace::CopyPath))
-                            .action("Copy Relative Path", Box::new(app_actions::workspace::CopyRelativePath))
+                            .action("パスをコピー", Box::new(app_actions::workspace::CopyPath))
+                            .action("相対パスをコピー", Box::new(app_actions::workspace::CopyRelativePath))
                             .when(!is_dir && self.has_git_changes(entry_id), |menu| {
                                 menu.separator()
-                                    .action("Restore File", Box::new(git::RestoreFile { skip_prompt: false }))
+                                    .action("ファイルを復元", Box::new(git::RestoreFile { skip_prompt: false }))
                             })
                             .when(has_git_repo, |menu| {
                                 menu.separator().action(
-                                    if is_dir { "Directory History" } else { "File History" },
+                                    if is_dir {
+                                        "ディレクトリの履歴"
+                                    } else {
+                                        "ファイルの履歴"
+                                    },
                                     Box::new(git::FileHistory),
                                 )
                             })
                             .when(!should_hide_rename, |menu| {
-                                menu.separator().action("Rename", Box::new(Rename))
+                                menu.separator().action("名前を変更", Box::new(Rename))
                             })
                             .when(!is_root && !is_remote, |menu| {
-                                menu.action("Trash", Box::new(Trash { skip_prompt: false }))
+                                menu.action("ゴミ箱へ移動", Box::new(Trash { skip_prompt: false }))
                             })
                             .when(!is_root, |menu| {
-                                menu.action("Delete", Box::new(Delete { skip_prompt: false }))
+                                menu.action("完全に削除", Box::new(Delete { skip_prompt: false }))
                             })
                             .when(!is_remote && is_root, |menu| {
                                 menu.separator()
-                                    .action("Add Folder to Project…", Box::new(workspace::AddFolderToProject))
-                                    .action("Remove from Project", Box::new(RemoveFromProject))
+                                    .action(
+                                        "フォルダーをプロジェクトに追加…",
+                                        Box::new(workspace::AddFolderToProject),
+                                    )
+                                    .action("プロジェクトから削除", Box::new(RemoveFromProject))
                             })
                             .when(is_root, |menu| {
-                                menu.separator().action("Collapse All", Box::new(CollapseAllEntries))
+                                menu.separator()
+                                    .action("すべて折りたたむ", Box::new(CollapseAllEntries))
                             })
                     }
                 })
@@ -1551,7 +1565,7 @@ impl ProjectPanel {
         if !filename.is_empty() {
             if filename.is_empty() {
                 edit_state.validation_state =
-                    ValidationState::Error("File or directory name cannot be empty.".to_string());
+                    ValidationState::Error("ファイル名またはディレクトリ名を空にすることはできません。".to_string());
                 cx.notify();
                 return;
             }
@@ -1559,7 +1573,7 @@ impl ProjectPanel {
             let trimmed_filename = filename.trim();
             if trimmed_filename != filename {
                 edit_state.validation_state = ValidationState::Warning(
-                    "File or directory name contains leading or trailing whitespace.".to_string(),
+                    "ファイル名またはディレクトリ名の先頭または末尾に空白があります。".to_string(),
                 );
                 cx.notify();
                 return;
@@ -1568,7 +1582,7 @@ impl ProjectPanel {
 
             let Ok(filename) = RelPath::unix(trimmed_filename) else {
                 edit_state.validation_state = ValidationState::Warning(
-                    "File or directory name contains leading or trailing whitespace.".to_string(),
+                    "ファイル名またはディレクトリ名の先頭または末尾に空白があります。".to_string(),
                 );
                 cx.notify();
                 return;
@@ -1597,7 +1611,7 @@ impl ProjectPanel {
                 };
                 if already_exists {
                     edit_state.validation_state = ValidationState::Error(format!(
-                        "File or directory '{}' already exists at location. Please choose a different name.",
+                        "ファイルまたはディレクトリ '{}' はその場所にすでに存在します。別の名前を指定してください。",
                         filename.as_unix_str()
                     ));
                     cx.notify();
@@ -1735,9 +1749,9 @@ impl ProjectPanel {
                                         notification_id: "excluded-directory".into(),
                                         message: format!(
                                             concat!(
-                                                "Created an excluded directory at {:?}.\n",
-                                                "Alter `file_scan_exclusions` in the settings ",
-                                                "to show it in the panel"
+                                                "除外されたディレクトリを {:?} に作成しました。\n",
+                                                "設定の `file_scan_exclusions` を変更すると ",
+                                                "パネルに表示できます"
                                             ),
                                             abs_path
                                         ),
@@ -1996,8 +2010,8 @@ impl ProjectPanel {
             let file_name = entry.path.file_name()?.to_string();
 
             let answer = if !action.skip_prompt {
-                let prompt = format!("Discard changes to {}?", file_name);
-                Some(window.prompt(PromptLevel::Info, &prompt, None, &["Restore", "Cancel"], cx))
+                let prompt = format!("{} への変更を破棄しますか？", file_name);
+                Some(window.prompt(PromptLevel::Info, &prompt, None, &["復元", "キャンセル"], cx))
             } else {
                 None
             };
@@ -2016,7 +2030,7 @@ impl ProjectPanel {
                 if let Err(e) = task.await {
                     panel
                         .update(cx, |panel, cx| {
-                            let message = format!("Failed to restore {}: {}", file_name, e);
+                            let message = format!("{} を復元できませんでした: {}", file_name, e);
                             let toast = StatusToast::new(message, cx, |this, _| {
                                 this.icon(ToastIcon::new(IconName::XCircle).color(Color::Error))
                                     .dismiss_button(true)
@@ -2077,16 +2091,16 @@ impl ProjectPanel {
                 return None;
             }
             let answer = if !skip_prompt {
-                let operation = if trash { "Trash" } else { "Delete" };
+                let operation = if trash { "ゴミ箱へ移動" } else { "完全に削除" };
                 let prompt = match file_paths.first() {
                     Some((_, path)) if file_paths.len() == 1 => {
                         let unsaved_warning = if dirty_buffers > 0 {
-                            "\n\nIt has unsaved changes, which will be lost."
+                            "\n\n保存されていない変更があり、失われます。"
                         } else {
                             ""
                         };
 
-                        format!("{operation} {path}?{unsaved_warning}")
+                        format!("{path} を{operation}しますか？{unsaved_warning}")
                     }
                     _ => {
                         const CUTOFF_POINT: usize = 10;
@@ -2099,9 +2113,9 @@ impl ProjectPanel {
                                 .collect::<Vec<_>>();
                             paths.truncate(CUTOFF_POINT);
                             if truncated_path_counts == 1 {
-                                paths.push(".. 1 file not shown".into());
+                                paths.push(".. 1 件のファイルは非表示".into());
                             } else {
-                                paths.push(format!(".. {} files not shown", truncated_path_counts));
+                                paths.push(format!(".. {} 件のファイルは非表示", truncated_path_counts));
                             }
                             paths
                         } else {
@@ -2110,20 +2124,20 @@ impl ProjectPanel {
                         let unsaved_warning = if dirty_buffers == 0 {
                             String::new()
                         } else if dirty_buffers == 1 {
-                            "\n\n1 of these has unsaved changes, which will be lost.".to_string()
+                            "\n\nこのうち 1 件に保存されていない変更があり、失われます。".to_string()
                         } else {
-                            format!("\n\n{dirty_buffers} of these have unsaved changes, which will be lost.")
+                            format!("\n\nこのうち {dirty_buffers} 件に保存されていない変更があり、失われます。")
                         };
 
                         format!(
-                            "Do you want to {} the following {} files?\n{}{unsaved_warning}",
-                            operation.to_lowercase(),
+                            "次のファイルを{}しますか？（{} 件）\n{}{unsaved_warning}",
+                            operation,
                             file_paths.len(),
                             names.join("\n")
                         )
                     }
                 };
-                Some(window.prompt(PromptLevel::Info, &prompt, None, &[operation, "Cancel"], cx))
+                Some(window.prompt(PromptLevel::Info, &prompt, None, &[operation, "キャンセル"], cx))
             } else {
                 None
             };
@@ -2140,7 +2154,7 @@ impl ProjectPanel {
                             panel
                                 .project
                                 .update(cx, |project, cx| project.delete_entry(entry_id, trash, cx))
-                                .context("no such entry")
+                                .context("該当するエントリがありません")
                         })??
                         .await?;
                 }
@@ -2288,7 +2302,7 @@ impl ProjectPanel {
         }
     }
 
-    /// Triggers a full rescan of the selected folder from the file system.
+    /// 選択したフォルダーのファイルシステムからの完全な再スキャンを実行します。
     fn refresh_folder(&mut self, _: &RefreshFolder, _window: &mut Window, cx: &mut Context<Self>) {
         if let Some((worktree, entry)) = self.selected_entry_handle(cx) {
             if !entry.is_dir() {
@@ -3468,7 +3482,7 @@ impl ProjectPanel {
                                 let Some(path_name) = entry
                                     .path
                                     .file_name()
-                                    .with_context(|| format!("Non-root entry has no file name: {entry:?}"))
+                                    .with_context(|| format!("ルート以外のエントリにファイル名がありません: {entry:?}"))
                                     .log_err()
                                 else {
                                     continue;
@@ -4636,7 +4650,7 @@ impl ProjectPanel {
                                     Tooltip::with_meta(
                                         path.to_string(),
                                         None,
-                                        "Symbolic Link",
+                                        "シンボリックリンク",
                                         cx,
                                     )
                                 })
@@ -5026,14 +5040,14 @@ impl ProjectPanel {
         let worktree = project
             .read(cx)
             .worktree_for_entry(entry_id, cx)
-            .context("can't reveal a non-existent entry in the project panel")?;
+            .context("プロジェクトパネルに存在しないエントリは表示できません")?;
         let worktree = worktree.read(cx);
         if skip_ignored
             && worktree
                 .entry_for_id(entry_id)
                 .is_none_or(|entry| entry.is_ignored && !entry.is_always_included)
         {
-            anyhow::bail!("can't reveal an ignored entry in the project panel");
+            anyhow::bail!("無視されたエントリはプロジェクトパネルに表示できません");
         }
         let is_active_item_file_diff_view = self
             .workspace
@@ -5693,7 +5707,7 @@ impl Render for ProjectPanel {
                 .gap_1()
                 .track_focus(&self.focus_handle(cx))
                 .child(
-                    Button::new("open_project", "Open Project")
+                    Button::new("open_project", "プロジェクトを開く")
                         .full_width()
                         .key_binding(KeyBinding::for_action_in(&workspace::Open, &focus_handle, cx))
                         .on_click(cx.listener(|this, _, window, cx| {
@@ -5709,11 +5723,11 @@ impl Render for ProjectPanel {
                         .gap_2()
                         .justify_center()
                         .child(Divider::horizontal())
-                        .child(Label::new("or").size(LabelSize::XSmall).color(Color::Muted))
+                        .child(Label::new("または").size(LabelSize::XSmall).color(Color::Muted))
                         .child(Divider::horizontal()),
                 )
                 .child(
-                    Button::new("clone_repo", "Clone Repository")
+                    Button::new("clone_repo", "リポジトリをクローン")
                         .full_width()
                         .on_click(cx.listener(|this, _, window, cx| {
                             this.workspace
@@ -5773,7 +5787,7 @@ impl Render for DraggedProjectEntryView {
                     .bg(cx.theme().colors().background)
                     .map(|this| {
                         if self.selections.len() > 1 && self.selections.contains(&self.selection) {
-                            this.child(Label::new(format!("{} entries", self.selections.len())))
+                            this.child(Label::new(format!("{} 件", self.selections.len())))
                         } else {
                             this.child(if let Some(icon) = &self.icon {
                                 div().child(Icon::from_path(icon.clone()))
@@ -5837,7 +5851,7 @@ impl Panel for ProjectPanel {
     }
 
     fn icon_tooltip(&self, _window: &Window, _cx: &App) -> Option<&'static str> {
-        Some("Project Panel")
+        Some("プロジェクトパネル")
     }
 
     fn toggle_action(&self) -> Box<dyn Action> {

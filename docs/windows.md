@@ -1,72 +1,53 @@
-# Gram on Windows
+# Windows での Gram
 
-## Installing Gram
+## Gram のインストール
 
-There are now basic Windows binaries provided with the [Codeberg
-releases](https://codeberg.org/GramEditor/gram/releases).
+現在、基本的な Windows バイナリが [Codeberg のリリース](https://codeberg.org/GramEditor/gram/releases)で提供されています。
 
-Otherwise, the editor can be installed by building
-[from source](./development/windows.md).
+それ以外の場合は、[ソースからビルド](./development/windows.md)してエディターをインストールできます。
 
-## Uninstall
+## アンインストール
 
-- Installed via installer: Use `Settings` → `Apps` → `Installed apps`, search
-  for Gram, and click Uninstall.
-- Built from source: Remove the build output directory you created (e.g., your
-  target/install folder).
+- インストーラーでインストールした場合: `設定` → `アプリ` → `インストールされたアプリ` を開き、Gram を検索して「アンインストール」をクリックします。
+- ソースからビルドした場合: 作成したビルド出力ディレクトリ（例: target/install フォルダー）を削除します。
 
-Settings and extensions are stored in your user profile. When uninstalling, you
-can choose to keep or remove them.
+設定と拡張機能はユーザープロファイルに保存されます。アンインストール時に、これらを保持するか削除するかを選択できます。
 
-## Remote Development (SSH)
+## リモート開発（SSH）
 
-Gram supports remote development on Windows through both SSH and WSL. You can
-connect to remote servers via SSH or work with files inside WSL distributions
-directly from Gram.
+Gram は Windows でのリモート開発を SSH と WSL の両方でサポートします。SSH 経由でリモートサーバーに接続したり、WSL ディストリビューション内のファイルを Gram から直接扱ったりできます。
 
-For detailed instructions on setting up and using remote development features,
-including SSH configuration, WSL setup, and troubleshooting, see the
-[Remote Development documentation](./remote-development.md).
+リモート開発機能の設定と使用方法（SSH の構成、WSL のセットアップ、トラブルシューティングを含む）の詳細は、[リモート開発のドキュメント](./remote-development.md) を参照してください。
 
-## Troubleshooting
+## トラブルシューティング
 
-### Gram fails to start or shows a blank window
+### Gram が起動しない、または空白のウィンドウが表示される
 
-- Check that your hardware and operating system version are compatible with
-  Gram.
-- Update your GPU drivers from your GPU vendor (Intel/AMD/NVIDIA/Qualcomm).
-- Ensure hardware acceleration is enabled in Windows and not blocked by
-  third‑party software.
-- Try launching Gram with no extensions or custom settings to isolate conflicts.
+- ハードウェアと OS のバージョンが Gram の動作要件を満たしているか確認してください。
+- GPU ベンダー（Intel/AMD/NVIDIA/Qualcomm）の GPU ドライバーを更新してください。
+- Windows でハードウェアアクセラレーションが有効になっていること、サードパーティ製ソフトウェアによってブロックされていないことを確認してください。
+- 拡張機能やカスタム設定を無効にした状態で Gram を起動し、競合を切り分けてください。
 
-### Terminal issues
+### ターミナルの問題
 
-If activation scripts don’t run, update to the latest version and verify your
-shell profile files are not exiting early. For Git operations, confirm Git Bash
-or PowerShell is available and on PATH.
+アクティベーションスクリプトが実行されない場合は、最新バージョンに更新し、シェルのプロファイルファイルが途中で終了していないことを確認してください。Git の操作については、Git Bash または PowerShell が利用可能で PATH に含まれていることを確認してください。
 
-### SSH remoting problems
+### SSH リモート接続の問題
 
-When prompted for credentials, use the graphical askpass dialog. If it doesn’t
-appear, check for credential manager conflicts and that GUI prompts aren’t
-blocked by your terminal.
+認証情報の入力を求められた場合は、グラフィカルな askpass ダイアログを使用してください。ダイアログが表示されない場合は、認証情報マネージャーの競合と、ターミナルによって GUI のプロンプトがブロックされていないことを確認してください。
 
-### Graphics issues
+### グラフィックの問題
 
-#### Gram fails to open / degraded performance
+#### Gram が開かない / パフォーマンスが低下する
 
-Gram requires a DirectX 11 compatible GPU to run. If Gram fails to open, your
-GPU may not meet the minimum requirements.
+Gram の実行には DirectX 11 対応の GPU が必要です。Gram が開かない場合、GPU が最小要件を満たしていない可能性があります。
 
-To check if your GPU supports DirectX 11, run the following command:
+GPU が DirectX 11 をサポートしているかを確認するには、次のコマンドを実行します:
 
 ```
 dxdiag
 ```
 
-This will open the DirectX Diagnostic Tool, which shows the DirectX version your
-GPU supports under `System` → `System Information` → `DirectX Version`.
+DirectX 診断ツールが開き、`システム` → `システム情報` → `DirectX バージョン` に、GPU が対応している DirectX のバージョンが表示されます。
 
-If you're running Gram inside a virtual machine, it will use the emulated
-adapter provided by your VM. While Gram will work in this environment,
-performance may be degraded.
+仮想マシン内で Gram を実行している場合は、VM が提供するエミュレートされたアダプターが使われます。この環境でも Gram は動作しますが、パフォーマンスが低下する可能性があります。

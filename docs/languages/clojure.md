@@ -1,13 +1,13 @@
 # Clojure
 
-Clojure support is available through the
-[Clojure extension](https://github.com/zed-extensions/clojure).
+Clojure のサポートは
+[Clojure 拡張機能](https://github.com/zed-extensions/clojure) から利用できます。
 
 - Tree-sitter:
   [prcastro/tree-sitter-clojure](https://github.com/prcastro/tree-sitter-clojure)
-- Language Server:
+- 言語サーバー:
   [clojure-lsp/clojure-lsp](https://github.com/clojure-lsp/clojure-lsp)
 
 <!--
-TBD: Add some Clojure Docs
+TBD: Clojure のドキュメントを追加
 -->

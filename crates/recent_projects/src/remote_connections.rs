@@ -199,7 +199,7 @@ impl RemoteConnectionPrompt {
 
     pub fn confirm(&mut self, window: &mut Window, cx: &mut Context<Self>) {
         if let Some((_, tx)) = self.prompt.take() {
-            self.status_message = Some("Connecting".into());
+            self.status_message = Some("接続中".into());
 
             self.editor.update(cx, |editor, cx| {
                 let pw = editor.text(cx);
@@ -264,7 +264,7 @@ impl Render for RemoteConnectionPrompt {
                         .child(MarkdownElement::new(prompt.0.clone(), markdown_style))
                         .child(self.editor.clone()),
                 )
-                .when(window.capslock().on, |el| el.child(Label::new("⚠️ ⇪ is on")))
+                .when(window.capslock().on, |el| el.child(Label::new("⚠️ ⇪ がオンです")))
             })
     }
 }
@@ -591,11 +591,11 @@ pub async fn open_remote_project(
                         window.prompt(
                             PromptLevel::Critical,
                             match connection_options {
-                                RemoteConnectionOptions::Ssh(_) => "Failed to connect over SSH",
-                                RemoteConnectionOptions::Wsl(_) => "Failed to connect to WSL",
+                                RemoteConnectionOptions::Ssh(_) => "SSH 経由の接続に失敗しました",
+                                RemoteConnectionOptions::Wsl(_) => "WSL への接続に失敗しました",
                             },
                             Some(&format!("{e:#}")),
-                            &["Retry", "Cancel"],
+                            &["再試行", "キャンセル"],
                             cx,
                         )
                     })?
@@ -644,11 +644,11 @@ pub async fn open_remote_project(
                         window.prompt(
                             PromptLevel::Critical,
                             match connection_options {
-                                RemoteConnectionOptions::Ssh(_) => "Failed to connect over SSH",
-                                RemoteConnectionOptions::Wsl(_) => "Failed to connect to WSL",
+                                RemoteConnectionOptions::Ssh(_) => "SSH 経由の接続に失敗しました",
+                                RemoteConnectionOptions::Wsl(_) => "WSL への接続に失敗しました",
                             },
                             Some(&format!("{e:#}")),
-                            &["Retry", "Cancel"],
+                            &["再試行", "キャンセル"],
                             cx,
                         )
                     })?

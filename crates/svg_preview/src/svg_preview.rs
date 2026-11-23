@@ -8,7 +8,7 @@ pub use app_actions::preview::svg::{OpenPreview, OpenPreviewToTheSide};
 actions!(
     svg,
     [
-        /// Opens a following SVG preview that syncs with the editor.
+        /// エディターと同期する追従SVGプレビューを開きます。
         OpenFollowingPreview
     ]
 );

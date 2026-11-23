@@ -1,12 +1,11 @@
 # Zig
 
-Zig is a general-purpose programming language and toolchain for maintaining
-robust, optimal and reusable software.
+Zig は、堅牢で最適かつ再利用可能なソフトウェアを維持するための、汎用プログラミング言語とツールチェーンです。
 
-Zig support is built into the editor.
+Zig のサポートはエディターに組み込まれています。
 
-- [Website](https://ziglang.org)
-- [Language Reference](https://ziglang.org/documentation/master/)
-- [Standard Library](https://ziglang.org/documentation/master/std/)
+- [Web サイト](https://ziglang.org)
+- [言語リファレンス](https://ziglang.org/documentation/master/)
+- [標準ライブラリ](https://ziglang.org/documentation/master/std/)
 - [tree-sitter-zig](https://github.com/tree-sitter-grammars/tree-sitter-zig)
-- [Language Server (zls)](https://github.com/zigtools/zls)
+- [言語サーバー（zls）](https://github.com/zigtools/zls)

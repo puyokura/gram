@@ -1,16 +1,16 @@
 # Java
 
-Java language support in Gram is provided by:
+Gram での Java 言語サポートは、次のものによって提供されます:
 
 - Gram Java: [zed-extensions/java](https://github.com/zed-extensions/java)
 - Tree-sitter:
   [tree-sitter/tree-sitter-java](https://github.com/tree-sitter/tree-sitter-java)
-- Language Server:
+- 言語サーバー:
   [eclipse-jdtls/eclipse.jdt.ls](https://github.com/eclipse-jdtls/eclipse.jdt.ls)
 
-## Install OpenJDK
+## OpenJDK のインストール
 
-You will need to install a Java runtime (OpenJDK).
+Java ランタイム（OpenJDK）をインストールする必要があります。
 
 - macOS: `brew install openjdk`
 - Ubuntu:
@@ -18,39 +18,35 @@ You will need to install a Java runtime (OpenJDK).
 - Windows: `choco install openjdk`
 - Arch Linux: `sudo pacman -S jre-openjdk-headless`
 
-Or manually download and install [OpenJDK 23](https://jdk.java.net/23/).
+または [OpenJDK 23](https://jdk.java.net/23/) を手動でダウンロードしてインストールします。
 
-## Extension Install
+## 拡張機能のインストール
 
-You can install by opening {#action gram::Extensions}({#kb gram::Extensions})
-and searching for `java`.
+{#action gram::Extensions}（{#kb gram::Extensions}）を開き、`java` を検索すると
+インストールできます。
 
-## Quick start and configuration
+## クイックスタートと構成
 
-For the majority of users, Java support should work out of the box.
+ほとんどのユーザーにとって、Java のサポートは追加設定なしで動作します。
 
-- It is generally recommended to open projects with the Gram-project root at the
-  Java project root folder (where you would commonly have your `pom.xml` or
-  `build.gradle` file).
+- 一般的には、Gram プロジェクトのルートを Java プロジェクトのルートフォルダ
+  （通常は `pom.xml` や `build.gradle` がある場所）にしてプロジェクトを開くことを
+  おすすめします。
 
-- By default the extension will download and run the latest official version of
-  JDTLS for you, but this requires Java version 21 to be available on your
-  system via either the `$JAVA_HOME` environment variable or as a `java(.exe)`
-  executable on your `$PATH`. If your project requires a lower Java version in
-  the environment, you can specify a different JDK to use for running JDTLS via
-  the `java_home` configuration option.
+- 既定では、拡張機能が最新の公式 JDTLS をダウンロードして実行します。ただし、そのためには
+  Java 21 が `$JAVA_HOME` 環境変数で、または `$PATH` 上の `java(.exe)` 実行ファイルとして
+  利用できる必要があります。プロジェクトがより低い Java バージョンを必要とする場合は、
+  `java_home` 構成オプションで JDTLS の実行に使う JDK を別に指定できます。
 
-- You can provide a **custom launch script for JDTLS**, by adding an executable
-  named `jdtls` (or `jdtls.bat` on Windows) to your `$PATH` environment
-  variable. If this is present, the extension will skip downloading and
-  launching a managed instance and use the one from the environment.
+- `$PATH` 環境変数に `jdtls`（Windows では `jdtls.bat`）という名前の実行ファイルを追加
+  すると、**JDTLS 用のカスタム起動スクリプト**を利用できます。これがある場合、拡張機能は
+  管理対象インスタンスのダウンロードと起動を省略し、環境にあるものを使用します。
 
-- To support [Lombok](https://projectlombok.org/), the lombok-jar must be
-  downloaded and registered as a Java-Agent when launching JDTLS. By default the
-  extension automatically takes care of that, but in case you don't want that
-  you can set the `lombok_support` configuration-option to `false`.
+- [Lombok](https://projectlombok.org/) をサポートするには、JDTLS の起動時に lombok-jar を
+  ダウンロードし、Java エージェントとして登録する必要があります。既定では拡張機能が自動で
+  処理しますが、不要な場合は `lombok_support` 構成オプションを `false` に設定できます。
 
-Here is a common `settings.jsonc` including the above mentioned configurations:
+上記の構成を含む一般的な `settings.jsonc` は次のとおりです:
 
 ```json
 {
@@ -65,16 +61,15 @@ Here is a common `settings.jsonc` including the above mentioned configurations:
 }
 ```
 
-## Debugging
+## デバッグ
 
-Debug support is enabled via our
-[Fork of Java Debug](https://github.com/zed-industries/java-debug), which the
-extension will automatically download and start for you. Please refer to the
-[Debugger Documentation](../debugger.md#getting-started) for general information
-about how debugging works in Gram.
+デバッグサポートは、[Java Debug のフォーク](https://github.com/zed-industries/java-debug)
+によって有効になり、拡張機能が自動でダウンロードして起動します。Gram でのデバッグの
+一般的な仕組みは、[デバッガーのドキュメント](../debugger.md#getting-started) を参照して
+ください。
 
-To get started with Java, click the `edit debug.jsonc` button in the Debug menu,
-and replace the contents of the file with the following:
+Java でデバッグを始めるには、デバッグメニューの `edit debug.jsonc` ボタンをクリックし、
+ファイルの内容を次に置き換えます:
 
 ```json
 [
@@ -82,53 +77,49 @@ and replace the contents of the file with the following:
     "adapter": "Java",
     "request": "launch",
     "label": "Launch Debugger",
-    // if your project has multiple entry points, specify the one to use:
+    // プロジェクトに複数のエントリーポイントがある場合は、使用するものを指定します:
     // "mainClass": "com.myorganization.myproject.MyMainClass",
     //
-    // this effectively sets a breakpoint at your program entry:
+    // これにより、実質的にプログラムのエントリーポイントにブレークポイントを設定します:
     "stopOnEntry": true,
-    // the working directory for the debug process
+    // デバッグプロセスの作業ディレクトリ
     "cwd": "$GRAM_WORKTREE_ROOT",
   },
 ]
 ```
 
-You should then be able to start a new Debug Session with the "Launch Debugger"
-scenario from the debug menu.
+これで、デバッグメニューの "Launch Debugger" シナリオから新しいデバッグセッションを
+開始できるようになります。
 
-## Launch Scripts (aka Tasks) in Windows
+## Windows での起動スクリプト（タスク）
 
-This extension provides tasks for running your application and tests from within
-Gram via little play buttons next to tests/entry points. However, due to current
-limitations of Gram's extension interface, we can not provide scripts that will
-work across Maven and Gradle on both Windows and Unix-compatible systems, so out
-of the box the launch scripts only work on Mac and Linux.
+この拡張機能は、テストやエントリーポイントの横に表示される小さな再生ボタンから、Gram 内で
+アプリケーションやテストを実行するためのタスクを提供します。ただし、Gram の拡張機能
+インターフェースの現在の制限により、Windows と Unix 系システムの両方で Maven と Gradle に
+対応するスクリプトは提供できず、既定では起動スクリプトは Mac と Linux でのみ動作します。
 
-There is a fairly straightforward fix that you can apply to make it work on
-Windows by supplying your own task scripts. Please see
-[this Issue](https://github.com/zed-extensions/java/issues/94) for information
-on how to do that and read the
-[Tasks section in Grams documentation](../tasks.md) for more information.
+Windows でも動作させるための比較的簡単な修正方法があります。独自のタスクスクリプトを用意
+してください。方法は[こちらの Issue](https://github.com/zed-extensions/java/issues/94) を、
+詳しくは [Gram ドキュメントのタスクの節](../tasks.md) を参照してください。
 
-## Advanced Configuration/JDTLS initialization Options
+## 高度な構成と JDTLS の初期化オプション
 
-JDTLS provides many configuration options that can be passed via the
-`initialize` LSP-request. The extension will pass the JSON-object from
-`lsp.jdtls.settings.initialization_options` in your settings on to JDTLS. Please
-refer to the
-[JDTLS Configuration Wiki Page](https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request)
-for the available options and values. Below is an example `settings.jsonc` that
-would pass on the example configuration from the above wiki page to JDTLS:
+JDTLS は、`initialize` LSP リクエストで渡せる多くの構成オプションを提供します。拡張機能は、
+設定の `lsp.jdtls.settings.initialization_options` にある JSON オブジェクトを JDTLS に
+渡します。利用できるオプションと値は
+[JDTLS の構成 Wiki ページ](https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request)
+を参照してください。以下は、上記 Wiki ページの構成例を JDTLS に渡す `settings.jsonc` の
+例です:
 
 ```json
 {
   "lsp": {
     "jdtls": {
       "settings": {
-        // this will be sent to JDTLS as initializationOptions:
+        // これは JDTLS に initializationOptions として送信されます:
         "initialization_options": {
           "bundles": [],
-          // use this if your gram project root folder is not the same as the java project root:
+          // Gram プロジェクトのルートフォルダが Java プロジェクトのルートと異なる場合に使用します:
           "workspaceFolders": ["file:///home/snjeza/Project"],
           "settings": {
             "java": {
@@ -198,7 +189,7 @@ would pass on the example configuration from the above wiki page to JDTLS:
 }
 ```
 
-## See also
+## 関連項目
 
-[Gram Java Repo](https://github.com/zed-extensions/java)
-[Eclipse JDTLS Repo](https://github.com/eclipse-jdtls/eclipse.jdt.ls)
+[Gram Java リポジトリ](https://github.com/zed-extensions/java)
+[Eclipse JDTLS リポジトリ](https://github.com/eclipse-jdtls/eclipse.jdt.ls)

@@ -1,13 +1,12 @@
 # Odin
 
-Odin support is built into the editor.
+Odin のサポートはエディターに組み込まれています。
 
-Odin is a general-purpose programming language with distinct typing built for
-high performance, modern systems and data-oriented programming.
+Odin は、高性能、最新のシステム、およびデータ指向プログラミング向けに構築された、固有の型システムを持つ汎用プログラミング言語です。
 
-Odin is the C alternative for the Joy of Programming.
+Odin は「プログラミングの喜び（Joy of Programming）」のための C 言語の代替です。
 
-- [Website](https://odin-lang.org)
-- [Documentation](https://odin-lang.org/docs/)
+- [Web サイト](https://odin-lang.org)
+- [ドキュメント](https://odin-lang.org/docs/)
 - [Tree Sitter](https://github.com/tree-sitter-grammars/tree-sitter-odin)
-- [Language Server (ols)](https://github.com/DanielGavin/ols)
+- [言語サーバー (ols)](https://github.com/DanielGavin/ols)

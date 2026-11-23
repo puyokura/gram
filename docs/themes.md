@@ -1,31 +1,22 @@
-# Themes
+# テーマ
 
-Gram comes with a number of built-in themes, with more themes available as
-extensions.
+Gram には多数の組み込みテーマが付属しており、追加のテーマは拡張機能として利用できます。
 
-## Selecting a Theme
+## テーマを選択する
 
-See what themes are installed and preview them via the Theme Selector, which you
-can open from the command palette with `theme selector: toggle` (bound to {#kb
-theme_selector::Toggle}).
+インストール済みのテーマを確認し、プレビューするにはテーマセレクターを使います。コマンドパレットから `theme selector: toggle` で開けます（{#kb theme_selector::Toggle} に割り当て済み）。
 
-Navigating through the theme list by moving up and down will change the theme in
-real time and hitting enter will save it to your settings file.
+テーマ一覧を上下に移動して見ると、テーマはその場で即座に切り替わり、enter キーを押すと設定ファイルに保存されます。
 
-## Installing more Themes
+## テーマを追加でインストールする
 
-Gram can use Zed themes so you can install any theme from
-[zed-themes.com](https://zed-themes.com), a gallery with visible previews for
-many of them.
+Gram は Zed のテーマを利用できるため、[zed-themes.com](https://zed-themes.com) から任意のテーマをインストールできます。このギャラリーでは多くのテーマのプレビューを確認できます。
 
-## Configuring a Theme
+## テーマを設定する
 
-Your selected theme is stored in your settings file. You can open your settings
-file from the command palette with {#action gram::OpenSettingsFile} (bound to
-{#kb gram::OpenSettingsFile}).
+選択したテーマは設定ファイルに保存されます。設定ファイルは、コマンドパレットから {#action gram::OpenSettingsFile}（{#kb gram::OpenSettingsFile} に割り当て済み）で開けます。
 
-By default, Gram maintains two themes: one for light mode and one for dark mode.
-You can set the mode to `"dark"` or `"light"` to ignore the current system mode.
+既定では、Gram はライトモード用とダークモード用の 2 つのテーマを保持します。現在のシステムモードを無視したい場合は、モードを `"dark"` または `"light"` に設定してください。
 
 ```json
 {
@@ -37,14 +28,11 @@ You can set the mode to `"dark"` or `"light"` to ignore the current system mode.
 }
 ```
 
-## Theme Overrides
+## テーマの上書き
 
-To override specific attributes of a theme, use the `theme_overrides` setting.
-This setting can be used to configure theme-specific overrides.
+テーマの特定の属性を上書きするには、`theme_overrides` 設定を使います。この設定ではテーマ固有の上書きを構成できます。
 
-For example, add the following to your `settings.json` if you wish to override
-the background color of the editor and display comments and doc comments as
-italics:
+たとえば、エディターの背景色を変更し、コメントとドキュメントコメントをイタリックで表示したい場合は、`settings.json` に次の内容を追加します:
 
 ```json
 {
@@ -72,23 +60,17 @@ italics:
 }
 ```
 
-To see a comprehensive list of list of captures (like `comment` and
-`comment.doc`) see
-[Language Extensions: Syntax highlighting](./extensions/languages.md#syntax-highlighting).
+キャプチャ（`comment` や `comment.doc` など）の一覧については、
+[言語拡張機能: シンタックスハイライト](./extensions/languages.md#syntax-highlighting) を参照してください。
 
-To see a list of available theme attributes look at the JSON file for your
-theme.
+利用可能なテーマ属性の一覧は、各テーマの JSON ファイルで確認できます。
 
-## Local Themes
+## ローカルテーマ
 
-Store new themes locally by placing them in the `~/.config/gram/themes`
-directory (macOS and Linux) or `%USERPROFILE%\AppData\Roaming\Gram\themes\`
-(Windows).
+新しいテーマをローカルに保存するには、`~/.config/gram/themes` ディレクトリ（macOS と Linux）または `%USERPROFILE%\AppData\Roaming\Gram\themes\`（Windows）に配置します。
 
-For example, to create a new theme called `my-cool-theme`, create a file called
-`my-cool-theme.json` in that directory. It will be available in the theme
-selector the next time Gram loads.
+たとえば `my-cool-theme` という新しいテーマを作るには、そのディレクトリに `my-cool-theme.json` というファイルを作成します。次回 Gram を起動したときにテーマセレクターで利用できます。
 
-## Theme Development
+## テーマの開発
 
-See: [Developing Gram Themes](./extensions/themes.md)
+参照: [Gram テーマの開発](./extensions/themes.md)

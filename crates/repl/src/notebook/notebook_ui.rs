@@ -27,19 +27,19 @@ use nbformat::v4::Metadata as NotebookMetadata;
 actions!(
     notebook,
     [
-        /// Opens a Jupyter notebook file.
+        /// Jupyter ノートブックファイルを開きます。
         OpenNotebook,
-        /// Runs all cells in the notebook.
+        /// ノートブック内のすべてのセルを実行します。
         RunAll,
-        /// Clears all cell outputs.
+        /// すべてのセルの出力をクリアします。
         ClearOutputs,
-        /// Moves the current cell up.
+        /// 現在のセルを上へ移動します。
         MoveCellUp,
-        /// Moves the current cell down.
+        /// 現在のセルを下へ移動します。
         MoveCellDown,
-        /// Adds a new markdown cell.
+        /// 新しい Markdown セルを追加します。
         AddMarkdownBlock,
-        /// Adds a new code cell.
+        /// 新しいコードセルを追加します。
         AddCodeBlock,
     ]
 );
@@ -268,7 +268,7 @@ impl NotebookEditor {
                         Self::button_group(window, cx)
                             .child(
                                 Self::render_notebook_control("run-all-cells", IconName::PlayFilled, window, cx)
-                                    .tooltip(move |window, cx| Tooltip::for_action("Execute all cells", &RunAll, cx))
+                                    .tooltip(move |window, cx| Tooltip::for_action("すべてのセルを実行", &RunAll, cx))
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(Box::new(RunAll), cx);
                                     }),
@@ -277,7 +277,7 @@ impl NotebookEditor {
                                 Self::render_notebook_control("clear-all-outputs", IconName::ListX, window, cx)
                                     .disabled(!has_outputs)
                                     .tooltip(move |window, cx| {
-                                        Tooltip::for_action("Clear all outputs", &ClearOutputs, cx)
+                                        Tooltip::for_action("すべての出力をクリア", &ClearOutputs, cx)
                                     })
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(Box::new(ClearOutputs), cx);
@@ -288,14 +288,14 @@ impl NotebookEditor {
                         Self::button_group(window, cx)
                             .child(
                                 Self::render_notebook_control("move-cell-up", IconName::ArrowUp, window, cx)
-                                    .tooltip(move |window, cx| Tooltip::for_action("Move cell up", &MoveCellUp, cx))
+                                    .tooltip(move |window, cx| Tooltip::for_action("セルを上へ移動", &MoveCellUp, cx))
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(Box::new(MoveCellUp), cx);
                                     }),
                             )
                             .child(
                                 Self::render_notebook_control("move-cell-down", IconName::ArrowDown, window, cx)
-                                    .tooltip(move |window, cx| Tooltip::for_action("Move cell down", &MoveCellDown, cx))
+                                    .tooltip(move |window, cx| Tooltip::for_action("セルを下へ移動", &MoveCellDown, cx))
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(Box::new(MoveCellDown), cx);
                                     }),
@@ -306,7 +306,7 @@ impl NotebookEditor {
                             .child(
                                 Self::render_notebook_control("new-markdown-cell", IconName::Plus, window, cx)
                                     .tooltip(move |window, cx| {
-                                        Tooltip::for_action("Add markdown block", &AddMarkdownBlock, cx)
+                                        Tooltip::for_action("Markdown ブロックを追加", &AddMarkdownBlock, cx)
                                     })
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(Box::new(AddMarkdownBlock), cx);
@@ -314,7 +314,9 @@ impl NotebookEditor {
                             )
                             .child(
                                 Self::render_notebook_control("new-code-cell", IconName::Code, window, cx)
-                                    .tooltip(move |window, cx| Tooltip::for_action("Add code block", &AddCodeBlock, cx))
+                                    .tooltip(move |window, cx| {
+                                        Tooltip::for_action("コードブロックを追加", &AddCodeBlock, cx)
+                                    })
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(Box::new(AddCodeBlock), cx);
                                     }),

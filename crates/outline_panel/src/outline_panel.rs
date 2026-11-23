@@ -58,39 +58,39 @@ use worktree::{Entry, ProjectEntryId, WorktreeId};
 actions!(
     outline_panel,
     [
-        /// Collapses all entries in the outline tree.
+        /// アウトラインツリーのすべてのエントリを折りたたみます。
         CollapseAllEntries,
-        /// Collapses the currently selected entry.
+        /// 現在選択中のエントリを折りたたみます。
         CollapseSelectedEntry,
-        /// Expands all entries in the outline tree.
+        /// アウトラインツリーのすべてのエントリを展開します。
         ExpandAllEntries,
-        /// Expands the currently selected entry.
+        /// 現在選択中のエントリを展開します。
         ExpandSelectedEntry,
-        /// Folds the selected directory.
+        /// 選択したディレクトリを折りたたみます。
         FoldDirectory,
-        /// Opens the selected entry in the editor.
+        /// 選択したエントリをエディターで開きます。
         OpenSelectedEntry,
-        /// Reveals the selected item in the system file manager.
+        /// 選択した項目をシステムのファイルマネージャーで表示します。
         RevealInFileManager,
-        /// Scroll half a page upwards
+        /// 半ページ上へスクロールします。
         ScrollUp,
-        /// Scroll half a page downwards
+        /// 半ページ下へスクロールします。
         ScrollDown,
-        /// Scroll until the cursor displays at the center
+        /// カーソルが中央に表示されるまでスクロールします。
         ScrollCursorCenter,
-        /// Scroll until the cursor displays at the top
+        /// カーソルが先頭に表示されるまでスクロールします。
         ScrollCursorTop,
-        /// Scroll until the cursor displays at the bottom
+        /// カーソルが末尾に表示されるまでスクロールします。
         ScrollCursorBottom,
-        /// Selects the parent of the current entry.
+        /// 現在のエントリの親を選択します。
         SelectParent,
-        /// Toggles the pin status of the active editor.
+        /// アクティブなエディターのピン状態を切り替えます。
         ToggleActiveEditorPin,
-        /// Unfolds the selected directory.
+        /// 選択したディレクトリを展開します。
         UnfoldDirectory,
-        /// Toggles the outline panel.
+        /// アウトラインパネルを切り替えます。
         Toggle,
-        /// Toggles focus on the outline panel.
+        /// アウトラインパネルへのフォーカスを切り替えます。
         ToggleFocus,
     ]
 );
@@ -666,7 +666,7 @@ impl OutlinePanel {
             Some(serialization_key) => cx
                 .background_spawn(async move { KEY_VALUE_STORE.read_kvp(&serialization_key) })
                 .await
-                .context("loading outline panel")
+                .context("アウトラインパネルを読み込めませんでした")
                 .log_err()
                 .flatten()
                 .map(|panel| serde_json::from_str::<SerializedOutlinePanel>(&panel))
@@ -696,7 +696,7 @@ impl OutlinePanel {
         cx.new(|cx| {
             let filter_editor = cx.new(|cx| {
                 let mut editor = Editor::single_line(window, cx);
-                editor.set_placeholder_text("Search buffer symbols…", window, cx);
+                editor.set_placeholder_text("バッファのシンボルを検索…", window, cx);
                 editor
             });
             let filter_update_subscription = cx.subscribe_in(
@@ -1317,21 +1317,21 @@ impl OutlinePanel {
         let context_menu = ContextMenu::build(window, cx, |menu, _, _| {
             menu.context(self.focus_handle.clone())
                 .when(cfg!(target_os = "macos"), |menu| {
-                    menu.action("Reveal in Finder", Box::new(RevealInFileManager))
+                    menu.action("Finder で表示", Box::new(RevealInFileManager))
                 })
                 .when(cfg!(not(target_os = "macos")), |menu| {
-                    menu.action("Reveal in File Manager", Box::new(RevealInFileManager))
+                    menu.action("ファイルマネージャーで表示", Box::new(RevealInFileManager))
                 })
-                .action("Open in Terminal", Box::new(OpenInTerminal))
+                .action("ターミナルで開く", Box::new(OpenInTerminal))
                 .when(is_unfoldable, |menu| {
-                    menu.action("Unfold Directory", Box::new(UnfoldDirectory))
+                    menu.action("ディレクトリを展開", Box::new(UnfoldDirectory))
                 })
                 .when(is_foldable, |menu| {
-                    menu.action("Fold Directory", Box::new(FoldDirectory))
+                    menu.action("ディレクトリを折りたたむ", Box::new(FoldDirectory))
                 })
                 .separator()
-                .action("Copy Path", Box::new(app_actions::workspace::CopyPath))
-                .action("Copy Relative Path", Box::new(app_actions::workspace::CopyRelativePath))
+                .action("パスをコピー", Box::new(app_actions::workspace::CopyPath))
+                .action("相対パスをコピー", Box::new(app_actions::workspace::CopyRelativePath))
         });
         window.focus(&context_menu.focus_handle(cx), cx);
         let subscription = cx.subscribe(&context_menu, |outline_panel, _, _: &DismissEvent, cx| {
@@ -2013,7 +2013,7 @@ impl OutlinePanel {
         let buffer_snapshot = self.buffer_snapshot_for_id(buffer_id, cx)?;
         let excerpt_range = range.context.to_point(&buffer_snapshot);
         Some(format!(
-            "Lines {}- {}",
+            "{} 行目 - {} 行目",
             excerpt_range.start.row + 1,
             excerpt_range.end.row + 1,
         ))
@@ -2166,9 +2166,9 @@ impl OutlinePanel {
                             .map(|icon| icon.color(color).into_any_element());
                             (icon, file_name(path.as_std_path()))
                         }
-                        None => (None, "Untitled".to_string()),
+                        None => (None, "無題".to_string()),
                     },
-                    None => (None, "Unknown buffer".to_string()),
+                    None => (None, "不明なバッファー".to_string()),
                 };
                 (
                     ElementId::from(external_file.buffer_id.to_proto() as usize),
@@ -4117,9 +4117,9 @@ impl OutlinePanel {
     ) -> impl IntoElement {
         let contents = if self.cached_entries.is_empty() {
             let header = if query.is_some() {
-                "No matches for query"
+                "一致する結果がありません"
             } else {
-                "No outlines available"
+                "アウトラインがありません"
             };
 
             v_flex()
@@ -4144,7 +4144,7 @@ impl OutlinePanel {
                         DockPosition::Bottom => window.keystroke_text_for(&workspace::ToggleBottomDock),
                         DockPosition::Right => window.keystroke_text_for(&workspace::ToggleRightDock),
                     };
-                    Label::new(format!("Toggle Panel With {keystroke}")).color(Color::Muted)
+                    Label::new(format!("{keystroke} でパネルを切り替え")).color(Color::Muted)
                 }))
         } else {
             let list_contents = {
@@ -4284,9 +4284,9 @@ impl OutlinePanel {
 
     fn render_filter_footer(&mut self, pinned: bool, cx: &mut Context<Self>) -> Div {
         let (icon, icon_tooltip) = if pinned {
-            (IconName::Unpin, "Unpin Outline")
+            (IconName::Unpin, "アウトラインのピンを解除")
         } else {
-            (IconName::Pin, "Pin Active Outline")
+            (IconName::Pin, "アクティブなアウトラインをピン留め")
         };
 
         let has_query = self.query(cx).is_some();
@@ -4314,7 +4314,7 @@ impl OutlinePanel {
                         this.child(
                             IconButton::new("clear_filter", IconName::Close)
                                 .shape(IconButtonShape::Square)
-                                .tooltip(Tooltip::text("Clear Filter"))
+                                .tooltip(Tooltip::text("フィルターをクリア"))
                                 .on_click(cx.listener(|outline_panel, _, window, cx| {
                                     outline_panel.filter_editor.update(cx, |editor, cx| {
                                         editor.set_text("", window, cx);
@@ -4458,7 +4458,7 @@ impl Panel for OutlinePanel {
     }
 
     fn icon_tooltip(&self, _window: &Window, _: &App) -> Option<&'static str> {
-        Some("Outline Panel")
+        Some("アウトラインパネル")
     }
 
     fn toggle_action(&self) -> Box<dyn Action> {
@@ -4588,7 +4588,7 @@ impl Render for OutlinePanel {
                         .gap_0p5()
                         .border_b_1()
                         .border_color(cx.theme().colors().border_variant)
-                        .child(Label::new("Searching:").color(Color::Muted))
+                        .child(Label::new("検索中:").color(Color::Muted))
                         .child(Label::new(query_text)),
                 )
             })

@@ -11,25 +11,25 @@ pub use app_actions::preview::markdown::{OpenPreview, OpenPreviewToTheSide};
 actions!(
     markdown,
     [
-        /// Scrolls up by one page in the markdown preview.
+        /// Markdown プレビューを 1 ページ上にスクロールします。
         #[action(deprecated_aliases = ["markdown::MovePageUp"])]
         ScrollPageUp,
-        /// Scrolls down by one page in the markdown preview.
+        /// Markdown プレビューを 1 ページ下にスクロールします。
         #[action(deprecated_aliases = ["markdown::MovePageDown"])]
         ScrollPageDown,
-        /// Scrolls up by approximately one visual line.
+        /// 約 1 行分上にスクロールします。
         ScrollUp,
-        /// Scrolls down by approximately one visual line.
+        /// 約 1 行分下にスクロールします。
         ScrollDown,
-        /// Scrolls up by one markdown element in the markdown preview
+        /// Markdown プレビューを 1 要素分上にスクロールします。
         ScrollUpByItem,
-        /// Scrolls down by one markdown element in the markdown preview
+        /// Markdown プレビューを 1 要素分下にスクロールします。
         ScrollDownByItem,
-        /// Scrolls to the top of the markdown preview.
+        /// Markdown プレビューの先頭にスクロールします。
         ScrollToTop,
-        /// Scrolls to the bottom of the markdown preview.
+        /// Markdown プレビューの末尾にスクロールします。
         ScrollToBottom,
-        /// Opens a following markdown preview that syncs with the editor.
+        /// エディターと同期する追従 Markdown プレビューを開きます。
         OpenFollowingPreview
     ]
 );

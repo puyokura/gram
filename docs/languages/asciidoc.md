@@ -1,8 +1,8 @@
 # AsciiDoc
 
-AsciiDoc language support in Gram is provided by the community-maintained
-[AsciiDoc extension](https://github.com/andreicek/zed-asciidoc). Report issues
-to:
+Gram での AsciiDoc 言語サポートは、コミュニティが保守する
+[AsciiDoc 拡張機能](https://github.com/andreicek/zed-asciidoc) によって提供されます。
+問題はこちらへ報告してください:
 [https://github.com/andreicek/zed-asciidoc/issues](https://github.com/andreicek/zed-asciidoc/issues)
 
 - Tree-sitter:

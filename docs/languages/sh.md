@@ -1,15 +1,15 @@
-# Shell Scripts
+# シェルスクリプト
 
-Shell Scripts (bash, zsh, dash, sh) are supported natively by Gram.
+シェルスクリプト（bash、zsh、dash、sh）は Gram がネイティブでサポートしています。
 
 - Tree-sitter:
   [tree-sitter/tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash)
 
-## Settings
+## 設定
 
-You can configure various settings for Shell Scripts in your Gram User Settings
-(`~/.config/gram/settings.json`) or Gram Project Settings
-(`.gram/settings.json`):
+シェルスクリプトの各種設定は、Gram のユーザー設定
+（`~/.config/gram/settings.json`）または Gram のプロジェクト設定
+（`.gram/settings.json`）で構成できます:
 
 ```json
   "languages": {
@@ -20,12 +20,11 @@ You can configure various settings for Shell Scripts in your Gram User Settings
   }
 ```
 
-### Formatting
+### フォーマット
 
-Gram supports auto-formatting Shell Scripts using external tools like
-[`shfmt`](https://github.com/mvdan/sh).
+Gram は、[`shfmt`](https://github.com/mvdan/sh) などの外部ツールを使ってシェルスクリプトを自動フォーマットできます。
 
-1. Install `shfmt`:
+1. `shfmt` をインストールします:
 
 ```sh
 brew install shfmt            # macos (homebrew)
@@ -36,14 +35,14 @@ pacman -Sy shfmt              # archlinux
 choco install shfmt           # windows (chocolatey)
 ```
 
-2. Ensure `shfmt` is available in your path and check the version:
+2. `shfmt` がパス上にあることを確認し、バージョンを表示します:
 
 ```sh
 which shfmt
 shfmt --version
 ```
 
-3. Configure Gram to automatically format Shell Scripts with `shfmt` on save:
+3. 保存時に `shfmt` でシェルスクリプトを自動フォーマットするよう Gram を設定します:
 
 ```json
   "languages": {
@@ -60,7 +59,7 @@ shfmt --version
   }
 ```
 
-## See also:
+## 関連項目:
 
-- [Language Support for Bash](./bash.md)
-- [Language Support for Fish](./fish.md)
+- [Bash の言語サポート](./bash.md)
+- [Fish の言語サポート](./fish.md)

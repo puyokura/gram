@@ -1,51 +1,31 @@
-# Building Gram for Windows
+# Windows 向け Gram のビルド
 
-> The following commands may be executed in any shell.
+> 次のコマンドは任意のシェルで実行できます。
 
-## Repository
+## リポジトリ
 
-Clone down the Gram [repository](https://codeberg.org/GramEditor/gram).
+Gram の[リポジトリ](https://codeberg.org/GramEditor/gram)をクローンします。
 
 > [!NOTE]
 >
-> No idea if the Windows build still works, or what is required to get it
-> working. Windows builds are also signed, so you will need a certificate.
+> Windows ビルドがまだ機能するかどうか、また動作させるために何が必要かは不明です。Windows ビルドは署名も必要になるため、証明書が必要です。
 
-Maybe something like this?
+おそらく次のようなコマンドでしょうか？
 
 ```powershell
 .\script\bundle-windows.ps1
 ```
 
-## Dependencies
+## 依存関係
 
-- Install [rustup](https://www.rust-lang.org/tools/install)
+- [rustup](https://www.rust-lang.org/tools/install) をインストールします
 
-- Install either [Visual Studio](https://visualstudio.microsoft.com/downloads)
-  with the optional components `MSVC v*** - VS YYYY C++ x64/x86 build tools` and
-  `MSVC v*** - VS YYYY C++ x64/x86 Spectre-mitigated libs (latest)` (`v***` is
-  your VS version and `YYYY` is year when your VS was released. Pay attention to
-  the architecture and change it to yours if needed.)
-- Or, if you prefer to have a slimmer installer of only the MSVC compiler tools,
-  you can install the
-  [build tools](https://visualstudio.microsoft.com/visual-cpp-build-tools)
-  (+libs as above) and the "Desktop development with C++" workload. But beware
-  this installation is not automatically picked up by rustup. You must
-  initialize your environment variables by first launching the "developer" shell
-  (cmd/powershell) this installation places in the start menu or in Windows
-  Terminal and then compile.
-- Install Windows 11 or 10 SDK depending on your system, but ensure that at
-  least `Windows 10 SDK version 2104 (10.0.20348.0)` is installed on your
-  machine. You can download it from the
-  [Windows SDK Archive](https://developer.microsoft.com/windows/downloads/windows-sdk)
-- Install [CMake](https://cmake.org/download) (required by
-  [a dependency](https://docs.rs/wasmtime-c-api-impl/latest/wasmtime_c_api)). Or
-  you can install it through Visual Studio Installer, then manually add the
-  `bin` directory to your `PATH`, for example:
-  `C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin`.
+- 次のオプションコンポーネントを付けて [Visual Studio](https://visualstudio.microsoft.com/downloads) をインストールします: `MSVC v*** - VS YYYY C++ x64/x86 build tools` と `MSVC v*** - VS YYYY C++ x64/x86 Spectre-mitigated libs (latest)`（`v***` は VS のバージョン、`YYYY` は VS のリリース年です。アーキテクチャに注意し、必要に応じて自分の環境に合わせて変更してください。）
+- あるいは、MSVC コンパイラーツールだけを含むより軽量なインストーラーを希望する場合は、[ビルドツール](https://visualstudio.microsoft.com/visual-cpp-build-tools)（+ 上記のライブラリー）と「C++ によるデスクトップ開発」ワークロードをインストールします。ただし、このインストールは rustup によって自動的に認識されないことに注意してください。このインストールがスタートメニューまたは Windows Terminal に配置する「開発者用」シェル（cmd/powershell）を最初に起動して環境変数を初期化してから、コンパイルする必要があります。
+- システムに応じて Windows 11 または 10 SDK をインストールしますが、少なくとも `Windows 10 SDK version 2104 (10.0.20348.0)` がマシンにインストールされていることを確認してください。[Windows SDK Archive](https://developer.microsoft.com/windows/downloads/windows-sdk) からダウンロードできます。
+- [CMake](https://cmake.org/download) をインストールします（[依存クレート](https://docs.rs/wasmtime-c-api-impl/latest/wasmtime_c_api)が必要とするもの）。Visual Studio Installer からインストールして、その `bin` フォルダーを手動で `PATH` に追加する方法もあります。例: `C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin`。
 
-If you can't compile Gram, make sure that you have at least the following
-components installed in case of a Visual Studio installation:
+Gram をコンパイルできない場合は、Visual Studio をインストールした環境では少なくとも次のコンポーネントが入っていることを確認してください:
 
 ```json
 {
@@ -63,7 +43,7 @@ components installed in case of a Visual Studio installation:
 }
 ```
 
-Or if in case of just Build Tools, the following components:
+ビルドツールのみの場合は、次のコンポーネントです:
 
 ```json
 {
@@ -89,19 +69,15 @@ Or if in case of just Build Tools, the following components:
 }
 ```
 
-The list can be obtained as follows:
+この一覧は次の手順で取得できます:
 
-- Open the Visual Studio Installer
-- Click on `More` in the `Installed` tab
-- Click on `Export configuration`
+- Visual Studio Installer を開きます
+- `Installed` タブの `More` をクリックします
+- `Export configuration` をクリックします
 
-### Notes
+### 注意事項
 
-You should modify the `pg_hba.conf` file in the `data` directory to use `trust`
-instead of `scram-sha-256` for the `host` method. Otherwise, the connection will
-fail with the error `password authentication failed`. The `pg_hba.conf` file
-typically locates at `C:\Program Files\PostgreSQL\17\data\pg_hba.conf`. After
-the modification, the file should look like this:
+`data` フォルダーの `pg_hba.conf` ファイルを変更し、`host` メソッドで `scram-sha-256` の代わりに `trust` を使用する必要があります。そうしないと、接続は `password authentication failed` エラーで失敗します。`pg_hba.conf` ファイルは通常 `C:\Program Files\PostgreSQL\17\data\pg_hba.conf` にあります。変更後、ファイルは次のようになります:
 
 ```ini
 # IPv4 local connections:
@@ -110,74 +86,61 @@ host    all             all             127.0.0.1/32            trust
 host    all             all             ::1/128                 trust
 ```
 
-Also, if you are using a non-latin Windows version, you must modify
-the`lc_messages` parameter in the `postgresql.conf` file in the `data` directory
-to `English_United States.1252` (or whatever UTF8-compatible encoding you have).
-Otherwise, the database will panic. The `postgresql.conf` file should look like
-this:
+また、ラテン文字以外の Windows を使用している場合は、`data` フォルダーの `postgresql.conf` ファイルにある `lc_messages` パラメーターを `English_United States.1252`（または利用可能な UTF8 互換のエンコーディング）に変更する必要があります。そうしないと、データベースがパニックします。`postgresql.conf` ファイルは次のようになります:
 
 ```ini
 # lc_messages = 'Chinese (Simplified)_China.936' # locale for system error message strings
 lc_messages = 'English_United States.1252'
 ```
 
-After this, you should restart the `postgresql` service. Press the `win` key +
-`R` to launch the `Run` window. Type the `services.msc` and hit the `OK` button
-to open the Services Manager. Then, find the `postgresql-x64-XX` service,
-right-click on it, and select `Restart`.
+その後、`postgresql` サービスを再起動してください。`win` キー + `R` を押して `Run` ウィンドウを開きます。`services.msc` と入力して `OK` ボタンを押すと、サービス マネージャーが開きます。次に `postgresql-x64-XX` サービスを見つけ、右クリックして `Restart` を選択します。
 
-## Building from source
+## ソースからのビルド
 
-Once you have the dependencies installed, you can build Gram using
-[Cargo](https://doc.rust-lang.org/cargo).
+依存関係をインストールしたら、[Cargo](https://doc.rust-lang.org/cargo) を使って Gram をビルドできます。
 
-For a debug build:
+デバッグビルド:
 
 ```powershell
 cargo run
 ```
 
-For a release build:
+リリースビルド:
 
 ```powershell
 cargo run --release
 ```
 
-And to run the tests:
+テストを実行する場合:
 
 ```powershell
 cargo test --workspace
 ```
 
-## Installing from msys2
+## msys2 からのインストール
 
-Gram does not support unofficial MSYS2 Gram packages built for Mingw-w64, and
-instead uses [mingw-w64-zed](https://packages.msys2.org/base/mingw-w64-zed).
+Gram は、Mingw-w64 向けにビルドされた非公式の MSYS2 Gram パッケージをサポートしておらず、代わりに [mingw-w64-zed](https://packages.msys2.org/base/mingw-w64-zed) を使用します。
 
-Please refer to
-[MSYS2 documentation](https://www.msys2.org/docs/ides-editors/#zed) first.
+まず [MSYS2 のドキュメント](https://www.msys2.org/docs/ides-editors/#zed)を参照してください。
 
-## Troubleshooting
+## トラブルシューティング
 
-### Setting `RUSTFLAGS` env var breaks builds
+### `RUSTFLAGS` 環境変数を設定するとビルドが壊れる
 
-If you set the `RUSTFLAGS` env var, it will override the `rustflags` settings in
-`.cargo/config.toml` which is required to properly build Gram.
+`RUSTFLAGS` 環境変数を設定すると、Gram を正しくビルドするために必要な `.cargo/config.toml` の `rustflags` 設定が上書きされます。
 
-Since these settings can vary from time to time, the build errors you receive
-may vary from linker errors, to other stranger errors.
+これらの設定は時々変わるため、受け取るビルドエラーはリンカーエラーから他の奇妙なエラーまでさまざまです。
 
-If you'd like to add extra rust flags, you may do 1 of the following in
-`.cargo/config.toml`:
+追加の rust フラグを加えたい場合は、`.cargo/config.toml` で次のいずれかを行えます:
 
-Add your flags in the build section
+build セクションにフラグを追加する
 
 ```toml
 [build]
 rustflags = ["-C", "symbol-mangling-version=v0", "--cfg", "tokio_unstable"]
 ```
 
-Add your flags in the windows target section
+windows ターゲットセクションにフラグを追加する
 
 ```toml
 [target.'cfg(target_os = "windows")']
@@ -189,9 +152,7 @@ rustflags = [
 ]
 ```
 
-Or, you can create a new `.cargo/config.toml` in the same folder as the Gram
-repo (see below). This is particularly useful if you are doing CI builds since
-you don't have to edit the original `.cargo/config.toml`.
+または、Gram リポジトリと同じフォルダーに新しい `.cargo/config.toml` を作成します（下記参照）。元の `.cargo/config.toml` を編集する必要がないため、CI ビルドを行う場合にとくに便利です。
 
 ```tree
 upper_dir
@@ -204,34 +165,29 @@ upper_dir
         └── ...
 ```
 
-In the new (above) `.cargo/config.toml`, if we wanted to add `--cfg gles` to our
-rustflags, it would look like this
+新しい（上記の）`.cargo/config.toml` で、rustflags に `--cfg gles` を追加したい場合、次のようになります
 
 ```toml
 [target.'cfg(all())']
 rustflags = ["--cfg", "gles"]
 ```
 
-### Cargo errors claiming that a dependency is using unstable features
+### 依存関係が不安定な機能を使用しているという Cargo のエラー
 
-Try `cargo clean` and `cargo build`.
+`cargo clean` を実行してから `cargo build` を試してください。
 
 ### `STATUS_ACCESS_VIOLATION`
 
-This error can happen if you are using the "rust-lld.exe" linker. Consider
-trying a different linker.
+このエラーは、"rust-lld.exe" リンカーを使用している場合に発生することがあります。別のリンカーを試してみてください。
 
-If you are using a global config, consider moving the Gram repository to a
-nested directory and add a `.cargo/config.toml` with a custom linker config in
-the parent directory.
+グローバル設定を使用している場合は、Gram リポジトリをネストしたフォルダーに移動し、親フォルダーにカスタムリンカー設定を含む `.cargo/config.toml` を追加することを検討してください。
 
-See this issue for more information
+詳細はこの issue を参照してください
 [#12041](https://github.com/zed-industries/zed/issues/12041)
 
-### Invalid RC path selected
+### 無効な RC パスが選択される
 
-Sometimes, depending on the security rules applied to your laptop, you may get
-the following error while compiling Gram:
+ラップトップに適用されているセキュリティルールによっては、Gram のコンパイル中に次のエラーが発生することがあります:
 
 ```powershell
 error: failed to run custom build command for `gram(C:\Users\USER\src\gram\crates\gram)`
@@ -251,32 +207,25 @@ Caused by:
 warning: build failed, waiting for other jobs to finish...
 ```
 
-In order to fix this issue, you can manually set the `GRAM_RC_TOOLKIT_PATH`
-environment variable to the RC toolkit path. Usually, you can set it to:
-`C:\Program Files (x86)\Windows Kits\10\bin\<SDK_version>\x64`.
+この問題を修正するには、環境変数 `GRAM_RC_TOOLKIT_PATH` を RC ツールキットのパスに手動で設定します。通常は次のように設定できます: `C:\Program Files (x86)\Windows Kits\10\bin\<SDK_version>\x64`。
 
-See this [issue](https://github.com/zed-industries/zed/issues/18393) for more
-information.
+詳細はこの [issue](https://github.com/zed-industries/zed/issues/18393) を参照してください。
 
-### Graphics issues
+### グラフィックスの問題
 
-#### Gram fails to launch
+#### Gram の起動に失敗する
 
-Currently, Gram uses Vulkan as its graphics API on Windows. However, Vulkan
-isn't always the most reliable on Windows, so if Gram fails to launch, it's
-likely a Vulkan-related issue.
+現在、Gram は Windows 上でグラフィックス API として Vulkan を使用しています。しかし Vulkan は Windows で常に最も信頼できるわけではないため、Gram の起動に失敗する場合は Vulkan 関連の問題である可能性が高いです。
 
-You can check the Gram log at: `C:\Users\YOU\AppData\Local\Gram\logs\Gram.log`
+Gram のログは `C:\Users\YOU\AppData\Local\Gram\logs\Gram.log` で確認できます。
 
-If you see messages like:
+次のようなメッセージが表示される場合:
 
 - `Gram failed to open a window: NoSupportedDeviceFound`
 - `ERROR_INITIALIZATION_FAILED`
 - `GPU Crashed`
 - `ERROR_SURFACE_LOST_KHR`
 
-Then Vulkan might not be working properly on your system. In most cases,
-updating your GPU drivers may help resolve this.
+Vulkan がシステム上で正しく動作していない可能性があります。多くの場合、GPU ドライバーを更新すると解決します。
 
-If there's nothing Vulkan-related in the logs and you happen to have Bandicam
-installed, try uninstalling it. Gram is currently not compatible with Bandicam.
+ログに Vulkan 関連の記述がなく、Bandicam をインストールしている場合は、アンインストールしてみてください。Gram は現在 Bandicam と互換性がありません。

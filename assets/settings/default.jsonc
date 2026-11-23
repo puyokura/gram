@@ -1,667 +1,667 @@
 {
   "$schema": "gram://schemas/settings",
-  // The name of the Gram theme to use for the UI.
+  // UI で使用する Gram テーマの名前。
   //
-  // `mode` is one of:
-  // - "system": Use the theme that corresponds to the system's appearance
-  // - "light": Use the theme indicated by the "light" field
-  // - "dark": Use the theme indicated by the "dark" field
+  // `mode` には次のいずれかを指定します:
+  // - "system": システムの外観に対応するテーマを使用する
+  // - "light": "light" フィールドで指定したテーマを使用する
+  // - "dark": "dark" フィールドで指定したテーマを使用する
   "theme": {
     "mode": "system",
     "light": "Melange Light",
     "dark": "Melange Dark",
   },
   "icon_theme": "Gram (Default)",
-  // The name of a base set of key bindings to use.
-  // See crates/settings/src/base_keymap_setting.rs BaseKeymap
-  // for possible values.
+  // 使用する基本キーバインドセットの名前。
+  // 指定可能な値は crates/settings/src/base_keymap_setting.rs の BaseKeymap
+  // を参照してください。
   "base_keymap": "VSCode",
-  // Features that can be globally enabled or disabled
+  // グローバルに有効化または無効化できる機能
   "features": {},
-  // The name of a font to use for rendering text in the editor
+  // エディターのテキスト描画に使用するフォント名
   "buffer_font_family": ".GramMono",
-  // Set the buffer text's font fallbacks, this will be merged with
-  // the platform's default fallbacks.
+  // バッファーテキストの代替フォントを設定します。これはプラットフォームの
+  // 既定の代替フォントとマージされます。
   "buffer_font_fallbacks": null,
-  // The OpenType features to enable for text in the editor.
+  // エディターのテキストで有効にする OpenType 機能。
   "buffer_font_features": {
-    // Disable ligatures:
+    // 合字を無効化:
     "calt": false,
   },
-  // The default font size for text in the editor
+  // エディターのテキストの既定フォントサイズ
   "buffer_font_size": 14,
-  // The weight of the editor font in standard CSS units from 100 to 900.
+  // エディターフォントの太さ。100〜900 の標準 CSS 単位で指定します。
   "buffer_font_weight": 400,
-  // Set the buffer's line height.
-  // May take 3 values:
-  //  1. Use a line height that's comfortable for reading (1.618)
+  // バッファーの行の高さを設定します。
+  // 3 つの値を指定できます:
+  //  1. 読みやすい行の高さを使用する (1.618)
   //         "buffer_line_height": "comfortable"
-  //  2. Use a standard line height, (1.3)
+  //  2. 標準の行の高さを使用する (1.3)
   //         "buffer_line_height": "standard",
-  //  3. Use a custom line height
+  //  3. カスタムの行の高さを使用する
   //         "buffer_line_height": {
   //           "custom": 2
   //         },
   "buffer_line_height": "comfortable",
-  // The name of a font to use for rendering text in the UI
-  // You can set this to ".SystemUIFont" to use the system font
-  // ".GramSans" currently aliases to "IBM Plex Sans", but this may
-  // change in the future
+  // UI のテキスト描画に使用するフォント名
+  // ".SystemUIFont" を指定するとシステムフォントを使用します
+  // ".GramSans" は現在 "IBM Plex Sans" の別名ですが、この対応は
+  // 将来変更される可能性があります
   "ui_font_family": ".GramSans",
-  // Set the UI's font fallbacks, this will be merged with the platform's
-  // default font fallbacks.
+  // UI の代替フォントを設定します。これはプラットフォームの
+  // 既定の代替フォントとマージされます。
   "ui_font_fallbacks": null,
-  // The OpenType features to enable for text in the UI
+  // UI のテキストで有効にする OpenType 機能
   "ui_font_features": {
-    // Disable ligatures:
+    // 合字を無効化:
     "calt": false,
   },
-  // The weight of the UI font in standard CSS units from 100 to 900.
+  // UI フォントの太さ。100〜900 の標準 CSS 単位で指定します。
   "ui_font_weight": 400,
-  // The default font size for text in the UI
+  // UI のテキストの既定フォントサイズ
   "ui_font_size": 14,
-  // How much to fade out unused code.
+  // 未使用のコードをどの程度フェードアウトするか。
   "unnecessary_code_fade": 0.3,
-  /// Defines window border radius for platforms that use client side decorations.
+  /// クライアントサイドデコレーションを使用するプラットフォームでのウィンドウの角丸を定義します。
   "client_side_decoration_rounding": 10.0,
-  /// Defines window shadow size for platforms that use client side decorations.
+  /// クライアントサイドデコレーションを使用するプラットフォームでのウィンドウの影のサイズを定義します。
   "client_side_decoration_shadow": 10.0,
-  // Active pane styling settings.
+  // アクティブなペインのスタイル設定。
   "active_pane_modifiers": {
-    // Inset border size of the active pane, in pixels.
+    // アクティブなペインの内側の境界線サイズ（ピクセル）。
     "border_size": 0.0,
-    // Opacity of the inactive panes. 0 means transparent, 1 means opaque.
-    // Values are clamped to the [0.0, 1.0] range.
+    // 非アクティブなペインの不透明度。0 は透明、1 は不透明です。
+    // 値は [0.0, 1.0] の範囲に丸められます。
     "inactive_opacity": 1.0,
   },
-  // Layout mode of the bottom dock. Defaults to "contained"
-  //   choices: contained, full, left_aligned, right_aligned
+  // 下部ドックのレイアウトモード。デフォルトは "contained" です
+  //   選択肢: contained、full、left_aligned、right_aligned
   "bottom_dock_layout": "contained",
-  // The direction that you want to split panes horizontally. Defaults to "down"
+  // ペインを水平方向に分割する向き。デフォルトは "down" です
   "pane_split_direction_horizontal": "down",
-  // The direction that you want to split panes vertically. Defaults to "right"
+  // ペインを垂直方向に分割する向き。デフォルトは "right" です
   "pane_split_direction_vertical": "right",
-  // Centered layout related settings.
+  // 中央寄せレイアウトに関する設定。
   "centered_layout": {
-    // The relative width of the left padding of the central pane from the
-    // workspace when the centered layout is used.
+    // 中央寄せレイアウト使用時の、ワークスペースに対する
+    // 中央ペインの左パディングの相対幅。
     "left_padding": 0.2,
-    // The relative width of the right padding of the central pane from the
-    // workspace when the centered layout is used.
+    // 中央寄せレイアウト使用時の、ワークスペースに対する
+    // 中央ペインの右パディングの相対幅。
     "right_padding": 0.2,
   },
-  // Image viewer settings
+  // 画像ビューアーの設定
   "image_viewer": {
-    // The unit for image file sizes: "binary" (KiB, MiB) or decimal (KB, MB)
+    // 画像ファイルサイズの単位: "binary"（KiB、MiB）または 10 進（KB、MB）
     "unit": "binary",
   },
-  // Determines the modifier to be used to add multiple cursors with the mouse. The open hover link mouse gestures will adapt such that it do not conflict with the multicursor modifier.
+  // マウスで複数カーソルを追加するときに使う修飾キーを指定します。ホバーリンクのマウスジェスチャーは、複数カーソル用の修飾キーと競合しないように調整されます。
   //
-  // 1. Maps to `Alt` on Linux and Windows and to `Option` on MacOS:
+  // 1. Linux と Windows では `Alt`、macOS では `Option` に対応します:
   //    "alt"
-  // 2. Maps `Control` on Linux and Windows and to `Command` on MacOS:
+  // 2. Linux と Windows では `Control`、macOS では `Command` に対応します:
   //    "cmd_or_ctrl" (alias: "cmd", "ctrl")
   "multi_cursor_modifier": "alt",
-  // Whether to enable vim modes and key bindings.
+  // vim モードとキーバインドを有効にするか。
   "vim_mode": false,
-  // Whether to enable helix mode and key bindings.
-  // Enabling this mode will automatically enable vim mode.
+  // helix モードとキーバインドを有効にするか。
+  // このモードを有効にすると、vim モードも自動的に有効になります。
   "helix_mode": false,
-  // Whether to show the informational hover box when moving the mouse
-  // over symbols in the editor.
+  // エディター内のシンボルの上にマウスを移動したとき、情報を表示する
+  // ホバーボックスを表示するか。
   "hover_popover_enabled": true,
-  // Time to wait in milliseconds before showing the informational hover box.
+  // 情報を表示するホバーボックスを表示するまでの待ち時間（ミリ秒）。
   "hover_popover_delay": 300,
-  // Whether to confirm before quitting Gram.
+  // Gram の終了前に確認を求めるか。
   "confirm_quit": false,
-  // Whether to restore last closed project when fresh Gram instance is opened
-  // May take 4 values:
-  //  1. Open the Launchpad / Welcome screen
+  // 新しい Gram インスタンスを開いたときに、最後に閉じたプロジェクトを復元するか
+  // 4 つの値を指定できます:
+  //  1. ランチパッド / ウェルカム画面を開く
   //         "restore_on_startup": "launchpad"
-  //  2. All workspaces open during last session
+  //  2. 前回のセッションで開いていたすべてのワークスペース
   //         "restore_on_startup": "last_session"
-  //  3. The workspace opened
+  //  3. 最後に開いたワークスペース
   //         "restore_on_startup": "last_workspace",
-  //  4. Do not restore previous workspaces
+  //  4. 以前のワークスペースを復元しない
   //         "restore_on_startup": "none",
   "restore_on_startup": "launchpad",
-  // Whether to attempt to restore previous file's state when opening it again.
-  // The state is stored per pane.
-  // When disabled, defaults are applied instead of the state restoration.
+  // ファイルを再度開くときに、前回の状態の復元を試みるか。
+  // 状態はペインごとに保存されます。
+  // 無効にすると、状態の復元の代わりにデフォルトが適用されます。
   //
-  // E.g. for editors, selections, folds and scroll positions are restored, if the same file is closed and, later, opened again in the same pane.
-  // When disabled, a single selection in the very beginning of the file, zero scroll position and no folds state is used as a default.
+  // 例: エディターでは、同じファイルを同じペインで閉じてから後で再度開くと、選択範囲、折りたたみ、スクロール位置が復元されます。
+  // 無効にすると、ファイル先頭の単一選択、スクロール位置 0、折りたたみなしがデフォルトとして使われます。
   //
-  // Default: true
+  // デフォルト: true
   "restore_on_file_reopen": true,
-  // Whether to automatically close files that have been deleted on disk.
+  // ディスク上で削除されたファイルを自動的に閉じるか。
   "close_on_file_delete": false,
-  // Relative size of the drop target in the editor that will open dropped file as a split pane (0-0.5)
-  // E.g. 0.25 == If you drop onto the top/bottom quarter of the pane a new vertical split will be used
-  //              If you drop onto the left/right quarter of the pane a new horizontal split will be used
+  // ドロップしたファイルを分割ペインで開くための、エディター内のドロップ領域の相対サイズ (0〜0.5)
+  // 例: 0.25 の場合、ペインの上部または下部 4 分の 1 にドロップすると新しい垂直分割が使われ、
+  //              ペインの左部または右部 4 分の 1 にドロップすると新しい水平分割が使われます
   "drop_target_size": 0.2,
-  // Whether the window should be closed when using 'close active item' on a window with no tabs.
-  // May take 3 values:
-  //  1. Use the current platform's convention
+  // タブのないウィンドウで「アクティブな項目を閉じる」を使ったときに、ウィンドウを閉じるか。
+  // 3 つの値を指定できます:
+  //  1. 現在のプラットフォームの慣例に従う
   //         "when_closing_with_no_tabs": "platform_default"
-  //  2. Always close the window:
+  //  2. 常にウィンドウを閉じる:
   //         "when_closing_with_no_tabs": "close_window",
-  //  3. Never close the window
+  //  3. ウィンドウを閉じない
   //         "when_closing_with_no_tabs": "keep_window_open",
   "when_closing_with_no_tabs": "platform_default",
-  // What to do when the last window is closed.
-  // May take 2 values:
-  //  1. Use the current platform's convention
+  // 最後のウィンドウが閉じられたときの動作。
+  // 2 つの値を指定できます:
+  //  1. 現在のプラットフォームの慣例に従う
   //         "on_last_window_closed": "platform_default"
-  //  2. Always quit the application
+  //  2. 常にアプリケーションを終了する
   //         "on_last_window_closed": "quit_app",
   "on_last_window_closed": "platform_default",
-  // The text rendering mode to use.
-  // May take 3 values:
-  //  1. Use platform default behavior:
+  // 使用するテキスト描画モード。
+  // 3 つの値を指定できます:
+  //  1. プラットフォームのデフォルト動作を使用する:
   //         "text_rendering_mode": "platform_default"
-  //  2. Use subpixel (ClearType-style) text rendering:
+  //  2. サブピクセル（ClearType 形式）のテキスト描画を使用する:
   //         "text_rendering_mode": "subpixel"
-  //  3. Use grayscale text rendering:
+  //  3. グレースケールのテキスト描画を使用する:
   //         "text_rendering_mode": "grayscale"
   "text_rendering_mode": "platform_default",
-  // Whether to show padding for zoomed panels.
-  // When enabled, zoomed center panels (e.g. code editor) will have padding all around,
-  // while zoomed bottom/left/right panels will have padding to the top/right/left (respectively).
+  // ズームしたパネルにパディングを表示するか。
+  // 有効にすると、ズームした中央パネル（例: コードエディター）は全周にパディングが付き、
+  // ズームした下部/左/右パネルはそれぞれ上/右/左にパディングが付きます。
   //
-  // Default: true
+  // デフォルト: true
   "zoomed_padding": true,
-  // What draws Gram's window decorations (titlebar):
-  // 1. Client application draws its own window decorations
+  // Gram のウィンドウデコレーション（タイトルバー）を描画するもの:
+  // 1. クライアントアプリケーションが自身のウィンドウデコレーションを描画する
   //    "client"
-  // 2. Display server draws the window decorations. Not supported by GNOME Wayland.
+  // 2. ディスプレイサーバーがウィンドウデコレーションを描画する。GNOME Wayland ではサポートされません。
   //    "server"
   //
-  // This requires restarting Gram for changes to take effect.
+  // 変更を反映するには Gram の再起動が必要です。
   //
-  // Default: "client"
+  // デフォルト: "client"
   "window_decorations": "client",
-  // Which option keys should the editor treat as 'alt'?
-  // If set to "both", the right option key is also treated
-  // as an alt key. If set to "only_left" (the default), the
-  // right option key is treated as AltGr for extended
-  // text input. (Mac only)
+  // エディターがどの Option キーを「alt」として扱うか。
+  // "both" に設定すると、右の Option キーも alt キーとして
+  // 扱われます。"only_left"（デフォルト）に設定すると、
+  // 右の Option キーは拡張テキスト入力用の AltGr として
+  // 扱われます。（Mac のみ）
   //
-  // Default: "only_left"
+  // デフォルト: "only_left"
   "option_as_alt": "only_left",
 
-  // Whether to use the system provided dialogs for Open and Save As.
-  // When set to false, Gram will use the built-in keyboard-first pickers.
+  // 「開く」と「名前を付けて保存」にシステム提供のダイアログを使うか。
+  // false に設定すると、Gram は組み込みのキーボード優先ピッカーを使います。
   "use_system_path_prompts": true,
-  // Whether to use the system provided dialogs for prompts, such as confirmation
-  // prompts.
-  // When set to false, Gram will use its built-in prompts. Note that on Linux,
-  // this option is ignored and Gram will always use the built-in prompts.
+  // 確認プロンプトなどのプロンプトに、システム提供の
+  // ダイアログを使うか。
+  // false に設定すると、Gram は組み込みのプロンプトを使います。Linux ではこの
+  // オプションは無視され、常に組み込みのプロンプトが使われます。
   "use_system_prompts": true,
-  // Whether the cursor blinks in the editor.
+  // エディターでカーソルを点滅させるか。
   "cursor_blink": true,
-  // Cursor shape for the default editor.
-  //  1. A vertical bar
+  // 既定のエディターのカーソル形状。
+  //  1. 縦棒
   //     "bar"
-  //  2. A block that surrounds the following character
+  //  2. 後続の文字を囲むブロック
   //     "block"
-  //  3. An underline / underscore that runs along the following character
+  //  3. 後続の文字の下に沿う下線
   //     "underline"
-  //  4. A box drawn around the following character
+  //  4. 後続の文字の周囲に描く枠
   //     "hollow"
   //
-  // Default: "bar"
+  // デフォルト: "bar"
   "cursor_shape": "bar",
-  // Smooth cursor movement settings.
+  // スムーズなカーソル移動の設定。
   "smooth_cursor": {
-    // Whether smooth cursor is enabled.
+    // スムーズカーソルを有効にするか。
     "enabled": false,
-    // Duration in milliseconds for cursor movement.
+    // カーソル移動の時間（ミリ秒）。
     "duration_ms": 100,
   },
-  // Determines when the mouse cursor should be hidden in an editor or input box.
+  // エディターや入力ボックスでマウスカーソルをいつ非表示にするか。
   //
-  // 1. Never hide the mouse cursor:
+  // 1. マウスカーソルを非表示にしない:
   //    "never"
-  // 2. Hide only when typing:
+  // 2. 入力中のみ非表示にする:
   //    "on_typing"
-  // 3. Hide on both typing and cursor movement:
+  // 3. 入力中とカーソル移動中の両方で非表示にする:
   //    "on_typing_and_movement"
   "hide_mouse": "on_typing_and_movement",
-  // Determines how snippets are sorted relative to other completion items.
+  // スニペットを他の補完項目に対してどのように並べるか。
   //
-  // 1. Place snippets at the top of the completion list:
+  // 1. スニペットを補完リストの先頭に置く:
   //    "top"
-  // 2. Place snippets normally without any preference:
+  // 2. スニペットを優先せず通常どおり並べる:
   //    "inline"
-  // 3. Place snippets at the bottom of the completion list:
+  // 3. スニペットを補完リストの末尾に置く:
   //    "bottom"
-  // 4. Do not show snippets in the completion list:
+  // 4. 補完リストにスニペットを表示しない:
   //    "none"
   "snippet_sort_order": "inline",
-  // How to highlight the current line in the editor.
+  // エディターで現在行を強調表示する方法。
   //
-  // 1. Don't highlight the current line:
+  // 1. 現在行を強調表示しない:
   //    "none"
-  // 2. Highlight the gutter area:
+  // 2. ガター領域を強調表示する:
   //    "gutter"
-  // 3. Highlight the editor area:
+  // 3. エディター領域を強調表示する:
   //    "line"
-  // 4. Highlight the full line (default):
+  // 4. 行全体を強調表示する（デフォルト）:
   //    "all"
   "current_line_highlight": "all",
-  // Whether to highlight all occurrences of the selected text in an editor.
+  // エディターで選択テキストのすべての出現箇所を強調表示するか。
   "selection_highlight": true,
-  // Whether the text selection should have rounded corners.
+  // テキスト選択の角を丸めるか。
   "rounded_selection": true,
-  // The debounce delay before querying highlights from the language
-  // server based on the current cursor location.
+  // 現在のカーソル位置に基づいて言語サーバーに
+  // ハイライトを問い合わせるまでのデバウンス遅延。
   "lsp_highlight_debounce": 75,
-  // The minimum APCA perceptual contrast between foreground and background colors.
-  // APCA (Accessible Perceptual Contrast Algorithm) is more accurate than WCAG 2.x,
-  // especially for dark mode. Values range from 0 to 106.
+  // 前景色と背景色の間の最小 APCA 知覚コントラスト。
+  // APCA（Accessible Perceptual Contrast Algorithm）は WCAG 2.x より正確で、
+  // 特にダークモードに適しています。値の範囲は 0〜106 です。
   //
-  // Based on APCA Readability Criterion (ARC) Bronze Simple Mode:
+  // APCA Readability Criterion (ARC) の Bronze Simple Mode に基づきます:
   // https://readtech.org/ARC/tests/bronze-simple-mode/
-  // - 0: No contrast adjustment
-  // - 45: Minimum for large fluent text (36px+)
-  // - 60: Minimum for other content text
-  // - 75: Minimum for body text
-  // - 90: Preferred for body text
+  // - 0: コントラスト調整なし
+  // - 45: 大きな流し読みテキストの最小値 (36px 以上)
+  // - 60: その他のコンテンツテキストの最小値
+  // - 75: 本文テキストの最小値
+  // - 90: 本文テキストの推奨値
   //
-  // This only affects text drawn over highlight backgrounds in the editor.
+  // これはエディターでハイライト背景の上に描画されるテキストにのみ影響します。
   "minimum_contrast_for_highlights": 45,
-  // Whether to pop the completions menu while typing in an editor without
-  // explicitly requesting it.
+  // エディターで明示的に要求せずに入力したときに、
+  // 補完メニューを自動的に表示するか。
   "show_completions_on_input": true,
-  // Whether to display inline and alongside documentation for items in the
-  // completions menu
+  // 補完メニューの項目について、インラインおよび並列の
+  // ドキュメントを表示するか
   "show_completion_documentation": true,
-  // Whether to colorize brackets in the editor.
-  // (also known as "rainbow brackets")
+  // エディターのかっこを色分けするか。
+  // （"rainbow brackets" とも呼ばれます）
   //
-  // The colors that are used for different indentation levels are defined in the theme (theme key: `accents`).
-  // They can be customized by using theme overrides.
+  // インデントレベルごとに使う色はテーマで定義されます（テーマキー: `accents`）。
+  // テーマの上書き設定でカスタマイズできます。
   "colorize_brackets": false,
-  // When to show the scrollbar in the completion menu.
-  // This setting can take four values:
+  // 補完メニューでスクロールバーをいつ表示するか。
+  // この設定は 4 つの値を指定できます:
   //
-  // 1. Show the scrollbar if there's important information or
-  //    follow the system's configured behavior
+  // 1. 重要な情報がある場合はスクロールバーを表示するか、
+  //    システムの設定動作に従う
   //   "auto"
-  // 2. Match the system's configured behavior:
+  // 2. システムの設定動作に合わせる:
   //    "system"
-  // 3. Always show the scrollbar:
+  // 3. 常にスクロールバーを表示する:
   //    "always"
-  // 4. Never show the scrollbar:
+  // 4. スクロールバーを表示しない:
   //    "never" (default)
   "completion_menu_scrollbar": "never",
-  // How to display the LSP item kind (function, method, variable, etc.)
-  // of each entry in the completions menu.
+  // 補完メニューの各項目で、LSP の項目種別（関数、メソッド、変数など）を
+  // どのように表示するか。
   //
-  // 1. Do not display item kinds:
+  // 1. 項目の種別を表示しない:
   //   "off" (default)
-  // 2. Display a single-letter badge, colorized based on the active syntax theme:
+  // 2. 1 文字のバッジを表示し、アクティブな構文テーマに基づいて色を付ける:
   //   "symbol"
   "completion_menu_item_kind": "off",
-  // What should the Supertab action do when not completing?
-  "supertab_fallback": "tab", // tab, indent
-  // Sync the kill ring (emacs mode)
-  "sync_kill_ring": "clipboard", // clipboard, primary or none
-  // Line number scale
-  "line_number_scale": "default", // default, small, xsmall
-  // Show method signatures in the editor, when inside parentheses.
+  // 補完中でないときに Supertab アクションをどうするか。
+  "supertab_fallback": "tab", // tab または indent
+  // kill ring を同期する（emacs モード）
+  "sync_kill_ring": "clipboard", // clipboard、primary または none
+  // 行番号のスケール
+  "line_number_scale": "default", // default、small、xsmall
+  // かっこの内側にいるとき、エディターにメソッドのシグネチャを表示する。
   "auto_signature_help": false,
-  // Whether to show the signature help after completion or a bracket pair inserted.
-  // If `auto_signature_help` is enabled, this setting will be treated as enabled also.
+  // 補完後、またはかっこのペアを挿入した後に、シグネチャヘルプを表示するか。
+  // `auto_signature_help` が有効な場合、この設定も有効として扱われます。
   "show_signature_help_after_edits": false,
-  // Whether to show code action button at start of buffer line.
+  // バッファーの行頭にコードアクションボタンを表示するか。
   "inline_code_actions": true,
-  // Whether to allow drag and drop text selection in buffer.
+  // バッファー内でのドラッグ＆ドロップによるテキスト選択を許可するか。
   "drag_and_drop_selection": {
-    // When true, enables drag and drop text selection in buffer.
+    // true のとき、バッファー内でのドラッグ＆ドロップによるテキスト選択を有効にします。
     "enabled": true,
-    // The delay in milliseconds that must elapse before drag and drop is allowed. Otherwise, a new text selection is created.
+    // ドラッグ＆ドロップを許可するまでに必要な遅延（ミリ秒）。それより早い場合は新しいテキスト選択が作成されます。
     "delay": 300,
   },
-  // What to do when go to definition yields no results.
+  // 定義へ移動しても結果がないときの動作。
   //
-  // 1. Do nothing: `none`
-  // 2. Find references for the same symbol: `find_all_references` (default)
+  // 1. 何もしない: `none`
+  // 2. 同じシンボルの参照を検索する: `find_all_references`（デフォルト）
   "go_to_definition_fallback": "find_all_references",
-  // Which level to use to filter out diagnostics displayed in the editor.
+  // エディターに表示する診断を絞り込む基準のレベル。
   //
-  // Affects the editor rendering only, and does not interrupt
-  // the functionality of diagnostics fetching and project diagnostics editor.
-  // Which files containing diagnostic errors/warnings to mark in the tabs.
-  // Diagnostics are only shown when file icons are also active.
-  // This setting only works when can take the following three values:
+  // エディターの描画にのみ影響し、
+  // 診断の取得やプロジェクト診断エディターの機能は妨げません。
+  // タブでマークする、診断のエラー/警告を含むファイル。
+  // 診断はファイルアイコンも有効な場合にのみ表示されます。
+  // この設定はファイルアイコンが有効な場合にのみ機能し、次の 3 つの値を指定できます:
   //
-  // Which diagnostic indicators to show in the scrollbar, their level should be more or equal to the specified severity level.
-  // Possible values:
-  //  - "off" — no diagnostics are allowed
+  // スクロールバーに表示する診断インジケーター。指定した重大度以上のレベルのものが対象になります。
+  // 指定可能な値:
+  //  - "off" — 診断を許可しない
   //  - "error"
   //  - "warning"
   //  - "info"
   //  - "hint"
-  //  - "all" — allow all diagnostics (default)
+  //  - "all" — すべての診断を許可する（デフォルト）
   "diagnostics_max_severity": "all",
-  // Whether to show wrap guides (vertical rulers) in the editor.
-  // Setting this to true will show a guide at the 'preferred_line_length' value
-  // if 'soft_wrap' is set to 'preferred_line_length', and will show any
-  // additional guides as specified by the 'wrap_guides' setting.
+  // エディターに折り返しガイド（縦方向のルーラー）を表示するか。
+  // true に設定すると、'soft_wrap' が 'preferred_line_length' の場合は
+  // 'preferred_line_length' の値の位置にガイドが表示され、
+  // 'wrap_guides' 設定で指定した追加のガイドも表示されます。
   "show_wrap_guides": true,
-  // Character counts at which to show wrap guides in the editor.
+  // エディターで折り返しガイドを表示する文字数。
   "wrap_guides": [],
-  // Hide the values of in variables from visual display in private files
+  // プライベートファイルで変数の値を表示しないようにする
   "redact_private_values": false,
-  // The default number of lines to expand excerpts in the multibuffer by.
+  // マルチバッファーで抜粋を展開する既定の行数。
   "expand_excerpt_lines": 5,
-  // The default number of context lines shown in multibuffer excerpts.
+  // マルチバッファーの抜粋に表示する既定のコンテキスト行数。
   "excerpt_context_lines": 2,
-  // Globs to match against file paths to determine if a file is private.
+  // ファイルがプライベートかどうかを判定するために、ファイルパスと照合する glob。
   "private_files": ["**/.env*", "**/*.pem", "**/*.key", "**/*.cert", "**/*.crt", "**/secrets.yml"],
-  // Whether to use additional LSP queries to format (and amend) the code after
-  // every "trigger" symbol input, defined by LSP server capabilities.
+  // LSP サーバーの機能で定義された各
+  // "trigger" シンボル入力の後に、追加の LSP クエリでコードを整形（および修正）するか。
   "use_on_type_format": true,
-  // Whether to automatically add matching closing characters when typing
-  // opening parenthesis, bracket, brace, single or double quote characters.
-  // For example, when you type '(', Gram will add a closing ) at the correct position.
+  // 開きかっこ、角かっこ、波かっこ、シングルクォート、
+  // ダブルクォートを入力したときに、対応する閉じ文字を自動追加するか。
+  // たとえば '(' を入力すると、Gram は正しい位置に閉じ ) を追加します。
   "use_autoclose": true,
-  // Whether to automatically surround selected text when typing opening parenthesis,
-  // bracket, brace, single or double quote characters.
-  // For example, when you select text and type '(', Gram will surround the text with ().
+  // 開きかっこ、角かっこ、波かっこ、シングルクォート、ダブルクォートを
+  // 入力したときに、選択テキストを自動的に囲むか。
+  // たとえばテキストを選択して '(' を入力すると、Gram はそのテキストを () で囲みます。
   "use_auto_surround": true,
-  // Whether indentation should be adjusted based on the context whilst typing.
+  // 入力中にコンテキストに基づいてインデントを調整するか。
   "auto_indent": true,
-  // Whether indentation of pasted content should be adjusted based on the context.
+  // 貼り付けた内容のインデントをコンテキストに基づいて調整するか。
   "auto_indent_on_paste": true,
-  // Controls how the editor handles the autoclosed characters.
-  // When set to `false`(default), skipping over and auto-removing of the closing characters
-  // happen only for auto-inserted characters.
-  // Otherwise(when `true`), the closing characters are always skipped over and auto-removed
-  // no matter how they were inserted.
+  // エディターが自動閉じされた文字をどう扱うかを制御します。
+  // `false`（デフォルト）に設定すると、閉じ文字のスキップと自動削除は
+  // 自動挿入された文字に対してのみ行われます。
+  // それ以外（`true`）の場合、閉じ文字は挿入方法に関係なく
+  // 常にスキップされ、自動削除されます。
   "always_treat_brackets_as_autoclosed": false,
-  // Controls where the `editor::Rewrap` action is allowed in the current language scope.
+  // 現在の言語スコープで `editor::Rewrap` アクションを許可する場所を制御します。
   //
-  // This setting can take three values:
+  // この設定は 3 つの値を指定できます:
   //
-  // 1. Only allow rewrapping in comments:
+  // 1. コメント内でのみ再折り返しを許可する:
   //    "in_comments"
-  // 2. Only allow rewrapping in the current selection(s):
+  // 2. 現在の選択範囲内でのみ再折り返しを許可する:
   //    "in_selections"
-  // 3. Allow rewrapping anywhere:
+  // 3. どこでも再折り返しを許可する:
   //    "anywhere"
   //
-  // When using values other than `in_comments`, it is possible for the rewrapping to produce code
-  // that is syntactically invalid. Keep this in mind when selecting which behavior you would like
-  // to use.
+  // `in_comments` 以外の値を使うと、再折り返しによって
+  // 構文的に無効なコードが生成される可能性があります。どの動作を使うか
+  // 選ぶ際は注意してください。
   //
-  // Note: This setting has no effect in Vim mode, as rewrap is already allowed everywhere.
+  // 注: Vim モードでは再折り返しがすでにどこでも許可されているため、この設定は効果がありません。
   "allow_rewrap": "in_comments",
-  // Whether to show tabs and spaces in the editor.
-  // This setting can take four values:
+  // エディターでタブとスペースを表示するか。
+  // この設定は 4 つの値を指定できます:
   //
-  // 1. Draw tabs and spaces only for the selected text (default):
+  // 1. 選択テキストに対してのみタブとスペースを描画する（デフォルト）:
   //    "selection"
-  // 2. Do not draw any tabs or spaces:
+  // 2. タブやスペースを描画しない:
   //    "none"
-  // 3. Draw all invisible symbols:
+  // 3. すべての不可視記号を描画する:
   //    "all"
-  // 4. Draw whitespaces at boundaries only:
+  // 4. 境界にある空白のみ描画する:
   //    "boundary"
-  // 5. Draw whitespaces only after non-whitespace characters:
+  // 5. 非空白文字の後の空白のみ描画する:
   //    "trailing"
-  // For a whitespace to be on a boundary, any of the following conditions need to be met:
-  // - It is a tab
-  // - It is adjacent to an edge (start or end)
-  // - It is adjacent to a whitespace (left or right)
+  // 空白が境界にあると見なされるには、次のいずれかを満たす必要があります:
+  // - タブである
+  // - 端（先頭または末尾）に隣接している
+  // - 空白（左または右）に隣接している
   "show_whitespaces": "trailing",
-  // Visible characters used to render whitespace when show_whitespaces is enabled.
+  // show_whitespaces が有効なときに空白を描画する可視文字。
   "whitespace_map": {
     "space": "•",
     "tab": "→",
   },
-  // Toolbar related settings
+  // ツールバーに関する設定
   "toolbar": {
-    // Whether to show breadcrumbs.
+    // パンくずリストを表示するか。
     "breadcrumbs": true,
-    // Whether to show quick action buttons.
+    // クイックアクションボタンを表示するか。
     "quick_actions": true,
-    // Whether to show the Selections menu in the editor toolbar.
+    // エディターツールバーに「選択範囲」メニューを表示するか。
     "selections_menu": true,
-    // Whether to show code action buttons in the editor toolbar.
+    // エディターツールバーにコードアクションボタンを表示するか。
     "code_actions": false,
   },
-  // Whether to allow windows to tab together based on the user’s tabbing preference (macOS only).
+  // ユーザーのタブ設定に基づいてウィンドウをまとめてタブ化できるようにするか（macOS のみ）。
   "use_system_window_tabs": false,
-  // Titlebar related settings
+  // タイトルバーに関する設定
   "title_bar": {
-    // Whether to show the title bar.
+    // タイトルバーを表示するか。
     "show": true,
-    // Whether to show the branch icon beside branch switcher in the titlebar.
+    // タイトルバーのブランチ切り替えの横にブランチアイコンを表示するか。
     "show_branch_icon": true,
-    // Whether to show the branch name button in the titlebar.
+    // タイトルバーにブランチ名ボタンを表示するか。
     "show_branch_name": true,
-    // Whether to show the project host and name in the titlebar.
+    // タイトルバーにプロジェクトのホストと名前を表示するか。
     "show_project_items": true,
-    // Whether to show onboarding banners in the titlebar.
+    // タイトルバーにオンボーディングのバナーを表示するか。
     "show_onboarding_banner": true,
-    // Whether to show the menus in the titlebar.
+    // タイトルバーにメニューを表示するか。
     "show_menus": false,
   },
-  // Scrollbar related settings
+  // スクロールバーに関する設定
   "scrollbar": {
-    // When to show the scrollbar in the editor.
-    // This setting can take four values:
+    // エディターでスクロールバーをいつ表示するか。
+    // この設定は 4 つの値を指定できます:
     //
-    // 1. Show the scrollbar if there's important information or
-    //    follow the system's configured behavior (default):
+    // 1. 重要な情報がある場合はスクロールバーを表示するか、
+    //    システムの設定動作に従う（デフォルト）:
     //   "auto"
-    // 2. Match the system's configured behavior:
+    // 2. システムの設定動作に合わせる:
     //    "system"
-    // 3. Always show the scrollbar:
+    // 3. 常にスクロールバーを表示する:
     //    "always"
-    // 4. Never show the scrollbar:
+    // 4. スクロールバーを表示しない:
     //    "never"
     "show": "auto",
-    // Whether to show cursor positions in the scrollbar.
+    // スクロールバーにカーソル位置を表示するか。
     "cursors": true,
-    // Whether to show git diff indicators in the scrollbar.
+    // スクロールバーに git の差分インジケーターを表示するか。
     "git_diff": true,
-    // Whether to show buffer search results in the scrollbar.
+    // スクロールバーにバッファー検索の結果を表示するか。
     "search_results": true,
-    // Whether to show selected text occurrences in the scrollbar.
+    // スクロールバーに選択テキストの出現箇所を表示するか。
     "selected_text": true,
-    // Whether to show selected symbol occurrences in the scrollbar.
+    // スクロールバーに選択シンボルの出現箇所を表示するか。
     "selected_symbol": true,
-    // Which diagnostic indicators to show in the scrollbar:
-    //  - "none" or false: do not show diagnostics
-    //  - "error": show only errors
-    //  - "warning": show only errors and warnings
-    //  - "information": show only errors, warnings, and information
-    //  - "all" or true: show all diagnostics
+    // スクロールバーに表示する診断インジケーター:
+    //  - "none" または false: 診断を表示しない
+    //  - "error": エラーのみ表示する
+    //  - "warning": エラーと警告のみ表示する
+    //  - "information": エラー、警告、情報のみ表示する
+    //  - "all" または true: すべての診断を表示する
     "diagnostics": "all",
-    // Forcefully enable or disable the scrollbar for each axis
+    // 軸ごとにスクロールバーを強制的に有効または無効にする
     "axes": {
-      // When false, forcefully disables the horizontal scrollbar. Otherwise, obey other settings.
+      // false のときは水平スクロールバーを強制的に無効にします。それ以外は他の設定に従います。
       "horizontal": true,
-      // When false, forcefully disables the vertical scrollbar. Otherwise, obey other settings.
+      // false のときは垂直スクロールバーを強制的に無効にします。それ以外は他の設定に従います。
       "vertical": true,
     },
   },
-  // Minimap related settings
+  // ミニマップに関する設定
   "minimap": {
-    // When to show the minimap in the editor.
-    // This setting can take three values:
-    // 1. Show the minimap if the editor's scrollbar is visible:
+    // エディターでミニマップをいつ表示するか。
+    // この設定は 3 つの値を指定できます:
+    // 1. エディターのスクロールバーが表示されている場合にミニマップを表示する:
     //    "auto"
-    // 2. Always show the minimap:
+    // 2. 常にミニマップを表示する:
     //    "always"
-    // 3. Never show the minimap:
+    // 3. ミニマップを表示しない:
     //    "never" (default)
     "show": "never",
-    // Where to show the minimap in the editor.
-    // This setting can take two values:
-    // 1. Show the minimap on the focused editor only:
+    // エディター内でミニマップを表示する場所。
+    // この設定は 2 つの値を指定できます:
+    // 1. フォーカスされたエディターにのみミニマップを表示する:
     //    "active_editor" (default)
-    // 2. Show the minimap on all open editors:
+    // 2. 開いているすべてのエディターにミニマップを表示する:
     //    "all_editors"
     "display_in": "active_editor",
-    // When to show the minimap thumb.
-    // This setting can take two values:
-    // 1. Show the minimap thumb if the mouse is over the minimap:
+    // ミニマップのサム（つまみ）をいつ表示するか。
+    // この設定は 2 つの値を指定できます:
+    // 1. マウスがミニマップ上にある場合にサムを表示する:
     //    "hover"
-    // 2. Always show the minimap thumb:
+    // 2. 常にサムを表示する:
     //    "always" (default)
     "thumb": "always",
-    // How the minimap thumb border should look.
-    // This setting can take five values:
-    // 1. Display a border on all sides of the thumb:
+    // ミニマップのサムの境界線の見た目。
+    // この設定は 5 つの値を指定できます:
+    // 1. サムの四辺すべてに境界線を表示する:
     //    "thumb_border": "full"
-    // 2. Display a border on all sides except the left side of the thumb:
+    // 2. サムの左辺以外のすべての辺に境界線を表示する:
     //    "thumb_border": "left_open" (default)
-    // 3. Display a border on all sides except the right side of the thumb:
+    // 3. サムの右辺以外のすべての辺に境界線を表示する:
     //    "thumb_border": "right_open"
-    // 4. Display a border only on the left side of the thumb:
+    // 4. サムの左辺にのみ境界線を表示する:
     //    "thumb_border": "left_only"
-    // 5. Display the thumb without any border:
+    // 5. 境界線なしでサムを表示する:
     //    "thumb_border": "none"
     "thumb_border": "left_open",
-    // How to highlight the current line in the minimap.
-    // This setting can take the following values:
+    // ミニマップで現在行を強調表示する方法。
+    // この設定は次の値を指定できます:
     //
-    // 1. `null` to inherit the editor `current_line_highlight` setting (default)
-    // 2. "line" or "all" to highlight the current line in the minimap.
-    // 3. "gutter" or "none" to not highlight the current line in the minimap.
+    // 1. エディターの `current_line_highlight` 設定を継承する `null`（デフォルト）
+    // 2. "line" または "all" でミニマップの現在行を強調表示する。
+    // 3. "gutter" または "none" でミニマップの現在行を強調表示しない。
     "current_line_highlight": null,
-    // Maximum number of columns to display in the minimap.
+    // ミニマップに表示する最大列数。
     "max_width_columns": 80,
   },
-  // Enable middle-click paste on Linux.
+  // Linux で中クリック貼り付けを有効にする。
   "middle_click_paste": true,
-  // What to do when multibuffer is double clicked in some of its excerpts
-  // (parts of singleton buffers).
-  // May take 2 values:
-  //  1. Behave as a regular buffer and select the whole word (default).
+  // マルチバッファーの抜粋（単一バッファーの一部）を
+  // ダブルクリックしたときの動作。
+  // 2 つの値を指定できます:
+  //  1. 通常のバッファーとして振る舞い、単語全体を選択する（デフォルト）。
   //         "double_click_in_multibuffer": "select"
-  //  2. Open the excerpt clicked as a new buffer in the new tab.
+  //  2. クリックした抜粋を新しいバッファーとして新しいタブで開く。
   //         "double_click_in_multibuffer": "open",
-  // For the case of "open", regular selection behavior can be achieved by holding `alt` when double clicking.
+  // "open" の場合、ダブルクリック時に `alt` を押すと通常の選択動作になります。
   "double_click_in_multibuffer": "select",
   "gutter": {
-    // Whether to show line numbers in the gutter.
+    // ガターに行番号を表示するか。
     "line_numbers": true,
-    // Whether to show runnables buttons in the gutter.
+    // ガターに実行ボタンを表示するか。
     "runnables": true,
-    // Whether to show breakpoints in the gutter.
+    // ガターにブレークポイントを表示するか。
     "breakpoints": true,
-    // Whether to show fold buttons in the gutter.
+    // ガターに折りたたみボタンを表示するか。
     "folds": true,
-    // Minimum number of characters to reserve space for in the gutter.
+    // ガターで領域を確保する最小文字数。
     "min_line_number_digits": 4,
   },
   "indent_guides": {
-    // Whether to show indent guides in the editor.
+    // エディターにインデントガイドを表示するか。
     "enabled": true,
-    // The width of the indent guides in pixels, between 1 and 10.
+    // インデントガイドの幅（ピクセル、1〜10）。
     "line_width": 1,
-    // The width of the active indent guide in pixels, between 1 and 10.
+    // アクティブなインデントガイドの幅（ピクセル、1〜10）。
     "active_line_width": 1,
-    // Determines how indent guides are colored.
-    // This setting can take the following three values:
+    // インデントガイドの色付け方法を指定します。
+    // この設定は次の 3 つの値を指定できます:
     //
     // 1. "disabled"
     // 2. "fixed"
     // 3. "indent_aware"
     "coloring": "fixed",
-    // Determines how indent guide backgrounds are colored.
-    // This setting can take the following two values:
+    // インデントガイドの背景の色付け方法を指定します。
+    // この設定は次の 2 つの値を指定できます:
     //
     // 1. "disabled"
     // 2. "indent_aware"
     "background_coloring": "disabled",
   },
-  // Whether the editor will scroll beyond the last line.
+  // エディターが最終行を超えてスクロールするか。
   "scroll_beyond_last_line": "one_page",
-  // The number of lines to keep above/below the cursor when scrolling with the keyboard
+  // キーボードでスクロールするときにカーソルの上下に確保する行数
   "vertical_scroll_margin": 3,
-  // Whether to scroll when clicking near the edge of the visible text area.
+  // 表示中のテキスト領域の端付近をクリックしたときにスクロールするか。
   "autoscroll_on_clicks": false,
-  // The number of characters to keep on either side when scrolling with the mouse
+  // マウスでスクロールするときに左右に確保する文字数
   "horizontal_scroll_margin": 5,
-  // Scroll sensitivity multiplier. This multiplier is applied
-  // to both the horizontal and vertical delta values while scrolling.
+  // スクロール感度の倍率。この倍率はスクロール時の
+  // 水平方向と垂直方向の両方の差分値に適用されます。
   "scroll_sensitivity": 1.0,
-  // Scroll sensitivity multiplier for fast scrolling. This multiplier is applied
-  // to both the horizontal and vertical delta values while scrolling. Fast scrolling
-  // happens when a user holds the alt or option key while scrolling.
+  // 高速スクロール用のスクロール感度の倍率。この倍率はスクロール時の
+  // 水平方向と垂直方向の両方の差分値に適用されます。高速スクロールは
+  // スクロール中に alt キーまたは option キーを押しているときに発生します。
   "fast_scroll_sensitivity": 4.0,
   "smooth_scroll": {
-    // Whether to animate scrolling with a smooth easing effect.
+    // スムーズなイージング効果でスクロールをアニメーションするか。
     "enabled": false,
-    // Duration of the scrolling animation (ms)
+    // スクロールアニメーションの時間（ミリ秒）
     "duration": 160,
   },
   "sticky_scroll": {
-    // Whether to stick scopes to the top of the editor.
+    // スコープをエディターの上部に固定するか。
     "enabled": false,
   },
-  // Show relative line numbers: "disabled", "enabled" or "wrapped"
+  // 相対行番号を表示する: "disabled"、"enabled" または "wrapped"
   "relative_line_numbers": "disabled",
-  // If 'search_wrap' is disabled, search result do not wrap around the end of the file.
+  // 'search_wrap' が無効な場合、検索結果はファイルの末尾で折り返しません。
   "search_wrap": true,
-  // Search options to enable by default when opening new project and buffer searches.
+  // 新しいプロジェクト検索とバッファー検索を開いたときに既定で有効にする検索オプション。
   "search": {
-    // Whether to show the project search button in the status bar.
+    // ステータスバーにプロジェクト検索ボタンを表示するか。
     "button": true,
-    // Whether to only match on whole words.
+    // 単語単位でのみ一致させるか。
     "whole_word": false,
-    // Whether to match case sensitively.
+    // 大文字と小文字を区別して一致させるか。
     "case_sensitive": false,
-    // Whether to include gitignored files in search results.
+    // 検索結果に gitignore 対象のファイルを含めるか。
     "include_ignored": false,
-    // Whether to interpret the search query as a regular expression.
+    // 検索クエリを正規表現として解釈するか。
     "regex": false,
-    // Whether to center the cursor on each search match when navigating.
+    // 移動時に各検索一致箇所へカーソルを中央揃えするか。
     "center_on_match": true,
   },
-  // When to populate a new search's query based on the text under the cursor.
-  // This setting can take the following three values:
+  // カーソル下のテキストに基づいて新しい検索のクエリをいつ埋めるか。
+  // この設定は次の 3 つの値を指定できます:
   //
-  // 1. Always populate the search query with the word under the cursor (default).
+  // 1. 常にカーソル下の単語で検索クエリを埋める（デフォルト）。
   //    "always"
-  // 2. Only populate the search query when there is text selected
+  // 2. テキストが選択されている場合にのみ検索クエリを埋める
   //    "selection"
-  // 3. Never populate the search query
+  // 3. 検索クエリを埋めない
   //    "never"
   "seed_search_query_from_cursor": "always",
-  // When enabled, automatically adjusts search case sensitivity based on your query.
-  // If your search query contains any uppercase letters, the search becomes case-sensitive;
-  // if it contains only lowercase letters, the search becomes case-insensitive.
+  // 有効にすると、クエリに基づいて検索の大文字小文字の区別を自動調整します。
+  // クエリに大文字が含まれていれば大文字小文字を区別し、
+  // 小文字のみなら区別しません。
   "use_smartcase_search": true,
-  // Inlay hint related settings
+  // インレイヒントに関する設定
   "inlay_hints": {
-    // Global switch to toggle hints on and off, switched off by default.
+    // ヒントをオン/オフするグローバルスイッチ。既定ではオフです。
     "enabled": false,
-    // Toggle certain types of hints on and off, all switched on by default.
+    // 特定の種類のヒントをオン/オフします。すべて既定ではオンです。
     "show_type_hints": true,
     "show_parameter_hints": true,
     "show_value_hints": true,
-    // Corresponds to null/None LSP hint type value.
+    // null/None の LSP ヒント種別の値に対応します。
     "show_other_hints": true,
-    // Whether to show a background for inlay hints.
+    // インレイヒントに背景を表示するか。
     //
-    // If set to `true`, the background will use the `hint.background` color from the current theme.
+    // `true` に設定すると、背景には現在のテーマの `hint.background` 色が使われます。
     "show_background": false,
-    // Time to wait after editing the buffer, before requesting the hints,
-    // set to 0 to disable debouncing.
+    // バッファーの編集後、ヒントを要求するまでの待ち時間。
+    // 0 に設定するとデバウンスが無効になります。
     "edit_debounce_ms": 700,
-    // Time to wait after scrolling the buffer, before requesting the hints,
-    // set to 0 to disable debouncing.
+    // バッファーのスクロール後、ヒントを要求するまでの待ち時間。
+    // 0 に設定するとデバウンスが無効になります。
     "scroll_debounce_ms": 50,
-    // A set of modifiers which, when pressed, will toggle the visibility of inlay hints.
-    // If the set if empty or not all the modifiers specified are pressed, inlay hints will not be toggled.
+    // 押すとインレイヒントの表示を切り替える修飾キーのセット。
+    // セットが空の場合、または指定したすべての修飾キーが押されていない場合、インレイヒントは切り替わりません。
     "toggle_on_modifiers_press": {
       "control": false,
       "shift": false,
@@ -670,460 +670,460 @@
       "function": false,
     },
   },
-  // Whether to resize all the panels in a dock when resizing the dock.
-  // Can be a combination of "left", "right" and "bottom".
+  // ドックのサイズを変更したときに、ドック内のすべてのパネルのサイズを変更するか。
+  // "left"、"right"、"bottom" を組み合わせて指定できます。
   "resize_all_panels_in_dock": ["left"],
   "project_panel": {
-    // Whether to show the project panel button in the status bar
+    // ステータスバーにプロジェクトパネルのボタンを表示するか
     "button": true,
-    // Whether to hide the gitignore entries in the project panel.
+    // プロジェクトパネルで gitignore の項目を非表示にするか。
     "hide_gitignore": false,
-    // Default width of the project panel.
+    // プロジェクトパネルの既定の幅。
     "default_width": 240,
-    // Where to dock the project panel. Can be 'left' or 'right'.
+    // プロジェクトパネルをドックする位置。'left' または 'right' を指定できます。
     "dock": "left",
-    // Spacing between worktree entries in the project panel. Can be 'comfortable', 'standard' or 'tight'.
+    // プロジェクトパネルのワークツリー項目間の間隔。'comfortable'、'standard'、'tight' を指定できます。
     "entry_spacing": "standard",
-    // Whether to show file icons in the project panel.
+    // プロジェクトパネルにファイルアイコンを表示するか。
     "file_icons": true,
-    // Whether to show folder icons or chevrons for directories in the project panel.
+    // プロジェクトパネルのディレクトリにフォルダーアイコンまたはシェブロンを表示するか。
     "folder_icons": true,
-    // Whether to show the git status in the project panel.
+    // プロジェクトパネルに git のステータスを表示するか。
     "git_status": true,
-    // Amount of indentation for nested items.
+    // ネストした項目のインデント量。
     "indent_size": 20,
-    // Whether to reveal it in the project panel automatically,
-    // when a corresponding project entry becomes active.
-    // Gitignored entries are never auto revealed.
+    // 対応するプロジェクトの項目がアクティブになったときに、
+    // プロジェクトパネルで自動的に表示するか。
+    // gitignore の項目は自動表示されません。
     "auto_reveal_entries": true,
-    // Whether the project panel should open on startup.
+    // 起動時にプロジェクトパネルを開くか。
     "starts_open": true,
-    // Whether to fold directories automatically and show compact folders
-    // (e.g. "a/b/c" ) when a directory has only one subdirectory inside.
+    // ディレクトリ内にサブディレクトリが 1 つだけある場合に、
+    // ディレクトリを自動的に折りたたみ、コンパクトな表示（例: "a/b/c"）にするか。
     "auto_fold_dirs": true,
-    // Scrollbar-related settings
+    // スクロールバーに関する設定
     "scrollbar": {
-      // When to show the scrollbar in the project panel.
-      // This setting can take five values:
+      // プロジェクトパネルでスクロールバーをいつ表示するか。
+      // この設定は 5 つの値を指定できます:
       //
-      // 1. null (default): Inherit editor settings
-      // 2. Show the scrollbar if there's important information or
-      //    follow the system's configured behavior (default):
+      // 1. null（デフォルト）: エディターの設定を継承する
+      // 2. 重要な情報がある場合はスクロールバーを表示するか、
+      //    システムの設定動作に従う（デフォルト）:
       //   "auto"
-      // 3. Match the system's configured behavior:
+      // 3. システムの設定動作に合わせる:
       //    "system"
-      // 4. Always show the scrollbar:
+      // 4. 常にスクロールバーを表示する:
       //    "always"
-      // 5. Never show the scrollbar:
+      // 5. スクロールバーを表示しない:
       //    "never"
       "show": null,
     },
-    // Which files containing diagnostic errors/warnings to mark in the project panel.
-    // This setting can take the following three values:
+    // プロジェクトパネルでマークする、診断のエラー/警告を含むファイル。
+    // この設定は次の 3 つの値を指定できます:
     //
-    // 1. Do not mark any files:
+    // 1. ファイルをマークしない:
     //    "off"
-    // 2. Only mark files with errors:
+    // 2. エラーのあるファイルのみマークする:
     //    "errors"
-    // 3. Mark files with errors and warnings:
+    // 3. エラーと警告のあるファイルをマークする:
     //    "all"
     "show_diagnostics": "all",
-    // Whether to stick parent directories at top of the project panel.
+    // 親ディレクトリをプロジェクトパネルの上部に固定するか。
     "sticky_scroll": true,
-    // Settings related to indent guides in the project panel.
+    // プロジェクトパネルのインデントガイドに関する設定。
     "indent_guides": {
-      // When to show indent guides in the project panel.
-      // This setting can take two values:
+      // プロジェクトパネルでインデントガイドをいつ表示するか。
+      // この設定は 2 つの値を指定できます:
       //
-      // 1. Always show indent guides:
+      // 1. 常にインデントガイドを表示する:
       //    "always"
-      // 2. Never show indent guides:
+      // 2. インデントガイドを表示しない:
       //    "never"
       "show": "always",
     },
-    // Sort order for entries in the project panel.
-    // This setting can take four values:
+    // プロジェクトパネルの項目の並び順。
+    // この設定は 4 つの値を指定できます:
     //
-    // 1. Show directories first, then files:
+    // 1. ディレクトリを先に、次にファイルを表示する:
     //    "directories_first"
-    // 2. Show directories, then mod.rs files, then everything else:
+    // 2. ディレクトリ、mod.rs ファイル、それ以外の順に表示する:
     //    "smart_sort"
-    // 3. Mix directories and files together:
+    // 3. ディレクトリとファイルを混在させる:
     //    "mixed"
-    // 4. Show files first, then directories:
+    // 4. ファイルを先に、次にディレクトリを表示する:
     //    "files_first"
     "sort_mode": "directories_first",
-    // Whether to enable drag-and-drop operations in the project panel.
+    // プロジェクトパネルでのドラッグ＆ドロップ操作を有効にするか。
     "drag_and_drop": true,
-    // Whether to hide the root entry when only one folder is open in the window.
+    // ウィンドウでフォルダーが 1 つだけ開かれているときにルート項目を非表示にするか。
     "hide_root": false,
-    // Whether to hide the hidden entries in the project panel.
+    // プロジェクトパネルで隠し項目を非表示にするか。
     "hide_hidden": false,
-    // Settings for automatically opening files.
+    // ファイルを自動的に開くための設定。
     "auto_open": {
-      // Whether to automatically open newly created files in the editor.
+      // 新しく作成したファイルをエディターで自動的に開くか。
       "on_create": true,
-      // Whether to automatically open files after pasting or duplicating them.
+      // 貼り付けまたは複製の後にファイルを自動的に開くか。
       "on_paste": true,
-      // Whether to automatically open files dropped from external sources.
+      // 外部からドロップされたファイルを自動的に開くか。
       "on_drop": true,
-      // Whether to focus on files automatically opened.
+      // 自動的に開いたファイルにフォーカスするか。
       "should_focus": true,
     },
   },
   "outline_panel": {
-    // Whether to show the outline panel button in the status bar
+    // ステータスバーにアウトラインパネルのボタンを表示するか
     "button": true,
-    // Default width of the outline panel.
+    // アウトラインパネルの既定の幅。
     "default_width": 300,
-    // Where to dock the outline panel. Can be 'left' or 'right'.
+    // アウトラインパネルをドックする位置。'left' または 'right' を指定できます。
     "dock": "left",
-    // Whether to show file icons in the outline panel.
+    // アウトラインパネルにファイルアイコンを表示するか。
     "file_icons": true,
-    // Whether to show folder icons or chevrons for directories in the outline panel.
+    // アウトラインパネルのディレクトリにフォルダーアイコンまたはシェブロンを表示するか。
     "folder_icons": true,
-    // Whether to show the git status in the outline panel.
+    // アウトラインパネルに git のステータスを表示するか。
     "git_status": true,
-    // Amount of indentation for nested items.
+    // ネストした項目のインデント量。
     "indent_size": 20,
-    // Whether to reveal it in the outline panel automatically,
-    // when a corresponding outline entry becomes active.
-    // Gitignored entries are never auto revealed.
+    // 対応するアウトラインの項目がアクティブになったときに、
+    // アウトラインパネルで自動的に表示するか。
+    // gitignore の項目は自動表示されません。
     "auto_reveal_entries": true,
-    // Whether to fold directories automatically
-    // when a directory has only one directory inside.
+    // ディレクトリ内にディレクトリが 1 つだけある場合に、
+    // ディレクトリを自動的に折りたたむか。
     "auto_fold_dirs": true,
-    // Settings related to indent guides in the outline panel.
+    // アウトラインパネルのインデントガイドに関する設定。
     "indent_guides": {
-      // When to show indent guides in the outline panel.
-      // This setting can take two values:
+      // アウトラインパネルでインデントガイドをいつ表示するか。
+      // この設定は 2 つの値を指定できます:
       //
-      // 1. Always show indent guides:
+      // 1. 常にインデントガイドを表示する:
       //    "always"
-      // 2. Never show indent guides:
+      // 2. インデントガイドを表示しない:
       //    "never"
       "show": "always",
     },
-    // Scrollbar-related settings
+    // スクロールバーに関する設定
     "scrollbar": {
-      // When to show the scrollbar in the project panel.
-      // This setting can take five values:
+      // プロジェクトパネルでスクロールバーをいつ表示するか。
+      // この設定は 5 つの値を指定できます:
       //
-      // 1. null (default): Inherit editor settings
-      // 2. Show the scrollbar if there's important information or
-      //    follow the system's configured behavior (default):
+      // 1. null（デフォルト）: エディターの設定を継承する
+      // 2. 重要な情報がある場合はスクロールバーを表示するか、
+      //    システムの設定動作に従う（デフォルト）:
       //   "auto"
-      // 3. Match the system's configured behavior:
+      // 3. システムの設定動作に合わせる:
       //    "system"
-      // 4. Always show the scrollbar:
+      // 4. 常にスクロールバーを表示する:
       //    "always"
-      // 5. Never show the scrollbar:
+      // 5. スクロールバーを表示しない:
       //    "never"
       "show": null,
     },
-    // Default depth to expand outline items in the current file.
-    // Set to 0 to collapse all items that have children, 1 or higher to collapse items at that depth or deeper.
+    // 現在のファイルでアウトライン項目を展開する既定の深さ。
+    // 0 に設定すると子を持つすべての項目を折りたたみ、1 以上に設定するとその深さ以降の項目を折りたたみます。
     "expand_outlines_with_depth": 100,
   },
   "git_panel": {
-    // Whether to show the git panel button in the status bar.
+    // ステータスバーに git パネルのボタンを表示するか。
     "button": true,
-    // Where to dock the git panel. Can be 'left' or 'right'.
+    // git パネルをドックする位置。'left' または 'right' を指定できます。
     "dock": "left",
-    // Default width of the git panel.
+    // git パネルの既定の幅。
     "default_width": 360,
-    // Style of the git status indicator in the panel.
+    // パネル内の git ステータスインジケーターのスタイル。
     //
-    // Choices: label_color, icon
-    // Default: icon
+    // 選択肢: label_color、icon
+    // デフォルト: icon
     "status_style": "icon",
-    // What branch name to use if `init.defaultBranch` is not set
+    // `init.defaultBranch` が設定されていない場合に使うブランチ名
     //
-    // Default: main
+    // デフォルト: main
     "fallback_branch_name": "main",
-    // Whether to sort entries in the panel by path or by status (the default).
+    // パネルの項目をパス順に並べるか、ステータス順（デフォルト）に並べるか。
     //
-    // Default: false
+    // デフォルト: false
     "sort_by_path": false,
-    // Whether to collapse untracked files in the diff panel.
+    // diff パネルで未追跡ファイルを折りたたむか。
     //
-    // Default: false
+    // デフォルト: false
     "collapse_untracked_diff": false,
-    /// Whether to show entries with tree or flat view in the panel
+    /// パネル内の項目をツリー表示にするかフラット表示にするか
     ///
-    /// Default: false
+    /// デフォルト: false
     "tree_view": false,
-    // Whether to show the number of added and deleted lines for each entry,
-    // and the total for the repository.
+    // 各項目の追加行数と削除行数、およびリポジトリ全体の
+    // 合計を表示するか。
     //
-    // Default: true
+    // デフォルト: true
     "diff_stats": true,
     "scrollbar": {
-      // When to show the scrollbar in the git panel.
+      // git パネルでスクロールバーをいつ表示するか。
       //
-      // Choices: always, auto, never, system
-      // Default: inherits editor scrollbar settings
+      // 選択肢: always、auto、never、system
+      // デフォルト: エディターのスクロールバー設定を継承
       // "show": null
     },
   },
-  // Whether to use language servers to provide code intelligence.
+  // 言語サーバーを使ってコードインテリジェンスを提供するか。
   "enable_language_server": true,
-  // Whether to perform linked edits of associated ranges, if the language server supports it.
-  // For example, when editing opening <html> tag, the contents of the closing </html> tag will be edited as well.
+  // 言語サーバーが対応していれば、関連する範囲のリンク編集を行うか。
+  // たとえば開始 <html> タグを編集すると、終了 </html> タグの内容も編集されます。
   "linked_edits": true,
-  // The list of language servers to use (or disable) for all languages.
+  // すべての言語で使用する（または無効にする）言語サーバーのリスト。
   //
-  // This is typically customized on a per-language basis.
+  // 通常は言語ごとにカスタマイズします。
   "language_servers": ["..."],
 
-  // When to automatically save edited buffers. This setting can
-  // take four values.
+  // 編集したバッファーをいつ自動保存するか。この設定は
+  // 4 つの値を指定できます。
   //
-  // 1. Never automatically save:
+  // 1. 自動保存しない:
   //     "autosave": "off",
-  // 2. Save when changing focus away from the Gram window:
+  // 2. Gram ウィンドウからフォーカスが外れたときに保存する:
   //     "autosave": "on_window_change",
-  // 3. Save when changing focus away from a specific buffer:
+  // 3. 特定のバッファーからフォーカスが外れたときに保存する:
   //     "autosave": "on_focus_change",
-  // 4. Save when idle for a certain amount of time:
+  // 4. 一定時間アイドル状態になったときに保存する:
   //     "autosave": { "after_delay": {"milliseconds": 500} },
   "autosave": "off",
-  // Maximum number of tabs per pane. Unset for unlimited.
+  // ペインあたりの最大タブ数。未設定なら無制限です。
   "max_tabs": null,
-  // Settings related to the editor's tab bar.
+  // エディターのタブバーに関する設定。
   "tab_bar": {
-    // Whether or not to show the tab bar in the editor
+    // エディターにタブバーを表示するかどうか
     "show": true,
-    // Whether or not to show the navigation history buttons.
+    // ナビゲーション履歴のボタンを表示するかどうか。
     "show_nav_history_buttons": true,
-    // When to show the tab bar buttons.
+    // タブバーのボタンをいつ表示するか。
     "show_tab_bar_buttons": "on_pane_focus",
-    // Whether or not to show pinned tabs in a separate row.
-    // When enabled, pinned tabs appear in a top row and unpinned tabs in a bottom row.
-    // When disabled, all tabs appear in a single row (default behavior).
+    // ピン留めしたタブを別の行に表示するかどうか。
+    // 有効にすると、ピン留めしたタブは上の行、ピン留めしていないタブは下の行に表示されます。
+    // 無効にすると、すべてのタブが 1 行に表示されます（デフォルトの動作）。
     "show_pinned_tabs_in_separate_row": false,
-    // Whether to wrap tabs onto additional rows instead of scrolling horizontally
-    // when the tab bar overflows.
+    // タブバーがあふれたときに、横スクロールの代わりに
+    // タブを追加の行に折り返すか。
     "wrap_tabs": false,
   },
-  // Settings related to the editor's tabs
+  // エディターのタブに関する設定
   "tabs": {
-    // Show git status colors in the editor tabs.
+    // エディターのタブに git ステータスの色を表示する。
     "git_status": false,
-    // Position of the close button on the editor tabs.
-    // One of: ["right", "left"]
+    // エディターのタブの閉じるボタンの位置。
+    // 次のいずれか: ["right", "left"]
     "close_position": "right",
-    // Whether to show the file icon for a tab.
+    // タブにファイルアイコンを表示するか。
     "file_icons": false,
-    // Controls the appearance behavior of the tab's close button.
+    // タブの閉じるボタンの表示動作を制御します。
     //
-    // 1. Show it just upon hovering the tab. (default)
+    // 1. タブにホバーしたときだけ表示する。（デフォルト）
     //     "hover"
-    // 2. Show it persistently.
+    // 2. 常に表示する。
     //     "always"
-    // 3. Never show it, even if hovering it.
+    // 3. ホバーしても表示しない。
     //     "hidden"
     "show_close_button": "hover",
-    // What to do after closing the current tab.
+    // 現在のタブを閉じた後の動作。
     //
-    // 1. Activate the tab that was open previously (default)
+    // 1. 以前に開いていたタブをアクティブにする（デフォルト）
     //     "history"
-    // 2. Activate the right neighbour tab if present
+    // 2. 右隣のタブがあればアクティブにする
     //     "neighbour"
-    // 3. Activate the left neighbour tab if present
+    // 3. 左隣のタブがあればアクティブにする
     //     "left_neighbour"
     "activate_on_close": "history",
-    // Which files containing diagnostic errors/warnings to mark in the tabs.
-    // Diagnostics are only shown when file icons are also active.
-    // This setting only works when can take the following three values:
+    // タブでマークする、診断のエラー/警告を含むファイル。
+    // 診断はファイルアイコンも有効な場合にのみ表示されます。
+    // この設定は次の 3 つの値を指定できます:
     //
-    // 1. Do not mark any files:
+    // 1. ファイルをマークしない:
     //    "off"
-    // 2. Only mark files with errors:
+    // 2. エラーのあるファイルのみマークする:
     //    "errors"
-    // 3. Mark files with errors and warnings:
+    // 3. エラーと警告のあるファイルをマークする:
     //    "all"
     "show_diagnostics": "off",
-    // Show or hide the unsaved changes indicator.
+    // 未保存の変更インジケーターを表示するかどうか。
     "show_unsaved_indicator": true,
   },
-  // Settings related to preview tabs.
+  // プレビュータブに関する設定。
   "preview_tabs": {
-    // Whether preview tabs should be enabled.
-    // Preview tabs allow you to open files in preview mode, where they close automatically
-    // when you open another preview tab.
-    // This is useful for quickly viewing files without cluttering your workspace.
+    // プレビュータブを有効にするか。
+    // プレビュータブを使うとファイルをプレビューモードで開け、別のプレビュータブを
+    // 開くと自動的に閉じられます。
+    // ワークスペースを散らかさずにファイルを素早く確認したいときに便利です。
     "enabled": true,
-    // Whether to open tabs in preview mode when opened from the project panel with a single click.
+    // プロジェクトパネルからシングルクリックで開いたときに、プレビューモードで開くか。
     "enable_preview_from_project_panel": true,
-    // Whether to open tabs in preview mode when selected from the file finder.
+    // ファイルファインダーから選択したときに、プレビューモードで開くか。
     "enable_preview_from_file_finder": false,
-    // Whether to open tabs in preview mode when opened from a multibuffer.
+    // マルチバッファーから開いたときに、プレビューモードで開くか。
     "enable_preview_from_multibuffer": true,
-    // Whether to open tabs in preview mode when code navigation is used to open a multibuffer.
+    // コードナビゲーションでマルチバッファーを開くときに、プレビューモードで開くか。
     "enable_preview_multibuffer_from_code_navigation": false,
-    // Whether to open tabs in preview mode when code navigation is used to open a single file.
+    // コードナビゲーションで単一ファイルを開くときに、プレビューモードで開くか。
     "enable_preview_file_from_code_navigation": true,
-    // Whether to keep tabs in preview mode when code navigation is used to navigate away from them.
-    // If `enable_preview_file_from_code_navigation` or `enable_preview_multibuffer_from_code_navigation` is also true, the new tab may replace the existing one.
+    // コードナビゲーションで別の場所へ移動したときに、タブをプレビューモードのままにするか。
+    // `enable_preview_file_from_code_navigation` または `enable_preview_multibuffer_from_code_navigation` も true の場合、新しいタブが既存のタブを置き換えることがあります。
     "enable_keep_preview_on_code_navigation": false,
   },
-  // Settings related to the file finder.
+  // ファイルファインダーに関する設定。
   "file_finder": {
-    // Whether to show file icons in the file finder.
+    // ファイルファインダーにファイルアイコンを表示するか。
     "file_icons": true,
-    // Determines how much space the file finder can take up in relation to the available window width.
-    // There are 5 possible width values:
+    // 利用可能なウィンドウ幅に対してファイルファインダーが占める割合を指定します。
+    // 幅の値は 5 つあります:
     //
-    // 1. Small: This value is essentially a fixed width.
+    // 1. small: 実質的に固定幅です。
     //    "modal_max_width": "small"
-    // 2. Medium:
+    // 2. medium:
     //    "modal_max_width": "medium"
-    // 3. Large:
+    // 3. large:
     //    "modal_max_width": "large"
-    // 4. Extra Large:
+    // 4. xlarge:
     //    "modal_max_width": "xlarge"
-    // 5. Fullscreen: This value removes any horizontal padding, as it consumes the whole viewport width.
+    // 5. full: ビューポート幅全体を占めるため、水平方向のパディングがなくなります。
     //    "modal_max_width": "full"
     //
-    // Default: small
+    // デフォルト: small
     "modal_max_width": "small",
-    // Determines whether the file finder should skip focus for the active file in search results.
-    // There are 2 possible values:
+    // ファイルファインダーが検索結果内のアクティブなファイルへのフォーカスをスキップするかどうかを指定します。
+    // 値は 2 つあります:
     //
-    // 1. true: When searching for files, if the currently active file appears as the first result,
-    //    auto-focus will skip it and focus the second result instead.
+    // 1. true: ファイル検索時に、現在アクティブなファイルが最初の結果として現れた場合、
+    // 自動フォーカスはそれを飛ばして 2 番目の結果にフォーカスします。
     //    "skip_focus_for_active_in_search": true
     //
-    // 2. false: When searching for files, the first result will always receive focus,
-    //    even if it's the currently active file.
+    // 2. false: ファイル検索時に、最初の結果が常にフォーカスを受け取ります。
+    // それが現在アクティブなファイルであっても同様です。
     //    "skip_focus_for_active_in_search": false
     //
-    // Default: true
+    // デフォルト: true
     "skip_focus_for_active_in_search": true,
-    // Whether to show the git status in the file finder.
+    // ファイルファインダーに git のステータスを表示するか。
     "git_status": true,
-    // Whether to use gitignored files when searching.
-    // Only the file Gram had indexed will be used, not necessary all the gitignored files.
+    // 検索時に gitignore 対象のファイルを使うか。
+    // 使用されるのは Gram がインデックス済みのファイルのみで、gitignore 対象のすべてのファイルとは限りません。
     //
-    // Can accept 3 values:
-    //   * "all": Use all gitignored files
-    //   * "indexed": Use only the files Gram had indexed
-    //   * "smart": Be smart and search for ignored when called from a gitignored worktree
+    // 3 つの値を指定できます:
+    //   * "all": gitignore 対象のすべてのファイルを使う
+    //   * "indexed": Gram がインデックス済みのファイルのみを使う
+    //   * "smart": gitignore 対象のワークツリーから呼ばれた場合に、賢く無視対象を検索する
     "include_ignored": "smart",
   },
-  // Whether or not to remove any trailing whitespace from lines of a buffer
-  // before saving it.
+  // バッファーの各行から末尾の空白を削除してから
+  // 保存するかどうか。
   "remove_trailing_whitespace_on_save": true,
-  // Whether to start a new line with a comment when a previous line is a comment as well.
+  // 前の行もコメントである場合に、新しい行をコメントで開始するか。
   "extend_comment_on_newline": true,
-  // Removes any lines containing only whitespace at the end of the file and
-  // ensures just one newline at the end.
+  // ファイル末尾の空白のみの行を削除し、
+  // 末尾に改行が 1 つだけあるようにします。
   "ensure_final_newline_on_save": true,
-  // Whether or not to perform a buffer format before saving: [on, off]
-  // Keep in mind, if the autosave with delay is enabled, format_on_save will be ignored
+  // 保存前にバッファーの整形を行うかどうか: [on, off]
+  // 遅延付きの自動保存が有効な場合、format_on_save は無視される点に注意してください
   "format_on_save": "on",
-  // How to perform a buffer format. This setting can take multiple values:
+  // バッファーの整形方法。この設定は複数の値を指定できます:
   //
-  // 1. Default. Format files using Gram's Prettier integration (if applicable),
-  //    or falling back to formatting via language server:
+  // 1. デフォルト。Gram の Prettier 連携（該当する場合）でファイルを整形し、
+  //    できない場合は言語サーバーによる整形にフォールバックします:
   //     "formatter": "auto"
-  // 2. Format code using the current language server:
+  // 2. 現在の言語サーバーでコードを整形する:
   //     "formatter": "language_server"
-  // 3. Format code using a specific language server:
+  // 3. 特定の言語サーバーでコードを整形する:
   //     "formatter": {"language_server": {"name": "ruff"}}
-  // 4. Format code using an external command:
+  // 4. 外部コマンドでコードを整形する:
   //     "formatter": {
   //       "external": {
   //         "command": "prettier",
   //         "arguments": ["--stdin-filepath", "{buffer_path}"]
   //       }
   //     }
-  // 5. Format code using Gram's Prettier integration:
+  // 5. Gram の Prettier 連携でコードを整形する:
   //     "formatter": "prettier"
-  // 6. Format code using a code action
+  // 6. コードアクションでコードを整形する
   //     "formatter": {"code_action": "source.fixAll.eslint"}
-  // 7. An array of any format step specified above to apply in order
+  // 7. 上記の任意の整形手順を順に適用する配列
   //     "formatter": [{"code_action": "source.fixAll.eslint"}, "prettier"]
   "formatter": "auto",
-  // How to soft-wrap long lines of text.
-  // Possible values:
+  // 長い行のソフト折り返し方法。
+  // 指定可能な値:
   //
-  // 1. Prefer a single line generally, unless an overly long line is encountered.
+  // 1. 極端に長い行が出ない限り、基本的に 1 行を優先する。
   //      "soft_wrap": "none",
   //      "soft_wrap": "prefer_line", // (deprecated, same as "none")
-  // 2. Soft wrap lines that overflow the editor.
+  // 2. エディターからあふれた行をソフト折り返しする。
   //      "soft_wrap": "editor_width",
-  // 3. Soft wrap lines at the preferred line length.
+  // 3. 優先行長で行をソフト折り返しする。
   //      "soft_wrap": "preferred_line_length",
-  // 4. Soft wrap lines at the preferred line length or the editor width (whichever is smaller).
+  // 4. 優先行長またはエディター幅の小さい方で行をソフト折り返しする。
   //      "soft_wrap": "bounded",
   "soft_wrap": "none",
-  // The column at which to soft-wrap lines, for buffers where soft-wrap
-  // is enabled.
+  // ソフト折り返しが有効なバッファーで、行をソフト折り返しする
+  // 列位置。
   "preferred_line_length": 80,
-  // Whether to indent lines using tab characters, as opposed to multiple
-  // spaces.
+  // インデントに複数のスペースではなくタブ文字を
+  // 使うか。
   "hard_tabs": false,
-  // How many columns a tab should occupy.
+  // タブが占める列数。
   "tab_size": 4,
-  // What debuggers are preferred by default for all languages.
+  // すべての言語で既定で優先するデバッガー。
   "debuggers": [],
-  // Whether to enable word diff highlighting in the editor.
+  // エディターで単語単位の差分強調表示を有効にするか。
   //
-  // When enabled, changed words within modified lines are highlighted
-  // to show exactly what changed.
+  // 有効にすると、変更された行内の変更された単語が強調表示され、
+  // 何が変わったかを正確に示します。
   //
-  // Default: true
+  // デフォルト: true
   "word_diff_enabled": true,
-  // How to render LSP `textDocument/documentColor` colors in the editor.
+  // エディターで LSP `textDocument/documentColor` の色を描画する方法。
   //
-  // Possible values:
+  // 指定可能な値:
   //
-  // 1. Do not query and render document colors.
+  // 1. ドキュメントの色を問い合わせも描画もしない。
   //      "lsp_document_colors": "none",
-  // 2. Render document colors as inlay hints near the color text (default).
+  // 2. 色テキストの近くにインレイヒントとしてドキュメントの色を描画する（デフォルト）。
   //      "lsp_document_colors": "inlay",
-  // 3. Draw a border around the color text.
+  // 3. 色テキストの周囲に境界線を描く。
   //      "lsp_document_colors": "border",
-  // 4. Draw a background behind the color text..
+  // 4. 色テキストの背後に背景を描く。
   //      "lsp_document_colors": "background",
   "lsp_document_colors": "inlay",
-  // Diagnostics configuration.
+  // 診断の設定。
   "diagnostics": {
-    // Whether to show the project diagnostics button in the status bar.
+    // ステータスバーにプロジェクト診断のボタンを表示するか。
     "button": true,
-    // Whether to show warnings or not by default.
+    // 既定で警告を表示するかどうか。
     "include_warnings": true,
-    // Settings for using LSP pull diagnostics mechanism in Gram.
+    // Gram で LSP のプル型診断の仕組みを使うための設定。
     "lsp_pull_diagnostics": {
-      // Whether to pull for diagnostics or not.
+      // 診断をプルするかどうか。
       "enabled": true,
-      // Minimum time to wait before pulling diagnostics from the language server(s).
-      // 0 turns the debounce off.
+      // 言語サーバーから診断をプルするまでの最小待ち時間。
+      // 0 にするとデバウンスが無効になります。
       "debounce_ms": 50,
     },
-    // Settings for inline diagnostics
+    // インライン診断の設定
     "inline": {
-      // Whether to show diagnostics inline or not
+      // 診断をインラインで表示するかどうか
       "enabled": false,
-      // The delay in milliseconds to show inline diagnostics after the
-      // last diagnostic update.
+      // 最後の診断更新後にインライン診断を表示するまでの
+      // 遅延（ミリ秒）。
       "update_debounce_ms": 150,
-      // The amount of padding between the end of the source line and the start
-      // of the inline diagnostic in units of em widths.
+      // ソース行の末尾とインライン診断の開始位置の間の
+      // パディング量（em 幅単位）。
       "padding": 4,
-      // The minimum column to display inline diagnostics. This setting can be
-      // used to horizontally align inline diagnostics at some column. Lines
-      // longer than this value will still push diagnostics further to the right.
+      // インライン診断を表示する最小列。この設定は
+      // インライン診断を特定の列に水平に揃えるために使えます。
+      // この値より長い行では、診断はさらに右へ押し出されます。
       "min_column": 0,
-      // The minimum severity of the diagnostics to show inline.
-      // Inherits editor's diagnostics' max severity settings when `null`.
+      // インラインで表示する診断の最小重大度。
+      // `null` の場合はエディターの診断の最大重大度設定を継承します。
       "max_severity": null,
     },
   },
-  // Files or globs of files that will be excluded by Gram entirely. They will be skipped during file
-  // scans, file searches, and not be displayed in the project file tree. Takes precedence over `file_scan_inclusions`.
+  // Gram が完全に除外するファイルまたは glob。ファイルスキャン、ファイル検索では
+  // スキップされ、プロジェクトのファイルツリーにも表示されません。`file_scan_inclusions` より優先されます。
   "file_scan_exclusions": [
     "**/.git",
     "**/.svn",
@@ -1136,80 +1136,80 @@
     "**/.classpath",
     "**/.settings",
   ],
-  // Files or globs of files that will be included by Gram, even when ignored by git. This is useful
-  // for files that are not tracked by git, but are still important to your project. Note that globs
-  // that are overly broad can slow down Gram's file scanning. `file_scan_exclusions` takes
-  // precedence over these inclusions.
+  // git で無視されていても Gram が含めるファイルまたは glob。git で追跡されていないが
+  // プロジェクトにとって重要なファイルに便利です。
+  // 範囲が広すぎる glob は Gram のファイルスキャンを遅くする可能性があります。`file_scan_exclusions` は
+  // この包含設定より優先されます。
   "file_scan_inclusions": [".env*"],
-  // Globs to match files that will be considered "hidden". These files can be hidden from the
-  // project panel by toggling the "hide_hidden" setting.
+  // "hidden" と見なすファイルに一致する glob。これらのファイルは
+  // "hide_hidden" 設定を切り替えることでプロジェクトパネルから非表示にできます。
   "hidden_files": ["**/.*"],
-  /// Set this to `poll` to watch for changes in the worktree by polling instead of using a
-  /// platform-native file watcher like inotify or FSEvents. Polling is less efficient but may
-  /// work better for some file systems like network mounts.
+  /// ワークツリーの変更をプラットフォームネイティブのファイル監視（inotify や FSEvents など）の代わりにポーリングで監視するには `poll` に設定します。
+  /// ポーリングは効率が劣りますが、
+  /// ネットワークマウントなど一部のファイルシステムではうまく機能することがあります。
   "file_watcher": {
-    /// Set method for detecting changes to files in the worktree.
+    /// ワークツリー内のファイル変更を検出する方法を設定します。
     ///
-    /// - "native": Use platform-native file watcher
-    /// - "poll": Use poll-based file watcher
+    /// - "native": プラットフォームネイティブのファイル監視を使う
+    /// - "poll": ポーリングベースのファイル監視を使う
     ///
-    /// Default: "native"
+    /// デフォルト: "native"
     "mode": null,
-    /// Poll interval in milliseconds for poll mode.
+    /// ポーリングモードのポーリング間隔（ミリ秒）。
     ///
-    /// Range: 500 - 30000 ms
-    /// Default: 2000 ms
+    /// 範囲: 500〜30000 ms
+    /// デフォルト: 2000 ms
     "poll_interval_ms": null,
   },
-  // Git gutter behavior configuration.
+  // git ガターの動作設定。
   "git": {
-    // Open diffs side by side by default.
+    // 既定で diff を並べて表示する。
     "split_diff": false,
-    // Control whether the git gutter is shown. May take 2 values:
-    // 1. Show the gutter
+    // git ガターを表示するかどうかを制御します。2 つの値を指定できます:
+    // 1. ガターを表示する
     //      "git_gutter": "tracked_files"
-    // 2. Hide the gutter
+    // 2. ガターを非表示にする
     //      "git_gutter": "hide"
     "git_gutter": "tracked_files",
-    /// Sets the debounce threshold (in milliseconds) after which changes are reflected in the git gutter.
+    /// 変更が git ガターに反映されるまでのデバウンスしきい値（ミリ秒）を設定します。
     ///
-    /// Default: 0
+    /// デフォルト: 0
     "gutter_debounce": 0,
-    // Control whether the git blame information is shown inline,
-    // in the currently focused line.
+    // 現在フォーカスしている行に、git blame の情報を
+    // インラインで表示するかどうかを制御します。
     "inline_blame": {
       "enabled": true,
-      // Sets a delay after which the inline blame information is shown.
-      // Delay is restarted with every cursor movement.
+      // インライン blame の情報を表示するまでの遅延を設定します。
+      // 遅延はカーソルが移動するたびにリセットされます。
       "delay_ms": 0,
-      // The amount of padding between the end of the source line and the start
-      // of the inline blame in units of em widths.
+      // ソース行の末尾とインライン blame の開始位置の間の
+      // パディング量（em 幅単位）。
       "padding": 7,
-      // Whether or not to display the git commit summary on the same line.
+      // 同じ行に git のコミットサマリーを表示するかどうか。
       "show_commit_summary": false,
-      // The minimum column number to show the inline blame information at
+      // インライン blame の情報を表示する最小列番号
       "min_column": 0,
     },
     "blame": {
       "show_avatar": true,
     },
-    // Control which information is shown in the branch picker.
+    // ブランチピッカーに表示する情報を制御します。
     "branch_picker": {
       "show_author_name": true,
     },
-    // How git hunks are displayed visually in the editor.
-    // This setting can take two values:
+    // エディターで git のハンクを視覚的に表示する方法。
+    // この設定は 2 つの値を指定できます:
     //
-    // 1. Show unstaged hunks filled and staged hunks hollow:
+    // 1. 未ステージのハンクを塗りつぶし、ステージ済みのハンクを枠線で表示する:
     //    "hunk_style": "staged_hollow"
-    // 2. Show unstaged hunks hollow and staged hunks filled:
+    // 2. 未ステージのハンクを枠線で、ステージ済みのハンクを塗りつぶしで表示する:
     //    "hunk_style": "unstaged_hollow"
     "hunk_style": "staged_hollow",
-    // Should the name or path be displayed first in the git view.
+    // git ビューで名前とパスのどちらを先に表示するか。
     // "path_style": "file_name_first" or "file_path_first"
     "path_style": "file_name_first",
   },
-  // The list of custom Git hosting providers.
+  // カスタム Git ホスティングプロバイダーのリスト。
   "git_hosting_providers": [
     // {
     //   "provider": "github",
@@ -1217,53 +1217,53 @@
     //   "base_url": "https://code.big-corp.com"
     // }
   ],
-  // Configuration for how direnv configuration should be loaded. May take 2 values:
-  // 1. Load direnv configuration using `direnv export json` directly.
+  // direnv の設定をどのように読み込むか。2 つの値を指定できます:
+  // 1. `direnv export json` を使って direnv の設定を直接読み込む。
   //      "load_direnv": "direct"
-  // 2. Load direnv configuration through the shell hook, works for POSIX shells and fish.
+  // 2. シェルフック経由で direnv の設定を読み込む。POSIX シェルと fish で動作します。
   //      "load_direnv": "shell_hook"
-  // 3. Don't load direnv configuration at all.
+  // 3. direnv の設定をまったく読み込まない。
   //      "load_direnv": "disabled"
   "load_direnv": "direct",
-  // Settings specific to journaling
+  // ジャーナリング固有の設定
   "journal": {
-    // The path of the directory where journal entries are stored
+    // ジャーナルのエントリを保存するディレクトリのパス
     "path": "~",
-    // What format to display the hours in
-    // May take 2 values:
+    // 時刻をどの形式で表示するか
+    // 2 つの値を指定できます:
     // 1. hour12
     // 2. hour24
     "hour_format": "hour24",
   },
-  // Status bar-related settings.
+  // ステータスバーに関する設定。
   "status_bar": {
-    // Whether to show the status bar.
+    // ステータスバーを表示するか。
     "show": true,
-    // Whether to show the active file in the status bar.
+    // ステータスバーにアクティブなファイルを表示するか。
     "active_file": true,
-    // Whether to show the active language button in the status bar.
+    // ステータスバーにアクティブな言語のボタンを表示するか。
     "active_language_button": true,
-    // Whether to show the cursor position button in the status bar.
+    // ステータスバーにカーソル位置のボタンを表示するか。
     "cursor_position_button": true,
-    // Whether to show active line endings button in the status bar.
+    // ステータスバーにアクティブな改行コードのボタンを表示するか。
     "line_endings_button": false,
-    // Control when to show the active encoding in the status bar.
+    // ステータスバーにアクティブなエンコーディングをいつ表示するかを制御します。
     "active_encoding_button": "non_utf8",
-    // Show the status bar at the top or bottom of the window.
+    // ステータスバーをウィンドウの上部または下部に表示します。
     "position": "bottom",
-    // Status bar icon size. "default" or "large".
+    // ステータスバーのアイコンサイズ。"default" または "large"。
     "icon_size": "default",
   },
-  // Settings specific to the terminal
+  // ターミナル固有の設定
   "terminal": {
-    // What shell to use when opening a terminal. May take 3 values:
-    // 1. Use the system's default terminal configuration in /etc/passwd
+    // ターミナルを開くときに使うシェル。3 つの値を指定できます:
+    // 1. /etc/passwd のシステム既定のターミナル設定を使う
     //      "shell": "system"
-    // 2. A program:
+    // 2. プログラムを指定する:
     //      "shell": {
     //        "program": "sh"
     //      }
-    // 3. A program with arguments:
+    // 3. 引数付きのプログラムを指定する:
     //     "shell": {
     //         "with_arguments": {
     //           "program": "/bin/bash",
@@ -1271,195 +1271,195 @@
     //         }
     //     }
     "shell": "system",
-    // Where to dock terminals panel. Can be `left`, `right`, `bottom`.
+    // ターミナルパネルをドックする位置。`left`、`right`、`bottom` を指定できます。
     "dock": "bottom",
-    // Default width when the terminal is docked to the left or right.
+    // ターミナルを左右にドックしたときの既定の幅。
     "default_width": 640,
-    // Default height when the terminal is docked to the bottom.
+    // ターミナルを下部にドックしたときの既定の高さ。
     "default_height": 320,
-    // What working directory to use when launching the terminal.
-    // May take 4 values:
-    // 1. Use the current file's project directory. Fallback to the
-    //    first project directory strategy if unsuccessful
+    // ターミナルを起動するときに使う作業ディレクトリ。
+    // 4 つの値を指定できます:
+    // 1. 現在のファイルのプロジェクトディレクトリを使う。失敗した場合は
+    //    最初のプロジェクトディレクトリの方式にフォールバックする
     //      "working_directory": "current_project_directory"
-    // 2. Use the first project in this workspace's directory
+    // 2. このワークスペースの最初のプロジェクトのディレクトリを使う
     //      "working_directory": "first_project_directory"
-    // 3. Always use this platform's home directory (if we can find it)
+    // 3. 常にこのプラットフォームのホームディレクトリを使う（見つかる場合）
     //     "working_directory": "always_home"
-    // 4. Always use a specific directory. This value will be shell expanded.
-    //    If this path is not a valid directory the terminal will default to
-    //    this platform's home directory  (if we can find it)
+    // 4. 常に特定のディレクトリを使う。この値はシェルで展開されます。
+    // このパスが有効なディレクトリでない場合、ターミナルは
+    // このプラットフォームのホームディレクトリを使います（見つかる場合）
     //      "working_directory": {
     //        "always": {
     //          "directory": "~/gram/projects/"
     //        }
     //      }
     "working_directory": "current_project_directory",
-    // Set the cursor blinking behavior in the terminal.
-    // May take 3 values:
-    //  1. Never blink the cursor, ignoring the terminal mode
+    // ターミナルのカーソル点滅動作を設定します。
+    // 3 つの値を指定できます:
+    //  1. ターミナルのモードに関係なく、カーソルを点滅させない
     //         "blinking": "off",
-    //  2. Default the cursor blink to off, but allow the terminal to
-    //     set blinking
+    //  2. カーソル点滅の既定をオフにし、ターミナルからの設定を
+    //     許可する
     //         "blinking": "terminal_controlled",
-    //  3. Always blink the cursor, ignoring the terminal mode
+    //  3. ターミナルのモードに関係なく、常にカーソルを点滅させる
     //         "blinking": "on",
     "blinking": "terminal_controlled",
-    // Default cursor shape for the terminal.
-    //  1. A block that surrounds the following character
+    // ターミナルの既定のカーソル形状。
+    //  1. 後続の文字を囲むブロック
     //     "block"
-    //  2. A vertical bar
+    //  2. 縦棒
     //     "bar"
-    //  3. An underline / underscore that runs along the following character
+    //  3. 後続の文字の下に沿う下線
     //     "underline"
-    //  4. A box drawn around the following character
+    //  4. 後続の文字の周囲に描く枠
     //     "hollow"
     //
-    // Default: "block"
+    // デフォルト: "block"
     "cursor_shape": "block",
-    // Set whether Alternate Scroll mode (code: ?1007) is active by default.
-    // Alternate Scroll mode converts mouse scroll events into up / down key
-    // presses when in the alternate screen (e.g. when running applications
-    // like vim or  less). The terminal can still set and unset this mode.
-    // May take 2 values:
-    //  1. Default alternate scroll mode to on
+    // Alternate Scroll モード（コード: ?1007）を既定で有効にするか設定します。
+    // Alternate Scroll モードは、代替スクリーン（vim や less などの
+    // アプリケーションを実行しているときなど）で、マウスのスクロールイベントを
+    // 上下キー押下に変換します。ターミナルからこのモードの設定/解除は可能です。
+    // 2 つの値を指定できます:
+    //  1. Alternate Scroll モードの既定をオンにする
     //         "alternate_scroll": "on",
-    //  2. Default alternate scroll mode to off
+    //  2. Alternate Scroll モードの既定をオフにする
     //         "alternate_scroll": "off",
     "alternate_scroll": "on",
-    // Set whether the option key behaves as the meta key.
-    // May take 2 values:
-    //  1. Rely on default platform handling of option key, on macOS
-    //     this means generating certain unicode characters
+    // Option キーをメタキーとして動作させるか設定します。
+    // 2 つの値を指定できます:
+    //  1. プラットフォームの既定の Option キー処理に任せる。macOS では
+    //     特定の Unicode 文字を生成することを意味します
     //         "option_as_meta": false,
-    //  2. Make the option keys behave as a 'meta' key, e.g. for emacs
+    //  2. Option キーを 'meta' キーとして動作させる（例: emacs 用）
     //         "option_as_meta": true,
     "option_as_meta": false,
-    // Whether or not selecting text in the terminal will automatically
-    // copy to the system clipboard.
+    // ターミナルでテキストを選択したときに、自動的に
+    // システムクリップボードへコピーするかどうか。
     "copy_on_select": false,
-    // Whether to keep the text selection after copying it to the clipboard.
+    // クリップボードへコピーした後もテキスト選択を保持するか。
     "keep_selection_on_copy": true,
-    // Whether to show the terminal button in the status bar
+    // ステータスバーにターミナルボタンを表示するか
     "button": true,
-    // Any key-value pairs added to this list will be added to the terminal's
-    // environment. Use `:` to separate multiple values.
+    // ここに追加したキーと値のペアは、ターミナルの環境変数に
+    // 追加されます。複数の値は `:` で区切ります。
     "env": {
       // "KEY": "value1:value2"
     },
-    // Set the terminal's line height.
-    // May take 3 values:
-    //  1. Use a line height that's comfortable for reading, 1.618
+    // ターミナルの行の高さを設定します。
+    // 3 つの値を指定できます:
+    //  1. 読みやすい行の高さ 1.618 を使用する
     //         "line_height": "comfortable"
-    //  2. Use a standard line height, 1.3. This option is useful for TUIs,
-    //      particularly if they use box characters
+    //  2. 標準の行の高さ 1.3 を使用する。このオプションは TUI、
+    //      特に罫線素片を使う場合に便利です
     //         "line_height": "standard",
-    //  3. Use a custom line height.
+    //  3. カスタムの行の高さを使用する。
     //         "line_height": {
     //           "custom": 2
     //         },
     "line_height": "standard",
-    // Activate the python virtual environment, if one is found, in the
-    // terminal's working directory (as resolved by the working_directory
-    // setting). Set this to "off" to disable this behavior.
+    // ターミナルの作業ディレクトリ（working_directory 設定で解決）に python の
+    // 仮想環境が見つかった場合、それを有効化します。
+    // この動作を無効にするには "off" に設定します。
     "detect_venv": {
       "on": {
-        // Default directories to search for virtual environments, relative
-        // to the current working directory. We recommend overriding this
-        // in your project's settings, rather than globally.
+        // 仮想環境を検索する既定のディレクトリ（現在の作業ディレクトリからの
+        // 相対パス）。プロジェクトの設定で上書きすることを
+        // 推奨します（グローバル設定ではなく）。
         "directories": [".env", "env", ".venv", "venv"],
-        // Can also be `csh`, `fish`, `nushell` and `power_shell`
+        // `csh`、`fish`、`nushell`、`power_shell` も指定できます
         "activate_script": "default",
-        // Preferred Conda manager to use when activating Conda environments.
-        // Values: "auto", "conda", "mamba", "micromamba"
-        // Default: "auto"
+        // Conda 環境を有効化するときに使う優先 Conda マネージャー。
+        // 値: "auto"、"conda"、"mamba"、"micromamba"
+        // デフォルト: "auto"
         "conda_manager": "auto",
       },
     },
     "toolbar": {
-      // Whether to display the terminal title in its toolbar's breadcrumbs.
-      // Only shown if the terminal title is not empty.
+      // ターミナルのタイトルをツールバーのパンくずリストに表示するか。
+      // ターミナルのタイトルが空でない場合にのみ表示されます。
       //
-      // The shell running in the terminal needs to be configured to emit the title.
+      // ターミナルで実行しているシェルがタイトルを出力するように設定されている必要があります。
       // Example: `echo -e "\e]2;New Title\007";`
       "breadcrumbs": false,
     },
-    // Scrollbar-related settings
+    // スクロールバーに関する設定
     "scrollbar": {
-      // When to show the scrollbar in the terminal.
-      // This setting can take five values:
+      // ターミナルでスクロールバーをいつ表示するか。
+      // この設定は 5 つの値を指定できます:
       //
-      // 1. null (default): Inherit editor settings
-      // 2. Show the scrollbar if there's important information or
-      //    follow the system's configured behavior (default):
+      // 1. null（デフォルト）: エディターの設定を継承する
+      // 2. 重要な情報がある場合はスクロールバーを表示するか、
+      //    システムの設定動作に従う（デフォルト）:
       //   "auto"
-      // 3. Match the system's configured behavior:
+      // 3. システムの設定動作に合わせる:
       //    "system"
-      // 4. Always show the scrollbar:
+      // 4. 常にスクロールバーを表示する:
       //    "always"
-      // 5. Never show the scrollbar:
+      // 5. スクロールバーを表示しない:
       //    "never"
       "show": null,
     },
-    // Set the terminal's font size. If this option is not included,
-    // the terminal will default to matching the buffer's font size.
+    // ターミナルのフォントサイズを設定します。このオプションを指定しない場合、
+    // ターミナルはバッファーのフォントサイズに合わせて表示されます。
     // "font_size": 15,
-    // Set the terminal's font family. If this option is not included,
-    // the terminal will default to matching the buffer's font family.
+    // ターミナルのフォントファミリーを設定します。このオプションを指定しない場合、
+    // ターミナルはバッファーのフォントファミリーに合わせて表示されます。
     // "font_family": ".GramMono",
-    // Set the terminal's font fallbacks. If this option is not included,
-    // the terminal will default to matching the buffer's font fallbacks.
-    // This will be merged with the platform's default font fallbacks
+    // ターミナルの代替フォントを設定します。このオプションを指定しない場合、
+    // ターミナルはバッファーの代替フォントに合わせて表示されます。
+    // これはプラットフォームの既定の代替フォントとマージされます
     // "font_fallbacks": ["FiraCode Nerd Fonts"],
-    // The weight of the editor font in standard CSS units from 100 to 900.
+    // エディターフォントの太さ。100〜900 の標準 CSS 単位で指定します。
     "font_weight": 400,
-    // Sets the maximum number of lines in the terminal's scrollback buffer.
-    // Default: 10_000, maximum: 100_000 (all bigger values set will be treated as 100_000), 0 disables the scrolling.
-    // Existing terminals will not pick up this change until they are recreated.
+    // ターミナルのスクロールバックバッファーの最大行数を設定します。
+    // デフォルト: 10_000、最大: 100_000（それより大きい値は 100_000 として扱われます）、0 でスクロールを無効にします。
+    // 既存のターミナルは再作成されるまでこの変更を反映しません。
     "max_scroll_history_lines": 10000,
-    // The multiplier for scrolling speed in the terminal.
+    // ターミナルのスクロール速度の倍率。
     "scroll_multiplier": 1.0,
-    // The minimum APCA perceptual contrast between foreground and background colors.
-    // APCA (Accessible Perceptual Contrast Algorithm) is more accurate than WCAG 2.x,
-    // especially for dark mode. Values range from 0 to 106.
+    // 前景色と背景色の間の最小 APCA 知覚コントラスト。
+    // APCA（Accessible Perceptual Contrast Algorithm）は WCAG 2.x より正確で、
+    // 特にダークモードに適しています。値の範囲は 0〜106 です。
     //
-    // Based on APCA Readability Criterion (ARC) Bronze Simple Mode:
+    // APCA Readability Criterion (ARC) の Bronze Simple Mode に基づきます:
     // https://readtech.org/ARC/tests/bronze-simple-mode/
-    // - 0: No contrast adjustment
-    // - 45: Minimum for large fluent text (36px+)
-    // - 60: Minimum for other content text
-    // - 75: Minimum for body text
-    // - 90: Preferred for body text
+    // - 0: コントラスト調整なし
+    // - 45: 大きな流し読みテキストの最小値 (36px 以上)
+    // - 60: その他のコンテンツテキストの最小値
+    // - 75: 本文テキストの最小値
+    // - 90: 本文テキストの推奨値
     //
-    // Most terminal themes have APCA values of 40-70.
-    // A value of 45 preserves colorful themes while ensuring legibility.
+    // ほとんどのターミナルテーマの APCA 値は 40〜70 です。
+    // 45 にすると、カラフルなテーマを維持しつつ可読性を確保できます。
     "minimum_contrast": 45,
-    // Regexes used to identify paths for hyperlink navigation. Supports optional named capture
-    // groups `path`, `line`, `column`, and `link`. If none of these are present, the entire match
-    // is the hyperlink target. If `path` is present, it is the hyperlink target, along with `line`
-    // and `column` if present. `link` may be used to customize what text in terminal is part of the
-    // hyperlink. If `link` is not present, the text of the entire match is used. If `line` and
-    // `column` are not present, the default built-in line and column suffix processing is used
-    // which parses `line:column` and `(line,column)` variants. The default value handles Python
-    // diagnostics and common path, line, column syntaxes. This can be extended or replaced to
-    // handle specific scenarios. For example, to enable support for hyperlinking paths which
-    // contain spaces in rust output,
+    // ハイパーリンク移動用のパスを識別する正規表現。任意の名前付きキャプチャ
+    // グループ `path`、`line`、`column`、`link` に対応します。これらがどれもない場合、一致全体が
+    // ハイパーリンクの対象になります。`path` がある場合はそれが対象となり、`line` と
+    // `column` があればそれらも含まれます。`link` はターミナル内のどのテキストを
+    // ハイパーリンクの一部にするかのカスタマイズに使えます。`link` がない場合は一致全体のテキストが使われます。`line` と
+    // `column` がない場合は、組み込みの行・列サフィックス処理
+    // が使われ、`line:column` と `(line,column)` の形式を解析します。既定値は Python の
+    // 診断や一般的なパス、行、列の構文を扱います。拡張または置き換えにより、
+    // 特定のシナリオに対応できます。たとえば、rust の出力でスペースを含む
+    // パスのハイパーリンクを有効にするには、
     //
     // [
     //   "\\s+(-->|:::|at) (?<link>(?<path>.+?))(:$|$)",
     //   "\\s+(Compiling|Checking|Documenting) [^(]+\\((?<link>(?<path>.+))\\)"
     // ],
     //
-    // could be used. Processing stops at the first regex with a match, even if no link is
-    // produced which is the case when the cursor is not over the hyperlinked text. For best
-    // performance it is recommended to order regexes from most common to least common. For
-    // readability and documentation, each regex may be an array of strings which are collected
-    // into one multi-line regex string for use in terminal path hyperlink detection.
+    // と指定できます。処理は一致した最初の正規表現で停止します。
+    // カーソルがハイパーリンクされたテキスト上にない場合はリンクが生成されません。最高の
+    // パフォーマンスを得るには、正規表現を出現頻度の高い順に並べることを推奨します。
+    // 可読性とドキュメント化のため、各正規表現は文字列の配列にでき、それらは
+    // ターミナルのパスハイパーリンク検出用の 1 つの複数行正規表現に結合されます。
     "path_hyperlink_regexes": [
-      // Python-style diagnostics
+      // Python 形式の診断
       "File \"(?<path>[^\"]+)\", line (?<line>[0-9]+)",
-      // Common path syntax with optional line, column, description, trailing punctuation, or
-      // surrounding symbols or quotes
+      // 一般的なパス構文。行、列、説明、末尾の句読点、
+      // または前後の記号や引用符は任意です
       [
         "(?x)",
         "(?<path>",
@@ -1479,32 +1479,32 @@
         ")",
       ],
     ],
-    // Timeout for hover and Cmd-click path hyperlink discovery in milliseconds. Specifying a
-    // timeout of `0` will disable path hyperlinking in terminal.
+    // ホバーおよび Cmd クリックによるパスハイパーリンク検出のタイムアウト（ミリ秒）。
+    // タイムアウトに `0` を指定すると、ターミナルのパスハイパーリンクが無効になります。
     "path_hyperlink_timeout_ms": 1,
   },
   "code_actions_on_format": {},
-  // Settings related to running tasks.
+  // タスクの実行に関する設定。
   "tasks": {
     "variables": {},
     "enabled": true,
-    // Use LSP tasks over Gram language extension ones.
-    // If no LSP tasks are returned due to error/timeout or regular execution,
-    // Gram language extension tasks will be used instead.
+    // Gram の言語拡張のタスクより LSP のタスクを優先します。
+    // エラー、タイムアウト、または通常の実行で LSP タスクが返されなかった場合は、
+    // 代わりに Gram の言語拡張のタスクが使われます。
     //
-    // Other Gram tasks will still be shown:
-    // * Gram task from either of the task config file
-    // * Gram task from history (e.g. one-off task was spawned before)
+    // その他の Gram タスクは引き続き表示されます:
+    // * いずれかのタスク設定ファイルからの Gram タスク
+    // * 履歴からの Gram タスク（例: 以前に単発タスクを起動した場合）
     //
-    // Default: true
+    // デフォルト: true
     "prefer_lsp": true,
   },
-  // An object whose keys are language names, and whose values
-  // are arrays of filenames or extensions of files that should
-  // use those languages.
+  // キーが言語名で、値がその言語を使うべき
+  // ファイル名または拡張子の配列である
+  // オブジェクト。
   //
-  // For example, to treat files like `foo.notjs` as JavaScript,
-  // and `Embargo.lock` as TOML:
+  // たとえば `foo.notjs` を JavaScript として、
+  // `Embargo.lock` を TOML として扱うには:
   //
   // {
   //   "JavaScript": ["notjs"],
@@ -1515,82 +1515,82 @@
     "Markdown": [".rules"],
     "Shell Script": [".env.*"],
   },
-  // Settings for which version of Node.js and NPM to use when installing
-  // language servers.
+  // 言語サーバーをインストールするときに使う Node.js と NPM の
+  // バージョンの設定。
   //
-  // Note: changing this setting currently requires restarting Gram.
+  // 注: 現在、この設定を変更するには Gram の再起動が必要です。
   "node": {
-    // By default, Gram will look for `node` and `npm` on your `$PATH`, and use the
-    // existing executables if their version is recent enough. Set this to `true`
-    // to prevent this, and force Gram to always download and install its own
-    // version of Node.
+    // 既定では、Gram は `$PATH` 上の `node` と `npm` を探し、バージョンが十分新しければ
+    // 既存の実行ファイルを使います。これを `true` に設定すると、その動作を防ぎ、
+    // Gram が常に独自の Node をダウンロードおよびインストールするように
+    // 強制できます。
     "ignore_system_version": false,
-    // You can also specify alternative paths to Node and NPM. If you specify
-    // `path`, but not `npm_path`, Gram will assume that `npm` is located at
-    // `${path}/../npm`.
+    // Node と NPM の代替パスを指定することもできます。`path` を指定して
+    // `npm_path` を指定しない場合、Gram は `npm` が
+    // `${path}/../npm` にあると見なします。
     "path": null,
     "npm_path": null,
   },
-  // The capabilities granted to extensions.
+  // 拡張機能に付与される権限。
   //
-  // This list can be customized to restrict what extensions are able to do.
+  // このリストをカスタマイズして、拡張機能が実行できることを制限できます。
   "granted_extension_capabilities": [
     { "kind": "process:exec", "command": "*", "args": ["**"] },
     { "kind": "download_file", "host": "*", "path": ["**"] },
     { "kind": "npm:install", "package": "*" },
   ],
-  // Controls how completions are processed for this language.
+  // この言語で補完をどのように処理するかを制御します。
   "completions": {
-    // Controls how words are completed.
-    // For large documents, not all words may be fetched for completion.
+    // 単語の補完方法を制御します。
+    // 大きなドキュメントでは、補完のためにすべての単語を取得できない場合があります。
     //
-    // May take 3 values:
+    // 3 つの値を指定できます:
     // 1. "enabled"
-    //   Always fetch document's words for completions along with LSP completions.
+    //   常にドキュメントの単語を LSP 補完とともに補完用に取得する。
     // 2. "fallback"
-    //   Only if LSP response errors or times out, use document's words to show completions.
+    //   LSP の応答がエラーまたはタイムアウトした場合にのみ、ドキュメントの単語で補完を表示する。
     // 3. "disabled"
-    //   Never fetch or complete document's words for completions.
-    //   (Word-based completions can still be queried via a separate action)
+    //   補完のためにドキュメントの単語を取得も補完もしない。
+    //   （単語ベースの補完は別のアクションから引き続き要求できます）
     //
-    // Default: fallback
+    // デフォルト: fallback
     "words": "fallback",
-    // Minimum number of characters required to automatically trigger word-based completions.
-    // Before that value, it's still possible to trigger the words-based completion manually with the corresponding editor command.
+    // 単語ベースの補完を自動的にトリガーするのに必要な最小文字数。
+    // この値未満でも、対応するエディターコマンドで単語ベースの補完を手動でトリガーできます。
     //
-    // Default: 3
+    // デフォルト: 3
     "words_min_length": 3,
-    // Whether to fetch LSP completions or not.
+    // LSP の補完を取得するかどうか。
     //
-    // Default: true
+    // デフォルト: true
     "lsp": true,
-    // When fetching LSP completions, determines how long to wait for a response of a particular server.
-    // When set to 0, waits indefinitely.
+    // LSP 補完を取得するときに、特定のサーバーの応答をどれだけ待つかを指定します。
+    // 0 に設定すると無期限に待機します。
     //
-    // Default: 0
+    // デフォルト: 0
     "lsp_fetch_timeout_ms": 0,
-    // Controls what range to replace when accepting LSP completions.
+    // LSP の補完を受け入れるときに置き換える範囲を制御します。
     //
-    // When LSP servers give an `InsertReplaceEdit` completion, they provides two ranges: `insert` and `replace`. Usually, `insert`
-    // contains the word prefix before your cursor and `replace` contains the whole word.
+    // LSP サーバーが `InsertReplaceEdit` 補完を返すときは `insert` と `replace` の 2 つの範囲を提供します。通常、`insert`
+    // はカーソル前の単語プレフィックスを含み、`replace` は単語全体を含みます。
     //
-    // Effectively, this setting just changes whether Gram will use the received range for `insert` or `replace`, so the results may
-    // differ depending on the underlying LSP server.
+    // 実質的にこの設定は、Gram が受け取った範囲のうち `insert` と `replace` のどちらを使うかを変えるだけなので、結果は
+    // 基になる LSP サーバーによって異なる場合があります。
     //
-    // Possible values:
+    // 指定可能な値:
     // 1. "insert"
-    //   Replaces text before the cursor, using the `insert` range described in the LSP specification.
+    //   LSP 仕様で説明されている `insert` 範囲を使い、カーソル前のテキストを置き換える。
     // 2. "replace"
-    //   Replaces text before and after the cursor, using the `replace` range described in the LSP specification.
+    //   LSP 仕様で説明されている `replace` 範囲を使い、カーソル前後のテキストを置き換える。
     // 3. "replace_subsequence"
-    //   Behaves like `"replace"` if the text that would be replaced is a subsequence of the completion text,
-    //   and like `"insert"` otherwise.
+    //   置き換え対象のテキストが補完テキストの部分列である場合は `"replace"` と同様に動作し、
+    //   それ以外は `"insert"` と同様に動作する。
     // 4. "replace_suffix"
-    //   Behaves like `"replace"` if the text after the cursor is a suffix of the completion, and like
-    //   `"insert"` otherwise.
+    //   カーソル後のテキストが補完の接尾辞である場合は `"replace"` と同様に動作し、
+    //   それ以外は `"insert"` と同様に動作する。
     "lsp_insert_mode": "replace_suffix",
   },
-  // Different settings for specific languages.
+  // 特定の言語向けの個別設定。
   "languages": {
     "Astro": {
       "language_servers": ["astro-language-server", "..."],
@@ -1824,84 +1824,84 @@
     },
   },
   "session": {
-    // Whether or not to restore unsaved buffers on restart.
+    // 再起動時に未保存のバッファーを復元するかどうか。
     //
-    // If this is true, user won't be prompted whether to save/discard
-    // dirty files when closing the application.
+    // true の場合、アプリケーションを閉じるときにダーティなファイルを
+    // 保存するか破棄するかを確認されません。
     //
-    // Default: true
+    // デフォルト: true
     "restore_unsaved_buffers": true,
   },
-  // Gram's Prettier integration settings.
-  // Allows to enable/disable formatting with Prettier
-  // and configure default Prettier, used when no project-level Prettier installation is found.
+  // Gram の Prettier 統合に関する設定。
+  // Prettier によるフォーマットを有効/無効にし、
+  // プロジェクトレベルの Prettier が見つからない場合に使う既定の Prettier を設定できます。
   "prettier": {
-    // Enables or disables formatting with Prettier for any given language.
+    // 指定した言語で Prettier によるフォーマットを有効にするかどうか。
     "allowed": false,
-    // Forces Prettier integration to use a specific parser name when formatting files with the language.
+    // 指定した言語のファイルをフォーマットするとき、Prettier 統合に特定のパーサー名を強制的に使わせます。
     "plugins": [],
-    // Default Prettier options, in the format as in package.json section for Prettier.
-    // If project installs Prettier via its package.json, these options will be ignored.
+    // 既定の Prettier オプション。書式は package.json の Prettier セクションと同じです。
+    // プロジェクトが package.json 経由で Prettier をインストールしている場合、これらのオプションは無視されます。
     // "trailingComma": "es5",
     // "tabWidth": 4,
     // "semi": false,
     // "singleQuote": true
-    // Forces Prettier integration to use a specific parser name when formatting files with the language
-    // when set to a non-empty string.
+    // 空でない文字列を設定すると、Prettier 統合に特定のパーサー名を
+    // 強制的に使わせます。
     "parser": "",
   },
-  // Settings for auto-closing of JSX tags.
+  // JSX タグの自動閉じに関する設定。
   "jsx_tag_auto_close": {
     "enabled": true,
   },
-  // LSP Specific settings.
+  // LSP 固有の設定。
   "lsp": {
-    // Specify the LSP name as a key here.
+    // ここでは LSP 名をキーとして指定します。
     // "rust-analyzer": {
-    //     // A special flag for rust-analyzer integration, to use server-provided tasks
+    //     // rust-analyzer 統合の特別なフラグで、サーバー提供のタスクを使います
     //     enable_lsp_tasks": true,
-    //     // These initialization options are merged into Gram's defaults
+    //     // これらの初期化オプションは Gram の既定値にマージされます
     //     "initialization_options": {
     //         "check": {
-    //             "command": "clippy" // rust-analyzer.check.command (default: "check")
+    //             "command": "clippy" // rust-analyzer.check.command（デフォルト: "check"）
     //         }
     //     }
     // }
   },
-  // DAP Specific settings.
+  // DAP 固有の設定。
   "dap": {
-    // Specify the DAP name as a key here.
+    // ここでは DAP 名をキーとして指定します。
     "CodeLLDB": {
       "env": {
         "RUST_LOG": "info",
       },
     },
   },
-  // Common language server settings.
+  // 言語サーバーの共通設定。
   "global_lsp_settings": {
-    // Whether to show the LSP servers button in the status bar.
+    // ステータスバーに LSP サーバーのボタンを表示するか。
     "button": true,
   },
-  // Jupyter settings
+  // Jupyter の設定
   "jupyter": {
     "enabled": true,
     "kernel_selections": {},
-    // Specify the language name as the key and the kernel name as the value.
+    // 言語名をキー、カーネル名を値として指定します。
     // "kernel_selections": {
     //    "python": "conda-base"
     //    "typescript": "deno"
     // }
   },
-  // REPL settings.
+  // REPL の設定。
   "repl": {
-    // Maximum number of columns to keep in REPL's scrollback buffer.
-    // Clamped with [20, 512] range.
+    // REPL のスクロールバックバッファーに保持する最大列数。
+    // [20, 512] の範囲に制限されます。
     "max_columns": 128,
-    // Maximum number of lines to keep in REPL's scrollback buffer.
-    // Clamped with [4, 256] range.
+    // REPL のスクロールバックバッファーに保持する最大行数。
+    // [4, 256] の範囲に制限されます。
     "max_lines": 32,
   },
-  // Vim settings
+  // Vim の設定
   "vim": {
     "default_mode": "normal",
     "toggle_relative_line_numbers": false,
@@ -1909,34 +1909,34 @@
     "use_smartcase_find": true,
     "highlight_on_yank_duration": 200,
     "custom_digraphs": {},
-    // Cursor shape for the each mode.
-    // Specify the mode as the key and the shape as the value.
-    // The mode can be one of the following: "normal", "replace", "insert", "visual".
-    // The shape can be one of the following: "block", "bar", "underline", "hollow".
+    // 各モードのカーソル形状。
+    // モードをキー、形状を値として指定します。
+    // モードは "normal"、"replace"、"insert"、"visual" のいずれかです。
+    // 形状は "block"、"bar"、"underline"、"hollow" のいずれかです。
     "cursor_shape": {},
   },
-  // Which-key popup settings
+  // which-key ポップアップの設定
   "which_key": {
-    // Whether to show the which-key popup when holding down key combinations.
+    // キーの組み合わせを押し続けたときに which-key ポップアップを表示するか。
     "enabled": true,
-    // Delay in milliseconds before showing the which-key popup.
+    // which-key ポップアップを表示するまでの遅延（ミリ秒）。
     "delay_ms": 500,
   },
-  // Settings overrides to use when using Gram Stable.
-  // Mostly useful for developers who are managing multiple instances of Gram.
+  // Gram Stable を使うときに適用する設定オーバーライド。
+  // 主に Gram の複数インスタンスを管理する開発者に便利です。
   "stable": {
     // "theme": "Andromeda"
   },
-  // Settings overrides to use when using Gram Dev.
-  // Mostly useful for developers who are managing multiple instances of Gram.
+  // Gram Dev を使うときに適用する設定オーバーライド。
+  // 主に Gram の複数インスタンスを管理する開発者に便利です。
   "dev": {
     // "theme": "Andromeda"
   },
-  // Settings overrides to use when using Linux.
+  // Linux を使うときに適用する設定オーバーライド。
   "linux": {},
-  // Settings overrides to use when using macOS.
+  // macOS を使うときに適用する設定オーバーライド。
   "macos": {},
-  // Settings overrides to use when using Windows.
+  // Windows を使うときに適用する設定オーバーライド。
   "windows": {
     "languages": {
       "PHP": {
@@ -1944,38 +1944,38 @@
       },
     },
   },
-  // Whether to show full labels in line indicator or short ones
+  // 行インジケーターに完全なラベルと短いラベルのどちらを表示するか
   //
-  // Values:
+  // 値:
   //   - `short`: "2 s, 15 l, 32 c"
   //   - `long`: "2 selections, 15 lines, 32 characters"
-  // Default: long
+  // デフォルト: long
   "line_indicator_format": "long",
-  // Set a proxy to use. The proxy protocol is specified by the URI scheme.
+  // 使用するプロキシを設定します。プロキシプロトコルは URI スキームで指定します。
   //
-  // Supported URI scheme: `http`, `https`, `socks4`, `socks4a`, `socks5`,
-  // `socks5h`. `http` will be used when no scheme is specified.
+  // 対応 URI スキーム: `http`、`https`、`socks4`、`socks4a`、`socks5`、
+  // `socks5h`。スキームを指定しない場合は `http` が使われます。
   //
-  // By default no proxy will be used, or Gram will try get proxy settings from
-  // environment variables. If certain hosts should not be proxied,
-  // set the `no_proxy` environment variable and provide a comma-separated list.
+  // 既定ではプロキシは使われず、Gram は環境変数からプロキシ設定を
+  // 取得しようとします。特定のホストをプロキシ対象外にする場合は、
+  // `no_proxy` 環境変数を設定し、カンマ区切りのリストを指定してください。
   //
-  // Examples:
+  // 例:
   //   - "proxy": "socks5h://localhost:10808"
   //   - "proxy": "http://127.0.0.1:10809"
   "proxy": "",
-  // Set to configure aliases for the command palette.
-  // When typing a query which is a key of this object, the value will be used instead.
+  // コマンドパレットのエイリアスを設定します。
+  // このオブジェクトのキーをクエリとして入力すると、その値が代わりに使われます。
   //
-  // Examples:
+  // 例:
   // {
   //   "W": "workspace::Save"
   // }
   "command_aliases": {},
-  // ssh_connections is an array of ssh connections.
-  // You can configure these from `project: Open Remote` in the command palette.
-  // Gram's ssh support will pull configuration from your ~/.ssh too.
-  // Examples:
+  // ssh_connections は ssh 接続の配列です。
+  // これらはコマンドパレットの `project: Open Remote` から設定できます。
+  // Gram の ssh サポートは ~/.ssh からも設定を読み取ります。
+  // 例:
   // [
   //   {
   //     "host": "example-box",
@@ -1988,7 +1988,7 @@
   //   }
   // ]
   "ssh_connections": [],
-  // Whether to read ~/.ssh/config for ssh connection sources.
+  // ssh 接続の情報源として ~/.ssh/config を読み取るか。
   "read_ssh_config": true,
   "debugger": {
     "stepping_granularity": "line",
@@ -1999,10 +1999,10 @@
     "format_dap_log_messages": true,
     "button": true,
   },
-  // Configures any number of settings profiles that are temporarily applied on
-  // top of your existing user settings when selected from
-  // `settings profile selector: toggle`.
-  // Examples:
+  // 設定プロファイルを任意の数だけ構成します。プロファイルは、
+  // 既存のユーザー設定の上に一時的に適用され、
+  // `settings profile selector: toggle` から選択すると使われます。
+  // 例:
   // "profiles": {
   //   "Presenting": {
   //     "buffer_font_size": 20.0,
@@ -2019,9 +2019,9 @@
   // }
   "profiles": {},
 
-  // A map of log scopes to the desired log level.
-  // Useful for filtering out noisy logs or enabling more verbose logging.
+  // ログスコープと希望するログレベルのマップ。
+  // うるさいログを除外したり、より詳細なログを有効にしたりするのに便利です。
   //
-  // Example: {"log": {"client": "warn"}}
+  // 例: {"log": {"client": "warn"}}
   "log": {},
 }

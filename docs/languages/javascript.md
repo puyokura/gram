@@ -1,25 +1,24 @@
 # JavaScript
 
-JavaScript support is available natively in Gram.
+JavaScript のサポートは Gram にネイティブで組み込まれています。
 
 - Tree-sitter:
   [tree-sitter/tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript)
-- Language Server: [yioneko/vtsls](https://github.com/yioneko/vtsls)
-- Alternate Language Server:
+- 言語サーバー: [yioneko/vtsls](https://github.com/yioneko/vtsls)
+- 代替の言語サーバー:
   [typescript-language-server/typescript-language-server](https://github.com/typescript-language-server/typescript-language-server)
-- Debug Adapter: [vscode-js-debug](https://github.com/microsoft/vscode-js-debug)
+- デバッグアダプター: [vscode-js-debug](https://github.com/microsoft/vscode-js-debug)
 
-## Code formatting
+## コードフォーマット
 
-Formatting on save is enabled by default for JavaScript, using TypeScript's
-built-in code formatting. But many JavaScript projects use other command-line
-code-formatting tools, such as [Prettier](https://prettier.io/). You can use one
-of these tools by specifying an _external_ code formatter for JavaScript in your
-settings. See [the configuration docs](../configuring-gram.md) for more
-information.
+JavaScript では、TypeScript 組み込みのコードフォーマットを使って保存時のフォーマットが
+既定で有効です。ただし、多くの JavaScript プロジェクトでは [Prettier](https://prettier.io/)
+などの他のコマンドラインコードフォーマットツールを使っています。設定で JavaScript 用の
+_外部_ コードフォーマッターを指定すれば、これらのツールを利用できます。詳しくは
+[構成のドキュメント](../configuring-gram.md) を参照してください。
 
-For example, if you have Prettier installed and on your `PATH`, you can use it
-to format JavaScript files by adding the following to your `settings.jsonc`:
+たとえば、Prettier がインストールされ `PATH` に入っている場合は、`settings.jsonc` に
+次を追加すると Prettier で JavaScript ファイルをフォーマットできます:
 
 ```json
 {
@@ -38,22 +37,22 @@ to format JavaScript files by adding the following to your `settings.jsonc`:
 
 ## JSX
 
-Gram supports JSX syntax highlighting out of the box.
+Gram は JSX のシンタックスハイライトを標準でサポートしています。
 
-In JSX strings, the [`tailwindcss-language-server`](./tailwindcss.md) is used to
-provide autocompletion for Tailwind CSS classes.
+JSX の文字列では、[`tailwindcss-language-server`](./tailwindcss.md) が Tailwind CSS の
+クラスの自動補完を提供します。
 
 ## JSDoc
 
-Gram supports JSDoc syntax in JavaScript and TypeScript comments that match the
-JSDoc syntax. Gram uses
-[tree-sitter/tree-sitter-jsdoc](https://github.com/tree-sitter/tree-sitter-jsdoc)
-for parsing and highlighting JSDoc.
+Gram は、JSDoc の構文に一致する JavaScript と TypeScript のコメントで JSDoc 構文を
+サポートしています。Gram は JSDoc の解析とハイライトに
+[tree-sitter/tree-sitter-jsdoc](https://github.com/tree-sitter/tree-sitter-jsdoc) を
+使用します。
 
 ## ESLint
 
-You can configure Gram to format code using `eslint --fix` by running the ESLint
-code action when formatting:
+フォーマット時に ESLint のコードアクションを実行するように設定すると、`eslint --fix` を
+使ってコードをフォーマットできます:
 
 ```json
 {
@@ -67,7 +66,7 @@ code action when formatting:
 }
 ```
 
-You can also only execute a single ESLint rule when using `fixAll`:
+`fixAll` を使うときに 1 つの ESLint ルールだけを実行することもできます:
 
 ```json
 {
@@ -90,13 +89,12 @@ You can also only execute a single ESLint rule when using `fixAll`:
 }
 ```
 
-> **Note:** the other formatter you have configured will still run, after
-> ESLint. So if your language server or Prettier configuration don't format
-> according to ESLint's rules, then they will overwrite what ESLint fixed and
-> you end up with errors.
+> **注:** 設定した他のフォーマッターは、ESLint の後に引き続き実行されます。そのため、
+> 言語サーバーや Prettier の構成が ESLint のルールに従ってフォーマットしない場合、
+> それらが ESLint の修正内容を上書きし、エラーが残ることになります。
 
-If you **only** want to run ESLint on save, you can configure code actions as
-the formatter:
+保存時に ESLint だけを実行したい場合は、コードアクションをフォーマッターとして設定
+できます:
 
 ```json
 {
@@ -111,9 +109,9 @@ the formatter:
 }
 ```
 
-### Configure ESLint's `nodePath`:
+### ESLint の `nodePath` を構成する
 
-You can configure ESLint's `nodePath` setting:
+ESLint の `nodePath` 設定を構成できます:
 
 ```json
 {
@@ -127,11 +125,11 @@ You can configure ESLint's `nodePath` setting:
 }
 ```
 
-### Configure ESLint's `problems`:
+### ESLint の `problems` を構成する
 
-You can configure ESLint's `problems` setting.
+ESLint の `problems` 設定を構成できます。
 
-For example, here's how to set `problems.shortenToSingleLine`:
+たとえば、`problems.shortenToSingleLine` は次のように設定します:
 
 ```json
 {
@@ -147,9 +145,9 @@ For example, here's how to set `problems.shortenToSingleLine`:
 }
 ```
 
-### Configure ESLint's `rulesCustomizations`:
+### ESLint の `rulesCustomizations` を構成する
 
-You can configure ESLint's `rulesCustomizations` setting:
+ESLint の `rulesCustomizations` 設定を構成できます:
 
 ```json
 {
@@ -157,7 +155,7 @@ You can configure ESLint's `rulesCustomizations` setting:
     "eslint": {
       "settings": {
         "rulesCustomizations": [
-          // set all eslint errors/warnings to show as warnings
+          // すべての eslint エラー/警告を警告として表示する
           { "rule": "*", "severity": "warn" },
         ],
       },
@@ -166,9 +164,9 @@ You can configure ESLint's `rulesCustomizations` setting:
 }
 ```
 
-### Configure ESLint's `workingDirectory`:
+### ESLint の `workingDirectory` を構成する
 
-You can configure ESLint's `workingDirectory` setting:
+ESLint の `workingDirectory` 設定を構成できます:
 
 ```json
 {
@@ -184,41 +182,36 @@ You can configure ESLint's `workingDirectory` setting:
 }
 ```
 
-## Debugging
+## デバッグ
 
-Gram supports debugging JavaScript code out of the box with `vscode-js-debug`.
-The following can be debugged without writing additional configuration:
+Gram は `vscode-js-debug` を使って、JavaScript コードのデバッグを標準でサポートして
+います。追加の構成を書かなくても、次のものをデバッグできます:
 
-- Tasks from `package.json`
-- Tests written using several popular frameworks (Jest, Mocha, Vitest, Jasmine,
-  Bun, Node)
+- `package.json` のタスク
+- 各種の人気フレームワーク（Jest、Mocha、Vitest、Jasmine、Bun、Node）で書かれたテスト
 
-Run {#action debugger::Start} ({#kb debugger::Start}) to see a contextual list
-of these predefined debug tasks.
+{#action debugger::Start}（{#kb debugger::Start}）を実行すると、あらかじめ定義された
+デバッグタスクがコンテキストに応じて一覧表示されます。
 
-> **Note:** Bun test is automatically detected when `@types/bun` is present in
-> `package.json`.
+> **注:** Bun のテストは、`package.json` に `@types/bun` があると自動的に検出されます。
 >
-> **Note:** Node test is automatically detected when `@types/node` is present in
-> `package.json` (requires Node.js 20+).
+> **注:** Node のテストは、`package.json` に `@types/node` があると自動的に検出されます
+> （Node.js 20 以降が必要です）。
 
-As for all languages, configurations from `.vscode/launch.json` are also
-available for debugging in Gram.
+他の言語と同様に、`.vscode/launch.json` の構成も Gram でのデバッグに利用できます。
 
-If your use-case isn't covered by any of these, you can take full control by
-adding debug configurations to `.gram/debug.jsonc`. See below for example
-configurations.
+ここまでのいずれにも当てはまらない用途では、`.gram/debug.jsonc` にデバッグ構成を追加
+すれば完全に制御できます。構成例は以下に示します。
 
-### Configuring JavaScript debug tasks
+### JavaScript のデバッグタスクを構成する
 
-JavaScript debugging is more complicated than other languages because there are
-two different environments: Node.js and the browser. `vscode-js-debug` exposes a
-`type` field, that you can use to specify the environment, either `node` or
-`chrome`.
+JavaScript のデバッグは、Node.js とブラウザという 2 つの異なる環境があるため、他の言語
+より複雑です。`vscode-js-debug` は `type` フィールドを公開しており、`node` または
+`chrome` を指定して環境を選べます。
 
-- [vscode-js-debug configuration documentation](https://github.com/microsoft/vscode-js-debug/blob/main/OPTIONS.md)
+- [vscode-js-debug の構成ドキュメント](https://github.com/microsoft/vscode-js-debug/blob/main/OPTIONS.md)
 
-### Debug the current file with Node
+### Node で現在のファイルをデバッグする
 
 ```json [debug]
 [
@@ -233,7 +226,7 @@ two different environments: Node.js and the browser. `vscode-js-debug` exposes a
 ]
 ```
 
-### Launch a web app in Chrome
+### Chrome で Web アプリを起動する
 
 ```json [debug]
 [
@@ -250,8 +243,7 @@ two different environments: Node.js and the browser. `vscode-js-debug` exposes a
 ]
 ```
 
-## See also
+## 関連項目
 
-- [Yarn documentation](./yarn.md) for a walkthrough of configuring your project
-  to use Yarn.
-- [TypeScript documentation](./typescript.md)
+- [Yarn のドキュメント](./yarn.md): プロジェクトで Yarn を使うための構成手順。
+- [TypeScript のドキュメント](./typescript.md)

@@ -1907,7 +1907,7 @@ impl Editor {
                             Self::open_transaction_for_hidden_buffers(
                                 workspace,
                                 transaction.clone(),
-                                "Rename".to_string(),
+                                "名前を変更".to_string(),
                                 window,
                                 cx,
                             );
@@ -2509,13 +2509,13 @@ impl Editor {
         cx: &mut Context<Workspace>,
     ) {
         Self::new_in_workspace(workspace, window, cx).detach_and_prompt_err(
-            "Failed to create buffer",
+            "バッファーの作成に失敗しました",
             window,
             cx,
             |e, _, _| match e.error_code() {
                 ErrorCode::RemoteUpgradeRequired => Some(format!(
-                    "The remote instance of Gram does not support this yet. It must be upgraded to {}",
-                    e.error_tag("required").unwrap_or("the latest version")
+                    "Gramのリモートインスタンスはまだこれをサポートしていません。{}にアップグレードする必要があります",
+                    e.error_tag("required").unwrap_or("最新バージョン")
                 )),
                 _ => None,
             },
@@ -2588,13 +2588,18 @@ impl Editor {
             })?;
             anyhow::Ok(())
         })
-        .detach_and_prompt_err("Failed to create buffer", window, cx, |e, _, _| match e.error_code() {
-            ErrorCode::RemoteUpgradeRequired => Some(format!(
-                "The remote instance of Gram does not support this yet. It must be upgraded to {}",
-                e.error_tag("required").unwrap_or("the latest version")
-            )),
-            _ => None,
-        });
+        .detach_and_prompt_err(
+            "バッファーの作成に失敗しました",
+            window,
+            cx,
+            |e, _, _| match e.error_code() {
+                ErrorCode::RemoteUpgradeRequired => Some(format!(
+                    "Gramのリモートインスタンスはまだこれをサポートしていません。{}にアップグレードする必要があります",
+                    e.error_tag("required").unwrap_or("最新バージョン")
+                )),
+                _ => None,
+            },
+        );
     }
 
     pub fn buffer(&self) -> &Entity<MultiBuffer> {
@@ -6037,7 +6042,7 @@ impl Editor {
                     let focus_handle = self.focus_handle.clone();
                     move |_window, cx| {
                         Tooltip::for_action_in(
-                            "Toggle Code Actions",
+                            "コードアクションを切り替え",
                             &ToggleCodeActions {
                                 deployed_from: None,
                                 quick_launch: false,
@@ -6778,34 +6783,34 @@ impl Editor {
             .map(|(anchor, bp)| (anchor, Arc::from(bp)));
 
         let log_breakpoint_msg = if breakpoint.as_ref().is_some_and(|bp| bp.1.message.is_some()) {
-            "Edit Log Breakpoint"
+            "ログブレークポイントを編集"
         } else {
-            "Set Log Breakpoint"
+            "ログブレークポイントを設定"
         };
 
         let condition_breakpoint_msg = if breakpoint.as_ref().is_some_and(|bp| bp.1.condition.is_some()) {
-            "Edit Condition Breakpoint"
+            "条件付きブレークポイントを編集"
         } else {
-            "Set Condition Breakpoint"
+            "条件付きブレークポイントを設定"
         };
 
         let hit_condition_breakpoint_msg = if breakpoint.as_ref().is_some_and(|bp| bp.1.hit_condition.is_some()) {
-            "Edit Hit Condition Breakpoint"
+            "ヒット条件ブレークポイントを編集"
         } else {
-            "Set Hit Condition Breakpoint"
+            "ヒット条件ブレークポイントを設定"
         };
 
         let set_breakpoint_msg = if breakpoint.as_ref().is_some() {
-            "Unset Breakpoint"
+            "ブレークポイントを解除"
         } else {
-            "Set Breakpoint"
+            "ブレークポイントを設定"
         };
 
         let run_to_cursor = window.is_action_available(&RunToCursor, cx);
 
         let toggle_state_msg = breakpoint.as_ref().map(|bp| match bp.1.state {
-            BreakpointState::Enabled => "Disable",
-            BreakpointState::Disabled => "Enable",
+            BreakpointState::Enabled => "無効化",
+            BreakpointState::Disabled => "有効化",
         });
 
         let (anchor, breakpoint) = breakpoint.unwrap_or_else(|| (anchor, Arc::new(Breakpoint::new_standard())));
@@ -6815,7 +6820,7 @@ impl Editor {
                 .context(focus_handle)
                 .when(run_to_cursor, |this| {
                     let weak_editor = weak_editor.clone();
-                    this.entry("Run to cursor", None, move |window, cx| {
+                    this.entry("カーソル位置まで実行", None, move |window, cx| {
                         weak_editor
                             .update(cx, |editor, cx| {
                                 editor.change_selections(SelectionEffects::no_scroll(), window, cx, |s| {
@@ -6963,22 +6968,22 @@ impl Editor {
             ..Default::default()
         };
         let primary_action_text = if breakpoint.is_disabled() {
-            "Enable breakpoint"
+            "ブレークポイントを有効化"
         } else if is_phantom && !collides_with_existing {
-            "Set breakpoint"
+            "ブレークポイントを設定"
         } else {
-            "Unset breakpoint"
+            "ブレークポイントを解除"
         };
         let focus_handle = self.focus_handle.clone();
 
         let meta = if is_rejected {
-            SharedString::from("No executable code is associated with this line.")
+            SharedString::from("この行に関連付けられた実行可能コードはありません。")
         } else if collides_with_existing && !breakpoint.is_disabled() {
             SharedString::from(format!(
-                "{alt_as_text}-click to disable,\nright-click for more options."
+                "{alt_as_text}+クリックで無効化、\n右クリックでその他のオプション。"
             ))
         } else {
-            SharedString::from("Right-click for more options.")
+            SharedString::from("右クリックでその他のオプション。")
         };
         IconButton::new(("breakpoint_indicator", row.0 as usize), icon)
             .icon_size(IconSize::XSmall)
@@ -14072,10 +14077,10 @@ impl Editor {
 
             if num_locations > 1 {
                 let tab_kind = match kind {
-                    Some(GotoDefinitionKind::Implementation) => "Implementations",
-                    Some(GotoDefinitionKind::Symbol) | None => "Definitions",
-                    Some(GotoDefinitionKind::Declaration) => "Declarations",
-                    Some(GotoDefinitionKind::Type) => "Types",
+                    Some(GotoDefinitionKind::Implementation) => "実装",
+                    Some(GotoDefinitionKind::Symbol) | None => "定義",
+                    Some(GotoDefinitionKind::Declaration) => "宣言",
+                    Some(GotoDefinitionKind::Type) => "型定義",
                 };
                 let title = editor
                     .update_in(cx, |_, _, cx| {
@@ -14092,7 +14097,7 @@ impl Editor {
                         if target.is_empty() {
                             tab_kind.to_owned()
                         } else {
-                            format!("{tab_kind} for {target}")
+                            format!("{target}の{tab_kind}")
                         }
                     })
                     .context("buffer title")?;
@@ -14481,9 +14486,9 @@ impl Editor {
                     .take(3)
                     .join(", ");
                 let title = if target.is_empty() {
-                    "References".to_owned()
+                    "すべての参照".to_owned()
                 } else {
-                    format!("References to {target}")
+                    format!("{target}の参照")
                 };
                 let allow_preview = PreviewTabsSettings::get_global(cx).enable_preview_multibuffer_from_code_navigation;
                 Self::open_locations_in_multibuffer(
@@ -14818,7 +14823,7 @@ impl Editor {
                 &editor,
                 workspace,
                 project_transaction,
-                format!("Rename: {} → {}", old_name, new_name),
+                format!("名前を変更: {} → {}", old_name, new_name),
                 cx,
             )
             .await?;
@@ -17319,7 +17324,7 @@ impl Editor {
                 .ok();
             }
             Err(err) => {
-                let message = format!("Failed to copy permalink: {err}");
+                let message = format!("パーマリンクのコピーに失敗しました: {err}");
 
                 anyhow::Result::<()>::Err(err).log_err();
 
@@ -17363,7 +17368,7 @@ impl Editor {
                 .ok();
             }
             Err(err) => {
-                let message = format!("Failed to open permalink: {err}");
+                let message = format!("パーマリンクを開くのに失敗しました: {err}");
 
                 anyhow::Result::<()>::Err(err).log_err();
 
@@ -17444,7 +17449,7 @@ impl Editor {
                 Self::open_locations_in_multibuffer(
                     workspace,
                     locations,
-                    format!("Selections for '{title}'"),
+                    format!("'{title}' の選択範囲"),
                     false,
                     false,
                     MultibufferSelectionMode::All,
@@ -21508,12 +21513,10 @@ impl BreakpointPromptEditor {
             prompt.set_placeholder_text(
                 match edit_action {
                     BreakpointPromptEditAction::Log => {
-                        "Message to log when a breakpoint is hit. Expressions within {} are interpolated."
+                        "ブレークポイント到達時に記録するメッセージ。{} 内の式は展開されます。"
                     }
-                    BreakpointPromptEditAction::Condition => {
-                        "Condition when a breakpoint is hit. Expressions within {} are interpolated."
-                    }
-                    BreakpointPromptEditAction::HitCondition => "How many breakpoint hits to ignore",
+                    BreakpointPromptEditAction::Condition => "ブレークポイント到達時の条件。{} 内の式は展開されます。",
+                    BreakpointPromptEditAction::HitCondition => "無視するブレークポイントヒット数",
                 },
                 window,
                 cx,
@@ -21673,11 +21676,13 @@ fn render_diff_hunk_controls(
         .block_mouse_except_scroll()
         .shadow_md()
         .child(if status.has_secondary_hunk() {
-            Button::new(("stage", row as u64), "Stage")
+            Button::new(("stage", row as u64), "ステージ")
                 .alpha(if status.is_pending() { 0.66 } else { 1.0 })
                 .tooltip({
                     let focus_handle = editor.focus_handle(cx);
-                    move |_window, cx| Tooltip::for_action_in("Stage Hunk", &::git::ToggleStaged, &focus_handle, cx)
+                    move |_window, cx| {
+                        Tooltip::for_action_in("ハンクをステージ", &::git::ToggleStaged, &focus_handle, cx)
+                    }
                 })
                 .on_click({
                     let editor = editor.clone();
@@ -21688,11 +21693,13 @@ fn render_diff_hunk_controls(
                     }
                 })
         } else {
-            Button::new(("unstage", row as u64), "Unstage")
+            Button::new(("unstage", row as u64), "ステージ解除")
                 .alpha(if status.is_pending() { 0.66 } else { 1.0 })
                 .tooltip({
                     let focus_handle = editor.focus_handle(cx);
-                    move |_window, cx| Tooltip::for_action_in("Unstage Hunk", &::git::ToggleStaged, &focus_handle, cx)
+                    move |_window, cx| {
+                        Tooltip::for_action_in("ハンクのステージを解除", &::git::ToggleStaged, &focus_handle, cx)
+                    }
                 })
                 .on_click({
                     let editor = editor.clone();
@@ -21704,10 +21711,10 @@ fn render_diff_hunk_controls(
                 })
         })
         .child(
-            Button::new(("restore", row as u64), "Restore")
+            Button::new(("restore", row as u64), "元に戻す")
                 .tooltip({
                     let focus_handle = editor.focus_handle(cx);
-                    move |_window, cx| Tooltip::for_action_in("Restore Hunk", &::git::Restore, &focus_handle, cx)
+                    move |_window, cx| Tooltip::for_action_in("ハンクを元に戻す", &::git::Restore, &focus_handle, cx)
                 })
                 .on_click({
                     let editor = editor.clone();
@@ -21729,7 +21736,7 @@ fn render_diff_hunk_controls(
                     // .disabled(!has_multiple_hunks)
                     .tooltip({
                         let focus_handle = editor.focus_handle(cx);
-                        move |_window, cx| Tooltip::for_action_in("Next Hunk", &GoToHunk, &focus_handle, cx)
+                        move |_window, cx| Tooltip::for_action_in("次のハンク", &GoToHunk, &focus_handle, cx)
                     })
                     .on_click({
                         let editor = editor.clone();
@@ -21756,7 +21763,7 @@ fn render_diff_hunk_controls(
                     // .disabled(!has_multiple_hunks)
                     .tooltip({
                         let focus_handle = editor.focus_handle(cx);
-                        move |_window, cx| Tooltip::for_action_in("Previous Hunk", &GoToPreviousHunk, &focus_handle, cx)
+                        move |_window, cx| Tooltip::for_action_in("前のハンク", &GoToPreviousHunk, &focus_handle, cx)
                     })
                     .on_click({
                         let editor = editor.clone();

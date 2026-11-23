@@ -1,11 +1,11 @@
-// Gram settings
+// Gram の設定
 //
-// For information on how to configure Gram, see the Gram
-// documentation: gram://docs/configuring-gram
+// Gram の設定方法については、Gram の
+// ドキュメントを参照してください: gram://docs/configuring-gram
 //
-// To see all of Gram's default settings without changing your
-// custom settings, run `gram: open default settings` from the
-// command palette (cmd-shift-p / ctrl-shift-p)
+// カスタム設定を変更せずに Gram のデフォルト設定をすべて確認するには、
+// コマンドパレット（cmd-shift-p / ctrl-shift-p）から `gram: open default settings` を
+// 実行してください。
 {
   "ui_font_size": 14,
   "buffer_font_size": 14,

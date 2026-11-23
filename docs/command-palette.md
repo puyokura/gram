@@ -1,12 +1,7 @@
-# Command Palette
+# コマンドパレット
 
-The Command Palette is the main way to access available functionality in the
-editor. To open it, hit: {#kb command_palette::Toggle}.
+コマンドパレットは、エディターで利用可能な機能にアクセスするための主な手段です。開くには {#kb command_palette::Toggle} を押します。
 
-The list of commands can be filtered by typing part of the command name to call.
-Once the correct command is selected, hit enter to run it.
+呼び出したいコマンド名の一部を入力して、コマンド一覧を絞り込むことができます。目的のコマンドを選択したら、Enter キーを押して実行します。
 
-Any time you see instructions that include commands of the form `gram: ...`,
-`editor: ...` or similar, you should be able to find and execute the command
-from the Command Palette. You can bind the command to a key combination in the
-[keymap editor](./key-bindings.md).
+説明文の中に `gram: ...` や `editor: ...` などの形式のコマンドが記載されている場合は、いつでもコマンドパレットからそのコマンドを検索して実行できます。[キーマップエディター](./key-bindings.md)でコマンドをキーの組み合わせに割り当てることも可能です。

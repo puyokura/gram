@@ -129,14 +129,14 @@ impl DocumentationView {
                 .gap_4()
                 .child(
                     IconButton::new("doc-view-toc", IconName::Library)
-                        .tooltip(Tooltip::text("Table of Contents"))
+                        .tooltip(Tooltip::text("目次"))
                         .on_click(move |_, window, cx| {
                             open_doc_url("gram://docs/index.md".into(), window, cx);
                         }),
                 )
                 .child(
                     IconButton::new("doc-view-search", IconName::MagnifyingGlass)
-                        .tooltip(Tooltip::text("Search Documentation"))
+                        .tooltip(Tooltip::text("ドキュメントを検索"))
                         .on_click(move |_, window, cx| {
                             open_search(window, cx);
                         }),
@@ -144,7 +144,7 @@ impl DocumentationView {
                 .child(
                     IconButton::new("doc-view-back", IconName::ArrowLeft)
                         .disabled(self.back.is_empty())
-                        .tooltip(Tooltip::text("Back"))
+                        .tooltip(Tooltip::text("戻る"))
                         .on_click(cx.listener(move |this, _, window, cx| {
                             this.go_back(window, cx);
                         })),
@@ -152,7 +152,7 @@ impl DocumentationView {
                 .child(
                     IconButton::new("doc-view-forward", IconName::ArrowRight)
                         .disabled(self.forward.is_empty())
-                        .tooltip(Tooltip::text("Forward"))
+                        .tooltip(Tooltip::text("進む"))
                         .on_click(cx.listener(move |this, _, window, cx| {
                             this.go_forward(window, cx);
                         })),

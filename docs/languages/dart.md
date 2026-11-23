@@ -1,31 +1,31 @@
 # Dart
 
-Dart support is available through the
-[Dart extension](https://github.com/zed-extensions/dart).
+Dart のサポートは
+[Dart 拡張機能](https://github.com/zed-extensions/dart) から利用できます。
 
 - Tree-sitter:
   [UserNobody14/tree-sitter-dart](https://github.com/UserNobody14/tree-sitter-dart)
-- Language Server: [dart language-server](https://github.com/dart-lang/sdk)
+- 言語サーバー: [dart language-server](https://github.com/dart-lang/sdk)
 
-## Pre-requisites
+## 前提条件
 
-You will need to install the Dart SDK.
+Dart SDK をインストールする必要があります。
 
-You can install dart from [dart.dev/get-dart](https://dart.dev/get-dart) or via
-the
+dart は [dart.dev/get-dart](https://dart.dev/get-dart) から、または
 [Flutter Version Management CLI (fvm)](https://fvm.app/documentation/getting-started/installation)
+経由でインストールできます。
 
-## Configuration
+## 構成
 
-The dart extension requires no configuration if you have `dart` in your path:
+`dart` が PATH にあれば、Dart 拡張機能に設定は不要です:
 
 ```sh
 which dart
 dart --version
 ```
 
-If you would like to use a specific dart binary or use dart via FVM you can
-specify the `dart` binary in your Gram settings.jsonc file:
+特定の dart バイナリを使いたい場合や、FVM 経由で dart を使う場合は、
+Gram の settings.jsonc ファイルで `dart` バイナリを指定できます:
 
 ```json
 {
@@ -40,11 +40,11 @@ specify the `dart` binary in your Gram settings.jsonc file:
 }
 ```
 
-### Formatting
+### フォーマット
 
-Dart by-default uses a very conservative maximum line length (80). If you would
-like the dart LSP to permit a longer line length when auto-formatting, add the
-following to your Gram settings.jsonc:
+Dart は既定で非常に保守的な最大行長（80）を使います。自動フォーマット時に
+dart LSP にもっと長い行長を許可したい場合は、Gram の settings.jsonc に次を
+追加してください:
 
 ```json
 {
@@ -58,5 +58,6 @@ following to your Gram settings.jsonc:
 }
 ```
 
-Please see the Dart documentation for more information on
-[dart language-server capabilities](https://github.com/dart-lang/sdk/blob/main/pkg/analysis_server/tool/lsp_spec/README.md).
+dart 言語サーバーの機能について詳しくは、Dart のドキュメント
+[dart language-server capabilities](https://github.com/dart-lang/sdk/blob/main/pkg/analysis_server/tool/lsp_spec/README.md)
+を参照してください。

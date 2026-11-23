@@ -581,11 +581,11 @@ impl PickerDelegate for OpenPathDelegate {
                         self.should_dismiss = false;
                         let answer = window.prompt(
                             gpui::PromptLevel::Critical,
-                            &format!("{prompted_path:?} already exists. Do you want to replace it?"),
+                            &format!("{prompted_path:?} は既に存在します。置き換えますか？"),
                             Some(
-                                "A file or folder with the same name already exists. Replacing it will overwrite its current contents.",
+                                "同じ名前のファイルまたはフォルダーが既に存在します。置き換えると現在の内容は上書きされます。",
                             ),
-                            &["Replace", "Cancel"],
+                            &["置き換え", "キャンセル"],
                             cx
                         );
                         self.replace_prompt = cx.spawn_in(window, async move |picker, cx| {
@@ -677,7 +677,7 @@ impl PickerDelegate for OpenPathDelegate {
         match &self.directory_state {
             DirectoryState::List { parent_path, .. } => {
                 let (label, indices) = if is_current_dir_candidate {
-                    ("open this directory".to_string(), vec![])
+                    ("このフォルダーを開く".to_string(), vec![])
                 } else if *parent_path == self.prompt_root {
                     match_positions.iter_mut().for_each(|position| {
                         *position += self.prompt_root.len();
@@ -723,7 +723,7 @@ impl PickerDelegate for OpenPathDelegate {
                                 let label = if user_input.is_dir {
                                     label
                                 } else {
-                                    format!("{label} (replace)")
+                                    format!("{label} (置き換え)")
                                 };
                                 StyledText::new(label)
                                     .with_default_highlights(
@@ -732,7 +732,7 @@ impl PickerDelegate for OpenPathDelegate {
                                     )
                                     .into_any_element()
                             } else {
-                                StyledText::new(format!("{label} (create)"))
+                                StyledText::new(format!("{label} (作成)"))
                                     .with_default_highlights(
                                         &window.text_style(),
                                         vec![(delta..label_len, HighlightStyle::color(Color::Created.color(cx)))],
@@ -765,16 +765,16 @@ impl PickerDelegate for OpenPathDelegate {
 
     fn no_matches_text(&self, _window: &mut Window, _cx: &mut App) -> Option<SharedString> {
         Some(match &self.directory_state {
-            DirectoryState::Create { .. } => SharedString::from("Type a path…"),
+            DirectoryState::Create { .. } => SharedString::from("パスを入力…"),
             DirectoryState::List { error: Some(error), .. } => error.clone(),
             DirectoryState::List { .. } | DirectoryState::None { .. } => {
-                SharedString::from("No such file or directory")
+                SharedString::from("ファイルまたはフォルダーが見つかりません")
             }
         })
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        Arc::from(format!("[directory{}]filename.ext", self.path_style.primary_separator()).as_str())
+        Arc::from(format!("[フォルダー{}]ファイル名.ext", self.path_style.primary_separator()).as_str())
     }
 
     fn separators_after_indices(&self) -> Vec<usize> {

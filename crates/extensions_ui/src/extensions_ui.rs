@@ -46,28 +46,28 @@ pub enum ExtensionProvides {
 actions!(
     gram,
     [
-        /// Installs an extension from a local directory.
+        /// ローカルフォルダーから拡張機能をインストールする。
         InstallExtensionFromFolder,
-        /// Installs an extension from a URL to a git repository.
+        /// git リポジトリの URL から拡張機能をインストールする。
         InstallExtensionFromUrl,
     ]
 );
 
-/// Install an extension from a local path
+/// ローカルパスから拡張機能をインストールする
 #[derive(PartialEq, Clone, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
 pub struct InstallExtensionFromLocalPath {
-    /// A local path to an extension
+    /// 拡張機能のローカルパス
     pub path: String,
 }
 
-/// Install an extension from a git repository
+/// git リポジトリから拡張機能をインストールする
 #[derive(PartialEq, Clone, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = gram)]
 #[serde(deny_unknown_fields)]
 pub struct InstallExtensionFromGit {
-    /// A git https url
+    /// git の https URL
     pub url: String,
 }
 
@@ -169,8 +169,8 @@ pub fn init(cx: &mut App) {
                             }
                             None => {
                                 workspace.show_error_with_link(
-                                    "Invalid Git URL format: Could not split on /",
-                                    "Learn more",
+                                    "Git URL の形式が正しくありません: / で分割できませんでした",
+                                    "詳細を見る",
                                     "gram://docs/extensions/installing-extensions",
                                     cx,
                                 );
@@ -181,8 +181,8 @@ pub fn init(cx: &mut App) {
                             Ok(temp_dir) => temp_dir,
                             Err(err) => {
                                 workspace.show_error_with_link(
-                                    SharedString::from(format!("Failed to create temporary directory:\n{err:#}")),
-                                    "Learn more".into(),
+                                    SharedString::from(format!("一時ディレクトリを作成できませんでした:\n{err:#}")),
+                                    "詳細を見る".into(),
                                     "gram://docs/extensions/installing-extensions".into(),
                                     cx,
                                 );
@@ -208,8 +208,10 @@ pub fn init(cx: &mut App) {
                                 Err(err) => {
                                     return workspace.update(cx, |workspace, cx| {
                                         workspace.show_error_with_link(
-                                            SharedString::from(format!("Failed to clone Git repository:\n{err:#}")),
-                                            "Learn more".into(),
+                                            SharedString::from(format!(
+                                                "Git リポジトリを複製できませんでした:\n{err:#}"
+                                            )),
+                                            "詳細を見る".into(),
                                             "gram://docs/extensions/installing-extensions".into(),
                                             cx,
                                         );
@@ -221,8 +223,8 @@ pub fn init(cx: &mut App) {
                                 None => {
                                     return workspace.update(cx, |workspace, cx| {
                                         workspace.show_error_with_link(
-                                            "Failed to clone Git repository: No workdir found",
-                                            "Learn more",
+                                            "Git リポジトリを複製できませんでした: 作業ディレクトリが見つかりません",
+                                            "詳細を見る",
                                             "gram://docs/extensions/installing-extensions",
                                             cx,
                                         );
@@ -259,8 +261,10 @@ pub fn init(cx: &mut App) {
                                 workspace_handle
                                     .update(cx, |workspace, cx| {
                                         workspace.show_error_with_link(
-                                            SharedString::from(format!("Failed to install extension:\n{err:#}")),
-                                            "Learn more".into(),
+                                            SharedString::from(format!(
+                                                "拡張機能をインストールできませんでした:\n{err:#}"
+                                            )),
+                                            "詳細を見る".into(),
                                             "gram://docs/extensions/installing-extensions".into(),
                                             cx,
                                         );
@@ -286,14 +290,14 @@ pub fn init(cx: &mut App) {
 
 fn extension_provides_label(provides: &ExtensionProvides) -> &'static str {
     match provides {
-        ExtensionProvides::Themes => "Themes",
-        ExtensionProvides::IconThemes => "Icon Themes",
-        ExtensionProvides::Languages => "Languages",
-        ExtensionProvides::Grammars => "Grammars",
-        ExtensionProvides::LanguageServers => "Language Servers",
-        ExtensionProvides::IndexedDocsProviders => "Indexed Docs Providers",
-        ExtensionProvides::Snippets => "Snippets",
-        ExtensionProvides::DebugAdapters => "Debug Adapters",
+        ExtensionProvides::Themes => "テーマ",
+        ExtensionProvides::IconThemes => "アイコンテーマ",
+        ExtensionProvides::Languages => "言語",
+        ExtensionProvides::Grammars => "文法",
+        ExtensionProvides::LanguageServers => "言語サーバー",
+        ExtensionProvides::IndexedDocsProviders => "インデックス済みドキュメントプロバイダー",
+        ExtensionProvides::Snippets => "スニペット",
+        ExtensionProvides::DebugAdapters => "デバッグアダプター",
     }
 }
 
@@ -399,7 +403,7 @@ impl ExtensionsPage {
 
             let query_editor = cx.new(|cx| {
                 let mut input = Editor::single_line(window, cx);
-                input.set_placeholder_text("Search extensions...", window, cx);
+                input.set_placeholder_text("拡張機能を検索…", window, cx);
                 if let Some(id) = focus_extension_id {
                     input.set_text(format!("id:{id}"), window, cx);
                 }
@@ -619,7 +623,7 @@ impl ExtensionsPage {
                             .gap_1()
                             .justify_between()
                             .child(
-                                Button::new(SharedString::from(format!("rebuild-{}", extension.id)), "Rebuild")
+                                Button::new(SharedString::from(format!("rebuild-{}", extension.id)), "再ビルド")
                                     .color(Color::Accent)
                                     .disabled(matches!(status, ExtensionStatus::Upgrading))
                                     .on_click({
@@ -642,7 +646,7 @@ impl ExtensionsPage {
                                     }),
                             )
                             .child(
-                                Button::new(SharedString::from(extension.id.clone()), "Uninstall")
+                                Button::new(SharedString::from(extension.id.clone()), "アンインストール")
                                     .color(Color::Accent)
                                     .disabled(!matches!(status, ExtensionStatus::Installed(..)))
                                     .on_click({
@@ -671,18 +675,10 @@ impl ExtensionsPage {
                     .gap_2()
                     .justify_between()
                     .child(
-                        Label::new(format!(
-                            "{}: {}",
-                            if extension.authors.len() > 1 {
-                                "Authors"
-                            } else {
-                                "Author"
-                            },
-                            extension.authors.join(", ")
-                        ))
-                        .size(LabelSize::Small)
-                        .color(Color::Muted)
-                        .truncate(),
+                        Label::new(format!("作者: {}", extension.authors.join(", ")))
+                            .size(LabelSize::Small)
+                            .color(Color::Muted)
+                            .truncate(),
                     )
                     .child(Label::new("<>").size(LabelSize::Small)),
             )
@@ -808,13 +804,13 @@ impl ExtensionsPage {
         let has_search = self.search_query(cx).is_some();
 
         let message = if self.is_fetching_extensions {
-            "Loading extensions…"
+            "拡張機能を読み込み中…"
         } else if self.fetch_failed {
-            "Failed to load extensions. Please check your connection and try again."
+            "拡張機能を読み込めませんでした。接続を確認して、もう一度お試しください。"
         } else if has_search {
-            "No installed extensions that match your search."
+            "検索条件に一致するインストール済みの拡張機能はありません。"
         } else {
-            "No installed extensions."
+            "インストール済みの拡張機能はありません。"
         };
 
         h_flex()
@@ -894,7 +890,7 @@ impl ExtensionsPage {
         vim: bool,
         cx: &mut Context<Self>,
     ) -> impl IntoElement {
-        let docs_url_button = Button::new("open_docs", "View Documentation")
+        let docs_url_button = Button::new("open_docs", "ドキュメントを見る")
             .icon(IconName::ArrowUpRight)
             .icon_size(IconSize::Small)
             .icon_position(IconPosition::End)
@@ -915,23 +911,27 @@ impl ExtensionsPage {
                                     .child(docs_url_button)
                                     .child(Divider::vertical().color(ui::DividerColor::Border))
                                     .child(
-                                        h_flex().pl_1().gap_1().child(Label::new("Enable Vim mode")).child(
-                                            Switch::new(
-                                                "enable-vim",
-                                                if VimModeSetting::get_global(cx).0 {
-                                                    ui::ToggleState::Selected
-                                                } else {
-                                                    ui::ToggleState::Unselected
-                                                },
-                                            )
-                                            .on_click(cx.listener(
-                                                move |this, selection, _, cx| {
-                                                    this.update_settings(selection, cx, |setting, value| {
-                                                        setting.vim_mode = Some(value)
-                                                    });
-                                                },
-                                            )),
-                                        ),
+                                        h_flex()
+                                            .pl_1()
+                                            .gap_1()
+                                            .child(Label::new("Vim モードを有効にする"))
+                                            .child(
+                                                Switch::new(
+                                                    "enable-vim",
+                                                    if VimModeSetting::get_global(cx).0 {
+                                                        ui::ToggleState::Selected
+                                                    } else {
+                                                        ui::ToggleState::Unselected
+                                                    },
+                                                )
+                                                .on_click(cx.listener(
+                                                    move |this, selection, _, cx| {
+                                                        this.update_settings(selection, cx, |setting, value| {
+                                                            setting.vim_mode = Some(value)
+                                                        });
+                                                    },
+                                                )),
+                                            ),
                                     ),
                             )
                         } else {
@@ -948,95 +948,92 @@ impl ExtensionsPage {
         for feature in &self.upsells {
             let banner = match feature {
                 Feature::ExtensionBasedpyright => self.render_feature_upsell_banner(
-                    "Basedpyright (Python language server) support is built-in!".into(),
+                    "Basedpyright (Python 言語サーバー) は標準搭載です。".into(),
                     "gram://docs/languages/python#basedpyright".into(),
                     false,
                     cx,
                 ),
                 Feature::ExtensionRuff => self.render_feature_upsell_banner(
-                    "Ruff (linter for Python) support is built-in!".into(),
+                    "Ruff (Python 用リンター) は標準搭載です。".into(),
                     "gram://docs/languages/python#code-formatting--linting".into(),
                     false,
                     cx,
                 ),
                 Feature::ExtensionTailwind => self.render_feature_upsell_banner(
-                    "Tailwind CSS support is built-in!".into(),
+                    "Tailwind CSS は標準搭載です。".into(),
                     "gram://docs/languages/tailwindcss".into(),
                     false,
                     cx,
                 ),
                 Feature::ExtensionTy => self.render_feature_upsell_banner(
-                    "Ty (Python language server) support is built-in!".into(),
+                    "Ty (Python 言語サーバー) は標準搭載です。".into(),
                     "https://zed.dev/docs/languages/python".into(),
                     false,
                     cx,
                 ),
                 Feature::Git => self.render_feature_upsell_banner(
-                    "Gram comes with basic Git support—more features are coming in the future.".into(),
+                    "Gram には基本的な Git サポートが組み込まれています。今後さらに機能が追加される予定です。".into(),
                     "gram://docs/git".into(),
                     false,
                     cx,
                 ),
                 Feature::LanguageBash => self.render_feature_upsell_banner(
-                    "Shell support is built-in!".into(),
+                    "シェルは標準搭載です。".into(),
                     "gram://docs/languages/bash".into(),
                     false,
                     cx,
                 ),
                 Feature::LanguageC => self.render_feature_upsell_banner(
-                    "C support is built-in!".into(),
+                    "C は標準搭載です。".into(),
                     "gram://docs/languages/c".into(),
                     false,
                     cx,
                 ),
                 Feature::LanguageCpp => self.render_feature_upsell_banner(
-                    "C++ support is built-in!".into(),
+                    "C++ は標準搭載です。".into(),
                     "gram://docs/languages/cpp".into(),
                     false,
                     cx,
                 ),
                 Feature::LanguageGo => self.render_feature_upsell_banner(
-                    "Go support is built-in!".into(),
+                    "Go は標準搭載です。".into(),
                     "gram://docs/languages/go".into(),
                     false,
                     cx,
                 ),
                 Feature::LanguagePython => self.render_feature_upsell_banner(
-                    "Python support is built-in!".into(),
+                    "Python は標準搭載です。".into(),
                     "gram://docs/languages/python".into(),
                     false,
                     cx,
                 ),
                 Feature::LanguageReact => self.render_feature_upsell_banner(
-                    "React support is built-in!".into(),
+                    "React は標準搭載です。".into(),
                     "gram://docs/languages/typescript".into(),
                     false,
                     cx,
                 ),
                 Feature::LanguageRust => self.render_feature_upsell_banner(
-                    "Rust support is built-in!".into(),
+                    "Rust は標準搭載です。".into(),
                     "gram://docs/languages/rust".into(),
                     false,
                     cx,
                 ),
                 Feature::LanguageTypescript => self.render_feature_upsell_banner(
-                    "Typescript support is built-in!".into(),
+                    "TypeScript は標準搭載です。".into(),
                     "gram://docs/languages/typescript".into(),
                     false,
                     cx,
                 ),
                 Feature::OpenIn => self.render_feature_upsell_banner(
-                    "Gram supports linking to a source line on GitHub and others.".into(),
+                    "Gram は GitHub などのソース行へのリンクに対応しています。".into(),
                     "gram://docs/git#git-integrations".into(),
                     false,
                     cx,
                 ),
-                Feature::Vim => self.render_feature_upsell_banner(
-                    "Vim support is built-in!".into(),
-                    "gram://docs/vim".into(),
-                    true,
-                    cx,
-                ),
+                Feature::Vim => {
+                    self.render_feature_upsell_banner("Vim は標準搭載です。".into(), "gram://docs/vim".into(), true, cx)
+                }
             };
             container = container.child(banner);
         }
@@ -1061,12 +1058,12 @@ impl Render for ExtensionsPage {
                             .w_full()
                             .gap_1p5()
                             .justify_between()
-                            .child(Headline::new("Extensions").size(HeadlineSize::XLarge))
+                            .child(Headline::new("拡張機能").size(HeadlineSize::XLarge))
                             .child(
                                 h_flex()
                                     .gap_1p5()
                                     .child(
-                                        Button::new("install-extension-from-url", "Install From URL")
+                                        Button::new("install-extension-from-url", "URL からインストール")
                                             .style(ButtonStyle::Outlined)
                                             .size(ButtonSize::Medium)
                                             .on_click(|_event, window, cx| {
@@ -1074,7 +1071,7 @@ impl Render for ExtensionsPage {
                                             }),
                                     )
                                     .child(
-                                        Button::new("install-local-extension", "Install Local")
+                                        Button::new("install-local-extension", "ローカルからインストール")
                                             .style(ButtonStyle::Outlined)
                                             .size(ButtonSize::Medium)
                                             .on_click(|_event, window, cx| {
@@ -1095,7 +1092,7 @@ impl Render for ExtensionsPage {
                     .border_color(cx.theme().colors().border_variant)
                     .overflow_x_scroll()
                     .child(
-                        Button::new("filter-all-categories", "All")
+                        Button::new("filter-all-categories", "すべて")
                             .when(self.provides_filter.is_none(), |button| {
                                 button.style(ButtonStyle::Filled)
                             })
@@ -1164,7 +1161,7 @@ impl Item for ExtensionsPage {
     type Event = ItemEvent;
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Extensions".into()
+        "拡張機能".into()
     }
 
     fn show_toolbar(&self) -> bool {
@@ -1185,7 +1182,7 @@ impl GitCloneModal {
     pub fn show(window: &mut Window, cx: &mut Context<Self>) -> Self {
         let repo_input = cx.new(|cx| {
             let mut editor = Editor::single_line(window, cx);
-            editor.set_placeholder_text("Enter repository URL…", window, cx);
+            editor.set_placeholder_text("リポジトリの URL を入力…", window, cx);
             editor
         });
         let focus_handle = repo_input.focus_handle(cx);
@@ -1224,7 +1221,7 @@ impl Render for GitCloneModal {
                                 .gap_0p5()
                                 .border_b_1()
                                 .border_color(theme.border_variant)
-                                .child(Label::new("Install Extension From Git Repository")),
+                                .child(Label::new("Git リポジトリから拡張機能をインストール")),
                         ),
                     )
                     .section(
@@ -1242,13 +1239,13 @@ impl Render for GitCloneModal {
                                     .rounded_b_sm()
                                     .child(
                                         Label::new(
-                                            "Clone a repository from a Git forge (like Codeberg, etc.).\nInstallation from source URL requires rustup to be installed.\nUse a public HTTP(S) URL. Git over SSH will not work.",
+                                            "Git フォージ（Codeberg など）からリポジトリを複製します。\nソース URL からのインストールには rustup が必要です。\n公開 HTTP(S) URL を使用してください。SSH 経由の Git は使用できません。",
                                         )
                                         .color(Color::Muted)
                                         .size(LabelSize::Small),
                                     )
                                     .child(
-                                        Button::new("learn-more", "Learn More")
+                                        Button::new("learn-more", "詳細を見る")
                                             .label_size(LabelSize::Small)
                                             .icon(IconName::ArrowUpRight)
                                             .icon_size(IconSize::XSmall)

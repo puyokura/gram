@@ -114,7 +114,7 @@ impl DisconnectedOverlay {
             .await?;
             Ok(())
         })
-        .detach_and_prompt_err("Failed to reconnect", window, cx, |_, _, _| None);
+        .detach_and_prompt_err("再接続に失敗しました", window, cx, |_, _, _| None);
     }
 
     fn cancel(&mut self, _: &menu::Cancel, _: &mut Window, cx: &mut Context<Self>) {
@@ -128,18 +128,14 @@ impl Render for DisconnectedOverlay {
         let can_reconnect = matches!(self.host, Host::RemoteServerProject(_));
 
         let message = match &self.host {
-            Host::RemoteGuestProject => "Your connection to the remote project has been lost.".to_string(),
+            Host::RemoteGuestProject => "リモートプロジェクトへの接続が切断されました。".to_string(),
             Host::RemoteServerProject(options) => {
                 let autosave = if ProjectSettings::get_global(cx).session.restore_unsaved_buffers {
-                    "\nUnsaved changes are stored locally."
+                    "\n保存されていない変更はローカルに保存されています。"
                 } else {
                     ""
                 };
-                format!(
-                    "Your connection to {} has been lost.{}",
-                    options.display_name(),
-                    autosave
-                )
+                format!("{} への接続が切断されました。{}", options.display_name(), autosave)
             }
         };
 
@@ -155,7 +151,7 @@ impl Render for DisconnectedOverlay {
                     .header(
                         ModalHeader::new()
                             .show_dismiss_button(true)
-                            .child(Headline::new("Disconnected").size(HeadlineSize::Small)),
+                            .child(Headline::new("切断されました").size(HeadlineSize::Small)),
                     )
                     .section(Section::new().child(Label::new(message)))
                     .footer(
@@ -163,7 +159,7 @@ impl Render for DisconnectedOverlay {
                             h_flex()
                                 .gap_2()
                                 .child(
-                                    Button::new("close-window", "Close Window")
+                                    Button::new("close-window", "ウィンドウを閉じる")
                                         .style(ButtonStyle::Filled)
                                         .layer(ElevationIndex::ModalSurface)
                                         .on_click(cx.listener(move |_, _, window, _| {
@@ -172,7 +168,7 @@ impl Render for DisconnectedOverlay {
                                 )
                                 .when(can_reconnect, |el| {
                                     el.child(
-                                        Button::new("reconnect", "Reconnect")
+                                        Button::new("reconnect", "再接続")
                                             .style(ButtonStyle::Filled)
                                             .layer(ElevationIndex::ModalSurface)
                                             .icon(IconName::ArrowCircle)

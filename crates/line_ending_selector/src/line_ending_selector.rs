@@ -14,7 +14,7 @@ use workspace::ModalView;
 actions!(
     line_ending_selector,
     [
-        /// Toggles the line ending selector modal.
+        /// 改行コード選択モーダルを切り替えます。
         Toggle
     ]
 );
@@ -110,7 +110,7 @@ impl PickerDelegate for LineEndingSelectorDelegate {
     type ListItem = ListItem;
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Select a line ending…".into()
+        "改行コードを選択…".into()
     }
 
     fn match_count(&self) -> usize {

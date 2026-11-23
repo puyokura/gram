@@ -1,3 +1,3 @@
-## All Actions
+## すべてのアクション
 
 {#ACTIONS_TABLE#}

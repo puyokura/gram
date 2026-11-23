@@ -285,15 +285,15 @@ impl Component for ThemePreviewTile {
     }
 
     fn name() -> &'static str {
-        "Theme Preview Tile"
+        "テーマプレビュータイル"
     }
 
     fn sort_name() -> &'static str {
-        "Theme Preview Tile"
+        "テーマプレビュータイル"
     }
 
     fn description() -> Option<&'static str> {
-        Some("Shows a preview of a theme as an abstract illustration of a thumbnail-sized editor.")
+        Some("サムネイルサイズのエディターの抽象的なイラストとしてテーマのプレビューを表示します。")
     }
 
     fn preview(_window: &mut Window, cx: &mut App) -> Option<AnyElement> {
@@ -321,7 +321,7 @@ impl Component for ThemePreviewTile {
                 .children({
                     if let Ok(one_dark) = one_dark {
                         vec![example_group(vec![single_example(
-                            "Default",
+                            "デフォルト",
                             div()
                                 .w(px(240.))
                                 .h(px(180.))
@@ -334,7 +334,7 @@ impl Component for ThemePreviewTile {
                 })
                 .child(
                     example_group(vec![single_example(
-                        "Default Themes",
+                        "デフォルトテーマ",
                         h_flex()
                             .gap_4()
                             .children(

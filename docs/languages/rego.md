@@ -1,26 +1,20 @@
 # Rego
 
-Rego language support in Gram is provided by the community-maintained
-[Rego extension](https://github.com/StyraInc/zed-rego).
+Gram での Rego 言語サポートは、コミュニティが管理する
+[Rego 拡張機能](https://github.com/StyraInc/zed-rego) によって提供されます。
 
 - Tree-sitter:
   [FallenAngel97/tree-sitter-rego](https://github.com/FallenAngel97/tree-sitter-rego)
-- Language Server: [StyraInc/regal](https://github.com/StyraInc/regal)
+- 言語サーバー: [StyraInc/regal](https://github.com/StyraInc/regal)
 
-## Installation
+## インストール
 
-The extension is largely based on the
-[Regal](https://docs.styra.com/regal/language-server) language server which
-should be installed to make use of the extension. Read the
-[getting started](https://docs.styra.com/regal#getting-started) instructions for
-more information.
+この拡張機能は主に [Regal](https://docs.styra.com/regal/language-server) 言語サーバーに基づいており、拡張機能を利用するには Regal をインストールする必要があります。詳細については
+[利用開始手順](https://docs.styra.com/regal#getting-started) を参照してください。
 
-## Configuration
+## 設定
 
-The extension's behavior is configured in the `.regal/config.yaml` file. The
-following is an example configuration which disables the `todo-comment` rule,
-customizes the `line-length` rule, and ignores test files for the `opa-fmt`
-rule:
+拡張機能の動作は `.regal/config.yaml` ファイルで設定します。以下は、`todo-comment` ルールを無効化し、`line-length` ルールをカスタマイズし、`opa-fmt` ルールでテストファイルを無視する設定例です:
 
 ```yaml
 rules:
@@ -44,6 +38,6 @@ rules:
           - "*_test.rego"
 ```
 
-Read Regal's
-[configuration documentation](https://docs.styra.com/regal#configuration) for
-more information.
+詳細については Regal の
+[設定ドキュメント](https://docs.styra.com/regal#configuration)
+を参照してください。

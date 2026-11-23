@@ -1,4 +1,4 @@
-//! Which-key support for Gram.
+//! Gram の which-key サポート。
 
 mod which_key_modal;
 mod which_key_settings;

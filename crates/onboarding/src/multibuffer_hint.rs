@@ -148,10 +148,12 @@ impl Render for MultibufferHint {
                         h_flex()
                             .gap_2()
                             .child(Icon::new(IconName::Info).size(IconSize::XSmall).color(Color::Muted))
-                            .child(Label::new("Edit and save files directly in the results multibuffer!")),
+                            .child(Label::new(
+                                "検索結果のマルチバッファからファイルを直接編集して保存できます。",
+                            )),
                     )
                     .child(
-                        Button::new("open_docs", "Learn More")
+                        Button::new("open_docs", "詳細を見る")
                             .icon(IconName::ArrowUpRight)
                             .icon_size(IconSize::Small)
                             .icon_color(Color::Muted)
@@ -167,7 +169,7 @@ impl Render for MultibufferHint {
                         this.dismiss(cx);
                         cx.emit(ToolbarItemEvent::ChangeLocation(ToolbarItemLocation::Hidden))
                     }))
-                    .tooltip(Tooltip::text("Dismiss Hint")),
+                    .tooltip(Tooltip::text("ヒントを非表示")),
             )
             .into_any_element()
     }

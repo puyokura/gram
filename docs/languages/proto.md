@@ -1,37 +1,36 @@
 # Proto
 
-Proto/proto3 (Protocol Buffers definition language) support is available through
-the [Proto extension](https://codeberg.org/GramEditor/proto-extension).
+Proto/proto3（Protocol Buffers 定義言語）のサポートは
+[Proto 拡張機能](https://codeberg.org/GramEditor/proto-extension) を通じて利用できます。
 
 - Tree-sitter:
   [coder3101/tree-sitter-proto](https://github.com/coder3101/tree-sitter-proto)
-- Language Servers:
+- 言語サーバー:
   [protobuf-language-server](https://github.com/lasorda/protobuf-language-server)
 
-## Setup
+## セットアップ
 
-There are two available language server implementations for Protobuf: Pick one
-and follow the installation instructions below.
+Protobuf には 2 つの言語サーバー実装が利用可能です。いずれかを選択し、以下のインストール手順に従ってください。
 
-### Install protobuf-language-server
+### protobuf-language-server のインストール
 
-Install protobuf-language-server and make sure it's in your PATH:
+protobuf-language-server をインストールし、PATH に含まれていることを確認します:
 
 ```
 go install github.com/lasorda/protobuf-language-server@latest
 which protobuf-language-server
 ```
 
-### Install ProtoLS
+### ProtoLS のインストール
 
-Install protols and make sure it's in your PATH:
+protols をインストールし、PATH に含まれていることを確認します:
 
 ```
 cargo install protols
 which protols
 ```
 
-## Configuration
+## 設定
 
 ```json
 "lsp": {
@@ -43,9 +42,9 @@ which protols
 }
 ```
 
-## Formatting
+## フォーマット
 
-ProtoLS supports formatting if you have `clang-format` installed.
+ProtoLS は、`clang-format` がインストールされている場合にフォーマットをサポートします。
 
 ```sh
 # MacOS:
@@ -56,15 +55,14 @@ sudo apt-get install clang-format
 sudo dnf install clang-tools-extra
 ```
 
-To customize your formatting preferences, create a `.clang-format` file, e.g.:
+フォーマット設定をカスタマイズするには、`.clang-format` ファイルを作成します（例）:
 
 ```clang-format
 IndentWidth: 4
 ColumnLimit: 120
 ```
 
-Or you can have gram directly invoke `clang-format` by specifying it as a
-formatter in your settings:
+あるいは、設定でフォーマッターとして指定することにより、Gram から直接 `clang-format` を呼び出すこともできます:
 
 ```json
   "languages": {

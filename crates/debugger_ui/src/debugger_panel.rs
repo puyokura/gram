@@ -536,7 +536,9 @@ impl DebugPanel {
                 .on_click(move |_, window, cx| window.dispatch_action(crate::Start.boxed_clone(), cx))
                 .tooltip({
                     let focus_handle = focus_handle.clone();
-                    move |_window, cx| Tooltip::for_action_in("Start Debug Session", &crate::Start, &focus_handle, cx)
+                    move |_window, cx| {
+                        Tooltip::for_action_in("デバッグセッションを開始", &crate::Start, &focus_handle, cx)
+                    }
                 })
         };
 
@@ -546,14 +548,14 @@ impl DebugPanel {
                 .on_click(|_, window, cx| {
                     window.dispatch_action(app_actions::OpenProjectDebugTasks.boxed_clone(), cx);
                 })
-                .tooltip(Tooltip::text("Edit debug.jsonc"))
+                .tooltip(Tooltip::text("debug.jsonc を編集"))
         };
 
         let documentation_button = || {
             IconButton::new("debug-open-documentation", IconName::CircleHelp)
                 .icon_size(IconSize::Small)
                 .on_click(move |_, _, cx| cx.open_url("gram://docs/debugger"))
-                .tooltip(Tooltip::text("Open Documentation"))
+                .tooltip(Tooltip::text("ドキュメントを開く"))
         };
 
         let logs_button = || {
@@ -562,7 +564,7 @@ impl DebugPanel {
                 .on_click(move |_, window, cx| {
                     window.dispatch_action(debugger_tools::OpenDebugAdapterLogs.boxed_clone(), cx)
                 })
-                .tooltip(Tooltip::text("Open Debug Adapter Logs"))
+                .tooltip(Tooltip::text("デバッグアダプターのログを開く"))
         };
 
         let close_bottom_panel_button = {
@@ -572,7 +574,7 @@ impl DebugPanel {
                     .on_click(move |_, window, cx| {
                         window.dispatch_action(workspace::ToggleBottomDock.boxed_clone(), cx)
                     })
-                    .tooltip(Tooltip::text("Close Panel")),
+                    .tooltip(Tooltip::text("パネルを閉じる")),
             )
         };
 
@@ -607,7 +609,12 @@ impl DebugPanel {
                                             .tooltip({
                                                 let focus_handle = focus_handle.clone();
                                                 move |_window, cx| {
-                                                    Tooltip::for_action_in("Pause Program", &Pause, &focus_handle, cx)
+                                                    Tooltip::for_action_in(
+                                                        "プログラムを一時停止",
+                                                        &Pause,
+                                                        &focus_handle,
+                                                        cx,
+                                                    )
                                                 }
                                             }),
                                     )
@@ -623,7 +630,7 @@ impl DebugPanel {
                                                 let focus_handle = focus_handle.clone();
                                                 move |_window, cx| {
                                                     Tooltip::for_action_in(
-                                                        "Continue Program",
+                                                        "プログラムを続行",
                                                         &Continue,
                                                         &focus_handle,
                                                         cx,
@@ -643,7 +650,7 @@ impl DebugPanel {
                                     .tooltip({
                                         let focus_handle = focus_handle.clone();
                                         move |_window, cx| {
-                                            Tooltip::for_action_in("Step Over", &StepOver, &focus_handle, cx)
+                                            Tooltip::for_action_in("ステップオーバー", &StepOver, &focus_handle, cx)
                                         }
                                     }),
                             )
@@ -657,7 +664,7 @@ impl DebugPanel {
                                     .tooltip({
                                         let focus_handle = focus_handle.clone();
                                         move |_window, cx| {
-                                            Tooltip::for_action_in("Step In", &StepInto, &focus_handle, cx)
+                                            Tooltip::for_action_in("ステップイン", &StepInto, &focus_handle, cx)
                                         }
                                     }),
                             )
@@ -671,7 +678,7 @@ impl DebugPanel {
                                     .tooltip({
                                         let focus_handle = focus_handle.clone();
                                         move |_window, cx| {
-                                            Tooltip::for_action_in("Step Out", &StepOut, &focus_handle, cx)
+                                            Tooltip::for_action_in("ステップアウト", &StepOut, &focus_handle, cx)
                                         }
                                     }),
                             )
@@ -685,7 +692,12 @@ impl DebugPanel {
                                     .tooltip({
                                         let focus_handle = focus_handle.clone();
                                         move |_window, cx| {
-                                            Tooltip::for_action_in("Rerun Session", &RerunSession, &focus_handle, cx)
+                                            Tooltip::for_action_in(
+                                                "セッションを再実行",
+                                                &RerunSession,
+                                                &focus_handle,
+                                                cx,
+                                            )
                                         }
                                     }),
                             )
@@ -708,9 +720,9 @@ impl DebugPanel {
                                         let focus_handle = focus_handle.clone();
                                         let label =
                                             if capabilities.supports_terminate_threads_request.unwrap_or_default() {
-                                                "Terminate Thread"
+                                                "スレッドを停止"
                                             } else {
-                                                "Terminate All Threads"
+                                                "全スレッドを停止"
                                             };
                                         move |_window, cx| Tooltip::for_action_in(label, &Stop, &focus_handle, cx)
                                     }),
@@ -729,7 +741,7 @@ impl DebugPanel {
                                         .tooltip({
                                             let focus_handle = focus_handle.clone();
                                             move |_window, cx| {
-                                                Tooltip::for_action_in("Detach", &Detach, &focus_handle, cx)
+                                                Tooltip::for_action_in("切断", &Detach, &focus_handle, cx)
                                             }
                                         }),
                                 )
@@ -1245,7 +1257,7 @@ impl Panel for DebugPanel {
 
     fn icon_tooltip(&self, _window: &Window, cx: &App) -> Option<&'static str> {
         if DebuggerSettings::get_global(cx).button {
-            Some("Debug Panel")
+            Some("デバッグパネル")
         } else {
             None
         }
@@ -1473,7 +1485,7 @@ impl Render for DebugPanel {
                         .justify_center()
                         .gap_2()
                         .child(
-                            Button::new("spawn-new-session-empty-state", "New Session")
+                            Button::new("spawn-new-session-empty-state", "新規セッション")
                                 .icon(IconName::Plus)
                                 .icon_size(IconSize::Small)
                                 .icon_color(Color::Muted)
@@ -1483,7 +1495,7 @@ impl Render for DebugPanel {
                                 }),
                         )
                         .child(
-                            Button::new("edit-debug-settings", "Edit debug.jsonc")
+                            Button::new("edit-debug-settings", "debug.jsonc を編集")
                                 .icon(IconName::Code)
                                 .icon_size(IconSize::Small)
                                 .icon_color(Color::Muted)
@@ -1493,7 +1505,7 @@ impl Render for DebugPanel {
                                 }),
                         )
                         .child(
-                            Button::new("open-debugger-docs", "Debugger Docs")
+                            Button::new("open-debugger-docs", "デバッガードキュメント")
                                 .icon(IconName::Book)
                                 .icon_size(IconSize::Small)
                                 .icon_color(Color::Muted)
@@ -1501,7 +1513,7 @@ impl Render for DebugPanel {
                                 .on_click(|_, _, cx| cx.open_url("gram://docs/debugger")),
                         )
                         .child(
-                            Button::new("spawn-new-session-install-extensions", "Debugger Extensions")
+                            Button::new("spawn-new-session-install-extensions", "デバッガー拡張機能")
                                 .icon(IconName::Blocks)
                                 .icon_size(IconSize::Small)
                                 .icon_color(Color::Muted)
@@ -1543,7 +1555,7 @@ impl Render for DebugPanel {
                                 .justify_between()
                                 .border_b_1()
                                 .border_color(cx.theme().colors().border_variant)
-                                .child(Label::new("Breakpoints").size(LabelSize::Small))
+                                .child(Label::new("ブレークポイント").size(LabelSize::Small))
                                 .child(
                                     h_flex()
                                         .visible_on_hover("base-breakpoint-list")
@@ -1554,7 +1566,7 @@ impl Render for DebugPanel {
                         .when(!has_breakpoints, |this| {
                             this.child(
                                 v_flex().size_full().items_center().justify_center().child(
-                                    Label::new("No Breakpoints Set")
+                                    Label::new("ブレークポイントが設定されていません")
                                         .size(LabelSize::Small)
                                         .color(Color::Muted),
                                 ),

@@ -1,19 +1,17 @@
-# Language Extensions
+# 言語拡張機能
 
-Language support in Gram has several components:
+Gram の言語サポートは、いくつかの要素で構成されます:
 
-- Language metadata and configuration
-- Grammar
-- Queries
-- Language servers
+- 言語のメタデータと設定
+- 文法
+- クエリ
+- 言語サーバー
 
-## Language Metadata
+## 言語のメタデータ
 
-Each language supported by Gram must be defined in a subdirectory inside the
-`languages` directory of your extension.
+Gram がサポートする各言語は、拡張機能の `languages` フォルダー内のサブフォルダーで定義する必要があります。
 
-This subdirectory must contain a file called `config.toml` file with the
-following structure:
+このサブフォルダーには、次の構造の `config.toml` ファイルを含める必要があります:
 
 ```toml
 name = "My Language"
@@ -22,29 +20,14 @@ path_suffixes = ["myl"]
 line_comments = ["# "]
 ```
 
-- `name` (required) is the human readable name that will show up in the Select
-  Language dropdown.
-- `grammar` (required) is the name of a grammar. Grammars are registered
-  separately, described below.
-- `path_suffixes` is an array of file suffixes that should be associated with
-  this language. Unlike `file_types` in settings, this does not support glob
-  patterns.
-- `line_comments` is an array of strings that are used to identify line comments
-  in the language. This is used for the `editor::ToggleComments` keybind: {#kb
-  editor::ToggleComments} for toggling lines of code.
-- `tab_size` defines the indentation/tab size used for this language (default is
-  `4`).
-- `hard_tabs` whether to indent with tabs (`true`) or spaces (`false`, the
-  default).
-- `first_line_pattern` is a regular expression, that in addition to
-  `path_suffixes` (above) or `file_types` in settings can be used to match files
-  which should use this language. For example Gram uses this to identify Shell
-  Scripts by matching the
-  [shebangs lines](https://github.com/zed-industries/zed/blob/main/crates/languages/src/bash/config.toml)
-  in the first line of a script.
-- `debuggers` is an array of strings that are used to identify debuggers in the
-  language. When launching a debugger's `New Process Modal`, Gram will order
-  available debuggers by the order of entries in this array.
+- `name`（必須）は、言語選択のドロップダウンに表示される人間が読める名前です。
+- `grammar`（必須）は文法の名前です。文法は別途登録され、後述します。
+- `path_suffixes` は、この言語に関連付けるファイルサフィックスの配列です。設定の `file_types` と異なり、glob パターンはサポートしません。
+- `line_comments` は、その言語の行コメントを識別するために使う文字列の配列です。これは `editor::ToggleComments` キーバインド（{#kb editor::ToggleComments}）で、コードの行のコメントを切り替えるために使われます。
+- `tab_size` は、この言語で使うインデント/タブのサイズを定義します（既定値は `4`）。
+- `hard_tabs` は、タブ（`true`）とスペース（`false`、既定）のどちらでインデントするかを指定します。
+- `first_line_pattern` は正規表現で、上記の `path_suffixes` や設定の `file_types` に加えて、この言語を使うべきファイルを特定するために使用できます。たとえば Gram は、スクリプトの1行目の[シバン行](https://github.com/zed-industries/zed/blob/main/crates/languages/src/bash/config.toml)にマッチさせることで、シェルスクリプトを識別します。
+- `debuggers` は、その言語のデバッガーを識別するために使う文字列の配列です。デバッガーの `New Process Modal` を起動すると、Gram はこの配列のエントリー順に利用可能なデバッガーを並べます。
 
 <!--
 TBD: Document `language_name/config.toml` keys
@@ -62,17 +45,9 @@ TBD: Document `language_name/config.toml` keys
 - overrides: `[overrides.element]`, `[overrides.string]`
 -->
 
-## Grammar
+## 文法
 
-Gram uses the [Tree-sitter](https://tree-sitter.github.io) parsing library to
-provide built-in language-specific features. There are grammars available for
-many languages, and you can also
-[develop your own grammar](https://tree-sitter.github.io/tree-sitter/creating-parsers#writing-the-grammar).
-A growing list of Gram features are built using pattern matching over syntax
-trees with Tree-sitter queries. As mentioned above, every language that is
-defined in an extension must specify the name of a Tree-sitter grammar that is
-used for parsing. These grammars are then registered separately in extensions'
-`extension.toml` file, like this:
+Gram は、組み込みの言語固有機能を提供するために [Tree-sitter](https://tree-sitter.github.io) パーサーライブラリを使っています。多くの言語向けの文法が利用可能で、[自分で文法を開発する](https://tree-sitter.github.io/tree-sitter/creating-parsers#writing-the-grammar)こともできます。Gram の機能は、Tree-sitter クエリを使った構文木へのパターンマッチングで次々と実装されています。前述のとおり、拡張機能で定義する各言語は、パースに使用する Tree-sitter 文法の名前を指定する必要があります。これらの文法は、拡張機能の `extension.toml` ファイルに次のように別途登録します:
 
 ```toml
 [grammars.gleam]
@@ -80,40 +55,29 @@ repository = "https://github.com/gleam-lang/tree-sitter-gleam"
 rev = "58b7cac8fc14c92b0677c542610d8738c373fa81"
 ```
 
-The `repository` field must specify a repository where the Tree-sitter grammar
-should be loaded from, and the `rev` field must contain a Git revision to use,
-such as the SHA of a Git commit. If you're developing an extension locally and
-want to load a grammar from the local filesystem, you can use a `file://` URL
-for `repository`. An extension can provide multiple grammars by referencing
-multiple tree-sitter repositories.
+`repository` フィールドには Tree-sitter 文法の読み込み元リポジトリを指定する必要があり、`rev` フィールドには使用する Git リビジョン（Git コミットの SHA など）を含める必要があります。拡張機能をローカルで開発し、ローカルファイルシステムから文法を読み込みたい場合は、`repository` に `file://` URL を使用できます。拡張機能は、複数の tree-sitter リポジトリを参照することで複数の文法を提供できます。
 
-## Tree-sitter Queries
+## Tree-sitter クエリ
 
-Gram uses the syntax tree produced by the
-[Tree-sitter](https://tree-sitter.github.io) query language to implement several
-features:
+Gram は、[Tree-sitter](https://tree-sitter.github.io) クエリ言語が生成する構文木を使って、いくつかの機能を実装しています:
 
-- Syntax highlighting
-- Bracket matching
-- Code outline/structure
-- Auto-indentation
-- Code injections
-- Syntax overrides
-- Text redactions
-- Runnable code detection
-- Selecting classes, functions, etc.
+- シンタックスハイライト
+- 括弧のマッチング
+- コードのアウトライン/構造
+- 自動インデント
+- コードインジェクション
+- 構文のオーバーライド
+- テキストの伏字（レダクション）
+- 実行可能コードの検出
+- クラスや関数などの選択
 
-The following sections elaborate on how
-[Tree-sitter queries](https://tree-sitter.github.io/tree-sitter/using-parsers#query-syntax)
-enable these features in Gram, using
-[JSON syntax](https://www.json.org/json-en.html) as a guiding example.
+次の各セクションでは、[Tree-sitter クエリ](https://tree-sitter.github.io/tree-sitter/using-parsers#query-syntax)によってこれらの機能が Gram でどう実現されるかを、[JSON 構文](https://www.json.org/json-en.html)を例にとって詳しく説明します。
 
-### Syntax highlighting
+### シンタックスハイライト
 
-In Tree-sitter, the `highlights.scm` file defines syntax highlighting rules for
-a particular syntax.
+Tree-sitter では、`highlights.scm` ファイルが特定の構文に対するシンタックスハイライトのルールを定義します。
 
-Here's an example from a `highlights.scm` for JSON:
+JSON 用の `highlights.scm` の例を次に示します:
 
 ```scheme
 (string) @string
@@ -124,57 +88,56 @@ Here's an example from a `highlights.scm` for JSON:
 (number) @number
 ```
 
-This query marks strings, object keys, and numbers for highlighting. The
-following is a comprehensive list of captures supported by themes:
+このクエリは、文字列、オブジェクトのキー、数値をハイライト対象としてマークします。テーマがサポートするキャプチャの完全な一覧は次のとおりです:
 
-| Capture                  | Description                            |
+| キャプチャ               | 説明                                   |
 | ------------------------ | -------------------------------------- |
-| @attribute               | Captures attributes                    |
-| @boolean                 | Captures boolean values                |
-| @comment                 | Captures comments                      |
-| @comment.doc             | Captures documentation comments        |
-| @constant                | Captures constants                     |
-| @constructor             | Captures constructors                  |
-| @embedded                | Captures embedded content              |
-| @emphasis                | Captures emphasized text               |
-| @emphasis.strong         | Captures strongly emphasized text      |
-| @enum                    | Captures enumerations                  |
-| @function                | Captures functions                     |
-| @hint                    | Captures hints                         |
-| @keyword                 | Captures keywords                      |
-| @label                   | Captures labels                        |
-| @link_text               | Captures link text                     |
-| @link_uri                | Captures link URIs                     |
-| @number                  | Captures numeric values                |
-| @operator                | Captures operators                     |
-| @predictive              | Captures predictive text               |
-| @preproc                 | Captures preprocessor directives       |
-| @primary                 | Captures primary elements              |
-| @property                | Captures properties                    |
-| @punctuation             | Captures punctuation                   |
-| @punctuation.bracket     | Captures brackets                      |
-| @punctuation.delimiter   | Captures delimiters                    |
-| @punctuation.list_marker | Captures list markers                  |
-| @punctuation.special     | Captures special punctuation           |
-| @string                  | Captures string literals               |
-| @string.escape           | Captures escaped characters in strings |
-| @string.regex            | Captures regular expressions           |
-| @string.special          | Captures special strings               |
-| @string.special.symbol   | Captures special symbols               |
-| @tag                     | Captures tags                          |
-| @tag.doctype             | Captures doctypes (e.g., in HTML)      |
-| @text.literal            | Captures literal text                  |
-| @title                   | Captures titles                        |
-| @type                    | Captures types                         |
-| @variable                | Captures variables                     |
-| @variable.special        | Captures special variables             |
-| @variant                 | Captures variants                      |
+| @attribute               | 属性をキャプチャする                   |
+| @boolean                 | 真偽値をキャプチャする                 |
+| @comment                 | コメントをキャプチャする               |
+| @comment.doc             | ドキュメントコメントをキャプチャする   |
+| @constant                | 定数をキャプチャする                   |
+| @constructor             | コンストラクターをキャプチャする       |
+| @embedded                | 埋め込みコンテンツをキャプチャする     |
+| @emphasis                | 強調テキストをキャプチャする           |
+| @emphasis.strong         | 強く強調したテキストをキャプチャする   |
+| @enum                    | 列挙型をキャプチャする                 |
+| @function                | 関数をキャプチャする                   |
+| @hint                    | ヒントをキャプチャする                 |
+| @keyword                 | キーワードをキャプチャする             |
+| @label                   | ラベルをキャプチャする                 |
+| @link_text               | リンクテキストをキャプチャする         |
+| @link_uri                | リンク URI をキャプチャする            |
+| @number                  | 数値をキャプチャする                   |
+| @operator                | 演算子をキャプチャする                 |
+| @predictive              | 予測テキストをキャプチャする           |
+| @preproc                 | プリプロセッサ指令をキャプチャする     |
+| @primary                 | 主要な要素をキャプチャする             |
+| @property                | プロパティをキャプチャする             |
+| @punctuation             | 句読点をキャプチャする                 |
+| @punctuation.bracket     | 括弧をキャプチャする                   |
+| @punctuation.delimiter   | 区切り文字をキャプチャする             |
+| @punctuation.list_marker | リストのマーカーをキャプチャする       |
+| @punctuation.special     | 特殊な句読点をキャプチャする           |
+| @string                  | 文字列リテラルをキャプチャする         |
+| @string.escape           | 文字列内のエスケープ文字をキャプチャする |
+| @string.regex            | 正規表現をキャプチャする               |
+| @string.special          | 特殊な文字列をキャプチャする           |
+| @string.special.symbol   | 特殊なシンボルをキャプチャする         |
+| @tag                     | タグをキャプチャする                   |
+| @tag.doctype             | doctype（HTML などでの）をキャプチャする |
+| @text.literal            | リテラルテキストをキャプチャする       |
+| @title                   | タイトルをキャプチャする               |
+| @type                    | 型をキャプチャする                     |
+| @variable                | 変数をキャプチャする                   |
+| @variable.special        | 特殊な変数をキャプチャする             |
+| @variant                 | バリアントをキャプチャする             |
 
-### Bracket matching
+### 括弧のマッチング
 
-The `brackets.scm` file defines matching brackets.
+`brackets.scm` ファイルは対応する括弧を定義します。
 
-Here's an example from a `brackets.scm` file for JSON:
+JSON 用の `brackets.scm` ファイルの例を次に示します:
 
 ```scheme
 ("[" @open "]" @close)
@@ -182,72 +145,67 @@ Here's an example from a `brackets.scm` file for JSON:
 ("\"" @open "\"" @close)
 ```
 
-This query identifies opening and closing brackets, braces, and quotation marks.
+このクエリは、開き括弧と閉じ括弧、波括弧、引用符を識別します。
 
-| Capture | Description                                   |
-| ------- | --------------------------------------------- |
-| @open   | Captures opening brackets, braces, and quotes |
-| @close  | Captures closing brackets, braces, and quotes |
+| キャプチャ | 説明                                       |
+| ---------- | ------------------------------------------ |
+| @open      | 開き括弧、波括弧、引用符をキャプチャする   |
+| @close     | 閉じ括弧、波括弧、引用符をキャプチャする   |
 
-Gram uses these to highlight matching brackets: painting each bracket pair with
-a different color ("rainbow brackets") and highlighting the brackets if the
-cursor is inside the bracket pair.
+Gram はこれらを使って対応する括弧をハイライトします。各括弧ペアを異なる色で描画し（「レインボーブラケット」）、カーソルがその括弧ペアの内側にある場合は括弧をハイライトします。
 
-To opt out of rainbow brackets colorization, add the following to the
-corresponding `brackets.scm` entry:
+レインボーブラケットの色付けを無効にするには、対応する `brackets.scm` のエントリーに次のように追加します:
 
 ```scheme
 (("\"" @open "\"" @close) (#set! rainbow.exclude))
 ```
 
-### Code outline/structure
+### コードのアウトライン/構造
 
-The `outline.scm` file defines the structure for the code outline.
+`outline.scm` ファイルはコードのアウトラインの構造を定義します。
 
-Here's an example from an `outline.scm` file for JSON:
+JSON 用の `outline.scm` ファイルの例を次に示します:
 
 ```scheme
 (pair
   key: (string (string_content) @name)) @item
 ```
 
-This query captures object keys for the outline structure.
+このクエリは、アウトライン構造用にオブジェクトのキーをキャプチャします。
 
-| Capture        | Description                                                                          |
+| キャプチャ     | 説明                                                                                 |
 | -------------- | ------------------------------------------------------------------------------------ |
-| @name          | Captures the content of object keys                                                  |
-| @item          | Captures the entire key-value pair                                                   |
-| @context       | Captures elements that provide context for the outline item                          |
-| @context.extra | Captures additional contextual information for the outline item                      |
-| @annotation    | Captures nodes that annotate outline item (doc comments, attributes, decorators)[^1] |
+| @name          | オブジェクトのキーの内容をキャプチャする                                             |
+| @item          | キーと値のペア全体をキャプチャする                                                   |
+| @context       | アウトライン項目のコンテキストを提供する要素をキャプチャする                         |
+| @context.extra | アウトライン項目の追加のコンテキスト情報をキャプチャする                             |
+| @annotation    | アウトライン項目に注釈を付けるノード（ドキュメントコメント、属性、デコレーター）をキャプチャする[^1] |
 
-[^1]: These annotations are used by Assistant when generating code modification
-    steps.
+[^1]: これらの注釈は、Assistant がコード変更の手順を生成するときに使われます。
 
-### Auto-indentation
+### 自動インデント
 
-The `indents.scm` file defines indentation rules.
+`indents.scm` ファイルはインデントのルールを定義します。
 
-Here's an example from an `indents.scm` file for JSON:
+JSON 用の `indents.scm` ファイルの例を次に示します:
 
 ```scheme
 (array "]" @end) @indent
 (object "}" @end) @indent
 ```
 
-This query marks the end of arrays and objects for indentation purposes.
+このクエリは、インデントのために配列とオブジェクトの終端をマークします。
 
-| Capture | Description                                        |
-| ------- | -------------------------------------------------- |
-| @end    | Captures closing brackets and braces               |
-| @indent | Captures entire arrays and objects for indentation |
+| キャプチャ | 説明                                       |
+| ---------- | ------------------------------------------ |
+| @end       | 閉じ括弧と波括弧をキャプチャする           |
+| @indent    | インデントのために配列とオブジェクト全体をキャプチャする |
 
-### Code injections
+### コードインジェクション
 
-The `injections.scm` file defines rules for embedding one language within
-another, such as code blocks in Markdown or SQL queries in Python strings.
+`injections.scm` ファイルは、Markdown 内のコードブロックや Python 文字列内の SQL クエリのように、ある言語を別の言語内に埋め込むためのルールを定義します。
 
-Here's an example from an `injections.scm` file for Markdown:
+Markdown 用の `injections.scm` ファイルの例を次に示します:
 
 ```scheme
 (fenced_code_block
@@ -259,33 +217,22 @@ Here's an example from an `injections.scm` file for Markdown:
  (#set! injection.language "markdown-inline"))
 ```
 
-This query identifies fenced code blocks, capturing the language specified in
-the info string and the content within the block. It also captures inline
-content and sets its language to "markdown-inline".
+このクエリはフェンス付きコードブロックを識別し、info 文字列で指定された言語とブロック内のコンテンツをキャプチャします。また、インラインコンテンツをキャプチャし、その言語を "markdown-inline" に設定します。
 
-| Capture             | Description                                                |
-| ------------------- | ---------------------------------------------------------- |
-| @injection.language | Captures the language identifier for a code block          |
-| @injection.content  | Captures the content to be treated as a different language |
+| キャプチャ          | 説明                                                 |
+| ------------------- | ---------------------------------------------------- |
+| @injection.language | コードブロックの言語識別子をキャプチャする           |
+| @injection.content  | 別の言語として扱うコンテンツをキャプチャする         |
 
-Note that we couldn't use JSON as an example here because it doesn't support
-language injections.
+なお、JSON は言語インジェクションをサポートしていないため、ここでは例として JSON を使用できませんでした。
 
-### Syntax overrides
+### 構文のオーバーライド
 
-The `overrides.scm` file defines syntactic _scopes_ that can be used to override
-certain editor settings within specific language constructs.
+`overrides.scm` ファイルは、特定の言語構文の内部で特定のエディター設定をオーバーライドするために使える構文上の _スコープ_ を定義します。
 
-For example, there is a language-specific setting called `word_characters` that
-controls which non-alphabetic characters are considered part of a word, for
-example when you double click to select a variable. In JavaScript, "$" and "#"
-are considered word characters.
+たとえば、どの非英字文字を単語の一部とみなすかを制御する `word_characters` という言語固有の設定があります。これは変数をダブルクリックで選択するときなどに使われます。JavaScript では、「$」と「#」が単語文字とみなされます。
 
-There is also a language-specific setting called `completion_query_characters`
-that controls which characters trigger autocomplete suggestions. In JavaScript,
-when your cursor is within a _string_, "-" is should be considered a completion
-query character. To achieve this, the JavaScript `overrides.scm` file contains
-the following pattern:
+オートコンプリート候補をトリガーする文字を制御する `completion_query_characters` という言語固有の設定もあります。JavaScript では、カーソルが _文字列_ 内にあるとき、「-」を補完クエリ文字とみなすべきです。これを実現するため、JavaScript の `overrides.scm` ファイルには次のパターンが含まれています:
 
 ```scheme
 [
@@ -294,7 +241,7 @@ the following pattern:
 ] @string
 ```
 
-And the JavaScript `config.toml` contains this setting:
+そして JavaScript の `config.toml` にはこの設定が含まれています:
 
 ```toml
 word_characters = ["#", "$"]
@@ -303,9 +250,7 @@ word_characters = ["#", "$"]
 completion_query_characters = ["-"]
 ```
 
-You can also disable certain auto-closing brackets in a specific scope. For
-example, to prevent auto-closing `'` within strings, you could put the following
-in the JavaScript `config.toml`:
+特定のスコープ内で特定の自動閉じ括弧を無効にすることもできます。たとえば、文字列内で `'` を自動で閉じないようにするには、JavaScript の `config.toml` に次のように記述します:
 
 ```toml
 brackets = [
@@ -314,60 +259,38 @@ brackets = [
 ]
 ```
 
-#### Range inclusivity
+#### 範囲の包含
 
-By default, the ranges defined in `overrides.scm` are _exclusive_. So in the
-case above, if you cursor was _outside_ the quotation marks delimiting the
-string, the `string` scope would not take effect. Sometimes, you may want to
-make the range _inclusive_. You can do this by adding the `.inclusive` suffix to
-the capture name in the query.
+既定では、`overrides.scm` で定義された範囲は _排他的_ です。したがって上の例では、カーソルが文字列を区切る引用符の _外側_ にある場合、`string` スコープは有効になりません。範囲を _包含的_ にしたい場合があります。その場合は、クエリのキャプチャ名に `.inclusive` サフィックスを付けることで実現できます。
 
-For example, in JavaScript, we also disable auto-closing of single quotes within
-comments. And the comment scope must extend all the way to the newline after a
-line comment. To achieve this, the JavaScript `overrides.scm` contains the
-following pattern:
+たとえば JavaScript では、コメント内でシングルクォートの自動閉じも無効にしています。また、コメントスコープは行コメント後の改行まで拡張される必要があります。これを実現するため、JavaScript の `overrides.scm` には次のパターンが含まれています:
 
 ```scheme
 (comment) @comment.inclusive
 ```
 
-### Text objects
+### テキストオブジェクト
 
-The `textobjects.scm` file defines rules for navigating by text objects. This
-was added in Gram v0.165 and is currently used only in Vim mode.
+`textobjects.scm` ファイルは、テキストオブジェクト単位でナビゲートするためのルールを定義します。これは Gram v0.165 で追加され、現在は Vim モードでのみ使用されています。
 
-Vim provides two levels of granularity for navigating around files.
-Section-by-section with `[]` etc., and method-by-method with `]m` etc. Even
-languages that don't support functions and classes can work well by defining
-similar concepts. For example CSS defines a rule-set as a method, and a
-media-query as a class.
+Vim はファイル内のナビゲーションに2段階の粒度を提供します。`[]` などによるセクション単位の移動と、`]m` などによるメソッド単位の移動です。関数やクラスをサポートしない言語でも、似た概念を定義すればうまく機能します。たとえば CSS は、ルールセットをメソッド、メディアクエリをクラスとして定義します。
 
-For languages with closures, these typically should not count as functions in
-Gram. This is best-effort however, as languages like JavaScript do not
-syntactically differentiate syntactically between closures and top-level
-function declarations.
+クロージャを持つ言語では、通常、クロージャは Gram の関数として数えるべきではありません。ただし JavaScript のような言語は、クロージャとトップレベル関数宣言を構文的に区別しないため、これはベストエフォートの対応です。
 
-For languages with declarations like C, provide queries that match
-`@class.around` or `@function.around`. The `if` and `ic` text objects will
-default to these if there is no inside.
+C のような宣言を持つ言語では、`@class.around` または `@function.around` にマッチするクエリを提供してください。`if` と `ic` テキストオブジェクトは、inside がない場合にこれらを既定で使います。
 
-If you are not sure what to put in textobjects.scm, both
-[nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects),
-and the [Helix editor](https://github.com/helix-editor/helix) have queries for
-many languages. You can refer to the Gram
-[built-in languages](https://github.com/zed-industries/zed/tree/main/crates/languages/src)
-to see how to adapt these.
+textobjects.scm に何を書けばよいか分からない場合は、[nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) と [Helix エディター](https://github.com/helix-editor/helix) に多くの言語向けのクエリがあります。Gram の[組み込み言語](https://github.com/zed-industries/zed/tree/main/crates/languages/src)を参照して、それらの適応方法を確認できます。
 
-| Capture          | Description                                                             | Vim mode                                         |
+| キャプチャ       | 説明                                                                    | Vim モード                                       |
 | ---------------- | ----------------------------------------------------------------------- | ------------------------------------------------ |
-| @function.around | An entire function definition or equivalent small section of a file.    | `[m`, `]m`, `[M`,`]M` motions. `af` text object  |
-| @function.inside | The function body (the stuff within the braces).                        | `if` text object                                 |
-| @class.around    | An entire class definition or equivalent large section of a file.       | `[[`, `]]`, `[]`, `][` motions. `ac` text object |
-| @class.inside    | The contents of a class definition.                                     | `ic` text object                                 |
-| @comment.around  | An entire comment (e.g. all adjacent line comments, or a block comment) | `gc` text object                                 |
-| @comment.inside  | The contents of a comment                                               | `igc` text object (rarely supported)             |
+| @function.around | 関数定義全体、またはそれに相当するファイルの小さな範囲                  | `[m`、`]m`、`[M`、`]M` の移動。`af` テキストオブジェクト |
+| @function.inside | 関数本体（波括弧内の内容）                                              | `if` テキストオブジェクト                        |
+| @class.around    | クラス定義全体、またはそれに相当するファイルの大きな範囲                | `[[`、`]]`、`[]`、`][` の移動。`ac` テキストオブジェクト |
+| @class.inside    | クラス定義の内容                                                        | `ic` テキストオブジェクト                        |
+| @comment.around  | コメント全体（隣接するすべての行コメント、またはブロックコメント）      | `gc` テキストオブジェクト                        |
+| @comment.inside  | コメントの内容                                                          | `igc` テキストオブジェクト（サポートされることはまれ） |
 
-For example:
+例:
 
 ```scheme
 ; include only the content of the method in the function
@@ -384,11 +307,11 @@ For example:
 (comment)+ @comment.around
 ```
 
-### Runnable code detection
+### 実行可能コードの検出
 
-The `runnables.scm` file defines rules for detecting runnable code.
+`runnables.scm` ファイルは、実行可能なコードを検出するためのルールを定義します。
 
-Here's an example from a `runnables.scm` file for JSON:
+JSON 用の `runnables.scm` ファイルの例を次に示します:
 
 ```scheme
 (
@@ -412,34 +335,25 @@ Here's an example from a `runnables.scm` file for JSON:
 )
 ```
 
-This query detects runnable scripts in package.json and composer.json files.
+このクエリは、package.json と composer.json ファイル内の実行可能なスクリプトを検出します。
 
-The `@run` capture specifies where the run button should appear in the editor.
-Other captures, except those prefixed with an underscore, are exposed as
-environment variables with a prefix of `GRAM_CUSTOM_$(capture_name)` when
-running the code.
+`@run` キャプチャは、エディター内で実行ボタンを表示する位置を指定します。アンダースコアが付いたものを除く他のキャプチャは、コードを実行するときに `GRAM_CUSTOM_$(capture_name)` というプレフィックスを持つ環境変数として公開されます。
 
-| Capture | Description                                            |
-| ------- | ------------------------------------------------------ |
-| @\_name | Captures the "scripts" key                             |
-| @run    | Captures the script name                               |
-| @script | Also captures the script name (for different purposes) |
+| キャプチャ | 説明                                                 |
+| ---------- | ---------------------------------------------------- |
+| @\_name    | "scripts" キーをキャプチャする                       |
+| @run       | スクリプト名をキャプチャする                         |
+| @script    | スクリプト名もキャプチャする（別の目的のため）       |
 
 <!--
 TBD: `#set! tag`
 -->
 
-## Language Servers
+## 言語サーバー
 
-Gram uses the
-[Language Server Protocol](https://microsoft.github.io/language-server-protocol/)
-to provide advanced language support.
+Gram は、高度な言語サポートを提供するために [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) を使っています。
 
-An extension may provide any number of language servers. To provide a language
-server from your extension, add an entry to your `extension.toml` with the name
-of your language server and the language(s) it applies to. The entry in the list
-of `languages` has to match the `name` field from the `config.toml` file for
-that language:
+拡張機能は、任意の数の言語サーバーを提供できます。拡張機能から言語サーバーを提供するには、`extension.toml` に、言語サーバーの名前と適用対象の言語を記したエントリーを追加します。`languages` の一覧のエントリーは、その言語の `config.toml` ファイルの `name` フィールドと一致している必要があります:
 
 ```toml
 [language_servers.my-language-server]
@@ -447,8 +361,7 @@ name = "My Language LSP"
 languages = ["My Language"]
 ```
 
-Then, in the Rust code for your extension, implement the
-`language_server_command` method on your extension:
+次に、拡張機能の Rust コードで `language_server_command` メソッドを実装します:
 
 ```rust
 impl gram::Extension for MyExtension {
@@ -466,18 +379,11 @@ impl gram::Extension for MyExtension {
 }
 ```
 
-You can customize the handling of the language server using several optional
-methods in the `Extension` trait. For example, you can control how completions
-are styled using the `label_for_completion` method. For a complete list of
-methods, see the
-[API docs for the Gram extension API](https://docs.rs/zed_extension_api).
+言語サーバーの扱いは、`Extension` トレイトのいくつかの任意メソッドでカスタマイズできます。たとえば `label_for_completion` メソッドを使って補完の表示スタイルを制御できます。メソッドの完全な一覧は [Gram 拡張 API の API ドキュメント](https://docs.rs/zed_extension_api)を参照してください。
 
-### Multi-Language Support
+### 複数言語のサポート
 
-If your language server supports additional languages, you can use
-`language_ids` to map Gram `languages` to the desired
-[LSP-specific `languageId`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocumentItem)
-identifiers:
+言語サーバーが追加の言語をサポートしている場合は、`language_ids` を使って Gram の `languages` を目的の [LSP 固有の `languageId`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocumentItem) 識別子にマッピングできます:
 
 ```toml
 [language-servers.my-language-server]

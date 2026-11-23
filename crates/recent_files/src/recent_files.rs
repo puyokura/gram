@@ -23,7 +23,7 @@ const PANEL_WIDTH_REMS: f32 = 34.;
 actions!(
     recent_files,
     [
-        /// Toggle the recent files picker
+        /// 最近開いたファイル選択画面を切り替えます。
         Toggle,
     ]
 );
@@ -194,11 +194,11 @@ impl PickerDelegate for RecentFilesDelegate {
     type ListItem = ListItem;
 
     fn placeholder_text(&self, _: &mut Window, _: &mut App) -> Arc<str> {
-        "Open recent files...".into()
+        "最近開いたファイルを開く…".into()
     }
 
     fn no_matches_text(&self, _window: &mut Window, _cx: &mut App) -> Option<SharedString> {
-        Some("No recent files".into())
+        Some("最近開いたファイルはありません".into())
     }
 
     fn match_count(&self) -> usize {

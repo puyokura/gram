@@ -617,9 +617,9 @@ impl PlatformWindow for WindowsWindow {
                         ..Default::default()
                     };
                     let (title, main_icon) = match level {
-                        crate::PromptLevel::Info => (windows::core::w!("Info"), TD_INFORMATION_ICON),
-                        crate::PromptLevel::Warning => (windows::core::w!("Warning"), TD_WARNING_ICON),
-                        crate::PromptLevel::Critical => (windows::core::w!("Critical"), TD_ERROR_ICON),
+                        crate::PromptLevel::Info => (windows::core::w!("情報"), TD_INFORMATION_ICON),
+                        crate::PromptLevel::Warning => (windows::core::w!("警告"), TD_WARNING_ICON),
+                        crate::PromptLevel::Critical => (windows::core::w!("エラー"), TD_ERROR_ICON),
                     };
                     config.pszWindowTitle = title;
                     config.Anonymous1.pszMainIcon = main_icon;

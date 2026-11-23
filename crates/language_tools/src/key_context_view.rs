@@ -14,7 +14,7 @@ use workspace::{Item, SplitDirection, Workspace};
 actions!(
     dev,
     [
-        /// Opens the key context view for debugging keybindings.
+        /// キーバインドのデバッグ用にキーコンテキストビューを開きます。
         OpenKeyContextView
     ]
 );
@@ -72,7 +72,7 @@ impl KeyContextView {
                     };
                     let mut name = binding.action().name();
                     if name == "gram::NoAction" {
-                        name = "(null)"
+                        name = "(なし)"
                     }
 
                     (name.to_owned().into(), json!(predicate).to_string().into(), match_state)
@@ -131,7 +131,7 @@ impl Item for KeyContextView {
     fn to_item_events(_: &Self::Event, _: impl FnMut(workspace::item::ItemEvent)) {}
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Keyboard Context".into()
+        "キーコンテキスト".into()
     }
 
     fn can_split(&self) -> bool {
@@ -181,19 +181,19 @@ impl Render for KeyContextView {
                     });
                 }),
             )
-            .child(Label::new("Keyboard Context").size(LabelSize::Large))
-            .child(Label::new("This view lets you determine the current context stack for creating custom key bindings in Gram. When a keyboard shortcut is triggered, it also shows all the possible contexts it could have triggered in, and which one matched."))
+            .child(Label::new("キーコンテキスト").size(LabelSize::Large))
+            .child(Label::new("このビューでは、Gram でカスタムキーバインドを作成するための現在のコンテキストスタックを確認できます。キーボードショートカットが実行されると、実行され得たすべてのコンテキストと、そのうちどれが一致したかを表示します。"))
             .child(
                 h_flex()
                     .mt_4()
                     .gap_4()
                     .child(
-                        Button::new("open_documentation", "Open Documentation")
+                        Button::new("open_documentation", "ドキュメントを開く")
                             .style(ButtonStyle::Filled)
                             .on_click(|_, _, cx| cx.open_url("gram://docs/key-bindings")),
                     )
                     .child(
-                        Button::new("view_default_keymap", "View Default Keymap")
+                        Button::new("view_default_keymap", "既定のキーマップを表示")
                             .style(ButtonStyle::Filled)
                             .key_binding(ui::KeyBinding::for_action(
                                 &app_actions::OpenDefaultKeymap,
@@ -204,7 +204,7 @@ impl Render for KeyContextView {
                             }),
                     )
                     .child(
-                        Button::new("edit_your_keymap", "Edit Keymap File")
+                        Button::new("edit_your_keymap", "キーマップファイルを編集")
                             .style(ButtonStyle::Filled)
                             .key_binding(ui::KeyBinding::for_action(&app_actions::OpenKeymapFile, cx))
                             .on_click(|_, window, cx| {
@@ -213,7 +213,7 @@ impl Render for KeyContextView {
                     ),
             )
             .child(
-                Label::new("Current Context Stack")
+                Label::new("現在のコンテキストスタック")
                     .size(LabelSize::Large)
                     .mt_8(),
             )
@@ -233,26 +233,26 @@ impl Render for KeyContextView {
                     Label::new(format!("{} {}", primary, secondary)).ml(px(12. * (i + 1) as f32))
                 })
             })
-            .child(Label::new("Last Keystroke").mt_4().size(LabelSize::Large))
+            .child(Label::new("最後のキー入力").mt_4().size(LabelSize::Large))
             .when_some(self.pending_keystrokes.as_ref(), |el, keystrokes| {
                 el.child(
                     Label::new(format!(
-                        "Waiting for more input: {}",
+                        "追加入力を待機中: {}",
                         keystrokes.iter().map(|k| k.unparse()).join(" ")
                     ))
                     .ml(px(12.)),
                 )
             })
             .when_some(self.last_keystrokes.as_ref(), |el, keystrokes| {
-                el.child(Label::new(format!("Typed: {}", keystrokes)).ml_4())
+                el.child(Label::new(format!("入力: {}", keystrokes)).ml_4())
                     .children(
                         self.last_possibilities
                             .iter()
                             .map(|(name, predicate, state)| {
                                 let (text, color) = match state {
-                                    Some(true) => ("(match)", ui::Color::Success),
-                                    Some(false) => ("(low precedence)", ui::Color::Hint),
-                                    None => ("(no match)", ui::Color::Error),
+                                    Some(true) => ("(一致)", ui::Color::Success),
+                                    Some(false) => ("(優先度低)", ui::Color::Hint),
+                                    None => ("(不一致)", ui::Color::Error),
                                 };
                                 h_flex()
                                     .gap_2()
@@ -264,8 +264,8 @@ impl Render for KeyContextView {
                     )
             })
             .when_some(key_equivalents, |el, key_equivalents| {
-                el.child(Label::new("Key Equivalents").mt_4().size(LabelSize::Large))
-                    .child(Label::new("Shortcuts defined using some characters have been remapped so that shortcuts can be typed without holding option."))
+                el.child(Label::new("キー等価").mt_4().size(LabelSize::Large))
+                    .child(Label::new("一部の文字を使ったショートカットは、Option キーを押さずに入力できるよう再マッピングされています。"))
                     .children(
                         key_equivalents
                             .iter()

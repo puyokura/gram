@@ -147,7 +147,7 @@ impl EditNicknameState {
             .and_then(|state| state.nickname)
             .filter(|text| !text.is_empty());
         this.editor.update(cx, |this, cx| {
-            this.set_placeholder_text("Add a nickname for this server", window, cx);
+            this.set_placeholder_text("このサーバーのニックネームを追加", window, cx);
             if let Some(starting_text) = starting_text {
                 this.set_text(starting_text, window, cx);
             }
@@ -650,7 +650,7 @@ impl RemoteServerProjects {
             Err(e) => {
                 self.mode = Mode::CreateRemoteServer(CreateRemoteServer {
                     address_editor: editor,
-                    address_error: Some(format!("could not parse: {:?}", e).into()),
+                    address_error: Some(format!("解析できません: {:?}", e).into()),
                     ssh_prompt: None,
                     _creating: None,
                 });
@@ -674,7 +674,7 @@ impl RemoteServerProjects {
             window,
             cx,
         )
-        .prompt_err("Failed to connect", window, cx, |_, _, _| None);
+        .prompt_err("接続に失敗しました", window, cx, |_, _, _| None);
 
         let address_editor = editor.clone();
         let creating = cx.spawn_in(window, async move |this, cx| {
@@ -740,7 +740,7 @@ impl RemoteServerProjects {
             window,
             cx,
         )
-        .prompt_err("Failed to connect", window, cx, |_, _, _| None);
+        .prompt_err("接続に失敗しました", window, cx, |_, _, _| None);
 
         let wsl_picker = picker.clone();
         let creating = cx.spawn_in(window, async move |this, cx| {
@@ -838,7 +838,7 @@ impl RemoteServerProjects {
                     window,
                     cx,
                 )
-                .prompt_err("Failed to connect", window, cx, |_, _, _| None);
+                .prompt_err("接続に失敗しました", window, cx, |_, _, _| None);
 
                 cx.spawn_in(window, async move |workspace, cx| {
                     let session = connect.await;
@@ -1018,7 +1018,7 @@ impl RemoteServerProjects {
                 } => {
                     let index = *index;
                     List::new()
-                        .empty_message("No projects.")
+                        .empty_message("プロジェクトがありません。")
                         .children(projects.iter().enumerate().map(|(pix, p)| {
                             v_flex().gap_0p5().child(self.render_ssh_project(
                                 index,
@@ -1046,7 +1046,7 @@ impl RemoteServerProjects {
                                         .inset(true)
                                         .spacing(ui::ListItemSpacing::Sparse)
                                         .start_slot(Icon::new(IconName::Plus).color(Color::Muted))
-                                        .child(Label::new("Open Folder"))
+                                        .child(Label::new("フォルダーを開く"))
                                         .on_click(cx.listener({
                                             let connection = connection.clone();
                                             move |this, _, window, cx| {
@@ -1077,7 +1077,7 @@ impl RemoteServerProjects {
                                         .inset(true)
                                         .spacing(ui::ListItemSpacing::Sparse)
                                         .start_slot(Icon::new(IconName::Settings).color(Color::Muted))
-                                        .child(Label::new("View Server Options"))
+                                        .child(Label::new("サーバーオプションを表示"))
                                         .on_click(cx.listener({
                                             let ssh_connection = connection.clone();
                                             move |this, _, window, cx| {
@@ -1110,7 +1110,7 @@ impl RemoteServerProjects {
                                 .inset(true)
                                 .spacing(ui::ListItemSpacing::Sparse)
                                 .start_slot(Icon::new(IconName::Plus).color(Color::Muted))
-                                .child(Label::new("Open Folder"))
+                                .child(Label::new("フォルダーを開く"))
                                 .on_click(cx.listener({
                                     let host = host.clone();
                                     move |this, _, window, cx| {
@@ -1186,9 +1186,9 @@ impl RemoteServerProjects {
                         log::error!("Failed to connect: {e:#}");
                         cx.prompt(
                             gpui::PromptLevel::Critical,
-                            "Failed to connect",
+                            "接続に失敗しました",
                             Some(&e.to_string()),
-                            &["Ok"],
+                            &["OK"],
                         )
                         .await
                         .ok();
@@ -1237,7 +1237,7 @@ impl RemoteServerProjects {
                                         .icon_size(IconSize::Small)
                                         .shape(IconButtonShape::Square)
                                         .size(ButtonSize::Large)
-                                        .tooltip(Tooltip::text("Delete Remote Project"))
+                                        .tooltip(Tooltip::text("リモートプロジェクトを削除"))
                                         .on_click(cx.listener(move |this, _, _, cx| {
                                             this.delete_remote_project(server_ix, &project, cx)
                                         }))
@@ -1387,12 +1387,12 @@ impl RemoteServerProjects {
                                     .w_full()
                                     .gap_1()
                                     .child(
-                                        Label::new("Enter the command you use to SSH into this server.")
+                                        Label::new("このサーバーへの SSH 接続に使うコマンドを入力してください。")
                                             .color(Color::Muted)
                                             .size(LabelSize::Small),
                                     )
                                     .child(
-                                        Button::new("learn-more", "Learn More")
+                                        Button::new("learn-more", "詳細を見る")
                                             .label_size(LabelSize::Small)
                                             .icon(IconName::ArrowUpRight)
                                             .icon_size(IconSize::XSmall)
@@ -1495,7 +1495,7 @@ impl RemoteServerProjects {
                                         .inset(true)
                                         .spacing(ui::ListItemSpacing::Sparse)
                                         .start_slot(Icon::new(IconName::ArrowLeft).color(Color::Muted))
-                                        .child(Label::new("Go Back"))
+                                        .child(Label::new("戻る"))
                                         .on_click(cx.listener(|this, _, window, cx| {
                                             this.mode = Mode::default_mode(&this.ssh_config_servers, cx);
                                             cx.focus_self(window);
@@ -1532,13 +1532,13 @@ impl RemoteServerProjects {
                 window: &mut Window,
                 cx: &mut App,
             ) {
-                let prompt_message = format!("Remove WSL distro `{}`?", distro_name);
+                let prompt_message = format!("WSL ディストリビューション `{}` を削除しますか？", distro_name);
 
                 let confirmation = window.prompt(
                     PromptLevel::Warning,
                     &prompt_message,
                     None,
-                    &["Yes, remove it", "No, keep it"],
+                    &["はい、削除します", "いいえ、保持します"],
                     cx,
                 );
 
@@ -1576,7 +1576,7 @@ impl RemoteServerProjects {
                         .inset(true)
                         .spacing(ui::ListItemSpacing::Sparse)
                         .start_slot(Icon::new(IconName::Trash).color(Color::Error))
-                        .child(Label::new("Remove Distro").color(Color::Error))
+                        .child(Label::new("ディストリビューションを削除").color(Color::Error))
                         .on_click(cx.listener(move |_, _, window, cx| {
                             remove_wsl_distro(cx.entity(), index, distro_name.clone(), window, cx);
                             cx.focus_self(window);
@@ -1598,9 +1598,9 @@ impl RemoteServerProjects {
         v_flex()
             .child({
                 let label = if connection.nickname.is_some() {
-                    "Edit Nickname"
+                    "ニックネームを編集"
                 } else {
-                    "Add Nickname to Server"
+                    "サーバーにニックネームを追加"
                 };
                 div()
                     .id("ssh-options-add-nickname")
@@ -1629,7 +1629,10 @@ impl RemoteServerProjects {
                     workspace
                         .update(cx, |this, cx| {
                             struct SshServerAddressCopiedToClipboard;
-                            let notification = format!("Copied server address ({}) to clipboard", connection_string);
+                            let notification = format!(
+                                "サーバーアドレス ({}) をクリップボードにコピーしました",
+                                connection_string
+                            );
 
                             this.show_toast(
                                 Toast::new(
@@ -1660,7 +1663,7 @@ impl RemoteServerProjects {
                             .inset(true)
                             .spacing(ui::ListItemSpacing::Sparse)
                             .start_slot(Icon::new(IconName::Copy).color(Color::Muted))
-                            .child(Label::new("Copy Server Address"))
+                            .child(Label::new("サーバーアドレスをコピー"))
                             .end_hover_slot(Label::new(connection_string.clone()).color(Color::Muted))
                             .on_click({
                                 let connection_string = connection_string.clone();
@@ -1678,13 +1681,13 @@ impl RemoteServerProjects {
                     window: &mut Window,
                     cx: &mut App,
                 ) {
-                    let prompt_message = format!("Remove server `{}`?", connection_string);
+                    let prompt_message = format!("サーバー `{}` を削除しますか？", connection_string);
 
                     let confirmation = window.prompt(
                         PromptLevel::Warning,
                         &prompt_message,
                         None,
-                        &["Yes, remove it", "No, keep it"],
+                        &["はい、削除します", "いいえ、保持します"],
                         cx,
                     );
 
@@ -1722,7 +1725,7 @@ impl RemoteServerProjects {
                             .inset(true)
                             .spacing(ui::ListItemSpacing::Sparse)
                             .start_slot(Icon::new(IconName::Trash).color(Color::Error))
-                            .child(Label::new("Remove Server").color(Color::Error))
+                            .child(Label::new("サーバーを削除").color(Color::Error))
                             .on_click(cx.listener(move |_, _, window, cx| {
                                 remove_ssh_server(cx.entity(), index, connection_string.clone(), window, cx);
                                 cx.focus_self(window);
@@ -1841,7 +1844,7 @@ impl RemoteServerProjects {
                     .inset(true)
                     .spacing(ui::ListItemSpacing::Sparse)
                     .start_slot(Icon::new(IconName::Plus).color(Color::Muted))
-                    .child(Label::new("Connect New Server"))
+                    .child(Label::new("新しいサーバーに接続"))
                     .on_click(cx.listener(|this, _, window, cx| {
                         let state = CreateRemoteServer::new(window, cx);
                         this.mode = Mode::CreateRemoteServer(state);
@@ -1867,7 +1870,7 @@ impl RemoteServerProjects {
                     .inset(true)
                     .spacing(ui::ListItemSpacing::Sparse)
                     .start_slot(Icon::new(IconName::Plus).color(Color::Muted))
-                    .child(Label::new("Add WSL Distro"))
+                    .child(Label::new("WSL ディストリビューションを追加"))
                     .on_click(cx.listener(|this, _, window, cx| {
                         let state = AddWslDistro::new(window, cx);
                         this.mode = Mode::AddWslDistro(state);
@@ -1901,11 +1904,9 @@ impl RemoteServerProjects {
                     List::new()
                         .empty_message(
                             v_flex()
-                                .child(
-                                    div()
-                                        .px_3()
-                                        .child(Label::new("No remote servers registered yet.").color(Color::Muted)),
-                                )
+                                .child(div().px_3().child(
+                                    Label::new("登録済みのリモートサーバーはまだありません。").color(Color::Muted),
+                                ))
                                 .into_any_element(),
                         )
                         .children(state.servers.iter().enumerate().map(|(ix, connection)| {
@@ -1953,13 +1954,13 @@ impl RemoteServerProjects {
             )
         };
         let placeholder_text = Arc::from(format!(
-            "{reuse_window} reuses this window, {create_window} opens a new one",
+            "{reuse_window} でこのウィンドウを再利用、{create_window} で新しいウィンドウを開きます",
         ));
 
         Modal::new("remote-projects", None)
             .header(
                 ModalHeader::new()
-                    .child(Headline::new("Remote Projects").size(HeadlineSize::XSmall))
+                    .child(Headline::new("リモートプロジェクト").size(HeadlineSize::XSmall))
                     .child(Label::new(placeholder_text).color(Color::Muted).size(LabelSize::XSmall)),
             )
             .section(

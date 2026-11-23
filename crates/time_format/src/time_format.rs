@@ -6,12 +6,12 @@ pub enum TimestampFormat {
     /// Formats the timestamp as an absolute time, e.g. "2021-12-31 3:00AM".
     Absolute,
     /// Formats the timestamp as an absolute time.
-    /// If the message is from today or yesterday the date will be replaced with "Today at x" or "Yesterday at x" respectively.
-    /// E.g. "Today at 12:00 PM", "Yesterday at 11:00 AM", "2021-12-31 3:00AM".
+    /// If the message is from today or yesterday the date will be replaced with "今日 x" or "昨日 x" respectively.
+    /// E.g. "今日 12:00 PM", "昨日 11:00 AM", "2021-12-31 3:00AM".
     EnhancedAbsolute,
     /// Formats the timestamp as an absolute time, using month name, day of month, year. e.g. "Feb. 24, 2024".
     MediumAbsolute,
-    /// Formats the timestamp as a relative time, e.g. "just now", "1 minute ago", "2 hours ago", "2 months ago".
+    /// Formats the timestamp as a relative time, e.g. "たった今", "1分前", "2時間前", "2ヶ月前".
     Relative,
 }
 
@@ -68,9 +68,9 @@ fn format_absolute_date(
             let timestamp_date = timestamp.date();
             let reference_date = reference.date();
             if timestamp_date == reference_date {
-                "Today".to_string()
+                "今日".to_string()
             } else if reference_date.previous_day() == Some(timestamp_date) {
-                "Yesterday".to_string()
+                "昨日".to_string()
             } else {
                 macos::format_date(&timestamp)
             }
@@ -116,9 +116,9 @@ fn format_absolute_timestamp(
             let timestamp_date = timestamp.date();
             let reference_date = reference.date();
             if timestamp_date == reference_date {
-                format!("Today at {}", format_absolute_time(timestamp))
+                format!("今日 {}", format_absolute_time(timestamp))
             } else if reference_date.previous_day() == Some(timestamp_date) {
-                format!("Yesterday at {}", format_absolute_time(timestamp))
+                format!("昨日 {}", format_absolute_time(timestamp))
             } else {
                 format!(
                     "{} {}",
@@ -149,9 +149,9 @@ fn format_absolute_date_medium(
             let timestamp_date = timestamp.date();
             let reference_date = reference.date();
             if timestamp_date == reference_date {
-                "Today".to_string()
+                "今日".to_string()
             } else if reference_date.previous_day() == Some(timestamp_date) {
-                "Yesterday".to_string()
+                "昨日".to_string()
             } else {
                 macos::format_date_medium(&timestamp)
             }
@@ -168,9 +168,9 @@ fn format_absolute_date_medium(
             let timestamp_date = timestamp.date();
             let reference_date = reference.date();
             if timestamp_date == reference_date {
-                "Today".to_string()
+                "今日".to_string()
             } else if reference_date.previous_day() == Some(timestamp_date) {
-                "Yesterday".to_string()
+                "昨日".to_string()
             } else {
                 format_timestamp_naive_date_medium(timestamp, is_12_hour_time_by_locale(current_locale.as_str()))
             }
@@ -195,14 +195,14 @@ fn format_relative_time(timestamp: OffsetDateTime, reference: OffsetDateTime) ->
     let difference = reference - timestamp;
     let minutes = difference.whole_minutes();
     match minutes {
-        0 => Some("Just now".to_string()),
-        1 => Some("1 minute ago".to_string()),
-        2..=59 => Some(format!("{} minutes ago", minutes)),
+        0 => Some("たった今".to_string()),
+        1 => Some("1分前".to_string()),
+        2..=59 => Some(format!("{}分前", minutes)),
         _ => {
             let hours = difference.whole_hours();
             match hours {
-                1 => Some("1 hour ago".to_string()),
-                2..=23 => Some(format!("{} hours ago", hours)),
+                1 => Some("1時間前".to_string()),
+                2..=23 => Some(format!("{}時間前", hours)),
                 _ => None,
             }
         }
@@ -215,26 +215,26 @@ fn format_relative_date(timestamp: OffsetDateTime, reference: OffsetDateTime) ->
     let difference = reference_date - timestamp_date;
     let days = difference.whole_days();
     match days {
-        0 => "Today".to_string(),
-        1 => "Yesterday".to_string(),
-        2..=6 => format!("{} days ago", days),
+        0 => "今日".to_string(),
+        1 => "昨日".to_string(),
+        2..=6 => format!("{}日前", days),
         _ => {
             let weeks = difference.whole_weeks();
             match weeks {
-                1 => "1 week ago".to_string(),
-                2..=4 => format!("{} weeks ago", weeks),
+                1 => "1週間前".to_string(),
+                2..=4 => format!("{}週間前", weeks),
                 _ => {
                     let month_diff = calculate_month_difference(timestamp, reference);
                     match month_diff {
-                        0..=1 => "1 month ago".to_string(),
-                        2..=11 => format!("{} months ago", month_diff),
+                        0..=1 => "1ヶ月前".to_string(),
+                        2..=11 => format!("{}ヶ月前", month_diff),
                         _ => {
                             let timestamp_year = timestamp_date.year();
                             let reference_year = reference_date.year();
                             let years = reference_year - timestamp_year;
                             match years {
-                                1 => "1 year ago".to_string(),
-                                _ => format!("{} years ago", years),
+                                1 => "1年前".to_string(),
+                                _ => format!("{}年前", years),
                             }
                         }
                     }
@@ -308,9 +308,9 @@ fn format_timestamp_naive_date(
     let timestamp_local_date = timestamp_local.date();
 
     if timestamp_local_date == reference_local_date {
-        "Today".to_string()
+        "今日".to_string()
     } else if reference_local_date.previous_day() == Some(timestamp_local_date) {
-        "Yesterday".to_string()
+        "昨日".to_string()
     } else {
         match is_12_hour_time {
             true => format!(
@@ -359,9 +359,9 @@ pub fn format_timestamp_naive(
     let timestamp_local_date = timestamp_local.date();
 
     if timestamp_local_date == reference_local_date {
-        format!("Today at {}", formatted_time)
+        format!("今日 {}", formatted_time)
     } else if reference_local_date.previous_day() == Some(timestamp_local_date) {
-        format!("Yesterday at {}", formatted_time)
+        format!("昨日 {}", formatted_time)
     } else {
         let formatted_date = match is_12_hour_time {
             true => format!(
@@ -478,18 +478,18 @@ mod tests {
 
         // Test with same date (today)
         let timestamp_today = create_offset_datetime(1990, 4, 12, 9, 30, 0);
-        assert_eq!(format_date(timestamp_today, reference, true), "Today");
+        assert_eq!(format_date(timestamp_today, reference, true), "今日");
 
         // Test with previous day (yesterday)
         let timestamp_yesterday = create_offset_datetime(1990, 4, 11, 9, 30, 0);
-        assert_eq!(format_date(timestamp_yesterday, reference, true), "Yesterday");
+        assert_eq!(format_date(timestamp_yesterday, reference, true), "昨日");
 
         // Test with other date
         let timestamp_other = create_offset_datetime(1990, 4, 10, 9, 30, 0);
         let result = format_date(timestamp_other, reference, true);
         assert!(!result.is_empty());
-        assert_ne!(result, "Today");
-        assert_ne!(result, "Yesterday");
+        assert_ne!(result, "今日");
+        assert_ne!(result, "昨日");
     }
 
     #[test]
@@ -509,7 +509,7 @@ mod tests {
 
         // Test with enhanced formatting (today)
         let result_enhanced = format_date_medium(timestamp, reference, true);
-        assert_eq!(result_enhanced, "Today");
+        assert_eq!(result_enhanced, "今日");
 
         // Test with standard formatting
         let result_standard = format_date_medium(timestamp, reference, false);
@@ -518,14 +518,14 @@ mod tests {
         // Test yesterday with enhanced formatting
         let timestamp_yesterday = create_offset_datetime(1990, 4, 11, 9, 30, 0);
         let result_yesterday = format_date_medium(timestamp_yesterday, reference, true);
-        assert_eq!(result_yesterday, "Yesterday");
+        assert_eq!(result_yesterday, "昨日");
 
         // Test other date with enhanced formatting
         let timestamp_other = create_offset_datetime(1990, 4, 10, 9, 30, 0);
         let result_other = format_date_medium(timestamp_other, reference, true);
         assert!(!result_other.is_empty());
-        assert_ne!(result_other, "Today");
-        assert_ne!(result_other, "Yesterday");
+        assert_ne!(result_other, "今日");
+        assert_ne!(result_other, "昨日");
     }
 
     #[test]
@@ -544,18 +544,18 @@ mod tests {
 
         // Test with same date (today)
         let timestamp_today = create_offset_datetime(1990, 4, 12, 9, 30, 0);
-        assert_eq!(format_absolute_date(timestamp_today, reference, true), "Today");
+        assert_eq!(format_absolute_date(timestamp_today, reference, true), "今日");
 
         // Test with previous day (yesterday)
         let timestamp_yesterday = create_offset_datetime(1990, 4, 11, 9, 30, 0);
-        assert_eq!(format_absolute_date(timestamp_yesterday, reference, true), "Yesterday");
+        assert_eq!(format_absolute_date(timestamp_yesterday, reference, true), "昨日");
 
         // Test with other date
         let timestamp_other = create_offset_datetime(1990, 4, 10, 9, 30, 0);
         let result = format_absolute_date(timestamp_other, reference, true);
         assert!(!result.is_empty());
-        assert_ne!(result, "Today");
-        assert_ne!(result, "Yesterday");
+        assert_ne!(result, "今日");
+        assert_ne!(result, "昨日");
     }
 
     #[test]
@@ -565,7 +565,7 @@ mod tests {
 
         // Test with enhanced formatting (today)
         let result_enhanced = format_absolute_date_medium(timestamp, reference, true);
-        assert_eq!(result_enhanced, "Today");
+        assert_eq!(result_enhanced, "今日");
 
         // Test with standard formatting
         let result_standard = format_absolute_date_medium(timestamp, reference, false);
@@ -574,7 +574,7 @@ mod tests {
         // Test yesterday with enhanced formatting
         let timestamp_yesterday = create_offset_datetime(1990, 4, 11, 9, 30, 0);
         let result_yesterday = format_absolute_date_medium(timestamp_yesterday, reference, true);
-        assert_eq!(result_yesterday, "Yesterday");
+        assert_eq!(result_yesterday, "昨日");
     }
 
     #[test]
@@ -593,7 +593,7 @@ mod tests {
         let reference = create_offset_datetime(1990, 4, 12, 16, 45, 0);
         let timestamp = create_offset_datetime(1990, 4, 12, 15, 30, 0);
 
-        assert_eq!(format_timestamp_naive(timestamp, reference, false), "Today at 15:30");
+        assert_eq!(format_timestamp_naive(timestamp, reference, false), "今日 15:30");
     }
 
     #[test]
@@ -601,7 +601,7 @@ mod tests {
         let reference = create_offset_datetime(1990, 4, 12, 16, 45, 0);
         let timestamp = create_offset_datetime(1990, 4, 12, 15, 30, 0);
 
-        assert_eq!(format_timestamp_naive(timestamp, reference, true), "Today at 3:30 PM");
+        assert_eq!(format_timestamp_naive(timestamp, reference, true), "今日 3:30 PM");
     }
 
     #[test]
@@ -609,10 +609,7 @@ mod tests {
         let reference = create_offset_datetime(1990, 4, 12, 10, 30, 0);
         let timestamp = create_offset_datetime(1990, 4, 11, 9, 0, 0);
 
-        assert_eq!(
-            format_timestamp_naive(timestamp, reference, true),
-            "Yesterday at 9:00 AM"
-        );
+        assert_eq!(format_timestamp_naive(timestamp, reference, true), "昨日 9:00 AM");
     }
 
     #[test]
@@ -620,10 +617,7 @@ mod tests {
         let reference = create_offset_datetime(1990, 4, 12, 19, 59, 0);
         let timestamp = create_offset_datetime(1990, 4, 11, 20, 0, 0);
 
-        assert_eq!(
-            format_timestamp_naive(timestamp, reference, true),
-            "Yesterday at 8:00 PM"
-        );
+        assert_eq!(format_timestamp_naive(timestamp, reference, true), "昨日 8:00 PM");
     }
 
     #[test]
@@ -631,10 +625,7 @@ mod tests {
         let reference = create_offset_datetime(1990, 4, 12, 19, 59, 0);
         let timestamp = create_offset_datetime(1990, 4, 11, 18, 0, 0);
 
-        assert_eq!(
-            format_timestamp_naive(timestamp, reference, true),
-            "Yesterday at 6:00 PM"
-        );
+        assert_eq!(format_timestamp_naive(timestamp, reference, true), "昨日 6:00 PM");
     }
 
     #[test]
@@ -642,10 +633,7 @@ mod tests {
         let reference = create_offset_datetime(1990, 4, 12, 0, 5, 0);
         let timestamp = create_offset_datetime(1990, 4, 11, 23, 55, 0);
 
-        assert_eq!(
-            format_timestamp_naive(timestamp, reference, true),
-            "Yesterday at 11:55 PM"
-        );
+        assert_eq!(format_timestamp_naive(timestamp, reference, true), "昨日 11:55 PM");
     }
 
     #[test]
@@ -653,10 +641,7 @@ mod tests {
         let reference = create_offset_datetime(1990, 4, 2, 9, 0, 0);
         let timestamp = create_offset_datetime(1990, 4, 1, 20, 0, 0);
 
-        assert_eq!(
-            format_timestamp_naive(timestamp, reference, true),
-            "Yesterday at 8:00 PM"
-        );
+        assert_eq!(format_timestamp_naive(timestamp, reference, true), "昨日 8:00 PM");
     }
 
     #[test]
@@ -687,23 +672,23 @@ mod tests {
             current_timestamp
         };
 
-        assert_eq!(format_relative_time(reference, reference), Some("Just now".to_string()));
+        assert_eq!(format_relative_time(reference, reference), Some("たった今".to_string()));
 
         assert_eq!(
             format_relative_time(next_minute(), reference),
-            Some("1 minute ago".to_string())
+            Some("1分前".to_string())
         );
 
         for i in 2..=59 {
             assert_eq!(
                 format_relative_time(next_minute(), reference),
-                Some(format!("{} minutes ago", i))
+                Some(format!("{}分前", i))
             );
         }
 
         assert_eq!(
             format_relative_time(next_minute(), reference),
-            Some("1 hour ago".to_string())
+            Some("1時間前".to_string())
         );
     }
 
@@ -724,13 +709,13 @@ mod tests {
 
         assert_eq!(
             format_relative_time(next_hour(), reference),
-            Some("1 hour ago".to_string())
+            Some("1時間前".to_string())
         );
 
         for i in 2..=23 {
             assert_eq!(
                 format_relative_time(next_hour(), reference),
-                Some(format!("{} hours ago", i))
+                Some(format!("{}時間前", i))
             );
         }
 
@@ -748,15 +733,15 @@ mod tests {
             current_timestamp
         };
 
-        assert_eq!(format_relative_date(reference, reference), "Today".to_string());
+        assert_eq!(format_relative_date(reference, reference), "今日".to_string());
 
-        assert_eq!(format_relative_date(next_day(), reference), "Yesterday".to_string());
+        assert_eq!(format_relative_date(next_day(), reference), "昨日".to_string());
 
         for i in 2..=6 {
-            assert_eq!(format_relative_date(next_day(), reference), format!("{} days ago", i));
+            assert_eq!(format_relative_date(next_day(), reference), format!("{}日前", i));
         }
 
-        assert_eq!(format_relative_date(next_day(), reference), "1 week ago");
+        assert_eq!(format_relative_date(next_day(), reference), "1週間前");
     }
 
     #[test]
@@ -772,13 +757,13 @@ mod tests {
             current_timestamp
         };
 
-        assert_eq!(format_relative_date(next_week(), reference), "1 week ago".to_string());
+        assert_eq!(format_relative_date(next_week(), reference), "1週間前".to_string());
 
         for i in 2..=4 {
-            assert_eq!(format_relative_date(next_week(), reference), format!("{} weeks ago", i));
+            assert_eq!(format_relative_date(next_week(), reference), format!("{}週間前", i));
         }
 
-        assert_eq!(format_relative_date(next_week(), reference), "1 month ago");
+        assert_eq!(format_relative_date(next_week(), reference), "1ヶ月前");
     }
 
     #[test]
@@ -801,16 +786,13 @@ mod tests {
             current_timestamp
         };
 
-        assert_eq!(format_relative_date(next_month(), reference), "4 weeks ago".to_string());
+        assert_eq!(format_relative_date(next_month(), reference), "4週間前".to_string());
 
         for i in 2..=11 {
-            assert_eq!(
-                format_relative_date(next_month(), reference),
-                format!("{} months ago", i)
-            );
+            assert_eq!(format_relative_date(next_month(), reference), format!("{}ヶ月前", i));
         }
 
-        assert_eq!(format_relative_date(next_month(), reference), "1 year ago");
+        assert_eq!(format_relative_date(next_month(), reference), "1年前");
     }
 
     #[test]

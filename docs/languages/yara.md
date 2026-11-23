@@ -1,10 +1,10 @@
 # Yara
 
-`Yara` language support in Gram is provided by the
-[Yara language extension](https://github.com/egibs/yara.zed). Please report
-issues to
-[https://github.com/egibs/yara.gram/issues](https://github.com/egibs/yara.gram/issues).
+Gram での `Yara` 言語サポートは、
+[Yara 言語拡張機能](https://github.com/egibs/yara.zed)によって提供されます。問題は
+[https://github.com/egibs/yara.gram/issues](https://github.com/egibs/yara.gram/issues)
+へ報告してください。
 
 - Tree-sitter:
   [egibs/tree-sitter-yara](https://github.com/egibs/tree-sitter-yara)
-- Language Server: [avast/yls](https://github.com/avast/yls)
+- 言語サーバー: [avast/yls](https://github.com/avast/yls)

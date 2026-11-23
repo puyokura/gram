@@ -1,18 +1,14 @@
 # REPL
 
-## Getting started
+## はじめに
 
-Bring the power of
-[Jupyter kernels](https://docs.jupyter.org/en/latest/projects/kernels.html) to
-your editor! The built-in REPL for Gram allows you to run code interactively in
-your editor similarly to a notebook with your own text files.
+[Jupyter カーネル](https://docs.jupyter.org/en/latest/projects/kernels.html) のパワーをエディターに！ Gram に組み込まれた REPL 機能により、ノートブックのように手元のテキストファイルを使ってコードを対話的に実行できます。
 
-## Installation
+## インストール
 
-Gram supports running code in multiple languages. To get started, you need to
-install a kernel for the language you want to use.
+Gram は複数言語でのコード実行をサポートしています。利用を開始するには、使用したい言語のカーネルをインストールする必要があります。
 
-**Currently supported languages:**
+**現在サポートされている言語:**
 
 - [Python (ipykernel)](#python)
 - [TypeScript (Deno)](#typescript-deno)
@@ -21,33 +17,21 @@ install a kernel for the language you want to use.
 - [Julia](#julia)
 - [Scala (Almond)](#scala)
 
-Once installed, you can start using the REPL in the respective language files,
-or other places those languages are supported, such as Markdown. If you recently
-added the kernels, run the `repl: refresh kernelspecs` command to make them
-available in the editor.
+カーネルのインストールが完了すると、各言語のファイルや、Markdown などのそれらの言語ブロックを含む場所で REPL を使用できるようになります。カーネルを新しく追加した場合は、`repl: refresh kernelspecs` コマンドを実行してエディター上で認識させてください。
 
-## Using the REPL
+## REPL の使用方法
 
-To start the REPL, open a file with the language you want to use and use the
-`repl: run` command (defaults to `ctrl-shift-enter` on macOS) to run a block,
-selection, or line. You can also click on the REPL icon in the toolbar.
+REPL を開始するには、対象言語のファイルを開き、`repl: run` コマンド（macOS のデフォルトは `ctrl-shift-enter`）を実行してブロック、選択範囲、または行を実行します。ツールバーの REPL アイコンをクリックすることでも実行できます。
 
-The `repl: run` command will be executed on your selection(s), and the result
-will be displayed below the selection.
+`repl: run` コマンドは選択範囲に対して実行され、結果が選択範囲の直下にインライン表示されます。
 
-Outputs can be cleared with the `repl: clear outputs` command, or from the REPL
-menu in the toolbar.
+出力結果は `repl: clear outputs` コマンドを実行するか、ツールバーの REPL メニューからクリアできます。
 
-### Cell mode
+### セルモード
 
-Gram supports
-[notebooks as scripts](https://jupytext.readthedocs.io/en/latest/formats-scripts.html)
-using the `# %%` cell separator in Python and `// %%` in TypeScript. This allows
-you to write code in a single file and run it as if it were a notebook, cell by
-cell.
+Gram は、Python では `# %%`、TypeScript では `// %%` というセル区切り記号を使用した [スクリプト形式ノートブック](https://jupytext.readthedocs.io/en/latest/formats-scripts.html) をサポートしています。これにより、単一のファイルにコードを記述し、ノートブックのようにセル単位で実行できます。
 
-The `repl: run` command will run each block of code between the `# %%` markers
-as a separate cell.
+`repl: run` コマンドは、`# %%` マーカーで区切られた各コードブロックを個別のセルとして実行します。
 
 ```python
 # %% Cell 1
@@ -62,28 +46,26 @@ from matplotlib import style
 style.use("ggplot")
 ```
 
-## Language specific instructions
+## 言語別のセットアップ手順
 
 ### Python {#python}
 
-#### Global environment
+#### グローバル環境
 
 <div class="warning">
 
-On macOS, your system Python will _not_ work. Either set up
-[pyenv](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation) or use a
-virtual environment.
+macOS では、システムの Python は動作_しません_。[pyenv](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation) をセットアップするか、仮想環境（venv）を使用してください。
 
 </div>
 
-To setup your current Python to have an available kernel, run:
+現在の Python 環境でカーネルを利用可能にするには、次を実行します:
 
 ```sh
 pip install ipykernel
 python -m ipykernel install --user
 ```
 
-#### Conda Environment
+#### Conda 環境
 
 ```sh
 source activate myenv
@@ -91,7 +73,7 @@ conda install ipykernel
 python -m ipykernel install --user --name myenv --display-name "Python (myenv)"
 ```
 
-#### Virtualenv with pip
+#### pip による仮想環境（virtualenv）
 
 ```sh
 source activate myenv
@@ -101,9 +83,7 @@ python -m ipykernel install --user --name myenv --display-name "Python (myenv)"
 
 ### R (Ark Kernel) {#r-ark}
 
-Install [Ark](https://github.com/posit-dev/ark/releases) by downloading the
-release for your operating system. For example, for macOS just unpack `ark`
-binary and put it into `/usr/local/bin`. Then run:
+お使いの OS 向けのリリースをダウンロードして [Ark](https://github.com/posit-dev/ark/releases) をインストールします。例えば macOS の場合は、`ark` バイナリを展開して `/usr/local/bin` に配置します。その後、次を実行します:
 
 ```sh
 ark --install
@@ -111,8 +91,8 @@ ark --install
 
 ### R (Xeus Kernel) {#r-xeus}
 
-- Install [Xeus-R](https://github.com/jupyter-xeus/xeus-r)
-- Install the R Extension for Gram (search for `R` in Gram Extensions)
+- [Xeus-R](https://github.com/jupyter-xeus/xeus-r) をインストールします。
+- Gram 用の R 拡張機能をインストールします（Gram の拡張機能で `R` を検索）。
 
 <!--
 TBD: Improve R REPL (Ark Kernel) instructions
@@ -120,8 +100,7 @@ TBD: Improve R REPL (Ark Kernel) instructions
 
 ### TypeScript: Deno {#typescript-deno}
 
-- [Install Deno](https://docs.deno.com/runtime/manual/getting_started/installation/)
-  and then install the Deno jupyter kernel:
+- [Deno をインストール](https://docs.deno.com/runtime/manual/getting_started/installation/) した後、Deno の Jupyter カーネルをインストールします:
 
 ```sh
 deno jupyter --install
@@ -133,9 +112,8 @@ TBD: Improve R REPL (Ark Kernel) instructions
 
 ### Julia
 
-- Download and install Julia from the
-  [official website](https://julialang.org/downloads/).
-- Install the Julia Extension for Gram (search for `Julia` in Gram Extensions)
+- [公式サイト](https://julialang.org/downloads/) から Julia をダウンロードしてインストールします。
+- Gram 用の Julia 拡張機能をインストールします（Gram の拡張機能で `Julia` を検索）。
 
 <!--
 TBD: Improve Julia REPL instructions
@@ -143,20 +121,16 @@ TBD: Improve Julia REPL instructions
 
 ### Scala
 
-- [Install Scala](https://www.scala-lang.org/download/) with `cs setup`
-  (Coursier):
+- `cs setup`（Coursier）を使用して [Scala をインストール](https://www.scala-lang.org/download/) します:
   - `brew install coursier/formulas/coursier && cs setup`
-- REPL (Almond)
-  [setup instructions](https://almond.sh/docs/quick-start-install):
-  - `brew install --cask temurin` (Eclipse foundation official OpenJDK binaries)
+- REPL (Almond) の [セットアップ手順](https://almond.sh/docs/quick-start-install):
+  - `brew install --cask temurin`（Eclipse 財団公式の OpenJDK バイナリ）
   - `brew install coursier/formulas/coursier && cs setup`
   - `coursier launch --use-bootstrap almond -- --install`
 
-## Changing which kernel is used per language {#changing-kernels}
+## 言語ごとに使用するカーネルの変更 {#changing-kernels}
 
-Gram automatically detects the available kernels on your system. If you need to
-configure a different default kernel for a language, you can assign a kernel for
-any supported language in your `settings.json`.
+Gram はシステム上で利用可能なカーネルを自動検出します。特定の言語に対して別のデフォルトカーネルを設定したい場合は、`settings.json` でサポート対象言語ごとにカーネルを割り当てることができます。
 
 ```json
 {
@@ -171,13 +145,11 @@ any supported language in your `settings.json`.
 }
 ```
 
-## Debugging Kernelspecs
+## カーネルスペックの確認・デバッグ
 
-Available kernels are shown via the `repl: sessions` command. To refresh the
-kernels you can run, use the `repl: refresh kernelspecs` command.
+利用可能なカーネルは `repl: sessions` コマンドで確認できます。実行可能なカーネルを再スキャンして更新するには、`repl: refresh kernelspecs` コマンドを使用してください。
 
-If you have `jupyter` installed, you can run `jupyter kernelspec list` to see
-the available kernels.
+`jupyter` がインストールされている場合は、`jupyter kernelspec list` を実行して利用可能なカーネルを一覧表示できます。
 
 ```sh
 $ jupyter kernelspec list
@@ -191,7 +163,4 @@ Available kernels:
   rust                  /Users/z/Library/Jupyter/kernels/rust
 ```
 
-> Note: Gram makes best effort usage of `sys.prefix` and `CONDA_PREFIX` to find
-> kernels in Python environments. If you want explicitly control run
-> `python -m ipykernel install --user --name myenv --display-name "Python (myenv)"`
-> to install the kernel directly while in the environment.
+> 注: Gram は Python 環境内のカーネルを検出するために `sys.prefix` と `CONDA_PREFIX` を最大限活用します。明示的に指定したい場合は、該当の環境に入った状態で `python -m ipykernel install --user --name myenv --display-name "Python (myenv)"` を実行して直接カーネルをインストールしてください。

@@ -1,68 +1,52 @@
 # Ruby
 
-Ruby support is available through the
-[Ruby extension](https://github.com/zed-extensions/ruby).
+Ruby のサポートは
+[Ruby 拡張機能](https://github.com/zed-extensions/ruby) を通じて利用できます。
 
-- Tree-sitters:
+- Tree-sitter:
   - [tree-sitter-ruby](https://github.com/tree-sitter/tree-sitter-ruby)
   - [tree-sitter-embedded-template](https://github.com/tree-sitter/tree-sitter-embedded-template)
-- Language Servers:
+- 言語サーバー:
   - [ruby-lsp](https://github.com/Shopify/ruby-lsp)
   - [solargraph](https://github.com/castwide/solargraph)
   - [rubocop](https://github.com/rubocop/rubocop)
   - [Herb](https://herb-tools.dev)
-- Debug Adapter: [`rdbg`](https://github.com/ruby/debug)
+- デバッグアダプター: [`rdbg`](https://github.com/ruby/debug)
 
-The Ruby extension also provides support for ERB files.
+Ruby 拡張機能は ERB ファイルのサポートも提供します。
 
-## Language Servers
+## 言語サーバー
 
-There are multiple language servers available for Ruby. Gram supports the two
-following:
+Ruby 向けには複数の言語サーバーが利用可能です。Gram は以下の 2 つをサポートしています:
 
 - [solargraph](https://github.com/castwide/solargraph)
 - [ruby-lsp](https://github.com/Shopify/ruby-lsp)
 
-They both have an overlapping feature set of autocomplete, diagnostics, code
-actions, etc. and it's up to you to decide which one you want to use. Note that
-you can't use both at the same time.
+これらは両方とも自動補完、診断、コードアクションなどの重複する機能セットを備えており、どちらを使用するかはユーザーが決定できます。なお、両方を同時に使用することはできません。
 
-In addition to these two language servers, Gram also supports:
+これら 2 つの言語サーバーに加えて、Gram は以下もサポートしています:
 
-- [rubocop](https://github.com/rubocop/rubocop) which is a static code analyzer
-  and linter for Ruby. Under the hood, it's also used by Gram as a language
-  server, but its functionality is complimentary to that of solargraph and
-  ruby-lsp.
-- [sorbet](https://sorbet.org/) which is a static type checker for Ruby with a
-  custom gradual type system.
-- [steep](https://github.com/soutaro/steep) which is a static type checker for
-  Ruby that leverages Ruby Signature (RBS).
-- [Herb](https://herb-tools.dev) which is a language server for ERB files.
+- [rubocop](https://github.com/rubocop/rubocop): Ruby 向けの静的コードアナライザーおよびリンター。内部的には Gram によって言語サーバーとしても使用されますが、その機能は solargraph や ruby-lsp を補完するものです。
+- [sorbet](https://sorbet.org/): カスタムの漸進的型システムを備えた Ruby 向けの静的型チェッカー。
+- [steep](https://github.com/soutaro/steep): Ruby Signature (RBS) を活用する Ruby 向けの静的型チェッカー。
+- [Herb](https://herb-tools.dev): ERB ファイル向けの言語サーバー。
 
-When configuring a language server, it helps to open the LSP Logs window using
-the 'dev: Open Language Server Logs' command. You can then choose the
-corresponding language instance to see any logged information.
+言語サーバーを設定する際は、「dev: Open Language Server Logs」コマンドを使用して LSP ログウィンドウを開くと便利です。対応する言語インスタンスを選択して、ログに記録された情報を確認できます。
 
-## Configuring a language server
+## 言語サーバーの設定
 
-The [Ruby extension](https://github.com/zed-extensions/ruby) offers both
-`solargraph` and `ruby-lsp` language server support.
+[Ruby 拡張機能](https://github.com/zed-extensions/ruby) は、`solargraph` と `ruby-lsp` の両方の言語サーバーサポートを提供します。
 
-### Language Server Activation
+<a id="language-server-activation"></a>
+### 言語サーバーのアクティブ化
 
-For all supported Ruby language servers (`solargraph`, `ruby-lsp`, `rubocop`,
-`sorbet`, and `steep`), the Ruby extension follows this activation sequence:
+サポートされているすべての Ruby 言語サーバー（`solargraph`、`ruby-lsp`、`rubocop`、`sorbet`、`steep`）について、Ruby 拡張機能は次のアクティブ化手順に従います:
 
-1. If the language server is found in your project's `Gemfile`, it will be used
-   through `bundle exec`.
-2. If not found in the `Gemfile`, the Ruby extension will look for the
-   executable in your system `PATH`.
-3. If the language server is not found in either location, the Ruby extension
-   will automatically install it as a global gem (note: this will not install to
-   your current Ruby gemset).
+1. プロジェクトの `Gemfile` 内に言語サーバーが見つかった場合、`bundle exec` 経由で使用されます。
+2. `Gemfile` 内に見つからない場合、Ruby 拡張機能はシステムの `PATH` 内で実行可能ファイルを探します。
+3. どちらの場所にも言語サーバーが見つからない場合、Ruby 拡張機能はグローバル gem として自動的にインストールします（注意: 現在の Ruby gemset にはインストールされません）。
 
-You can skip step 1 and force using the system executable by setting
-`use_bundler` to `false` in your settings:
+設定で `use_bundler` を `false` に設定することで、ステップ 1 をスキップしてシステムの実行可能ファイルを強制的に使用できます:
 
 ```json
 {
@@ -76,13 +60,13 @@ You can skip step 1 and force using the system executable by setting
 }
 ```
 
-### Using `solargraph`
+### `solargraph` の使用
 
-`solargraph` is enabled by default in the Ruby extension.
+Ruby 拡張機能では、既定で `solargraph` が有効になっています。
 
-### Using `ruby-lsp`
+### `ruby-lsp` の使用
 
-To switch to `ruby-lsp`, add the following to your `settings.json`:
+`ruby-lsp` に切り替えるには、`settings.json` に次を追加します:
 
 ```json
 {
@@ -90,15 +74,15 @@ To switch to `ruby-lsp`, add the following to your `settings.json`:
     "Ruby": {
       "language_servers": ["ruby-lsp", "!solargraph", "!rubocop", "..."],
     },
-    // Enable herb and ruby-lsp for *.html.erb files
+    // *.html.erb ファイル向けに herb と ruby-lsp を有効化
     "HTML+ERB": {
       "language_servers": ["herb", "ruby-lsp", "..."],
     },
-    // Enable ruby-lsp for *.js.erb files
+    // *.js.erb ファイル向けに ruby-lsp を有効化
     "JS+ERB": {
       "language_servers": ["ruby-lsp", "..."],
     },
-    // Enable ruby-lsp for *.yaml.erb files
+    // *.yaml.erb ファイル向けに ruby-lsp を有効化
     "YAML+ERB": {
       "language_servers": ["ruby-lsp", "..."],
     },
@@ -106,14 +90,13 @@ To switch to `ruby-lsp`, add the following to your `settings.json`:
 }
 ```
 
-That disables `solargraph` and `rubocop` and enables `ruby-lsp`.
+これにより、`solargraph` と `rubocop` が無効化され、`ruby-lsp` が有効化されます。
 
-### Using `rubocop`
+### `rubocop` の使用
 
-The Ruby extension also provides support for `rubocop` language server for
-offense detection and autocorrection.
+Ruby 拡張機能は、違反の検出と自動修正のための `rubocop` 言語サーバーのサポートも提供します。
 
-To enable it, add the following to your `settings.json`:
+有効にするには、`settings.json` に次を追加します:
 
 ```json
 {
@@ -125,8 +108,7 @@ To enable it, add the following to your `settings.json`:
 }
 ```
 
-Or, conversely, you can disable `ruby-lsp` and enable `solargraph` and `rubocop`
-by adding the following to your `settings.json`:
+あるいは逆に、`settings.json` に次を追加することで、`ruby-lsp` を無効にして `solargraph` と `rubocop` を有効にすることもできます:
 
 ```json
 {
@@ -138,10 +120,9 @@ by adding the following to your `settings.json`:
 }
 ```
 
-## Setting up `solargraph`
+## `solargraph` のセットアップ
 
-Solargraph has formatting and diagnostics disabled by default. We can tell Gram
-to enable them by adding the following to your `settings.json`:
+Solargraph では、フォーマットと診断が既定で無効になっています。Gram の `settings.json` に次を追加することで、これらを有効にするよう指示できます:
 
 ```json
 {
@@ -156,15 +137,15 @@ to enable them by adding the following to your `settings.json`:
 }
 ```
 
-### Configuration
+### 設定
 
-Solargraph reads its configuration from a file called `.solargraph.yml` in the
-root of your project. For more information about this file, see the
-[Solargraph configuration documentation](https://solargraph.org/guides/configuration).
+Solargraph はプロジェクトのルートにある `.solargraph.yml` というファイルから設定を読み込みます。このファイルの詳細については、
+[Solargraph の設定ドキュメント](https://solargraph.org/guides/configuration)
+を参照してください。
 
-## Setting up `ruby-lsp`
+## `ruby-lsp` のセットアップ
 
-You can pass Ruby LSP configuration to `initialization_options`, e.g.
+`initialization_options` に Ruby LSP の設定を渡すことができます（例）:
 
 ```json
 {
@@ -185,10 +166,7 @@ You can pass Ruby LSP configuration to `initialization_options`, e.g.
 }
 ```
 
-LSP `settings` and `initialization_options` can also be project-specific. For
-example to use [standardrb/standard](https://github.com/standardrb/standard) as
-a formatter and linter for a particular project, add this to a
-`.gram/settings.jsonc` inside your project repo:
+LSP の `settings` や `initialization_options` はプロジェクト固有にすることもできます。たとえば、特定のプロジェクトで [standardrb/standard](https://github.com/standardrb/standard) をフォーマッターおよびリンターとして使用するには、プロジェクトリポジトリ内の `.gram/settings.jsonc` に次を追加します:
 
 ```json
 {
@@ -203,16 +181,15 @@ a formatter and linter for a particular project, add this to a
 }
 ```
 
-## Setting up `rubocop` LSP
+## `rubocop` LSP のセットアップ
 
-Rubocop has unsafe autocorrection disabled by default. We can tell Gram to
-enable it by adding the following to your `settings.json`:
+Rubocop では安全でない自動修正が既定で無効になっています。Gram の `settings.json` に次を追加することで、これを有効にするよう指示できます:
 
 ```json
 {
   "languages": {
     "Ruby": {
-      // Use ruby-lsp as the primary language server and rubocop as the secondary.
+      // プライマリ言語サーバーとして ruby-lsp、セカンダリとして rubocop を使用
       "language_servers": ["ruby-lsp", "rubocop", "!solargraph", "..."],
     },
   },
@@ -233,15 +210,11 @@ enable it by adding the following to your `settings.json`:
 }
 ```
 
-## Setting up Sorbet
+## Sorbet のセットアップ
 
-[Sorbet](https://sorbet.org/) is a popular static type checker for Ruby that
-includes a language server.
+[Sorbet](https://sorbet.org/) は言語サーバーを含む、人気のある Ruby 向け静的型チェッカーです。
 
-To enable Sorbet, add `\"sorbet\"` to the `language_servers` list for Ruby in
-your `settings.json`. You may want to disable other language servers if Sorbet
-is intended to be your primary LSP, or if you plan to use it alongside another
-LSP for specific features like type checking.
+Sorbet を有効にするには、`settings.json` の Ruby の `language_servers` リストに `"sorbet"` を追加します。Sorbet をプライマリ LSP として使用する場合、あるいは型チェックなどの特定機能のために別の LSP と併用する場合は、他の言語サーバーを無効化するとよいでしょう。
 
 ```json
 {
@@ -259,18 +232,15 @@ LSP for specific features like type checking.
 }
 ```
 
-For all aspects of installing Sorbet, setting it up in your project, and
-configuring its behavior, please refer to the
-[official Sorbet documentation](https://sorbet.org/docs/overview).
+Sorbet のインストール、プロジェクトへのセットアップ、動作の設定に関するあらゆる事項については、
+[Sorbet 公式ドキュメント](https://sorbet.org/docs/overview)
+を参照してください。
 
-## Setting up Steep
+## Steep のセットアップ
 
-[Steep](https://github.com/soutaro/steep) is a static type checker for Ruby that
-uses RBS files to define types.
+[Steep](https://github.com/soutaro/steep) は RBS ファイルを使用して型を定義する Ruby 向けの静的型チェッカーです。
 
-To enable Steep, add `\"steep\"` to the `language_servers` list for Ruby in your
-`settings.json`. You may need to adjust the order or disable other LSPs
-depending on your desired setup.
+Steep を有効にするには、`settings.json` の Ruby の `language_servers` リストに `"steep"` を追加します。希望する構成に応じて、順序を調整したり他の LSP を無効化したりする必要がある場合があります。
 
 ```json
 {
@@ -288,19 +258,17 @@ depending on your desired setup.
 }
 ```
 
-## Setting up Herb
+## Herb のセットアップ
 
-`Herb` is enabled by default for the `HTML+ERB` language.
+`HTML+ERB` 言語では、既定で `Herb` が有効になっています。
 
-## Using the Tailwind CSS Language Server with Ruby
+## Ruby での Tailwind CSS 言語サーバーの使用
 
-It's possible to use the
-[Tailwind CSS Language Server](https://github.com/tailwindlabs/tailwindcss-intellisense/tree/HEAD/packages/tailwindcss-language-server#readme)
-in Ruby and ERB files.
+Ruby および ERB ファイルで
+[Tailwind CSS 言語サーバー](https://github.com/tailwindlabs/tailwindcss-intellisense/tree/HEAD/packages/tailwindcss-language-server#readme)
+を使用することができます。
 
-In order to do that, you need to configure the language server so that it knows
-about where to look for CSS classes in Ruby/ERB files by adding the following to
-your `settings.json`:
+これを行うには、`settings.json` に次を追加して、Ruby/ERB ファイル内で CSS クラスをどこで探すべきかを言語サーバーに伝える必要があります:
 
 ```json
 {
@@ -321,32 +289,26 @@ your `settings.json`:
 }
 ```
 
-With these settings you will get completions for Tailwind CSS classes in HTML
-attributes inside ERB files and inside Ruby/ERB strings that are coming after a
-`class:` key. Examples:
+これらの設定により、ERB ファイル内の HTML 属性、および `class:` キーの後に続く Ruby/ERB 文字列内で Tailwind CSS クラスの補完が行われます。例:
 
 ```rb
-# Ruby file:
+# Ruby ファイル:
 def method
   div(class: "pl-2 <completion here>") do
     p(class: "mt-2 <completion here>") { "Hello World" }
   end
 end
 
-# ERB file:
+# ERB ファイル:
 <%= link_to "Hello", "/hello", class: "pl-2 <completion here>" %>
 <a href="/hello" class="pl-2 <completion here>">Hello</a>
 ```
 
-## Running tests
+## テストの実行
 
-To run tests in your Ruby project, you can set up custom tasks in your local
-`.gram/tasks.jsonc` configuration file. These tasks can be defined to work with
-different test frameworks like Minitest, RSpec, quickdraw, and tldr. Below are
-some examples of how to set up these tasks to run your tests from within your
-editor.
+Ruby プロジェクトでテストを実行するには、ローカルの `.gram/tasks.jsonc` 設定ファイルでカスタムタスクをセットアップできます。これらのタスクは、Minitest、RSpec、quickdraw、tldr などのさまざまなテストフレームワークと連携するように定義できます。以下は、エディター内からテストを実行するためのタスク設定例です。
 
-### Minitest with Rails
+### Rails での Minitest
 
 ```json [tasks]
 [
@@ -367,8 +329,7 @@ editor.
 
 ### Minitest
 
-Plain minitest does not support running tests by line number, only by name, so
-we need to use `$GRAM_CUSTOM_RUBY_TEST_NAME` instead:
+プレーンな Minitest は行番号によるテストの実行をサポートしておらず、名前による実行のみをサポートしているため、代わりに `$GRAM_CUSTOM_RUBY_TEST_NAME` を使用する必要があります:
 
 ```json [tasks]
 [
@@ -403,19 +364,17 @@ we need to use `$GRAM_CUSTOM_RUBY_TEST_NAME` instead:
 ]
 ```
 
-Similar task syntax can be used for other test frameworks such as `quickdraw` or
-`tldr`.
+`quickdraw` や `tldr` などの他のテストフレームワークでも同様のタスク構文を使用できます。
 
-## Debugging
+## デバッグ
 
-The Ruby extension provides a debug adapter for debugging Ruby code. Gram's name
-for the adapter (in the UI and `debug.json`) is `rdbg`, and under the hood, it
-uses the [`debug`](https://github.com/ruby/debug) gem. The extension uses the
-[same activation logic](#language-server-activation) as the language servers.
+Ruby 拡張機能は、Ruby コードをデバッグするためのデバッグアダプターを提供します。UI および `debug.json` における Gram のアダプター名は `rdbg` であり、内部的には [`debug`](https://github.com/ruby/debug) gem を使用しています。拡張機能は、言語サーバーと
+[同じアクティブ化ロジック](#language-server-activation)
+を使用します。
 
-### Examples
+### 例
 
-#### Debug a Ruby script
+#### Ruby スクリプトのデバッグ
 
 ```json [debug]
 [
@@ -429,7 +388,7 @@ uses the [`debug`](https://github.com/ruby/debug) gem. The extension uses the
 ]
 ```
 
-#### Debug Rails server
+#### Rails サーバーのデバッグ
 
 ```json [debug]
 [
@@ -447,13 +406,13 @@ uses the [`debug`](https://github.com/ruby/debug) gem. The extension uses the
 ]
 ```
 
-## Formatters
+## フォーマッター
 
 ### `erb-formatter`
 
-To format ERB templates, you can use the `erb-formatter` formatter. This
-formatter uses the [`erb-formatter`](https://rubygems.org/gems/erb-formatter)
-gem to format ERB templates.
+ERB テンプレートをフォーマットするには、`erb-formatter` フォーマッターを使用できます。このフォーマッターは
+[`erb-formatter`](https://rubygems.org/gems/erb-formatter)
+gem を使用して ERB テンプレートをフォーマットします。
 
 ```json
 {

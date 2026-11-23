@@ -40,7 +40,7 @@ impl BlameRenderer for GitBlameRenderer {
     ) -> Option<AnyElement> {
         let relative_timestamp = blame_entry_relative_timestamp(&blame_entry);
         let short_commit_id = blame_entry.sha.display_short();
-        let author_name = blame_entry.author.as_deref().unwrap_or("<no name>");
+        let author_name = blame_entry.author.as_deref().unwrap_or("名前なし");
         let name = util::truncate_and_trailoff(author_name, GIT_BLAME_MAX_AUTHOR_CHARS_DISPLAYED);
 
         Some(
@@ -164,7 +164,7 @@ impl BlameRenderer for GitBlameRenderer {
             .unwrap_or(OffsetDateTime::now_utc());
 
         let sha = SharedString::from(blame.sha.to_string());
-        let author: SharedString = blame.author.clone().unwrap_or("<no name>".to_string()).into();
+        let author: SharedString = blame.author.clone().unwrap_or("名前なし".to_string()).into();
         let author_email = blame.author_mail.as_deref().unwrap_or_default();
         let avatar = CommitAvatar::new().render();
 
@@ -197,7 +197,7 @@ impl BlameRenderer for GitBlameRenderer {
         let message = details
             .as_ref()
             .map(|_| MarkdownElement::new(markdown.clone(), markdown_style).into_any())
-            .unwrap_or("<no commit message>".into_any());
+            .unwrap_or("コミットメッセージなし".into_any());
 
         let pull_request = details.as_ref().and_then(|details| details.pull_request.clone());
 
@@ -300,7 +300,7 @@ impl BlameRenderer for GitBlameRenderer {
                                             .child(Divider::vertical())
                                             .child(
                                                 CopyButton::new("copy-blame-sha", sha.to_string())
-                                                    .tooltip_label("Copy SHA"),
+                                                    .tooltip_label("SHA をコピー"),
                                             ),
                                     ),
                             ),
@@ -342,11 +342,13 @@ fn deploy_blame_entry_context_menu(
     let context_menu = ContextMenu::build(window, cx, move |menu, _, _| {
         let sha = format!("{}", blame_entry.sha);
         menu.on_blur_subscription(Subscription::new(|| {}))
-            .entry("Copy commit SHA", None, move |_, cx| {
+            .entry("コミット SHA をコピー", None, move |_, cx| {
                 cx.write_to_clipboard(ClipboardItem::new_string(sha.clone()));
             })
             .when_some(details.and_then(|details| details.permalink.clone()), |this, url| {
-                this.entry("Open permalink", None, move |_, cx| cx.open_url(url.as_str()))
+                this.entry("パーマリンクを開く", None, move |_, cx| {
+                    cx.open_url(url.as_str())
+                })
             })
     });
 
@@ -368,6 +370,6 @@ fn blame_entry_relative_timestamp(blame_entry: &BlameEntry) -> String {
                 time_format::TimestampFormat::Relative,
             )
         }
-        Err(_) => "Error parsing date".to_string(),
+        Err(_) => "日付の解析エラー".to_string(),
     }
 }

@@ -1,12 +1,10 @@
-# Language Support in Gram
+# Gram の言語サポート
 
-Gram supports hundreds of programming languages and text formats. Some work
-out-of-the box and others rely on 3rd party extensions.
+Gram は数百ものプログラミング言語とテキスト形式をサポートしています。初期状態でそのまま動作するものもあれば、サードパーティ製の拡張機能を利用するものもあります。
 
-> The ones included out-of-the-box, natively built into Gram, are marked with
-> \*.
+> Gram に標準で組み込まれており、初期状態で利用可能な言語には \* が付いています。
 
-## Languages with Documentation
+## ドキュメントがある言語
 
 - [Ansible](./languages/ansible.md)
 - [AsciiDoc](./languages/asciidoc.md)
@@ -82,7 +80,7 @@ out-of-the box and others rely on 3rd party extensions.
 - [Yarn](./languages/yarn.md)
 - [Zig](./languages/zig.md) \*
 
-## Additional Language Extensions
+## 追加の言語拡張機能
 
 - [Ada](https://github.com/wisn/zed-ada-language)
 - [Aiken](https://github.com/aiken-lang/zed-aiken)

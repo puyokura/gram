@@ -1,9 +1,8 @@
 # OpenTofu
 
-OpenTofu support is built into the editor. It is the properly open-source
-alternative to Terraform to provision your infrastructure as code.
+OpenTofu のサポートはエディターに組み込まれています。インフラストラクチャをコードとしてプロビジョニングするための、Terraform に代わる完全なオープンソースの選択肢です。
 
-- [Website](https://opentofu.org/)
-- [Documentation](https://opentofu.org/docs/)
+- [Web サイト](https://opentofu.org/)
+- [ドキュメント](https://opentofu.org/docs/)
 - [Tree Sitter](https://github.com/MichaHoffmann/tree-sitter-hcl)
-- [Language Server (tofu-ls)](https://github.com/opentofu/tofu-ls)
+- [言語サーバー (tofu-ls)](https://github.com/opentofu/tofu-ls)

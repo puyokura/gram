@@ -1,19 +1,18 @@
 # Markdown
 
-Markdown support is available natively in Gram.
+Markdown のサポートは Gram にネイティブで組み込まれています。
 
 - Tree-sitter:
   [tree-sitter-markdown](https://github.com/tree-sitter-grammars/tree-sitter-markdown)
-- Language Server: [zk](https://zk-org.github.io/zk/index.html)
+- 言語サーバー: [zk](https://zk-org.github.io/zk/index.html)
 
-## Syntax Highlighting Code Blocks
+## コードブロックのシンタックスハイライト
 
-Gram supports language-specific syntax highlighting of markdown code blocks by
-leveraging [tree-sitter language grammars](../extensions/languages.md#grammar).
-All [Gram supported languages](../languages.md), including those provided by
-official or community extensions, are available for use in markdown code blocks.
-All you need to do is provide a language name after the opening <kbd>```</kbd>
-code fence like so:
+Gram は [tree-sitter の言語文法](../extensions/languages.md#grammar) を利用して、
+Markdown のコードブロックを言語別にシンタックスハイライトします。公式拡張機能や
+コミュニティ拡張機能が提供するものを含め、[Gram がサポートする言語](../languages.md)
+はすべて Markdown のコードブロックで利用できます。開始する <kbd>```</kbd>
+コードフェンスの後に言語名を書くだけです:
 
 ````python
 ```python
@@ -25,13 +24,13 @@ def fib(n):
 ```
 ````
 
-## Configuration
+## 構成
 
-### Language Server (zk)
+### 言語サーバー（zk）
 
-Gram comes with support for the `zk` zettelkasten language server built in.
+Gram には `zk` zettelkasten 言語サーバーのサポートが組み込まれています。
 
-To enable it, add this to your settings.json:
+有効にするには、settings.json に次を追加します:
 
 ```json
   "languages": {
@@ -41,16 +40,16 @@ To enable it, add this to your settings.json:
   },
 ```
 
-See the [documentation](https://zk-org.github.io/zk/index.html) more information
-about `zk` and the zettelkasten system for note taking.
+`zk` とメモ取り用の zettelkasten システムの詳細については
+[ドキュメント](https://zk-org.github.io/zk/index.html) を参照してください。
 
-### Format
+### フォーマット
 
-Gram supports using Prettier to automatically re-format Markdown documents. You
-can trigger this manually via the {#action editor::Format} action or via the
-{#kb editor::Format} keyboard shortcut. Alternately, you can automatically
-format by enabling [`format_on_save`](../configuring-gram.md#format-on-save) in
-your settings.json:
+Gram は Prettier による Markdown 文書の自動再フォーマットをサポートしています。
+{#action editor::Format} アクションで手動実行するか、{#kb editor::Format}
+キーボードショートカットで実行できます。あるいは、settings.json で
+[`format_on_save`](../configuring-gram.md#format-on-save) を有効にすると自動で
+フォーマットできます:
 
 ```json
   "languages": {
@@ -60,11 +59,11 @@ your settings.json:
   },
 ```
 
-### Trailing Whitespace
+### 行末の空白
 
-By default Gram will remove trailing whitespace on save. If you rely on
-invisible trailing whitespace being converted to `<br />` in Markdown files you
-can disable this behavior with:
+既定では Gram は保存時に末尾の空白を削除します。Markdown ファイルで不可視の末尾
+空白が `<br />` に変換されることに依存している場合は、次の設定でこの動作を無効に
+できます:
 
 ```json
   "languages": {

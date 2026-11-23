@@ -1,23 +1,22 @@
 # Go
 
-Go support is available natively in Gram.
+Go のサポートは Gram にネイティブで組み込まれています。
 
 - Tree-sitter:
   [tree-sitter/tree-sitter-go](https://github.com/tree-sitter/tree-sitter-go)
-- Language Server:
+- 言語サーバー:
   [golang/tools/tree/master/gopls](https://github.com/golang/tools/tree/master/gopls)
-- Debug Adapter: [delve](https://github.com/go-delve/delve)
+- デバッグアダプター: [delve](https://github.com/go-delve/delve)
 
-## Setup
+## セットアップ
 
-We recommend installing gopls via go's package manager and not via Homebrew or
-your Linux distribution's package manager.
+gopls は Homebrew や各 Linux ディストリビューションのパッケージマネージャーではなく、
+Go のパッケージマネージャーでインストールすることをおすすめします。
 
-1. Make sure you have uninstalled any version of gopls you have installed via
-   your package manager:
+1. パッケージマネージャーでインストールした gopls をすべてアンインストールします:
 
 ```sh
-# MacOS homebrew
+# macOS の Homebrew
 brew remove gopls
 # Ubuntu
 sudo apt-get remove gopls
@@ -26,25 +25,26 @@ sudo snap remove gopls
 sudo pacman -R gopls
 ```
 
-2. Install/Update `gopls` to the latest version using the go module tool:
+2. Go のモジュールツールを使って `gopls` を最新版にインストール/更新します:
 
 ```sh
 go install golang.org/x/tools/gopls@latest
 ```
 
-3. Ensure that `gopls` is in your path:
+3. `gopls` が PATH に入っていることを確認します:
 
 ```sh
 which gopls
 gopls version
 ```
 
-If `gopls` is not found you will likely need to add
-`export PATH="$PATH:$HOME/go/bin"` to your `.zshrc` / `.bash_profile`
+`gopls` が見つからない場合は、`export PATH="$PATH:$HOME/go/bin"` を
+`.zshrc` / `.bash_profile` に追加する必要があるでしょう。
 
-## Inlay Hints
+## インラインヒント
 
-Gram sets the following initialization options for inlay hints:
+Gram は、設定でインラインヒントが有効になっているときに言語サーバーがインラインヒントを
+返すよう、次の初期化オプションを設定します:
 
 ```json
 "hints": {
@@ -58,10 +58,7 @@ Gram sets the following initialization options for inlay hints:
 }
 ```
 
-to make the language server send back inlay hints when Gram has them enabled in
-the settings.
-
-Use
+これらの設定を上書きするには、次を使用します:
 
 ```json
 "lsp": {
@@ -75,27 +72,25 @@ Use
 }
 ```
 
-to override these settings.
+詳しくは
+[gopls の inlayHints ドキュメント](https://github.com/golang/tools/blob/master/gopls/doc/inlayHints.md)
+を参照してください。
 
-See
-[gopls inlayHints documentation](https://github.com/golang/tools/blob/master/gopls/doc/inlayHints.md)
-for more information.
+## デバッグ
 
-## Debugging
+Gram は Delve を使って、Go のテストとエントリーポイント（`func main`）を設定なしで
+デバッグできます。{#action debugger::Start}（{#kb debugger::Start}）を実行すると、
+あらかじめ構成されたデバッグタスクがコンテキストに応じて一覧表示されます。
 
-Gram supports zero-configuration debugging of Go tests and entry points
-(`func main`) using Delve. Run {#action debugger::Start} ({#kb debugger::Start})
-to see a contextual list of these preconfigured debug tasks.
+さらに細かく制御するには、`.gram/debug.jsonc` にデバッグ構成を追加します。例は以下に
+示します。
 
-For more control, you can add debug configurations to `.gram/debug.jsonc`. See
-below for examples.
+- [Delve の構成ドキュメント](https://github.com/go-delve/delve/blob/master/Documentation/api/dap/README.md#launch-and-attach-configurations)
 
-- [Delve configuration documentation](https://github.com/go-delve/delve/blob/master/Documentation/api/dap/README.md#launch-and-attach-configurations)
+### Go パッケージのデバッグ
 
-### Debug Go Packages
-
-To debug a specific package, you can do so by setting the Delve mode to "debug".
-In this case "program" should be set to the package name.
+特定のパッケージをデバッグするには、Delve のモードを "debug" に設定します。この場合、
+"program" にはパッケージ名を指定します。
 
 ```json [debug]
 [
@@ -111,7 +106,7 @@ In this case "program" should be set to the package name.
     "adapter": "Delve",
     "request": "launch",
     "mode": "debug",
-    // For Delve, the program can be a package name
+    // Delve では、program にパッケージ名を指定できます
     "program": "./cmd/server"
     // "args": [],
     // "buildFlags": [],
@@ -119,12 +114,12 @@ In this case "program" should be set to the package name.
 ]
 ```
 
-### Debug Go Tests
+### Go テストのデバッグ
 
-To debug the tests for a package, set the Delve mode to "test". The "program" is
-still the package name, and you can use the "buildFlags" to do things like set
-tags, and the "args" to set args on the test binary. (See `go help testflags`
-for more information on doing that).
+パッケージのテストをデバッグするには、Delve のモードを "test" に設定します。"program"
+は引き続きパッケージ名で、"buildFlags" を使ってタグを設定したり、"args" でテスト
+バイナリに引数を渡したりできます（この方法の詳細は `go help testflags` を参照して
+ください）。
 
 ```json [debug]
 [
@@ -135,17 +130,17 @@ for more information on doing that).
     "mode": "test",
     "program": ".",
     "buildFlags": ["-tags", "integration"]
-    // To filter down to just the test your cursor is in:
+    // カーソルがあるテストだけに絞り込むには:
     // "args": ["-test.run", "$GRAM_SYMBOL"]
   }
 ]
 ```
 
-### Build and debug separately
+### ビルドとデバッグを分けて行う
 
-If you need to build your application with a specific command, you can use the
-"exec" mode of Delve. In this case "program" should point to an executable, and
-the "build" command should build that.
+アプリケーションを特定のコマンドでビルドする必要がある場合は、Delve の "exec" モードを
+使えます。この場合 "program" は実行ファイルを指し、"build" コマンドでその実行ファイルを
+ビルドします。
 
 ```json [debug]
 [
@@ -173,11 +168,10 @@ the "build" command should build that.
 ]
 ```
 
-### Attaching to an existing instance of Delve
+### 既存の Delve インスタンスへの接続
 
-You might find yourself needing to connect to an existing instance of Delve
-that's not necessarily running on your machine; in such case, you can use
-`tcp_arguments` to instrument Gram's connection to Delve.
+自分のマシンで動いているとは限らない既存の Delve インスタンスに接続したい場合があります。
+その場合は `tcp_arguments` を使って、Gram から Delve への接続を設定できます。
 
 ```json [debug]
 [
@@ -196,24 +190,23 @@ that's not necessarily running on your machine; in such case, you can use
 ]
 ```
 
-In such case Gram won't spawn a new instance of Delve, as it opts to use an
-existing one. The consequence of this is that _there will be no terminal_ in
-Gram; you have to interact with the Delve instance directly, as it handles
-stdin/stdout of the debuggee.
+この場合、Gram は既存のインスタンスを使うため、新しい Delve インスタンスを起動しません。
+その結果、Gram には*ターミナルが表示されません*。デバッグ対象の stdin/stdout は Delve が
+扱うため、Delve インスタンスと直接やり取りする必要があります。
 
 ## Go Mod
 
 - Tree-sitter:
   [camdencheek/tree-sitter-go-mod](https://github.com/camdencheek/tree-sitter-go-mod)
-- Language Server: N/A
+- 言語サーバー: 該当なし
 
 ## Go Sum
 
 - Tree-sitter:
   [amaanq/tree-sitter-go-sum](https://github.com/amaanq/tree-sitter-go-sum)
-- Language Server: N/A
+- 言語サーバー: 該当なし
 
 ## Go Work
 
 - Tree-sitter: [tree-sitter-go-work](https://github.com/d1y/tree-sitter-go-work)
-- Language Server: N/A
+- 言語サーバー: 該当なし

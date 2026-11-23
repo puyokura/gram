@@ -336,7 +336,7 @@ impl DebugAdapter for CodeLldbDebugAdapter {
             if !settings.allow_binary_download {
                 anyhow::bail!("No installed codelldb binary found and allow_binary_download not set");
             }
-            delegate.output_to_console(format!("Checking latest version of {}...", self.name()));
+            delegate.output_to_console(format!("{} の最新バージョンを確認中…", self.name()));
             let adapter_path = paths::debug_adapters_dir().join(Self::ADAPTER_NAME);
             let version_path = match self.fetch_latest_adapter_version(delegate).await {
                 Ok(version) => {
@@ -353,9 +353,9 @@ impl DebugAdapter for CodeLldbDebugAdapter {
                     version_path
                 }
                 Err(e) => {
-                    delegate.output_to_console("Unable to fetch latest version".to_string());
+                    delegate.output_to_console("最新バージョンを取得できませんでした".to_string());
                     log::error!("Error fetching latest version of {}: {}", self.name(), e);
-                    delegate.output_to_console(format!("Searching for adapters in: {}", adapter_path.display()));
+                    delegate.output_to_console(format!("アダプターを検索中: {}", adapter_path.display()));
                     let mut paths = delegate
                         .fs()
                         .read_dir(&adapter_path)

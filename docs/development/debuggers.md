@@ -1,114 +1,80 @@
-# Using a debugger
+# デバッガーの使用
 
-> **DISCLAIMER**: This is not documentation for
-> [configuring Gram's debugger](../debugger.md). Rather, it is intended to
-> provide information on how to use a debugger while developing Gram itself.
+> **免責事項**: これは [Gram のデバッガーを設定する](../debugger.md)ためのドキュメントではありません。Gram 自体を開発する際にデバッガーを使う方法について説明することを目的としています。
 
-## Using Gram's built-in debugger
+## Gram 内蔵デバッガーの使用
 
-While the Gram project is open you can open the `New Process Modal` and select
-the `Debug` tab. There you can see to debug configurations to debug Gram with,
-one for GDB and one for LLDB. Select the configuration you want and Gram will
-build and launch the binary.
+Gram プロジェクトを開いている状態で、`New Process Modal` を開き、`Debug` タブを選択できます。そこには Gram をデバッグするためのデバッグ構成が表示され、GDB 用と LLDB 用が1つずつあります。使用する構成を選択すると、Gram がバイナリをビルドして起動します。
 
-Note: GDB isn't supported on ARM Macbooks.
+注: GDB は ARM 搭載の MacBook ではサポートされていません。
 
-## Release build profile considerations
+## リリースビルドプロファイルに関する考慮事項
 
-By default, builds using the release profile (release is the profile used for
-production builds, i.e. stable) include limited debug info.
+既定では、リリースプロファイル（製品ビルド、つまり stable で使われるプロファイル）を使用するビルドには、限定的なデバッグ情報のみが含まれます。
 
-This is done by setting the `profile.(release).debug` field in the root
-`Cargo.toml` field to `"limited"`.
+これは、ルートの `Cargo.toml` にある `profile.(release).debug` フィールドを `"limited"` に設定することで行われます。
 
-The official documentation for the `debug` field can be found
-[here](https://doc.rust-lang.org/cargo/reference/profiles.html#debug). But the
-TLDR is that `"limited"` strips type and variable level debug info.
+`debug` フィールドの公式ドキュメントは[こちら](https://doc.rust-lang.org/cargo/reference/profiles.html#debug)にあります。要点は、`"limited"` を指定すると型と変数レベルのデバッグ情報が取り除かれるということです。
 
-In release builds, this is done to reduce the binary size, as type and variable
-level debug info is not required, and does not impact the usability of generated
-stack traces.
+リリースビルドでこの設定を行っているのは、バイナリサイズを削減するためです。型と変数レベルのデバッグ情報は不要であり、生成されるスタックトレースの使いやすさにも影響しません。
 
-However, while the type and variable level debug info is not required for good
-stack traces, it is very important for a good experience using debuggers, as
-without the type and variable level debug info, the debugger has no way to
-resolve local variables, inspect them, format them using pretty-printers, etc.
+ただし、型と変数レベルのデバッグ情報は、良いスタックトレースには不要であっても、デバッガーを使う体験には非常に重要です。型と変数レベルのデバッグ情報がないと、デバッガーはローカル変数を解決できず、値を検査したり、プリティプリンターで整形表示したりできません。
 
-Therefore, in order to use a debugger to it's fullest extent when debugging a
-release build, you must compile a new Gram binary, with full debug info.
+そのため、リリースビルドをデバッグするときにデバッガーを最大限活用するには、完全なデバッグ情報付きで Gram バイナリを新たにコンパイルする必要があります。
 
-The simplest way to do this, is to use the `--config` flag to override the
-`debug` field in the root `Cargo.toml` file when running `cargo run` or
-`cargo build` like so:
+最も簡単な方法は、次のように `cargo run` や `cargo build` を実行する際に `--config` フラグを使って、ルートの `Cargo.toml` の `debug` フィールドを上書きすることです:
 
 ```sh
 cargo run --config 'profile.release.debug="full"'
 cargo build --config 'profile.release.debug="full"'
 ```
 
-> If you wish to avoid passing the `--config` flag on every invocation of
-> `cargo`. You may also change the section in the
-> [root `Cargo.toml`](https://github.com/zed-industries/zed/blob/main/Cargo.toml)
->
-> from
+> `cargo` を呼び出すたびに `--config` フラグを渡すのを避けたい場合は、[ルートの `Cargo.toml`](https://github.com/zed-industries/zed/blob/main/Cargo.toml) の該当セクションを
 >
 > ```toml
 > [profile.release]
 > debug = "limited"
 > ```
 >
-> to
+> から
 >
 > ```toml
 > [profile.release]
 > debug = "full"
 > ```
 >
-> This will ensure all invocations of `cargo run --release` or
-> `cargo build --release` will compile with full debug info.
+> に変更してもかまいません。
 >
-> **WARNING:** Make sure to avoid committing these changes!
+> これにより、`cargo run --release` や `cargo build --release` を呼び出すたびに、完全なデバッグ情報付きでコンパイルされます。
+>
+> **警告:** これらの変更をコミットしないよう注意してください！
 
-## Running Gram with a shell debugger GDB/LLDB
+## シェルデバッガー GDB/LLDB で Gram を実行する
 
-### Background
+### 背景
 
-The recommended way to get rust for Gram development is via
-[rustup](https://rustup.rs). For more details, see the documentation for getting
-[started on your platform](../development.md).
+Gram の開発用に Rust を入手する推奨の方法は、[rustup](https://rustup.rs) 経由です。詳細は[各プラットフォームでの始め方](../development.md)のドキュメントを参照してください。
 
-When rust is installed via rustup, a few additional scripts are installed and
-put on your path to assist with debugging binaries compiled with rust:
-`rust-gdb` and `rust-lldb`. Learn more about these scripts and why they are
-useful on
-[a bit of respite](https://michaelwoerister.github.io/2015/03/27/rust-xxdb.html).
+rustup で Rust をインストールすると、Rust でコンパイルされたバイナリのデバッグを支援する追加のスクリプトがいくつかインストールされ、パスに追加されます: `rust-gdb` と `rust-lldb`。これらのスクリプトと、それが役に立つ理由については[brief respite](https://michaelwoerister.github.io/2015/03/27/rust-xxdb.html)で詳しく説明されています。
 
-In summary, they are simple shell scripts that wrap the standard `gdb` and
-`lldb` commands, injecting the relevant commands and flags to enable additional
-rust-specific features such as pretty-printers and type information.
+要約すると、これらは標準の `gdb` と `lldb` コマンドをラップする単純なシェルスクリプトで、プリティプリンターや型情報といった Rust 固有の追加機能を有効にするためのコマンドやフラグを注入します。
 
-In order to use `rust-gdb` or `rust-lldb`, you must have `gdb` or `lldb`
-installed on your system. If you don't have them installed, you will need to
-install them in a manner appropriate for your platform.
+`rust-gdb` や `rust-lldb` を使うには、`gdb` または `lldb` がシステムにインストールされている必要があります。インストールされていない場合は、プラットフォームに適した方法でインストールしてください。
 
-Quoting the article above,
+上記の記事から引用します:
 
-> "The minimum supported debugger versions are GDB 7.7 and LLDB 310. However,
-> the general rule is: the newer the better."
+> "サポートされるデバッガーの最小バージョンは GDB 7.7 と LLDB 310 です。ただし、一般的な原則は「新しいほど良い」です。"
 
-It is recommended to install the latest version of `gdb` or `lldb` if possible.
+可能であれば、最新バージョンの `gdb` または `lldb` をインストールすることをおすすめします。
 
-> **Note**: On Windows, `rust-gdb` is not installed by default as `gdb` support
-> for Windows is not very stable. Use `lldb` with `rust-lldb` instead.
+> **注**: Windows では、Windows 向けの `gdb` サポートが安定していないため、`rust-gdb` は既定ではインストールされません。代わりに `rust-lldb` と合わせて `lldb` を使用してください。
 
 - [gdb](https://www.gnu.org/software/gdb/)
 - [lldb](https://lldb.llvm.org/)
 
-### Usage
+### 使い方
 
-Follow the steps above to include full debug info when compiling Gram. Then, run
-`rust-gdb` or `rust-lldb` on the compiled Gram binary after building it with
-`cargo build`:
+上記の手順に従い、Gram をコンパイルする際に完全なデバッグ情報を含めます。その後、`cargo build` でビルドした Gram バイナリに対して `rust-gdb` または `rust-lldb` を実行します:
 
 ```
 # for gdb:
@@ -118,19 +84,16 @@ rust-gdb target/debug/gram
 rust-lldb target/debug/gram
 ```
 
-Alternatively, attach to a running instance of Gram (such as an instance of Gram
-started using `cargo run`):
+あるいは、実行中の Gram インスタンス（`cargo run` で起動したインスタンスなど）にアタッチします:
 
 ```
 rust-gdb -p <pid>
 rust-lldb -p <pid>
 ```
 
-Where `<pid>` is the process ID of the Gram instance you want to attach to.
+ここで `<pid>` は、アタッチしたい Gram インスタンスのプロセス ID です。
 
-To get the process ID of a running Gram instance, you can use your systems
-process management tools such as `Task Manager` on windows or `Activity Monitor`
-on macOS, or from a terminal:
+実行中の Gram インスタンスのプロセス ID を取得するには、Windows の `Task Manager` や macOS の `Activity Monitor` といった OS のプロセス管理ツールを使用するか、ターミナルから次のコマンドを実行します:
 
 ```
 # Mac or Linux
@@ -140,25 +103,16 @@ ps aux | grep gram
 Get-Process | Select-Object Id, ProcessName
 ```
 
-#### Debugging Panics and Crashes
+#### パニックとクラッシュのデバッグ
 
-Debuggers can be an excellent tool for debugging the cause of panics and crashes
-in all programs, including Gram.
+デバッガーは、Gram を含むあらゆるプログラムで、パニックやクラッシュの原因をデバッグするための優れたツールになります。
 
-By default, when a process that `gdb` or `lldb` is attached to hits an exception
-such as a panic, the debugger will automatically stop at the point of the panic
-and allow you to inspect the state of the program.
+既定では、`gdb` や `lldb` がアタッチしているプロセスがパニックなどの例外に達すると、デバッガーは自動的にパニックの地点で停止し、プログラムの状態を検査できるようになります。
 
-Most likely, the point at which the debugger stops will be deep in the rust
-standard library panic or exception handling code, so you will need to navigate
-up the stack trace to find the actual cause of the panic.
+多くの場合、デバッガーが停止する地点は Rust 標準ライブラリのパニック処理や例外処理のコードの奥深くにあるため、スタックトレースを遡って実際の原因を見つける必要があります。
 
-This can be accomplished using the `backtrace` command in combination with the
-`frame select` command in `lldb`, with similar commands available in `gdb`.
+これは、`lldb` では `backtrace` コマンドと `frame select` コマンドを組み合わせて行えます。`gdb` にも同様のコマンドがあります。
 
-Once the program is stopped, you will not be able to continue execution as you
-can before an exception is hit. However, you can jump around to different stack
-frames, and inspect the values of variables and expressions within each frame,
-which can be very useful in identifying the root cause of the crash.
+プログラムが停止すると、例外に達する前のように実行を続けることはできません。ただし、さまざまなスタックフレームに移動し、各フレーム内の変数や式の値を検査できます。これはクラッシュの根本原因を特定するうえで非常に有用です。
 
-Read more on [Debugging Crashes](./debugging-crashes.md).
+詳しくは[クラッシュのデバッグ](./debugging-crashes.md)を参照してください。

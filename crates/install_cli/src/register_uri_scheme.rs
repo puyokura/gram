@@ -6,7 +6,7 @@ const GRAM_URL_SCHEME: &str = "gram";
 actions!(
     cli,
     [
-        /// Registers the gram:// URL scheme handler.
+        /// gram:// URL スキームハンドラーを登録します。
         RegisterUriScheme
     ]
 );

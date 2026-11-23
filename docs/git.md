@@ -1,49 +1,38 @@
 # Git
 
-There is integrated support for working with git and git forges in the code
-editor.
+コードエディター内で Git および Git ホスティングサービスと連携するための統合サポートが備わっています。
 
-Here's an overview of all currently supported features:
+現在サポートされている機能の概要は以下のとおりです。
 
-- Committing
-- Staging, pushing, pulling, and fetching
-- Project Diff: A multibuffer view of all changes
-- Diff indicators in buffers and editor scrollbars
-- Inline diff toggle and reverts in the editor for unstaged changes
-- Git status in the Project Panel
-- Branch creating and switching
-- Git blame viewing
-- Git stash pop, apply, drop and view
+- コミット
+- ステージング、プッシュ、プル、フェッチ
+- プロジェクト Diff: すべての変更点を確認できるマルチバッファービュー
+- バッファーおよびエディタースクロールバー内の Diff インジケーター
+- 未ステージングの変更に対するエディター内インライン Diff 切り替えおよび変更の取り消し（revert）
+- プロジェクトパネルでの Git ステータス表示
+- ブランチの作成と切り替え
+- Git blame の表示
+- Git stash の pop、apply、drop、表示
 
-## Git Panel
+## Git パネル
 
-The Git Panel provides a birds-eye view of the state of the working tree and
-staging area.
+Git パネルでは、ワーキングツリーとステージングエリアの状態を一目で把握できます。
 
-Open the Git Panel using {#action git_panel::ToggleFocus}, or by clicking the
-Git icon in the status bar.
+Git パネルを開くには、{#action git_panel::ToggleFocus} を実行するか、ステータスバーの Git アイコンをクリックします。
 
-The Git Panel shows the state of the project: Which repository and branch are
-active, what files have changed and the current staging state of each file.
+Git パネルには、アクティブなリポジトリとブランチ、変更されたファイル、各ファイルの現在のステージング状態など、プロジェクトの状態が表示されます。
 
-Gram monitors the project repository, so any changes made within or outside the
-editor are instantly visible in the git panel.
+Gram はプロジェクトリポジトリを監視しているため、エディター内外で行われたすべての変更が Git パネルに即座に反映されます。
 
-### Configuration
+### 設定
 
-Configure how the editor hard wraps commit messages with the
-`preferred-line-length` setting of the "Git Commit" language. The default is
-`72`, but it can be set to any number of characters, `0` or more.
+エディターでコミットメッセージを自動改行（ハードラップ）する方法は、「Git Commit」言語の `preferred-line-length` 設定で構成します。デフォルトは `72` ですが、`0` 以上の任意の文字数を設定できます。
 
-The Git Panel also allows configuring the `soft_wrap` setting to adjust how
-commit messages display while typing them in the Git Panel. The default setting
-is `editor_width`, however, `none`, `preferred_line_length`, and `bounded` are
-also options.
+Git パネルでは `soft_wrap` 設定も構成でき、Git パネルへの入力中におけるコミットメッセージの表示方法を調整できます。デフォルト設定は `editor_width` ですが、`none`、`preferred_line_length`、`bounded` も選択可能です。
 
-To open Git diffs side by side, enable `git.split_diff`. The setting
-defaults to `false`.
+Git diff を左右に並べて開くには、`git.split_diff` を有効にします。この設定のデフォルトは `false` です。
 
-#### Example
+#### 設定例
 
 ```json
 "languages": {
@@ -54,28 +43,19 @@ defaults to `false`.
 }
 ```
 
-## Project Diff
+## プロジェクト Diff
 
-See all of the current changes by opening the Project Diff ({#kb git::Diff}),
-accessible via the {#action git::Diff} action in the Command Palette or the Git
-Panel.
+プロジェクト Diff（{#kb git::Diff}）を開くと、現在のすべての変更を確認できます。コマンドパレットまたは Git パネルの {#action git::Diff} アクションからアクセスできます。
 
-All of the changes displayed in the Project Diff behave the same as any other
-multibuffer: they are all editable excerpts of files.
+プロジェクト Diff に表示されるすべての変更は、他のマルチバッファーと同様に動作します。すべてファイルの編集可能な抜粋です。
 
-### Side-by-side diffs
+### 左右並列（Side-by-side）Diff
 
-When `git.split_diff` is enabled, project, commit and file diffs open with
-the old version on the left and the current version on the right. Matching rows
-are aligned across both panes; inserted and deleted rows are shown with hatched
-padding on the side that has no corresponding text. Scrolling and folds stay in
-sync between the panes.
+`git.split_diff` を有効にすると、プロジェクト、コミット、ファイルの diff が左側に旧バージョン、右側に現行バージョンという形で並べて開かれます。一致する行は両ペイン間で揃えて配置され、挿入行や削除行は対応するテキストが存在しない側に斜線（ハッチング）付きのパディングが表示されます。スクロールや折りたたみ（fold）は両ペイン間で同期されます。
 
-The view can be toggled for the active diff with the `editor::SplitDiff` and
-`editor::UnsplitDiff` actions. The current version remains the editable side,
-so staging, reverting and saving continue to work as in the regular diff view.
+アクティブな diff 表示は、`editor::SplitDiff` および `editor::UnsplitDiff` アクションで切り替えることができます。現行バージョン側は引き続き編集可能であるため、ステージング、取り消し、保存は通常の diff ビューと同様に動作します。
 
-For example, to enable the view by default, add this to `settings.json`:
+たとえば、このビューをデフォルトで有効にするには、`settings.json` に以下を追加します。
 
 ```json
 {
@@ -85,126 +65,92 @@ For example, to enable the view by default, add this to `settings.json`:
 }
 ```
 
-Stage or unstage each hunk as well as a whole file by hitting the buttons on the
-tab bar or their corresponding keybindings.
+タブバー上のボタンをクリックするか、対応するキーバインドを押すことで、ハンク単位やファイル全体をステージング/アンステージングできます。
 
-## Fetch, push, and pull
+## フェッチ、プッシュ、プル
 
-Fetch, push, or pull from the Git repository in Gram via the buttons available
-on the Git Panel or via the Command Palette actions: {#action git::Fetch},
-{#action git::Push}, and {#action git::Pull}.
+Git パネルにあるボタン、またはコマンドパレットのアクション（{#action git::Fetch}、{#action git::Push}、{#action git::Pull}）を使用して、Gram 内から Git リポジトリのフェッチ、プッシュ、プルを実行できます。
 
-## Staging Workflow
+## ステージングのワークフロー
 
-Gram has two primary staging workflows, using either the Project Diff or the
-panel directly.
+Gram には、プロジェクト Diff を使用する方法と、パネルを直接操作する方法の 2 つの主なステージングワークフローがあります。
 
-### Using the Project Diff
+### プロジェクト Diff を使用する場合
 
-In the Project Diff view it's possible to focus on each hunk and stage them
-individually by clicking on the tab bar buttons or via the keybindings {#action
-git::StageAndNext} ({#kb git::StageAndNext}).
+プロジェクト Diff ビューでは、各ハンクにフォーカスを当て、タブバーのボタンをクリックするかキーバインド {#action git::StageAndNext}（{#kb git::StageAndNext}）を使用して個別にステージングできます。
 
-Similarly, stage all hunks at the same time with the {#action git::StageAll}
-({#kb git::StageAll}) keybinding and then immediately commit with {#action
-git::Commit} ({#kb git::Commit}).
+同様に、キーバインド {#action git::StageAll}（{#kb git::StageAll}）ですべてのハンクを同時にステージングし、直後に {#action git::Commit}（{#kb git::Commit}）でコミットすることも可能です。
 
-### Using the Git Panel
+### Git パネルを使用する場合
 
-From the panel, simply type a commit message and hit the commit button, or
-{#action git::Commit}. This will automatically stage all tracked files
-(indicated by a `[·]` in the entry's checkbox) and commit them.
+パネルからコミットメッセージを入力し、コミットボタンを押すか {#action git::Commit} を実行するだけです。これにより、追跡対象のすべてのファイル（エントリーのチェックボックスに `[·]` で表示）が自動的にステージングされ、コミットされます。
 
-Entries can be staged using each individual entry's checkbox. All changes can be
-staged using the button at the top of the panel, or {#action git::StageAll}.
+各エントリーのチェックボックスを使って個別にステージングすることもできます。すべての変更をステージングするには、パネル上部のボタンをクリックするか {#action git::StageAll} を実行します。
 
-## Committing
+## コミット
 
-There are two ways to commit changes from within the editor:
+エディター内から変更をコミットするには、以下の 2 つの方法があります。
 
-1. Using the button at the bottom of the Git Panel. Hitting {#kb git::Commit}
-   immediately commits all of your staged changes.
-2. Invoke the action {#action git::ExpandCommitEditor} or use the keyboard
-   shortcut {#kb git::ExpandCommitEditor} while focused on the Git Panel commit
-   text area.
+1. Git パネル下部のボタンを使用します。{#kb git::Commit} を押すと、ステージング済みのすべての変更が直ちにコミットされます。
+2. Git パネルのコミットテキストエリアにフォーカスがある状態で、{#action git::ExpandCommitEditor} アクションを呼び出すか、キーボードショートカット {#kb git::ExpandCommitEditor} を使用します。
 
-### Undo a commit
+### コミットの取り消し（Undo）
 
-As soon as you commit in Gram, in the Git Panel, you'll see a bar right under
-the commit textarea which will show the most recently submitted commit.
+Gram でコミットすると、Git パネルのコミットテキストエリアの直下にバーが表示され、直近に送信されたコミットが確認できます。
 
-In there, you can use the "Uncommit" button, which will run a command similar to
-`git reset HEADˆ --soft`.
+そこにある「Uncommit」ボタンを使用すると、`git reset HEADˆ --soft` と同様のコマンドが実行されます。
 
-### Commit Line Length
+### コミット行の長さ
 
-By default, the commit line length is set to `72`. It can be configured in
-`settings.json`.
+デフォルトでは、コミット行の長さは `72` に設定されています。これは `settings.json` で構成可能です。
 
-See `preferred-line-length` in the [Configuration](#configuration) section.
+[設定](#configuration) セクションの `preferred-line-length` を参照してください。
 
-## Stashing
+## スタッシュ（Stash）
 
-Git stash allows you to temporarily save your uncommitted changes and return to
-a clean working directory. This is useful to quickly switch branches or pull
-updates without committing incomplete work.
+Git stash を使用すると、コミットしていない変更を一時的に退避させ、クリーンな作業ディレクトリに戻すことができます。仕掛かり中の作業をコミットすることなく、素早くブランチを切り替えたり最新の更新をプルしたりする際に便利です。
 
-### Creating Stashes
+### スタッシュの作成
 
-To stash all current changes, use the {#action git::StashAll} action. This will
-save both staged and unstaged changes to a new stash entry and set up a clean
-working directory.
+現在のすべての変更をスタッシュするには、{#action git::StashAll} アクションを使用します。これにより、ステージング済みと未ステージングの両方の変更が新しいスタッシュエントリーに保存され、クリーンな作業ディレクトリが作成されます。
 
-### Managing Stashes
+### スタッシュの管理
 
-Gram provides a comprehensive stash picker accessible via {#action
-git::ViewStash}. From the stash picker, you can:
+Gram には、{#action git::ViewStash} からアクセスできる高機能なスタッシュピッカーが用意されています。スタッシュピッカーからは以下の操作が可能です。
 
-- **View stash list**: Browse all your saved stashes with their descriptions and
-  timestamps
-- **Open diffs**: See exactly what changes are stored in each stash
-- **Apply stashes**: Apply stash changes to your working directory while keeping
-  the stash entry
-- **Pop stashes**: Apply stash changes and remove the stash entry from the list
-- **Drop stashes**: Delete unwanted stash entries without applying them
+- **スタッシュ一覧の確認**: 保存されているすべてのスタッシュを説明文やタイムスタンプとともに閲覧
+- **Diff を開く**: 各スタッシュにどのような変更が保存されているかを正確に確認
+- **スタッシュの適用（Apply）**: スタッシュエントリーをリストに残したまま、スタッシュの変更を作業ディレクトリに適用
+- **スタッシュの取り出し（Pop）**: スタッシュの変更を適用し、リストからそのスタッシュエントリーを削除
+- **スタッシュの破棄（Drop）**: 変更を適用せずに不要なスタッシュエントリーを削除
 
-### Quick Stash Operations
+### クイックスタッシュ操作
 
-For faster workflows, Gram provides direct actions to work with the most recent
-stash:
+より素早いワークフローのために、Gram は直近のスタッシュを操作する直接アクションを提供しています。
 
-- **Apply latest stash**: Use {#action git::StashApply} to apply the most recent
-  stash without removing it
-- **Pop latest stash**: Use {#action git::StashPop} to apply and remove the most
-  recent stash
+- **最新のスタッシュを適用**: {#action git::StashApply} を使用すると、最新のスタッシュをリストから削除せずに適用します
+- **最新のスタッシュを取り出す**: {#action git::StashPop} を使用すると、最新のスタッシュを適用してリストから削除します
 
-### Stash Diff View
+### スタッシュ Diff ビュー
 
-When viewing a specific stash in the diff view, you have additional options
-available through the interface:
+Diff ビューで特定のスタッシュを表示しているときは、インターフェイスから以下の追加オプションを利用できます。
 
-- Apply the current stash to your working directory
-- Pop the current stash (apply and remove)
-- Remove the stash without applying changes
+- 現在のスタッシュを作業ディレクトリに適用する
+- 現在のスタッシュを取り出す（適用して削除する）
+- 変更を適用せずにスタッシュを削除する
 
-To open the stash diff view, select a stash from the stash picker and use the
-{#action stash_picker::ShowStashItem} ({#kb stash_picker::ShowStashItem})
-keybinding.
+スタッシュ Diff ビューを開くには、スタッシュピッカーからスタッシュを選択し、{#action stash_picker::ShowStashItem}（{#kb stash_picker::ShowStashItem}）キーバインドを使用します。
 
-## Git Integrations
+## Git 連携
 
-Gram integrates with popular Git hosting services to ensure that Git commit
-hashes and references to Issues, Pull Requests, and Merge Requests become
-clickable links.
+Gram は主要な Git ホスティングサービスと連携しており、Git のコミットハッシュや Issue、Pull Request、Merge Request への参照をクリック可能なリンクとして扱えます。
 
-Gram currently supports links to the hosted versions of
+Gram は現在、以下のホスティング版へのリンクに対応しています。
 [GitHub](https://github.com), [GitLab](https://gitlab.com),
-[Bitbucket](https://bitbucket.org), [Sourcehut](https://sr.ht) and
-[Codeberg](https://codeberg.org).
+[Bitbucket](https://bitbucket.org), [Sourcehut](https://sr.ht),
+[Codeberg](https://codeberg.org)。
 
-For self-hosted GitHub, GitLab, or Bitbucket instances, add them to the
-`git_hosting_providers` setting so commit hashes and permalinks resolve to your
-domain:
+セルフホスト版の GitHub、GitLab、Bitbucket インスタンスについては、コミットハッシュやパーマリンクが自組織のドメインに解決されるよう、`git_hosting_providers` 設定に追加してください。
 
 ```json
 {
@@ -218,82 +164,66 @@ domain:
 }
 ```
 
-## Copy Permalink
+## パーマリンクのコピー
 
-Create a permanent link to a code snippet on your Git hosting service.
+Git ホスティングサービス上のコードスニペットへの恒久的なリンク（パーマリンク）を作成できます。
 
-These links are useful for sharing a specific line or range of lines in a file
-at a specific commit. Trigger this action via the Command Palette (search for
-`permalink`), by creating a
-[custom key bindings](./key-bindings.md#custom-key-bindings) to the
-`editor::CopyPermalinkToLine` or `editor::OpenPermalinkToLine` actions or by
-simply right clicking and selecting `Copy Permalink` with line(s) selected in
-your editor.
+これらのリンクは、特定のコミットにおけるファイル内の特定の行や行範囲を共有するのに便利です。コマンドパレットから（`permalink` を検索）、`editor::CopyPermalinkToLine` や `editor::OpenPermalinkToLine` アクションへの [カスタムキーバインド](./key-bindings.md#custom-key-bindings) を作成して呼び出すか、エディターで行を選択した状態で右クリックして `Copy Permalink` を選択します。
 
-## Diff Hunk Keyboard Shortcuts
+## Diff ハンクのキーボードショートカット
 
-When viewing files with changes, Gram displays diff hunks that can be expanded
-or collapsed for detailed review:
+変更のあるファイルを表示している際、Gram は詳細なレビューのために展開または折りたたみが可能な Diff ハンクを表示します。
 
-- **Expand all diff hunks**: {#action editor::ExpandAllDiffHunks} ({#kb
-  editor::ExpandAllDiffHunks})
-- **Collapse all diff hunks**: Press `Escape` (bound to {#action
-  editor::Cancel})
-- **Toggle selected diff hunks**: {#action editor::ToggleSelectedDiffHunks}
-  ({#kb editor::ToggleSelectedDiffHunks})
-- **Navigate between hunks**: {#action editor::GoToHunk} and {#action
-  editor::GoToPreviousHunk}
+- **すべての Diff ハンクを展開**: {#action editor::ExpandAllDiffHunks}（{#kb editor::ExpandAllDiffHunks}）
+- **すべての Diff ハンクを折りたたむ**: `Escape` を押す（{#action editor::Cancel} に割り当て）
+- **選択した Diff ハンクの展開/折りたたみを切り替え**: {#action editor::ToggleSelectedDiffHunks}（{#kb editor::ToggleSelectedDiffHunks}）
+- **ハンク間を移動**: {#action editor::GoToHunk} および {#action editor::GoToPreviousHunk}
 
-> **Tip:** The `Escape` key is the quickest way to collapse all expanded diff
-> hunks and return to an overview of your changes.
+> **ヒント:** 展開されているすべての Diff ハンクを折りたたんで変更の全体像に戻るには、`Escape` キーを押すのが最も手軽です。
 
-## Action Reference
+## アクションリファレンス
 
-| Action                                    | Keybinding                            |
+| アクション | キーバインド |
 | ----------------------------------------- | ------------------------------------- |
-| {#action git::Add}                        | {#kb git::Add}                        |
-| {#action git::StageAll}                   | {#kb git::StageAll}                   |
-| {#action git::UnstageAll}                 | {#kb git::UnstageAll}                 |
-| {#action git::ToggleStaged}               | {#kb git::ToggleStaged}               |
-| {#action git::StageAndNext}               | {#kb git::StageAndNext}               |
-| {#action git::UnstageAndNext}             | {#kb git::UnstageAndNext}             |
-| {#action git::Commit}                     | {#kb git::Commit}                     |
-| {#action git::ExpandCommitEditor}         | {#kb git::ExpandCommitEditor}         |
-| {#action git::Push}                       | {#kb git::Push}                       |
-| {#action git::ForcePush}                  | {#kb git::ForcePush}                  |
-| {#action git::Pull}                       | {#kb git::Pull}                       |
-| {#action git::PullRebase}                 | {#kb git::PullRebase}                 |
-| {#action git::Fetch}                      | {#kb git::Fetch}                      |
-| {#action git::Diff}                       | {#kb git::Diff}                       |
-| {#action git::Restore}                    | {#kb git::Restore}                    |
-| {#action git::RestoreFile}                | {#kb git::RestoreFile}                |
-| {#action git::Branch}                     | {#kb git::Branch}                     |
-| {#action git::Switch}                     | {#kb git::Switch}                     |
-| {#action git::CheckoutBranch}             | {#kb git::CheckoutBranch}             |
-| {#action git::Blame}                      | {#kb git::Blame}                      |
-| {#action git::StashAll}                   | {#kb git::StashAll}                   |
-| {#action git::StashPop}                   | {#kb git::StashPop}                   |
-| {#action git::StashApply}                 | {#kb git::StashApply}                 |
-| {#action git::ViewStash}                  | {#kb git::ViewStash}                  |
-| {#action editor::ToggleGitBlameInline}    | {#kb editor::ToggleGitBlameInline}    |
-| {#action editor::ExpandAllDiffHunks}      | {#kb editor::ExpandAllDiffHunks}      |
+| {#action git::Add} | {#kb git::Add} |
+| {#action git::StageAll} | {#kb git::StageAll} |
+| {#action git::UnstageAll} | {#kb git::UnstageAll} |
+| {#action git::ToggleStaged} | {#kb git::ToggleStaged} |
+| {#action git::StageAndNext} | {#kb git::StageAndNext} |
+| {#action git::UnstageAndNext} | {#kb git::UnstageAndNext} |
+| {#action git::Commit} | {#kb git::Commit} |
+| {#action git::ExpandCommitEditor} | {#kb git::ExpandCommitEditor} |
+| {#action git::Push} | {#kb git::Push} |
+| {#action git::ForcePush} | {#kb git::ForcePush} |
+| {#action git::Pull} | {#kb git::Pull} |
+| {#action git::PullRebase} | {#kb git::PullRebase} |
+| {#action git::Fetch} | {#kb git::Fetch} |
+| {#action git::Diff} | {#kb git::Diff} |
+| {#action git::Restore} | {#kb git::Restore} |
+| {#action git::RestoreFile} | {#kb git::RestoreFile} |
+| {#action git::Branch} | {#kb git::Branch} |
+| {#action git::Switch} | {#kb git::Switch} |
+| {#action git::CheckoutBranch} | {#kb git::CheckoutBranch} |
+| {#action git::Blame} | {#kb git::Blame} |
+| {#action git::StashAll} | {#kb git::StashAll} |
+| {#action git::StashPop} | {#kb git::StashPop} |
+| {#action git::StashApply} | {#kb git::StashApply} |
+| {#action git::ViewStash} | {#kb git::ViewStash} |
+| {#action editor::ToggleGitBlameInline} | {#kb editor::ToggleGitBlameInline} |
+| {#action editor::ExpandAllDiffHunks} | {#kb editor::ExpandAllDiffHunks} |
 | {#action editor::ToggleSelectedDiffHunks} | {#kb editor::ToggleSelectedDiffHunks} |
 
-> Not all actions have default keybindings, but can be bound by
-> [customizing your keymap](./key-bindings.md#user-keymaps).
+> すべてのアクションにデフォルトのキーバインドが設定されているわけではありませんが、[キーマップのカスタマイズ](./key-bindings.md#user-keymaps) により割り当てることができます。
 
-## Git CLI Configuration
+## Git CLI 設定
 
-If you would like to also use Gram for your
-[git commit message editor](https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_core_editor)
-when committing from the command line you can use `gram --wait`:
+コマンドラインからコミットする際に Gram を [Git コミットメッセージエディター](https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_core_editor) としても使用したい場合は、`gram --wait` を使用できます。
 
 ```sh
 git config --global core.editor "gram --wait"
 ```
 
-Or add the following to your shell environment (in `~/.zshrc`, `~/.bashrc`,
-etc):
+または、シェルの環境設定（`~/.zshrc` や `~/.bashrc` など）に以下を追加します。
 
 ```sh
 export GIT_EDITOR="gram --wait"

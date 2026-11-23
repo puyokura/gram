@@ -119,7 +119,7 @@ enum InputPanel {
 struct SearchMatchHighlight;
 struct SearchMatchLineHighlight;
 
-/// Global state for storing the recent search query.
+/// 直近の検索クエリを保存するグローバル状態。
 struct DocsSearchState {
     last_query: Option<String>,
 }
@@ -137,7 +137,7 @@ fn save_recent_query(query: &str, cx: &mut App) {
     });
 }
 
-/// Initialize the docs_search module.
+/// docs_search モジュールを初期化します。
 pub fn init(cx: &mut App) {
     cx.observe_new(DocsSearch::register).detach();
 }
@@ -335,17 +335,17 @@ impl Render for DocsSearch {
                         h_flex()
                             .gap_2()
                             .items_center()
-                            .child(Label::new("Search Documentation").size(LabelSize::Default))
+                            .child(Label::new("ドキュメントを検索").size(LabelSize::Default))
                             .when(search_in_progress, |this| {
                                 this.child(
-                                    Label::new(format!("Searching... {} matches in {} files", match_count, file_count))
+                                    Label::new(format!("検索中… {} 件の一致 / {} ファイル", match_count, file_count))
                                         .color(Color::Muted)
                                         .size(LabelSize::Small),
                                 )
                             })
                             .when(!search_in_progress && has_matches, |this| {
                                 this.child(
-                                    Label::new(format!("{} matches in {} files", match_count, file_count))
+                                    Label::new(format!("{} 件の一致 / {} ファイル", match_count, file_count))
                                         .color(Color::Muted)
                                         .size(LabelSize::Small),
                                 )
@@ -360,12 +360,7 @@ impl Render for DocsSearch {
                                 IconButton::new("select-prev-match", IconName::ChevronLeft)
                                     .size(ButtonSize::Compact)
                                     .tooltip(move |_window, cx| {
-                                        Tooltip::for_action_in(
-                                            "Previous Match",
-                                            &SelectPreviousMatch,
-                                            &focus_handle,
-                                            cx,
-                                        )
+                                        Tooltip::for_action_in("前の一致", &SelectPreviousMatch, &focus_handle, cx)
                                     })
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(SelectPreviousMatch.boxed_clone(), cx);
@@ -376,7 +371,7 @@ impl Render for DocsSearch {
                                 IconButton::new("select-next-match", IconName::ChevronRight)
                                     .size(ButtonSize::Compact)
                                     .tooltip(move |_window, cx| {
-                                        Tooltip::for_action_in("Next Match", &SelectNextMatch, &focus_handle, cx)
+                                        Tooltip::for_action_in("次の一致", &SelectNextMatch, &focus_handle, cx)
                                     })
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(SelectNextMatch.boxed_clone(), cx);
@@ -719,7 +714,7 @@ impl PickerDelegate for DocsSearchDelegate {
     type ListItem = ListItem;
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Search documentation...".into()
+        "ドキュメントを検索…".into()
     }
 
     fn render_editor(&self, editor: &Entity<Editor>, window: &mut Window, cx: &mut Context<Picker<Self>>) -> Div {
@@ -774,7 +769,7 @@ impl PickerDelegate for DocsSearchDelegate {
                                 let editor_for_click = editor.clone();
                                 IconButton::new("insert-newline", IconName::Return)
                                     .size(ButtonSize::Compact)
-                                    .tooltip(Tooltip::text("Insert New Line"))
+                                    .tooltip(Tooltip::text("改行を挿入"))
                                     .on_click(move |_, window, cx| {
                                         editor_for_click.update(cx, |editor, cx| {
                                             editor.insert("\n", window, cx);

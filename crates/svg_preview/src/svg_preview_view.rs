@@ -265,11 +265,11 @@ impl Render for SvgPreviewView {
                         .p_4()
                         .gap_2()
                         .child(Icon::new(IconName::Warning))
-                        .child("Failed to load SVG image")
+                        .child("SVG 画像の読み込みに失敗しました")
                         .into_any_element()
                 })),
                 Some(Err(e)) => this.child(div().p_4().child(e).into_any_element()),
-                None => this.child(div().p_4().child("No SVG file selected")),
+                None => this.child(div().p_4().child("SVG ファイルが選択されていません")),
             })
     }
 }
@@ -298,8 +298,8 @@ impl Item for SvgPreviewView {
         self.buffer
             .as_ref()
             .and_then(|svg_path| svg_path.read(cx).file())
-            .map(|name| format!("Preview {}", name.file_name(cx)).into())
-            .unwrap_or_else(|| "SVG Preview".into())
+            .map(|name| format!("プレビュー: {}", name.file_name(cx)).into())
+            .unwrap_or_else(|| "SVG プレビュー".into())
     }
 
     fn to_item_events(_event: &Self::Event, _f: impl FnMut(workspace::item::ItemEvent)) {}

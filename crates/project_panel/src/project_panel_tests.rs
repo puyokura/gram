@@ -1298,7 +1298,7 @@ async fn test_copy_paste_image(cx: &mut gpui::TestAppContext) {
     cx.executor().run_until_parked();
 
     assert!(cx.has_pending_prompt(), "Should have a prompt after second copy");
-    cx.simulate_prompt_answer("Cancel");
+    cx.simulate_prompt_answer("キャンセル");
     cx.executor().run_until_parked();
 
     assert_eq!(
@@ -1318,7 +1318,7 @@ async fn test_copy_paste_image(cx: &mut gpui::TestAppContext) {
     cx.executor().run_until_parked();
 
     assert!(cx.has_pending_prompt(), "Should have a prompt after second copy");
-    cx.simulate_prompt_answer("Replace");
+    cx.simulate_prompt_answer("置き換え");
     cx.executor().run_until_parked();
 
     assert_eq!(
@@ -1396,7 +1396,7 @@ async fn test_copy_paste_external(cx: &mut gpui::TestAppContext) {
     });
     cx.executor().run_until_parked();
     assert!(cx.has_pending_prompt(), "Should have a prompt after second copy");
-    cx.simulate_prompt_answer("Replace");
+    cx.simulate_prompt_answer("置き換え");
     cx.executor().run_until_parked();
 
     assert_eq!(
@@ -8083,7 +8083,7 @@ fn submit_deletion(panel: &Entity<ProjectPanel>, cx: &mut VisualTestContext) {
         panel.delete(&Delete { skip_prompt: false }, window, cx)
     });
     assert!(cx.has_pending_prompt(), "Should have a prompt after the deletion");
-    cx.simulate_prompt_answer("Delete");
+    cx.simulate_prompt_answer("完全に削除");
     assert!(
         !cx.has_pending_prompt(),
         "Should have no prompts after prompt was replied to"

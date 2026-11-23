@@ -63,12 +63,12 @@ const CURSOR_BLINK_INTERVAL: Duration = Duration::from_millis(500);
 #[derive(Clone, Debug, PartialEq)]
 pub struct ScrollTerminal(pub i32);
 
-/// Sends the specified text directly to the terminal.
+/// 指定したテキストをターミナルへ直接送信する。
 #[derive(Clone, Debug, Default, Deserialize, JsonSchema, PartialEq, Action)]
 #[action(namespace = terminal)]
 pub struct SendText(String);
 
-/// Sends a keystroke sequence to the terminal.
+/// キーストローク列をターミナルへ送信する。
 #[derive(Clone, Debug, Default, Deserialize, JsonSchema, PartialEq, Action)]
 #[action(namespace = terminal)]
 pub struct SendKeystroke(String);
@@ -76,12 +76,12 @@ pub struct SendKeystroke(String);
 actions!(
     terminal,
     [
-        /// Reruns the last executed task in the terminal.
+        /// ターミナルで最後に実行したタスクを再実行する。
         RerunTask
     ]
 );
 
-/// Renames the terminal tab.
+/// ターミナルタブの名前を変更する。
 #[derive(Clone, Debug, Default, Deserialize, JsonSchema, PartialEq, Action)]
 #[action(namespace = terminal)]
 pub struct RenameTerminal;
@@ -446,15 +446,15 @@ impl TerminalView {
     pub fn deploy_context_menu(&mut self, position: Point<Pixels>, window: &mut Window, cx: &mut Context<Self>) {
         let context_menu = ContextMenu::build(window, cx, |menu, _, _| {
             menu.context(self.focus_handle.clone())
-                .action("New Terminal", Box::new(NewTerminal))
+                .action("新規ターミナル", Box::new(NewTerminal))
                 .separator()
-                .action("Copy", Box::new(Copy))
-                .action("Paste", Box::new(Paste))
-                .action("Select All", Box::new(SelectAll))
-                .action("Clear", Box::new(Clear))
+                .action("コピー", Box::new(Copy))
+                .action("貼り付け", Box::new(Paste))
+                .action("すべて選択", Box::new(SelectAll))
+                .action("クリア", Box::new(Clear))
                 .separator()
                 .action(
-                    "Close Terminal Tab",
+                    "ターミナルタブを閉じる",
                     Box::new(CloseActiveItem {
                         save_intent: None,
                         close_pinned: true,
@@ -822,7 +822,7 @@ impl TerminalView {
                 .size(ButtonSize::Compact)
                 .icon_color(Color::Default)
                 .shape(ui::IconButtonShape::Square)
-                .tooltip(move |_window, cx| Tooltip::for_action("Rerun task", &RerunTask, cx))
+                .tooltip(move |_window, cx| Tooltip::for_action("タスクを再実行", &RerunTask, cx))
                 .on_click(move |_, window, cx| {
                     window.dispatch_action(Box::new(terminal_rerun_override(&task_id)), cx);
                 }),
@@ -1141,7 +1141,7 @@ impl Item for TerminalView {
                     .child(Label::new(title.clone()))
                     .child(h_flex().flex_grow().child(Divider::horizontal()))
                     .child(
-                        Label::new(format!("Process ID (PID): {}", pid))
+                        Label::new(format!("プロセス ID (PID): {}", pid))
                             .color(Color::Muted)
                             .size(LabelSize::Small),
                     )
@@ -1250,7 +1250,7 @@ impl Item for TerminalView {
     ) -> Vec<(SharedString, Box<dyn gpui::Action>)> {
         let terminal = self.terminal.read(cx);
         if terminal.task().is_none() {
-            vec![("Rename".into(), Box::new(RenameTerminal))]
+            vec![("名前を変更".into(), Box::new(RenameTerminal))]
         } else {
             Vec::new()
         }

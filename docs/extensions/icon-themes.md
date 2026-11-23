@@ -1,27 +1,21 @@
-# Icon Themes
+# アイコンテーマ
 
-Extensions may provide icon themes in order to change the icons Gram uses for
-folders and files.
+拡張機能は、Gram がフォルダーとファイルに使うアイコンを変更するためのアイコンテーマを提供できます。
 
-## Example extension
+## 拡張機能の例
 
-The [Material Icon Theme](https://github.com/zed-extensions/material-icon-theme)
-serves as an example for the structure of an extension containing an icon theme.
+[Material Icon Theme](https://github.com/zed-extensions/material-icon-theme) は、アイコンテーマを含む拡張機能の構造の例として参考になります。
 
-## Directory structure
+## フォルダー構成
 
-There are two important directories for an icon theme extension:
+アイコンテーマの拡張機能には、重要なフォルダーが2つあります:
 
-- `icon_themes`: This directory will contain one or more JSON files containing
-  the icon theme definitions.
-- `icons`: This directory contains the icon assets that will be distributed with
-  the extension. You can created subdirectories in this directory, if so
-  desired.
+- `icon_themes`: このフォルダーには、アイコンテーマの定義を含む1つ以上の JSON ファイルを置きます。
+- `icons`: このフォルダーには、拡張機能とともに配布されるアイコンアセットを置きます。必要に応じて、このフォルダー内にサブフォルダーを作成できます。
 
-Each icon theme file should adhere to the JSON schema specified at
-[`https://zed.dev/schema/icon_themes/v0.3.0.json`](https://zed.dev/schema/icon_themes/v0.3.0.json).
+各アイコンテーマファイルは、[`https://zed.dev/schema/icon_themes/v0.3.0.json`](https://zed.dev/schema/icon_themes/v0.3.0.json) で定義された JSON スキーマに従う必要があります。
 
-Here is an example of the structure of an icon theme:
+アイコンテーマの構造の例を次に示します:
 
 ```json [icon-theme]
 {
@@ -65,9 +59,9 @@ Here is an example of the structure of an icon theme:
 }
 ```
 
-Each icon path is resolved relative to the root of the extension directory.
+各アイコンのパスは、拡張機能フォルダーのルートからの相対パスで解決されます。
 
-In this example, the extension would have a structure like so:
+この例では、拡張機能は次のような構造になります:
 
 ```
 extension.toml

@@ -1,48 +1,32 @@
-# Remote Development
+# リモート開発
 
-Gram supports remote editing over SSH, where you run the editor on your main
-machine but open and edit projects on remote machines.
+Gram は SSH 経由でのリモート編集をサポートしています。メインマシン上でエディターを実行しながら、リモートマシン上のプロジェクトを開いて編集できます。
 
-To make this work, Gram uses a remote process called `remote-server`, which
-needs to be installed on the machine that the editor should connect to. The
-editor will SSH to the remote machine and start the remote server which then
-takes care of opening, reading and writing files as well as running language
-servers.
+これを実現するために、Gram は接続先マシンにインストールされた `remote-server` というリモートプロセスを使用します。エディターはリモートマシンへ SSH 接続してリモートサーバーを起動し、リモートサーバーがファイルのオープン、読み書き、言語サーバーの実行などを担当します。
 
-The remote server communicates with the editor over SSH and GRPC.
+リモートサーバーは SSH および gRPC を介してエディターと通信します。
 
-## Overview
+## 概要
 
-Remote development requires two computers, your local machine that runs the UI
-and the remote server which runs a small server. The two communicate over SSH,
-so you will need to be able to SSH from your local machine into the remote
-server to use this feature.
+リモート開発には、UI を実行するローカルマシンと、軽量なサーバープロセスを実行するリモートサーバーの 2 台のコンピューターが必要です。両者は SSH 経由で通信するため、この機能を利用するにはローカルマシンからリモートサーバーへ SSH 接続できる必要があります。
 
-On your local machine, Gram runs its UI, uses Tree-sitter to parse and
-syntax-highlight code, and store unsaved changes and recent projects. The source
-code, language servers, tasks, and the terminal all run on the remote server.
+ローカルマシン上では、Gram は UI の描画、Tree-sitter によるコードのパースと構文ハイライト、未保存の変更や最近開いたプロジェクトの保持を行います。ソースコード、言語サーバー、タスク、ターミナルはすべてリモートサーバー上で動作します。
 
-## Setup
+## セットアップ手順
 
-1. Install the editor on your main machine.
+1. メインマシンにエディターをインストールします。
 
-2. Build and copy the remote editor process to your development machine.
+2. リモートエディタープロセスをビルドし、開発先のリモートマシンにコピーします。
 
-   Either get a pre-built copy of the remote server from the
-   [Codeberg releases](https://codeberg.org/GramEditor/gram/releases) page, or
-   build it from source.
+   [Codeberg リリース](https://codeberg.org/GramEditor/gram/releases) ページからビルド済みのリモートサーバーを入手するか、ソースからビルドしてください。
 
-   If you download the pre-built release, make sure to get a version that
-   matches your remote server. If you are running the editor on a Mac but want
-   to connect to a Linux machine, you will need the Linux version of the
-   remote-server.
+   ビルド済みのリリースをダウンロードする場合は、リモートサーバーの環境に合ったバージョンを選択してください。Mac 上でエディターを実行して Linux マシンに接続する場合は、Linux 版の remote-server が必要です。
 
-   Also make sure to get the same version of the remote server as your editor.
+   また、リモートサーバーのバージョンはエディターのバージョンと完全に一致させてください。
 
-   Decompress and copy the server to
-   `~/.gram_server/gram-remote-server-{RELEASE_CHANNEL}-{VERSION}`.
+   アーカイブを展開し、サーバーバイナリを `~/.gram_server/gram-remote-server-{RELEASE_CHANNEL}-{VERSION}` に配置します。
 
-   For example:
+   例:
 
    ```sh
    mkdir -p ~/.gram_server
@@ -52,61 +36,41 @@ code, language servers, tasks, and the terminal all run on the remote server.
    chmod +x ~/.gram_server/gram-remote-server-stable-1.1.0
    ```
 
-3. Use {#kb projects::OpenRemote} to open the "Remote Projects" dialog.
+3. {#kb projects::OpenRemote} を使用して「Remote Projects」ダイアログを開きます。
 
-4. Click "Connect New Server" and enter the command you use to SSH into the
-   server. See [Supported SSH options](#supported-ssh-options) for options you
-   can pass.
+4. 「Connect New Server」をクリックし、サーバーへの SSH 接続に使用するコマンドを入力します。指定可能なオプションについては [サポートされている SSH オプション](#supported-ssh-options) を参照してください。
 
-5. Your local machine will attempt to connect to the remote server using the
-   `ssh` binary on your path. Assuming the connection is successful and a
-   compatible server binary is found, the editor will start up and start
-   communicating with the remote server.
+5. ローカルマシンは、PATH 上にある `ssh` バイナリを使用してリモートサーバーへの接続を試みます。接続に成功し、互換性のあるサーバーバイナリが見つかると、エディターが起動しリモートサーバーとの通信が開始されます。
 
-6. Once the remote server is running, you will be prompted to choose a path to
-   open on the remote server.
+6. リモートサーバーが起動すると、リモートサーバー上で開くパスを選択するプロンプトが表示されます。
 
-   > **Note:** The remote server does not currently handle opening very large
-   > directories (for example, `/` or `~` that may have >100,000 files) very
-   > well.
+   > **注意:** リモートサーバーは現在、ファイル数が10万件を超えるような非常に巨大なディレクトリ（例: `/` や `~`）を開く処理には十分に対応していません。
 
-   On a Mac, the editor may fail to connect the first time you try, and you will
-   be presented with a permissions dialog to allow Gram to connect to the
-   network. You'll need to accept this and then try again.
+   Mac では、初回接続時に Gram のネットワーク接続を許可するアクセス権確認ダイアログが表示され、接続に失敗することがあります。その場合は許可を与えた後、再度接続を試みてください。
 
-### Connect from the command line
+### コマンドラインからの接続
 
-To open the editor and connect to a remote project directly from the terminal,
-use a command like `gram ssh://[<user>@]<host>[:<port>]/<path-to-project>`.
+エディターを開いてターミナルから直接リモートプロジェクトに接続するには、`gram ssh://[<user>@]<host>[:<port>]/<path-to-project>` のようなコマンドを使用します。
 
-It is currently not possible to pass any other arguments to SSH from the
-commandline. A workaround here is to set other options you need in your SSH
-config file. See the SSH documentation (`man ssh_config`) for more details.
+現時点では、コマンドラインから SSH に追加の引数を渡すことはできません。回避策として、必要なオプションを SSH 設定ファイルに設定してください。詳細は SSH のドキュメント（`man ssh_config`）を参照してください。
 
-To hotlink into an SSH project, use a link of the format:
-`gram://ssh/[<user>@]<host>[:<port>]/<path>`.
+SSH プロジェクトへのホットリンクには、次の形式のリンクを使用します:
+`gram://ssh/[<user>@]<host>[:<port>]/<path>`
 
-## Supported platforms
+## サポート対象プラットフォーム
 
-The remote machine must be able to run the remote server process, and so you
-need to compile the remote server process for the target platform (cross
-compilation).
+リモートマシンはリモートサーバープロセスを実行できる必要があるため、ターゲットプラットフォーム向けにリモートサーバープロセスをコンパイル（クロスコンパイル）する必要があります。
 
-The following platforms should work:
+以下のプラットフォームで動作します:
 
-- macOS Catalina or later (Intel or Apple Silicon)
-- Linux (x86_64 or arm64)
-- Windows is not yet supported as a remote server, but Windows can be used as a
-  local machine to connect to remote servers. Note that Windows support in is
-  currently not well tested in general.
+- macOS Catalina 以降（Intel または Apple Silicon）
+- Linux（x86_64 または arm64）
+- Windows はリモートサーバーとしては未サポートですが、リモートサーバーに接続するローカルマシンとしては利用可能です。なお、Windows でのサポートは全体として現時点では十分なテストが行われていません。
 
-## Configuration
+## 設定
 
-The list of remote servers is stored in your settings file {#kb
-gram::OpenSettings}. You can edit this list using the Remote Projects dialog
-{#kb projects::OpenRemote}, which provides some robustness - for example it
-checks that the connection can be established before writing it to the settings
-file.
+リモートサーバーの一覧は設定ファイル {#kb
+gram::OpenSettings} に保存されます。この一覧は「Remote Projects」ダイアログ {#kb projects::OpenRemote} から編集できます。このダイアログは堅牢性を備えており、例えば設定ファイルに書き込む前に接続を確立できるか確認します。
 
 ```json
 {
@@ -119,10 +83,7 @@ file.
 }
 ```
 
-Gram shells out to the `ssh` on your path, and so it will inherit any
-configuration you have in `~/.ssh/config` for the given host. That said, if you
-need to override anything you can configure the following additional options on
-each connection:
+Gram は PATH 上の `ssh` を呼び出すため、該当ホストに対する `~/.ssh/config` 内の設定を継承します。個別にオーバーライドが必要な場合は、各接続に対して以下の追加オプションを設定できます:
 
 ```json
 {
@@ -130,17 +91,17 @@ each connection:
     {
       "host": "192.168.1.10",
       "projects": [{ "paths": ["~/code/gram/gram"] }],
-      // any argument to pass to the ssh master process
+      // SSH マスタープロセスに渡す任意の引数
       "args": ["-i", "~/.ssh/work_id_file"],
-      "port": 22, // defaults to 22
-      // defaults to your username on your local machine
+      "port": 22, // デフォルトは 22
+      // デフォルトはローカルマシンのユーザー名
       "username": "me",
     },
   ],
 }
 ```
 
-You can also set a nickname for the remote server:
+リモートサーバーにニックネームを付けることもできます:
 
 ```json
 {
@@ -148,61 +109,42 @@ You can also set a nickname for the remote server:
     {
       "host": "192.168.1.10",
       "projects": [{ "paths": ["~/code/gram/gram"] }],
-      // Shown in the UI to help distinguish multiple hosts.
+      // UI 上で複数のホストを区別しやすくするために表示されます。
       "nickname": "lil-linux",
     },
   ],
 }
 ```
 
-If you use the command line to open a connection to a host by doing
-`gram ssh://192.168.1.10/~/.vimrc`, then extra options are read from your
-settings file by finding the first connection that matches the
-host/username/port of the URL on the command line.
+コマンドラインから `gram ssh://192.168.1.10/~/.vimrc` のように実行してホストへの接続を開いた場合、設定ファイル内から URL のホスト/ユーザー名/ポートに一致する最初の接続設定が検索され、追加オプションが読み込まれます。
 
-Additionally it's worth noting that while you can pass a password on the command
-line `gram ssh://user:password@host/~`, we do not support writing a password to
-your settings file. If you're connecting repeatedly to the same host, you should
-configure key-based authentication.
+なお、コマンドラインでは `gram ssh://user:password@host/~` のようにパスワードを渡すことができますが、設定ファイルへのパスワード保存はサポートしていません。同じホストに繰り返し接続する場合は、公開鍵認証を設定してください。
 
-## Remote Development on Windows (SSH)
+## Windows 上でのリモート開発（SSH）
 
-Gram on Windows supports SSH remoting and will prompt for credentials when
-needed.
+Windows 上の Gram は SSH リモート接続をサポートしており、必要に応じて資格情報の入力を促します。
 
-If you encounter authentication issues, confirm that your SSH key agent is
-running (e.g., ssh-agent or your Git client's agent) and that ssh.exe is on
-PATH.
+認証に問題が発生した場合は、SSH キーエージェント（ssh-agent や Git クライアントのエージェントなど）が動作していること、および PATH 上に `ssh.exe` が存在することを確認してください。
 
-### Troubleshooting SSH on Windows
+### Windows での SSH トラブルシューティング
 
-When prompted for credentials, use the graphical askpass dialog. If it doesn't
-appear, check for credential manager conflicts and that GUI prompts aren't
-blocked by your terminal.
+資格情報の入力を求められた場合は、グラフィカルな askpass ダイアログを使用してください。表示されない場合は、認証情報マネージャーの競合がないか、またターミナルによって GUI プロンプトがブロックされていないかを確認してください。
 
-## WSL Support
+## WSL サポート
 
-Gram supports opening folders inside of WSL natively on Windows.
+Gram は Windows 上で WSL 内のフォルダーをネイティブに開く機能をサポートしています。
 
-### Opening a local folder in WSL
+### WSL 内のローカルフォルダーを開く
 
-To open a local folder inside a WSL container, use the `projects: open in wsl`
-action and select the folder you want to open. You will be presented with a list
-of available WSL distributions to open the folder in.
+WSL コンテナ内のローカルフォルダーを開くには、`projects: open in wsl` アクションを使用して開きたいフォルダーを選択します。フォルダーを開く対象の利用可能な WSL ディストリビューションの一覧が表示されます。
 
-### Opening a folder already in WSL
+### 既に WSL 内にあるフォルダーを開く
 
-To open a folder that's already located inside of a WSL container, use the
-`projects: open wsl` action and select the WSL distribution. The distribution
-will be added to the `Remote Projects` window where you will be able to open the
-folder.
+既に WSL コンテナ内に配置されているフォルダーを開くには、`projects: open wsl` アクションを使用して WSL ディストリビューションを選択します。該当するディストリビューションが `Remote Projects` ウィンドウに追加され、そこからフォルダーを開くことができます。
 
-## Port forwarding
+## ポートフォワーディング
 
-If you'd like to be able to connect to ports on your remote server from your
-local machine, you can configure port forwarding in your settings file. This is
-particularly useful for developing websites so you can load the site in your
-browser while working.
+ローカルマシンからリモートサーバー上のポートに接続したい場合は、設定ファイルでポートフォワーディングを設定できます。これはウェブ開発で特に便利であり、作業中にブラウザーからサイトを読み込んで確認できます。
 
 ```json
 {
@@ -215,14 +157,9 @@ browser while working.
 }
 ```
 
-This will cause requests from your local machine to `localhost:8080` to be
-forwarded to the remote machine's port 80. Under the hood this uses the `-L`
-argument to ssh.
+これにより、ローカルマシンの `localhost:8080` へのリクエストがリモートマシンのポート 80 に転送されます。内部的には ssh の `-L` 引数を使用しています。
 
-By default these ports are bound to localhost, so other computers in the same
-network as your development machine cannot access them. You can set the
-local_host to bind to a different interface, for example, 0.0.0.0 will bind to
-all local interfaces.
+デフォルトではこれらのポートは localhost にバインドされるため、開発マシンと同じネットワーク上の他のコンピューターからアクセスすることはできません。`local_host` を設定して別のインターフェースにバインドすることも可能です。例えば `0.0.0.0` を指定すると、すべてのローカルインターフェースにバインドされます。
 
 ```json
 {
@@ -241,8 +178,7 @@ all local interfaces.
 }
 ```
 
-These ports also default to the `localhost` interface on the remote host. If you
-need to change this, you can also set the remote host:
+これらのポートは、デフォルトでリモートホスト上の `localhost` インターフェースにも転送されます。これを変更する必要がある場合は、リモートホストも設定できます:
 
 ```json
 {
@@ -261,43 +197,31 @@ need to change this, you can also set the remote host:
 }
 ```
 
-## Gram settings
+## Gram の設定
 
-When opening a remote project there are three relevant settings locations:
+リモートプロジェクトを開く際、関連する設定の配置場所は以下の 3 つがあります:
 
-- The local Gram settings (in `~/.gram/settings.json` on macOS or
-  `~/.config/gram/settings.json` on Linux) on your local machine.
-- The server Gram settings (in the same place) on the remote server.
-- The project settings (in `.gram/settings.json` or `.editorconfig` of your
-  project)
+- ローカルマシンのローカル Gram 設定（macOS では `~/.gram/settings.json`、Linux では `~/.config/gram/settings.json`）
+- リモートサーバー上のサーバー Gram 設定（リモート上の同等の場所）
+- プロジェクト設定（プロジェクト内の `.gram/settings.json` または `.editorconfig`）
 
-Both the local Gram and the server Gram read the project settings, but they are
-not aware of the other's main `settings.json`.
+ローカルの Gram とサーバーの Gram はどちらもプロジェクト設定を読み取りますが、互いのメイン `settings.json` は認識しません。
 
-Which settings file you should use depends on the kind of setting you want to
-make:
+どの設定ファイルを使用すべきかは、行いたい設定の種類によって異なります:
 
-- Project settings should be used for things that affect the project:
-  indentation settings, which formatter / language server to use, etc.
-- Server settings should be used for things that affect the server: paths to
-  language servers, proxy settings, etc.
-- Local settings should be used for things that affect the UI: font size, etc.
+- プロジェクト設定: プロジェクト自体に影響を与える項目（インデント設定、使用するフォーマッター / 言語サーバーなど）
+- サーバー設定: サーバー環境に影響を与える項目（言語サーバーへのパス、プロキシ設定など）
+- ローカル設定: UI に影響を与える項目（フォントサイズなど）
 
-In addition any extensions you have installed locally will be propagated to the
-remote server. This means that language servers, etc. will run correctly.
+また、ローカルでインストールした拡張機能はすべてリモートサーバーに伝播されます。これにより、言語サーバーなどが正しく動作します。
 
-## Proxy Configuration
+## プロキシ設定
 
-The remote server will not use your local machine's proxy configuration because
-they may be under different network policies. If your remote server requires a
-proxy to access the internet, you must configure it on the remote server itself.
+リモートサーバーはローカルマシンのプロキシ設定を使用しません。両者が異なるネットワークポリシー下にある可能性があるためです。リモートサーバーがインターネットにアクセスするためにプロキシが必要な場合は、リモートサーバー自体でプロキシを設定する必要があります。
 
-In most cases, your remote server will already have proxy environment variables
-configured. Gram will automatically use them when downloading language servers,
-communicating with LLM models, etc.
+多くの場合、リモートサーバーには既にプロキシ環境変数が設定されています。Gram は言語サーバーのダウンロードや LLM モデルとの通信時などに、それらを自動的に利用します。
 
-If needed, you can set these environment variables in the server's shell
-configuration (e.g., `~/.bashrc`):
+必要な場合は、サーバーのシェル設定（例: `~/.bashrc`）でこれらの環境変数を設定できます:
 
 ```bash
 export http_proxy="http://proxy.example.com:8080"
@@ -305,8 +229,7 @@ export https_proxy="http://proxy.example.com:8080"
 export no_proxy="localhost,127.0.0.1"
 ```
 
-Alternatively, you can configure the proxy in the remote machine's
-`~/.config/gram/settings.json` (Linux) or `~/.gram/settings.json` (macOS):
+あるいは、リモートマシンの `~/.config/gram/settings.json`（Linux）または `~/.gram/settings.json`（macOS）でプロキシを設定することもできます:
 
 ```json
 {
@@ -314,73 +237,46 @@ Alternatively, you can configure the proxy in the remote machine's
 }
 ```
 
-See the [proxy documentation](./configuring-gram.md#network-proxy) for supported
-proxy types and additional configuration options.
+サポートされているプロキシの種類や追加の設定オプションについては、[プロキシのドキュメント](./configuring-gram.md#network-proxy) を参照してください。
 
-## Initializing the remote server
+## リモートサーバーの初期化
 
-Once you provide the SSH options, Gram shells out to `ssh` on your local machine
-to create a ControlMaster connection with the options you provide.
+SSH オプションを指定すると、Gram はローカルマシンの `ssh` を呼び出し、指定されたオプションで ControlMaster 接続を作成します。
 
-Any prompts that SSH needs will be shown in the UI, so you can verify host keys,
-type key passwords, etc.
+SSH が必要とするプロンプト（ホストキーの検証やパスワード入力など）はすべて UI に表示されます。
 
-Once the master connection is established, Gram will check to see if the remote
-server binary is present in `~/.gram_server` on the remote, and that its version
-matches the current version of Gram that you're using.
+マスター接続が確立されると、Gram はリモートの `~/.gram_server` にリモートサーバーバイナリが存在するか、またそのバージョンが使用中の Gram のバージョンと一致しているかを確認します。
 
-To build the remote server binary, run `cargo build -p remote_server --release`.
-Upload it to `~/.gram_server/gram-remote-server-{RELEASE_CHANNEL}-{VERSION}` on
-the server, for example `~/.gram_server/gram-remote-server-stable-0.181.6`. The
-version must exactly match the version of Gram itself you are using.
+リモートサーバーバイナリをビルドするには、`cargo build -p remote_server --release` を実行します。ビルドしたバイナリをサーバー上の `~/.gram_server/gram-remote-server-{RELEASE_CHANNEL}-{VERSION}`（例: `~/.gram_server/gram-remote-server-stable-0.181.6`）にアップロードしてください。バージョンは、使用している Gram 本体のバージョンと完全に一致している必要があります。
 
-## Maintaining the SSH connection
+## SSH 接続の維持
 
-Once the server is initialized. Gram will create new SSH connections (reusing
-the existing ControlMaster) to run the remote development server.
+サーバーが初期化されると、Gram は（既存の ControlMaster を再利用して）新しい SSH 接続を作成し、リモート開発サーバーを実行します。
 
-Each connection tries to run the development server in proxy mode. This mode
-will start the daemon if it is not running, and reconnect to it if it is. This
-way when your connection drops and is restarted, you can continue to work
-without interruption.
+各接続はプロキシモードで開発サーバーの実行を試みます。このモードでは、デーモンが実行されていなければ起動し、実行中であれば再接続します。これにより、接続が切断されて再開した際にも中断することなく作業を継続できます。
 
-In the case that reconnecting fails, the daemon will not be re-used. That said,
-unsaved changes are by default persisted locally, so that you do not lose work.
-You can always reconnect to the project at a later date and Gram will restore
-unsaved changes.
+再接続に失敗した場合、デーモンは再利用されません。ただし、未保存の変更はデフォルトでローカルに保持されるため、作業内容が失われることはありません。後からプロジェクトに再接続すれば、Gram が未保存の変更を復元します。
 
-If you are struggling with connection issues, you should be able to see more
-information in the Gram log `cmd-shift-p Open Log`.
+接続に問題が発生した場合は、Gram のログ（`cmd-shift-p Open Log`）で詳細情報を確認できます。
 
-## Supported SSH Options
+## サポートされている SSH オプション
 
-Under the hood, Gram shells out to the `ssh` binary to connect to the remote
-server. We create one SSH control master per project, and then use that to
-multiplex SSH connections for the Gram protocol itself, any terminals you open
-and tasks you run. We read settings from your SSH config file, but if you want
-to specify additional options to the SSH control master you can configure Gram
-to set them.
+内部的には、Gram は `ssh` バイナリを呼び出してリモートサーバーに接続します。プロジェクトごとに 1 つの SSH コントロールマスターを作成し、これを使用して Gram プロトコル自体の通信、開いたターミナル、実行するタスクの SSH 接続を多重化（マルチプレックス）します。設定は SSH 設定ファイルから読み込まれますが、SSH コントロールマスターに追加のオプションを指定したい場合は Gram の設定に記述できます。
 
-When typing in the "Connect New Server" dialog, you can use bash-style quoting
-to pass options containing a space. Once you have created a server it will be
-added to the `"ssh_connections": []` array in your settings file. You can edit
-the settings file directly to make changes to SSH connections.
+「Connect New Server」ダイアログで入力する際は、スペースを含むオプションを渡すために Bash スタイルのクォートを使用できます。サーバーを作成すると、設定ファイルの `"ssh_connections": []` 配列に追加されます。設定ファイルを直接編集して SSH 接続を変更することも可能です。
 
-Supported options:
+サポートされているオプション:
 
-- `-p` / `-l` - these are equivalent to passing the port and the username in the
-  host string.
-- `-L` / `-R` for port forwarding
-- `-i` - to use a specific key file
-- `-o` - to set custom options
-- `-J` / `-w` - to proxy the SSH connection
-- `-F` for specifying an `ssh_config`
-- And also... `-4`, `-6`, `-A`, `-B`, `-C`, `-D`, `-I`, `-K`, `-P`, `-X`, `-Y`,
-  `-a`, `-b`, `-c`, `-i`, `-k`, `-l`, `-m`, `-o`, `-p`, `-w`, `-x`, `-y`
+- `-p` / `-l` - ホスト文字列でポートやユーザー名を渡すのと同等です。
+- `-L` / `-R` - ポートフォワーディング用
+- `-i` - 特定の鍵ファイルを指定
+- `-o` - カスタムオプションを設定
+- `-J` / `-w` - SSH 接続をプロキシ経由にする
+- `-F` - `ssh_config` を指定
+- その他... `-4`, `-6`, `-A`, `-B`, `-C`, `-D`, `-I`, `-K`, `-P`, `-X`, `-Y`, `-a`, `-b`, `-c`, `-i`, `-k`, `-l`, `-m`, `-o`, `-p`, `-w`, `-x`, `-y`
 
-Note that we deliberately disallow some options (for example `-t` or `-T`) that
-Gram will set for you.
+なお、Gram 側で自動設定される一部のオプション（例: `-t` や `-T`）は意図的に指定不可となっています。
 
-## Known Limitations
+## 既知の制限事項
 
-- You can't open files from the remote Terminal by typing the `gram` command.
+- リモートターミナルから `gram` コマンドを入力してファイルを開くことはできません。

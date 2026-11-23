@@ -1,38 +1,25 @@
-# Help: I can't open any files
+# ヘルプ: ファイルを開くことができない場合
 
-## Linux: Clicking links isn't working
+## Linux: リンクをクリックしても機能しない
 
-These features are provided by XDG desktop portals, specifically:
+これらの機能は XDG デスクトップポータルによって提供されています。具体的には以下のとおりです。
 
 - `org.freedesktop.portal.FileChooser`
 - `org.freedesktop.portal.OpenURI`
 
-Some window managers, such as `Hyprland`, don't provide a file picker by
-default. See
-[this list](https://wiki.archlinux.org/title/XDG_Desktop_Portal#List_of_backends_and_interfaces)
-as a starting point for alternatives.
+`Hyprland` などの一部のウィンドウマネージャーは、デフォルトではファイルピッカーを提供していません。代替手段の検討にあたっては、[こちらのリスト](https://wiki.archlinux.org/title/XDG_Desktop_Portal#List_of_backends_and_interfaces) を参考にしてください。
 
-## Linux: Could not start inotify
+## Linux: inotify を開始できなかった場合
 
-Gram relies on inotify to watch your filesystem for changes. If you cannot start
-inotify then Gram will not work reliably.
+Gram はファイルシステムの変更を監視するために inotify を使用しています。inotify を開始できない場合、Gram は正常に動作しません。
 
-If you are seeing "too many open files" then first try `sysctl fs.inotify`.
+「too many open files」というエラーが表示される場合は、まず `sysctl fs.inotify` を確認してください。
 
-- You should see that max_user_instances is 128 or higher (you can change the
-  limit with `sudo sysctl fs.inotify.max_user_instances=1024`). Gram needs only
-  1 inotify instance.
-- You should see that `max_user_watches` is 8000 or higher (you can change the
-  limit with `sudo sysctl fs.inotify.max_user_watches=64000`). Gram needs one
-  watch per directory in all your open projects + one per git repository + a
-  handful more for settings, themes, keymaps, extensions.
+- `max_user_instances` が 128 以上になっていることを確認してください（`sudo sysctl fs.inotify.max_user_instances=1024` で上限を変更できます）。Gram に必要な inotify インスタンスは 1 つだけです。
+- `max_user_watches` が 8000 以上になっていることを確認してください（`sudo sysctl fs.inotify.max_user_watches=64000` で上限を変更できます）。Gram では、開いているすべてのプロジェクトのディレクトリごとに 1 つ、Git リポジトリごとに 1 つ、さらに設定、テーマ、キーマップ、拡張機能用として若干数の監視（watch）が必要です。
 
-It is also possible that you are running out of file descriptors. You can check
-the limits with `ulimit` and update them by editing `/etc/security/limits.conf`.
+また、ファイルディスクリプタが不足している可能性もあります。上限は `ulimit` で確認でき、`/etc/security/limits.conf` を編集することで更新できます。
 
-## Mac: Clicking documentation links isn't working
+## Mac: ドキュメントのリンクをクリックしても機能しない
 
-If you build and run from source and haven't already installed Gram as an
-application, the `gram://` links will not work properly. To get them working,
-you will need to either build an application bundle yourself or install one of
-the pre-built bundles from the [Gram website](https://gram-editor.com).
+ソースコードからビルドして実行しており、Gram をアプリケーションとしてまだインストールしていない場合、`gram://` リンクは正常に機能しません。これらを機能させるには、アプリケーションバンドルをご自身でビルドするか、[Gram ウェブサイト](https://gram-editor.com) からビルド済みバンドルをインストールする必要があります。

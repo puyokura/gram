@@ -1,94 +1,72 @@
-# Developing Gram
+# Gram の開発
 
-See the platform-specific instructions for building Gram from source:
+ソースコードから Gram をビルドするプラットフォーム別の手順については、以下を参照してください。
 
 - [macOS](./development/macos.md)
 - [Linux](./development/linux.md)
 - [Windows](./development/windows.md)
 
-## System Requirements
+## システム要件
 
-Rust is notoriously memory hungry, and Gram is a huge Rust project. The minimum
-requirement for compiling the project seems to be somewhere around 16GB of RAM,
-and at least 8GB available for compilation.
+Rust はメモリ消費が大きいことで知られており、Gram は非常に大規模な Rust プロジェクトです。本プロジェクトのコンパイルには、最低でも約 16GB の RAM が必要であり、コンパイル作業用に少なくとも 8GB の空き容量が必要です。
 
-Linking is the part of the process which takes the most RAM, and alternative
-linkers may offer better performance and lower RAM usage. Check the platform
-specific instructions for more details on compiling with an alternative linker
-like `wild` or `mold`.
+リンク処理はビルドプロセスの中で最もメモリを消費する工程であり、代替リンカーを使用することでパフォーマンスの向上やメモリ消費の削減が期待できます。`wild` や `mold` などの代替リンカーを用いたコンパイルの詳細については、プラットフォーム別の手順を確認してください。
 
-If you have a lot of CPU cores, Rust will try to use all of them and may require
-even more RAM as a consequence. You can limit the level of concurrency by
-setting the `CARGO_BUILD_JOBS` environment variable. For example, if you have 16
-CPU cores available, Cargo will run up to 16 jobs in parallel. By setting
-`CARGO_BUILD_JOBS=8` you can reduce RAM usage by only running up to 8 jobs in
-parallel.
+CPU コア数が多い環境では、Rust はすべてのコアを使用しようとするため、結果としてさらに多くのメモリが必要になる場合があります。`CARGO_BUILD_JOBS` 環境変数を設定することで、並行度を制限できます。たとえば、16 コアの CPU を利用可能な場合、Cargo は最大 16 個のジョブを並行実行します。ここで `CARGO_BUILD_JOBS=8` を設定すると、最大 8 ジョブの並行実行に抑えて RAM の使用量を削減できます。
 
-To build with less than 12GB of RAM, try setting these environment variables:
+12GB 未満の RAM でビルドする場合は、以下の環境変数の設定を試してください。
 
 ```sh
 MAKEOPTS="-j2 -l2"
 CARGO_BUILD_JOBS=1
 ```
 
-It's also possible that using an alternative linker like `wild` or `mold` may
-use less memory.
+また、`wild` や `mold` などの代替リンカーを使用することでメモリ消費を抑えられる場合もあります。
 
-## Performance Measurements
+## パフォーマンス計測
 
-Gram includes a frame time measurement system that can be used to profile how
-long it takes to render each frame. This is particularly useful when comparing
-rendering performance between different versions or when optimizing frame
-rendering code.
+Gram にはフレーム時間の計測システムが備わっており、各フレームの描画にかかる時間をプロファイリングできます。これは、異なるバージョン間での描画パフォーマンスの比較や、フレーム描画コードの最適化を行う際に特に役立ちます。
 
-### Using GRAM_MEASUREMENTS
+### GRAM_MEASUREMENTS の使用方法
 
-To enable performance measurements, set the `GRAM_MEASUREMENTS` environment
-variable:
+パフォーマンス計測を有効にするには、`GRAM_MEASUREMENTS` 環境変数を設定します。
 
 ```sh
 export GRAM_MEASUREMENTS=1
 ```
 
-When enabled, Gram will print frame rendering timing information to stderr,
-showing how long each frame takes to render.
+有効にすると、Gram は標準エラー出力（stderr）にフレーム描画のタイミング情報を出力し、各フレームの描画にかかった時間を表示します。
 
-### Performance Comparison Workflow
+### パフォーマンス比較のワークフロー
 
-Here's a typical workflow for comparing frame rendering performance between
-different versions:
+異なるバージョン間でフレーム描画パフォーマンスを比較する一般的なワークフローは以下のとおりです。
 
-1. **Enable measurements:**
+1. **計測を有効化する:**
 
    ```sh
    export GRAM_MEASUREMENTS=1
    ```
 
-2. **Test the first version:**
+2. **第 1 のバージョンをテストする:**
 
-   - Checkout the commit you want to measure
-   - Run Gram in release mode and use it for 5-10 seconds:
+   - 計測対象のコミットをチェックアウトします
+   - リリースモードで Gram を実行し、5〜10 秒間操作します:
      `cargo run --release &> version-a`
 
-3. **Test the second version:**
+3. **第 2 のバージョンをテストする:**
 
-   - Checkout another commit you want to compare
-   - Run Gram in release mode and use it for 5-10 seconds:
+   - 比較対象の別のコミットをチェックアウトします
+   - リリースモードで Gram を実行し、5〜10 秒間操作します:
      `cargo run --release &> version-b`
 
-4. **Generate comparison:**
+4. **比較データを生成する:**
 
    ```sh
    script/histogram version-a version-b
    ```
 
-The `script/histogram` tool can accept as many measurement files as you like and
-will generate a histogram visualization comparing the frame rendering
-performance data between the provided versions.
+`script/histogram` ツールには任意の数の計測ファイルを渡すことができ、指定した各バージョンのフレーム描画パフォーマンスデータを比較するヒストグラムを可視化・生成します。
 
-### Using `util_macros::perf`
+### `util_macros::perf` の使用方法
 
-For benchmarking unit tests, annotate them with the `#[perf]` attribute from the
-`util_macros` crate. Then run `cargo perf-test -p $CRATE` to benchmark them. See
-the rustdoc documentation on `crates/util_macros` and `tooling/perf` for
-in-depth examples and explanations.
+単体テストのベンチマークを行うには、`util_macros` クレートの `#[perf]` 属性をテストに付与します。その後、`cargo perf-test -p $CRATE` を実行してベンチマークを行います。詳細な例と解説については、`crates/util_macros` および `tooling/perf` の rustdoc ドキュメントを参照してください。

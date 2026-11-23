@@ -1,65 +1,39 @@
-# Development: Glossary
+# 開発: 用語集
 
-## Naming conventions
+## 命名規則
 
-These are generally true for the whole codebase. Note that Name can be anything
-here. An example would be `AnyElement` and `LspStore`.
+これらは基本的にコードベース全体に当てはまります。ここで Name は任意の名前を指し、例としては `AnyElement` や `LspStore` があります。
 
-- `AnyName`: A type erased version of _name_. Think `Box<dyn NameTrait>`.
-- `NameStore`: A wrapper type which abstracts over whether operations are
-  running locally or on a remote.
+- `AnyName`: _name_ の型消去版。`Box<dyn NameTrait>` を想像してください。
+- `NameStore`: 操作がローカルで実行されるかリモートで実行されるかを抽象化するラッパー型。
 
 ## GPUI
 
-### State management
+### 状態管理
 
-- `App`: A singleton which holds the full application state including all the
-  entities. Crucially: `App` is not `Send`, which means that `App` only exists
-  on the thread that created it (which is the main/UI thread, usually). Thus, if
-  you see a `&mut App`, know that you're on UI thread.
-- `Context`: A wrapper around the `App` struct with specialized behavior for a
-  specific `Entity`. Think of it as `(&mut App, Entity<V>)`. The specialized
-  behavior is surfaced in the API surface of `Context`. E.g., `App::spawn` takes
-  an `AsyncFnOnce(AsyncApp) -> Ret`, whereas `Context::spawn` takes an
-  `AsyncFnOnce(WeakEntity<V>, AsyncApp) -> Ret`.
-- `AsyncApp`: An owned version of `App` for use in async contexts. This type is
-  _still_ not `Send` (so `AsyncApp` = you're on the main thread) and any use of
-  it may be fallible (to account for the fact that the `App` might've been
-  terminated by the time this closure runs). The convenience of `AsyncApp` lies
-  in the fact that you usually interface with `App` via `&mut App`, which would
-  be inconvenient to use with async closures; `AsyncApp` is owned, so you can
-  use it in async closures with no sweat.
-- `AppContext` A trait which abstracts over `App`, `AsyncApp` & `Context` and
-  their Test versions.
-- `Task`: A future running or scheduled to run on the background or foreground
-  executor. In contradiction to regular Futures Tasks do not need `.await` to
-  start running. You do need to await them to get the result of the task.
-- `Executor`: Used to spawn tasks that run either on the foreground or
-  background thread. Try to run the tasks on the background thread.
-  - `BackgroundExecutor`: A threadpool running `Task`s.
-  - `ForegroundExecutor`: The main thread running `Task`s.
-- `Entity`: A strong, well-typed reference to a struct which is managed by gpui.
-  Effectively a pointer/map key into the `App::EntityMap`.
-- `WeakEntity`: A runtime checked reference to an `Entity` which may no longer
-  exist. Similar to
-  [`std::rc::Weak`](https://doc.rust-lang.org/std/rc/struct.Weak.html).
-- `Global`: A singleton type which has only one value, that is stored in the
-  `App`.
-- `Event`: A datatype which can be send by an `Entity` to subscribers
-- `Action`: An event that represents a user's keyboard input that can be handled
-  by listeners Example: `file finder: toggle`
-- `Observing`: reacting entities notifying they've changed
-- `Subscription`: An event handler that is used to react to the changes of state
-  in the application.
-  1. Emitted event handling
-  2. Observing `{new,release,on notify}` of an entity
+- `App`: すべてのエンティティを含むアプリケーション全体の状態を保持するシングルトン。重要: `App` は `Send` ではないため、`App` はそれを作成したスレッド（通常はメイン/UI スレッド）にのみ存在します。したがって、`&mut App` を見たときは UI スレッド上にいることを知っておいてください。
+- `Context`: 特定の `Entity` に特化した振る舞いを持つ、`App` 構造体のラッパー。`(&mut App, Entity<V>)` と考えてください。特化した振る舞いは `Context` の API に現れます。たとえば `App::spawn` は `AsyncFnOnce(AsyncApp) -> Ret` を取り、`Context::spawn` は `AsyncFnOnce(WeakEntity<V>, AsyncApp) -> Ret` を取ります。
+- `AsyncApp`: async コンテキストで使うための、所有権を持つ `App` の版。この型は _依然として_ `Send` ではありません（つまり `AsyncApp` = メインスレッド上にいる）。また、`App` がこのクロージャの実行時点で終了している可能性を考慮し、その使用は失敗しうるものになります。`AsyncApp` の利便性は、通常 `App` と `&mut App` 経由でやり取りする点にあります。`&mut App` は async クロージャでの使用に不便ですが、`AsyncApp` は所有権を持つため、async クロージャでも気軽に使えます。
+- `AppContext`: `App`、`AsyncApp`、`Context` とそれぞれのテスト版を抽象化するトレイト。
+- `Task`: バックグラウンドまたはフォアグラウンドのエグゼキューター上で実行中、または実行予定の future。通常の Future と異なり、Task は実行を開始するのに `.await` を必要としません。ただし、タスクの結果を得るには await が必要です。
+- `Executor`: フォアグラウンドまたはバックグラウンドのスレッドで実行するタスクを生成するために使います。タスクは可能な限りバックグラウンドスレッドで実行してください。
+  - `BackgroundExecutor`: `Task` を実行するスレッドプール。
+  - `ForegroundExecutor`: `Task` を実行するメインスレッド。
+- `Entity`: gpui が管理する構造体への、強い型付きの参照。事実上、`App::EntityMap` へのポインター兼マップキーです。
+- `WeakEntity`: すでに存在しない可能性がある `Entity` への、実行時にチェックされる参照。[`std::rc::Weak`](https://doc.rust-lang.org/std/rc/struct.Weak.html) に似ています。
+- `Global`: 値が1つだけあり、それが `App` に保存されるシングルトン型。
+- `Event`: `Entity` が購読者に送信できるデータ型。
+- `Action`: ユーザーのキーボード入力を表し、リスナーが処理できるイベント。例: `file finder: toggle`
+- `Observing`: エンティティが変更を通知したときに反応すること。
+- `Subscription`: アプリケーションの状態変化に反応するために使うイベントハンドラー。
+  1. 発行されたイベントの処理
+  2. エンティティの `{new,release,on notify}` の監視
 
 ### UI
 
-- `View`: An `Entity` which can produce an `Element` through its implementation
-  of `Render`.
-- `Element`: A type that can be laid out and painted to the screen.
-- `element expression`: An expression that builds an element tree, example:
+- `View`: `Render` の実装を通じて `Element` を生成できる `Entity`。
+- `Element`: レイアウトして画面に描画できる型。
+- `element expression`: エレメントツリーを構築する式。例:
 
 ```rust
 h_flex()
@@ -73,73 +47,49 @@ h_flex()
                 etc etc
 ```
 
-- `Component`: A builder which can be rendered turning it into an `Element`.
+- `Component`: レンダリングして `Element` に変換できるビルダー。
 - `Dispatch tree`: TODO
-- `Focus`: The place where keystrokes are handled first
-- `Focus tree`: Path from the place that has the current focus to the UI Root.
-  Example <img> TODO
+- `Focus`: キー入力が最初に処理される場所。
+- `Focus tree`: 現在フォーカスを持つ場所から UI ルートまでの経路。例 <img> TODO
 
 ## Gram UI
 
-- `Window`: A struct in gram representing a gram window in your desktop
-  environment (see image below). There can be multiple if you have multiple gram
-  instances open. Mostly passed around for rendering.
-- `Modal`: A UI element that floats on top of the rest of the UI
-- `Picker`: A struct representing a list of items in floating on top of the UI
-  (Modal). You can select an item and confirm. What happens on select or confirm
-  is determined by the picker's delegate. (The 'Model' in the image below is a
-  picker.)
-- `PickerDelegate`: A trait used to specialize behavior for a `Picker`. The
-  `Picker` stores the `PickerDelegate` in the field delegate.
-- `Center`: The middle of the gram window, the center is split into multiple
-  `Pane`s. In the codebase this is a field on the `Workspace` struct. (see image
-  below).
-- `Pane`: An area in the `Center` where we can place items, such as an editor,
-  multi-buffer or terminal (see image below).
-- `Panel`: An `Entity` implementing the `Panel` trait. These can be placed in a
-  `Dock`. In the image below we see the: `ProjectPanel` in the left dock and the
-  `DebugPanel` in the bottom dock. Note `Editor` does not implement `Panel` and
-  hence is not a `Panel`.
-- `Dock`: A UI element similar to a `Pane` which can be opened and hidden. There
-  can be up to 3 docks open at a time, left right and below the center. A dock
-  contains one or more `Panel`s not `Pane`s. (see image).
+- `Window`: デスクトップ環境上の Gram ウィンドウを表す Gram 内の構造体（下の画像を参照）。複数の Gram インスタンスを開いている場合は複数存在しえます。主にレンダリングのために引き渡されます。
+- `Modal`: UI の他の部分の上に浮かぶ UI 要素。
+- `Picker`: UI の上に浮かぶ（Modal）項目リストを表す構造体。項目を選択して確定できます。選択時や確定時に何が起こるかは、そのピッカーのデリゲートによって決まります（下の画像の「Model」はピッカーです）。
+- `PickerDelegate`: `Picker` の振る舞いを特化するために使うトレイト。`Picker` は `PickerDelegate` を `delegate` フィールドに保存します。
+- `Center`: Gram ウィンドウの中央部分。中央は複数の `Pane` に分割されます。コードベースでは `Workspace` 構造体のフィールドです（下の画像を参照）。
+- `Pane`: `Center` 内で項目を配置できる領域。エディター、マルチバッファー、ターミナルなどを置けます（下の画像を参照）。
+- `Panel`: `Panel` トレイトを実装する `Entity`。`Dock` に配置できます。下の画像では、左ドックの `ProjectPanel` と下部ドックの `DebugPanel` が見えます。なお `Editor` は `Panel` を実装していないため、`Panel` ではありません。
+- `Dock`: `Pane` に似た、開閉できる UI 要素。同時に最大3つまで開けます（中央の左右と下）。ドックには `Pane` ではなく、1つ以上の `Panel` が入ります（画像を参照）。
 
 <img width="1921" height="1080" alt="Screenshot for the Pane and Dock features" src="https://github.com/user-attachments/assets/2cb1170e-2850-450d-89bb-73622b5d07b2" />
 
-- `Project`: One or more `Worktree`s
-- `Worktree`: Represents either local or remote files.
+- `Project`: 1つ以上の `Worktree`。
+- `Worktree`: ローカルまたはリモートのファイルを表します。
 
 <img width="552" height="1118" alt="Screenshot for the Worktree feature" src="https://github.com/user-attachments/assets/da5c58e4-b02e-4038-9736-27e3509fdbfa" />
 
-- [Multibuffer](../multibuffers.md): A list of Editors, a multi-buffer allows
-  editing multiple files simultaneously. A multi-buffer opens when an operation
-  in Gram returns multiple locations, examples: _search_ or _go to definition_.
-  See project search in the image below.
+- [マルチバッファー](../multibuffers.md): エディターのリスト。マルチバッファーでは複数ファイルを同時に編集できます。Gram の操作が複数の位置を返したとき（例: _検索_ や _定義へ移動_）にマルチバッファーが開きます。下の画像のプロジェクト検索を参照してください。
 
 <img width="800" height="886" alt="Screenshot for the MultiBuffer feature" src="https://github.com/user-attachments/assets/d59dcecd-8ab6-4172-8fb6-b1fc3c3eaf9d" />
 
-## Editor
+## エディター
 
-- `Editor`: _The_ text editor, nearly everything in gram is an `Editor`, even
-  single line inputs. Each pane in the image above contains one or more `Editor`
-  instances.
-- `Workspace`: The root of the window
-- `Entry`: A file, dir, pending dir or unloaded dir.
-- `Buffer`: The in-memory representation of a 'file' together with relevant data
-  such as syntax trees, git status and diagnostics.
-- `pending selection`: You have mouse down and you're dragging but you have not
-  yet released.
+- `Editor`: _その_ テキストエディター。Gram のほとんどすべてが `Editor` であり、1行の入力欄でさえそうです。上の画像の各ペインには、1つ以上の `Editor` インスタンスが入っています。
+- `Workspace`: ウィンドウのルート。
+- `Entry`: ファイル、フォルダー、保留中のフォルダー、または未読み込みのフォルダー。
+- `Buffer`: 「ファイル」のメモリ内表現で、構文木、Git の状態、診断などの関連データを伴います。
+- `pending selection`: マウスを押してドラッグしている途中で、まだボタンを離していない状態。
 
-## Debugger
+## デバッガー
 
-- `DapStore`: Is an entity that manages debugger sessions
-- `debugger::Session`: Is an entity that manages the lifecycle of a debug
-  session and communication with DAPS
-- `BreakpointStore`: Is an entity that manages breakpoints states in local and
-  remote instances of Gram
-- `DebugSession`: Manages a debug session's UI and running state
-- `RunningState`: Directly manages all the views of a debug session
-- `VariableList`: The variable and watch list view of a debug session
+- `DapStore`: デバッガーセッションを管理するエンティティ。
+- `debugger::Session`: デバッグセッションのライフサイクルと DAP との通信を管理するエンティティ。
+- `BreakpointStore`: ローカルおよびリモートの Gram インスタンスにおけるブレークポイントの状態を管理するエンティティ。
+- `DebugSession`: デバッグセッションの UI と実行状態を管理します。
+- `RunningState`: デバッグセッションのすべてのビューを直接管理します。
+- `VariableList`: デバッグセッションの変数およびウォッチリストのビュー。
 - `Console`: TODO
 - `Terminal`: TODO
 - `BreakpointList`: TODO

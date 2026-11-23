@@ -1,28 +1,23 @@
-# Visual Customization
+# 見た目のカスタマイズ
 
-Various aspects of Gram's visual layout can be configured via either the
-settings window or the `settings.json` file.
+Gram の見た目のレイアウトのさまざまな要素は、設定ウィンドウまたは `settings.json` ファイルから構成できます。
 
-These commands can be used to open the settings UI or file:
+設定 UI または設定ファイルを開くには、次のコマンドを使います:
 
 - {#action gram::OpenSettings} ({#kb gram::OpenSettings})
 - {#action gram::OpenSettingsFile} ({#kb gram::OpenSettingsFile})
 
-See [Configuring Gram](./configuring-gram.md) for additional information and
-other non-visual settings.
+追加情報と見た目以外の設定については、[Gram の設定](./configuring-gram.md) を参照してください。
 
-## Themes
+## テーマ
 
-[Themes](./themes.md) and [Icon themes](./icon-themes.md) can be installed as
-extensions. Most Zed extension themes and icon themes should be compatible.
+[テーマ](./themes.md)と[アイコンテーマ](./icon-themes.md)は拡張機能としてインストールできます。Zed の拡張機能のテーマとアイコンテーマのほとんどは互換性があるはずです。
 
-Command: {#action gram::Extensions}.
+コマンド: {#action gram::Extensions}。
 
-Preview and choose the current theme using the theme selectors: {#action
-theme_selector::Toggle} ({#kb theme_selector::Toggle}) and {#action
-icon_theme_selector::Toggle}.
+現在のテーマはテーマセレクターでプレビューして選択できます: {#action theme_selector::Toggle}（{#kb theme_selector::Toggle}）と {#action icon_theme_selector::Toggle}。
 
-The selectors will modify these settings:
+セレクターは次の設定を変更します:
 
 ```json
 {
@@ -31,78 +26,77 @@ The selectors will modify these settings:
 }
 ```
 
-Distinct themes for light mode/dark mode can be set like this:
+ライトモード/ダークモードで別々のテーマを設定するには、次のようにします:
 
 ```json
 {
   "theme": {
     "dark": "One Dark",
     "light": "One Light",
-    // Mode to use (dark, light) or "system" to follow the OS's light/dark mode (default)
+    // 使用するモード（dark、light）、または OS のライト/ダークモードに追従する "system"（既定）
     "mode": "system",
   },
   "icon_theme": {
     "dark": "Gram (Default)",
     "light": "Gram (Default)",
-    // Mode to use (dark, light) or "system" to follow the OS's light/dark mode (default)
+    // 使用するモード（dark、light）、または OS のライト/ダークモードに追従する "system"（既定）
     "mode": "system",
   },
 }
 ```
 
-## Fonts
+## フォント
 
 ```json
-  // UI Font. Use ".SystemUIFont" to use the default system font (SF Pro on macOS),
-  // or ".GramSans" for the bundled default.
+  // UI フォント。既定のシステムフォント（macOS では SF Pro）を使うには ".SystemUIFont"、
+  // 同梱の既定フォントを使うには ".GramSans" を指定します。
   "ui_font_family": ".SystemUIFont",
-  "ui_font_weight": 400, // Font weight in standard CSS units from 100 to 900.
+  "ui_font_weight": 400, // 標準 CSS 単位のフォントウェイト（100〜900）。
   "ui_font_size": 16,
 
-  // Buffer Font - Used by editor buffers
-  // use ".GramMono" for the bundled default monospace
-  "buffer_font_family": "Berkeley Mono", // Font name for editor buffers
-  "buffer_font_size": 15,                 // Font size for editor buffers
-  "buffer_font_weight": 400,              // Font weight in CSS units [100-900]
-  // Line height "comfortable" (1.618), "standard" (1.3) or custom: `{ "custom": 2 }`
+  // バッファーフォント - エディターバッファーで使います
+  // 同梱の既定等幅フォントを使うには ".GramMono" を指定します
+  "buffer_font_family": "Berkeley Mono", // エディターバッファーのフォント名
+  "buffer_font_size": 15,                 // エディターバッファーのフォントサイズ
+  "buffer_font_weight": 400,              // CSS 単位のフォントウェイト [100-900]
+  // 行の高さ。"comfortable"（1.618）、"standard"（1.3）、またはカスタム: `{ "custom": 2 }`
   "buffer_line_height": "comfortable",
 
-  // Terminal Font Settings
+  // ターミナルのフォント設定
   "terminal": {
     "font_family": "",
     "font_size": 15,
-    // Terminal line height: comfortable (1.618), standard(1.3) or `{ "custom": 2 }`
+    // ターミナルの行の高さ: comfortable（1.618）、standard（1.3）、または `{ "custom": 2 }`
     "line_height": "standard",
   },
 ```
 
-### Font ligatures
+### フォントの合字
 
-Font ligatures visually combine certain adjacent characters. For example, `=>`
-is displayed as `→` and `!=` as `≠`.
+フォントの合字は、特定の隣接する文字を視覚的に組み合わせます。たとえば `=>` は `→`、`!=` は `≠` として表示されます。
 
-This is purely cosmetic and the individual characters remain unchanged.
+これは純粋に見た目上のもので、個々の文字自体は変わりません。
 
-To disable this behavior use:
+この動作を無効にするには、次を使います:
 
 ```json
 {
   "buffer_font_features": {
-    "calt": false, // Disable ligatures
+    "calt": false, // 合字を無効化
   },
 }
 ```
 
-### Status Bar
+### ステータスバー
 
 ```json
 {
-  // Whether to show full labels in line indicator or short ones
+  // 行インジケーターに完全なラベルを表示するか、短いラベルを表示するか
   //   - `short`: "2 s, 15 l, 32 c"
   //   - `long`: "2 selections, 15 lines, 32 characters"
   "line_indicator_format": "long",
 
-  // Individual status bar icons can be hidden:
+  // ステータスバーのアイコンは個別に非表示にできます:
   // "project_panel": {"button": false },
   // "outline_panel": {"button": false },
   // "git_panel": {"button": false },
@@ -112,131 +106,131 @@ To disable this behavior use:
 }
 ```
 
-### Titlebar
+### タイトルバー
 
 ```json
-// Control which items are shown/hidden in the title bar
+// タイトルバーに表示/非表示する項目を制御します
 "title_bar": {
-  "show": true,                   // Show/hide the title bar itself
-  "show_branch_icon": false,      // Show/hide branch icon beside branch switcher
-  "show_branch_name": true,       // Show/hide branch name
-  "show_project_items": true,     // Show/hide project host and name
-  "show_onboarding_banner": true, // Show/hide onboarding banners
-  "show_user_picture": true,      // Show/hide user avatar
-  "show_menus": false             // Show/hide menus
+  "show": true,                   // タイトルバー自体を表示/非表示
+  "show_branch_icon": false,      // ブランチ切り替え横のブランチアイコンを表示/非表示
+  "show_branch_name": true,       // ブランチ名を表示/非表示
+  "show_project_items": true,     // プロジェクトのホストと名前を表示/非表示
+  "show_onboarding_banner": true, // オンボーディングバナーを表示/非表示
+  "show_user_picture": true,      // ユーザーのアバターを表示/非表示
+  "show_menus": false             // メニューを表示/非表示
 },
 ```
 
-## Workspace
+## ワークスペース
 
 ```json
 {
-  // Force usage of Gram build in path prompts (file and directory pickers)
-  // instead of OS native pickers (false).
+  // OS 標準のピッカー（false）の代わりに、Gram 内蔵のパスプロンプト
+  // （ファイル・ディレクトリのピッカー）を強制的に使います。
   "use_system_path_prompts": true,
-  // Force usage of Gram built in confirmation prompts ("Do you want to save?")
-  // instead of OS native prompts (false). On linux this is ignored (always false).
+  // OS 標準のプロンプト（false）の代わりに、Gram 内蔵の確認プロンプト
+  //（「保存しますか？」）を強制的に使います。Linux では無視されます（常に false）。
   "use_system_prompts": true,
 
-  // Active pane styling settings.
+  // アクティブなペインのスタイル設定。
   "active_pane_modifiers": {
-    // Inset border size of the active pane, in pixels.
+    // アクティブなペインの内側の境界線のサイズ（ピクセル）。
     "border_size": 0.0,
-    // Opacity of the inactive panes. 0 means transparent, 1 means opaque.
+    // 非アクティブなペインの不透明度。0 は透明、1 は不透明。
     "inactive_opacity": 1.0,
   },
 
-  // Layout mode of the bottom dock: contained, full, left_aligned, right_aligned
+  // 下部ドックのレイアウトモード: contained、full、left_aligned、right_aligned
   "bottom_dock_layout": "contained",
 
-  // Whether to resize all the panels in a dock when resizing the dock.
-  // Can be a combination of "left", "right" and "bottom".
+  // ドックのサイズを変更したときに、ドック内のすべてのパネルのサイズも変更するか。
+  // "left"、"right"、"bottom" の組み合わせを指定できます。
   "resize_all_panels_in_dock": ["left"],
 }
 ```
 
 <!--
-TBD: Centered layout related settings
+TBD: 中央揃えレイアウトに関連する設定
 ```json
     "centered_layout": {
-    // The relative width of the left padding of the central pane from the
-    // workspace when the centered layout is used.
+    // 中央揃えレイアウトを使うときの、ワークスペースからの
+    // 中央ペイン左側パディングの相対幅。
     "left_padding": 0.2,
-    // The relative width of the right padding of the central pane from the
-    // workspace when the centered layout is used.
+    // 中央揃えレイアウトを使うときの、ワークスペースからの
+    // 中央ペイン右側パディングの相対幅。
     "right_padding": 0.2
     },
 ```
 -->
 
-## Editor
+## エディター
 
 ```json
-  // Whether the cursor blinks in the editor.
+  // エディターでカーソルを点滅させるか。
   "cursor_blink": true,
 
-  // Cursor shape for the default editor: bar, block, underline, hollow
+  // 既定のエディターのカーソル形状: bar、block、underline、hollow
   "cursor_shape": null,
 
-  // Highlight the current line in the editor: none, gutter, line, all
+  // エディターで現在の行をハイライトする範囲: none、gutter、line、all
   "current_line_highlight": "all",
 
-  // When does the mouse cursor hide: never, on_typing, on_typing_and_movement
+  // マウスカーソルをいつ隠すか: never、on_typing、on_typing_and_movement
   "hide_mouse": "on_typing_and_movement",
 
-  // Whether to highlight all occurrences of the selected text in an editor.
+  // エディター内で選択中テキストのすべての出現箇所をハイライトするか。
   "selection_highlight": true,
 
-  // Visually show tabs and spaces  (none, all, selection, boundary, trailing)
+  // タブとスペースを視覚的に表示する（none、all、selection、boundary、trailing）
   "show_whitespaces": "selection",
-  "whitespace_map": { // Which characters to show when `show_whitespaces` enabled
+  "whitespace_map": { // `show_whitespaces` 有効時に表示する文字
     "space": "•",
-    "tab": "⟶"       // use "→", for a shorter arrow
+    "tab": "⟶"       // より短い矢印にするには "→" を使います
   },
 
-  "unnecessary_code_fade": 0.3, // How much to fade out unused code.
+  "unnecessary_code_fade": 0.3, // 未使用のコードをどれだけフェードさせるか。
 
-  // Defines window border radius for platforms that use client side decorations.
+  // クライアントサイドデコレーションを使うプラットフォームでのウィンドウの角丸を定義します。
   "client_side_decoration_rounding": 10.0,
-  // Defines window shadow size for platforms that use client side decorations.
+  // クライアントサイドデコレーションを使うプラットフォームでのウィンドウの影のサイズを定義します。
   "client_side_decoration_shadow": 10.0,
 
-  // Hide the values of in variables from visual display in private files
+  // プライベートファイルで変数の値を視覚表示から隠す
   "redact_private_values": false,
 
-  // Soft-wrap and rulers
-  "soft_wrap": "none",          // none, editor_width, preferred_line_length, bounded
-  "preferred_line_length": 80,  // Column to soft-wrap
-  "show_wrap_guides": true,     // Show/hide wrap guides (vertical rulers)
-  "wrap_guides": [],            // Where to position wrap_guides (character counts)
+  // ソフト折り返しとルーラー
+  "soft_wrap": "none",          // none、editor_width、preferred_line_length、bounded
+  "preferred_line_length": 80,  // ソフト折り返しする列
+  "show_wrap_guides": true,     // 折り返しガイド（縦ルーラー）を表示/非表示
+  "wrap_guides": [],            // 折り返しガイドを配置する位置（文字数）
 
-  // Gutter Settings
+  // ガターの設定
   "gutter": {
-    "line_numbers": true,         // Show/hide line numbers in the gutter.
-    "runnables": true,            // Show/hide runnables buttons in the gutter.
-    "breakpoints": true,          // Show/hide show breakpoints in the gutter.
-    "folds": true,                // Show/hide show fold buttons in the gutter.
-    "min_line_number_digits": 4   // Reserve space for N digit line numbers
+    "line_numbers": true,         // ガターの行番号を表示/非表示。
+    "runnables": true,            // ガターの実行可能ボタンを表示/非表示。
+    "breakpoints": true,          // ガターのブレークポイントを表示/非表示。
+    "folds": true,                // ガターの折りたたみボタンを表示/非表示。
+    "min_line_number_digits": 4   // N 桁の行番号用の領域を確保
   },
-  "relative_line_numbers": "enabled", // Show relative line numbers in gutter
+  "relative_line_numbers": "enabled", // ガターに相対行番号を表示
 
-  // Indent guides
+  // インデントガイド
   "indent_guides": {
     "enabled": true,
-    "line_width": 1,                  // Width of guides in pixels [1-10]
-    "active_line_width": 1,           // Width of active guide in pixels [1-10]
-    "coloring": "fixed",              // disabled, fixed, indent_aware
-    "background_coloring": "disabled" // disabled, indent_aware
+    "line_width": 1,                  // ガイドの幅（ピクセル）[1-10]
+    "active_line_width": 1,           // アクティブなガイドの幅（ピクセル）[1-10]
+    "coloring": "fixed",              // disabled、fixed、indent_aware
+    "background_coloring": "disabled" // disabled、indent_aware
   },
 
-  // Smooth scrolling
+  // スムーズスクロール
   "smooth_scroll": {
-    "enabled": false // Whether to animate scrolling with a smooth easing effect. Disabled by default.
-    "duration": 160 // Duration of the scrolling animation (ms)
+    "enabled": false // スムーズなイージング効果でスクロールをアニメーションするか。既定では無効。
+    "duration": 160 // スクロールアニメーションの長さ（ミリ秒）
   },
 
   "sticky_scroll": {
-    "enabled": false // Whether to stick scopes to the top of the editor. Disabled by default.
+    "enabled": false // スコープをエディターの先頭に固定するか。既定では無効。
   }
 ```
 
@@ -244,189 +238,189 @@ TBD: Centered layout related settings
 
 ```json
 "git": {
-  "split_diff": false,           // Open diffs side by side
+  "split_diff": false,           // Diff を左右に並べて開く
   "inline_blame": {
-    "enabled": true,             // Show/hide inline blame
-    "delay_ms": 0,                  // Show after delay (ms)
-    "min_column": 0,             // Minimum column to inline display blame
-    "padding": 7,                // Padding between code and inline blame (em)
-    "show_commit_summary": false // Show/hide commit summary
+    "enabled": true,             // インライン blame を表示/非表示
+    "delay_ms": 0,                  // 遅延後に表示（ミリ秒）
+    "min_column": 0,             // インラインで blame を表示する最小カラム
+    "padding": 7,                // コードとインライン blame の間のパディング（em）
+    "show_commit_summary": false // コミットの概要を表示/非表示
   },
-  "hunk_style": "staged_hollow"  // staged_hollow, unstaged_hollow
+  "hunk_style": "staged_hollow"  // staged_hollow、unstaged_hollow
 }
 ```
 
-### Editor Toolbar
+### エディターツールバー
 
 ```json
-// Editor toolbar related settings
+// エディターツールバーに関連する設定
 "toolbar": {
-  "breadcrumbs": true, // Whether to show breadcrumbs.
-  "quick_actions": true, // Whether to show quick action buttons.
-  "selections_menu": true, // Whether to show the Selections menu
-  "code_actions": false // Whether to show code action buttons
+  "breadcrumbs": true, // ブレッドクラムを表示するか。
+  "quick_actions": true, // クイックアクションボタンを表示するか。
+  "selections_menu": true, // 選択範囲メニューを表示するか
+  "code_actions": false // コードアクションボタンを表示するか
 }
 ```
 
-### Editor Scrollbar and Minimap {#editor-scrollbar}
+### エディターのスクロールバーとミニマップ {#editor-scrollbar}
 
 ```json
-  // Scrollbar related settings
+  // スクロールバーに関連する設定
   "scrollbar": {
-    // When to show the scrollbar in the editor (auto, system, always, never)
+    // エディターでスクロールバーをいつ表示するか（auto、system、always、never）
     "show": "auto",
-    "cursors": true,          // Show cursor positions in the scrollbar.
-    "git_diff": true,         // Show git diff indicators in the scrollbar.
-    "search_results": true,   // Show buffer search results in the scrollbar.
-    "selected_text": true,    // Show selected text occurrences in the scrollbar.
-    "selected_symbol": true,  // Show selected symbol occurrences in the scrollbar.
-    "diagnostics": "all",     // Show diagnostics (none, error, warning, information, all)
+    "cursors": true,          // スクロールバーにカーソル位置を表示。
+    "git_diff": true,         // スクロールバーに git diff インジケーターを表示。
+    "search_results": true,   // スクロールバーにバッファー検索の結果を表示。
+    "selected_text": true,    // スクロールバーに選択中テキストの出現箇所を表示。
+    "selected_symbol": true,  // スクロールバーに選択中シンボルの出現箇所を表示。
+    "diagnostics": "all",     // 診断を表示（none、error、warning、information、all）
     "axes": {
-      "horizontal": true,     // Show/hide the horizontal scrollbar
-      "vertical": true        // Show/hide the vertical scrollbar
+      "horizontal": true,     // 水平スクロールバーを表示/非表示
+      "vertical": true        // 垂直スクロールバーを表示/非表示
     }
   },
 
-  // Minimap related settings
+  // ミニマップに関連する設定
   "minimap": {
-    "show": "never",                // When to show (auto, always, never)
-    "display_in": "active_editor",  // Where to show (active_editor, all_editor)
-    "thumb": "always",              // When to show thumb (always, hover)
-    "thumb_border": "left_open",    // Thumb border (left_open, right_open, full, none)
-    "max_width_columns": 80,        // Maximum width of minimap
-    "current_line_highlight": null  // Highlight current line (null, line, gutter)
+    "show": "never",                // いつ表示するか（auto、always、never）
+    "display_in": "active_editor",  // どこに表示するか（active_editor、all_editor）
+    "thumb": "always",              // サムネイルをいつ表示するか（always、hover）
+    "thumb_border": "left_open",    // サムネイルの境界線（left_open、right_open、full、none）
+    "max_width_columns": 80,        // ミニマップの最大幅
+    "current_line_highlight": null  // 現在の行をハイライト（null、line、gutter）
   },
 
-  // Control Editor scroll beyond the last line: off, one_page, vertical_scroll_margin
+  // 最終行を超えるエディターのスクロールを制御: off、one_page、vertical_scroll_margin
   "scroll_beyond_last_line": "one_page",
-  // Lines to keep above/below the cursor when scrolling with the keyboard
+  // キーボードでスクロールするときにカーソルの上下に確保する行数
   "vertical_scroll_margin": 3,
-  // The number of characters to keep on either side when scrolling with the mouse
+  // マウスでスクロールするときに左右に確保する文字数
   "horizontal_scroll_margin": 5,
-  // Scroll sensitivity multiplier
+  // スクロール感度の倍率
   "scroll_sensitivity": 1.0,
-  // Scroll sensitivity multiplier for fast scrolling (hold alt while scrolling)
+  // 高速スクロール（スクロール中に alt を押す）のスクロール感度の倍率
   "fast_scroll_sensitivity": 4.0,
 ```
 
-### Editor Tabs
+### エディターのタブ
 
 ```json
-  // Maximum number of tabs per pane. Unset for unlimited.
+  // ペインごとのタブの最大数。未設定なら無制限。
   "max_tabs": null,
 
-  // Customize the tab bar appearance
+  // タブバーの外観をカスタマイズ
   "tab_bar": {
-    "show": true,                           // Show/hide the tab bar
-    "show_nav_history_buttons": true,       // Show/hide history buttons on tab bar
-    "show_tab_bar_buttons": "on_pane_focus" // When to show tab bar buttons (new, split, zoom)
+    "show": true,                           // タブバーを表示/非表示
+    "show_nav_history_buttons": true,       // タブバーの履歴ボタンを表示/非表示
+    "show_tab_bar_buttons": "on_pane_focus" // タブバーのボタンを表示するタイミング（new、split、zoom）
   },
   "tabs": {
-    "git_status": false,              // Color to show git status
-    "close_position": "right",        // Close button position (left, right, hidden)
-    "show_close_button": "hover",     // Close button shown (hover, always, hidden)
-    "file_icons": false,              // Icon showing file type
-    // Show diagnostics in file icon (off, errors, all). Requires file_icons=true
+    "git_status": false,              // git ステータスを示す色
+    "close_position": "right",        // 閉じるボタンの位置（left、right、hidden）
+    "show_close_button": "hover",     // 閉じるボタンの表示（hover、always、hidden）
+    "file_icons": false,              // ファイル種別を示すアイコン
+    // ファイルアイコンに診断を表示（off、errors、all）。file_icons=true が必要
     "show_diagnostics": "off"
   }
 ```
 
-### Status Bar
+### ステータスバー
 
 ```json
 "status_bar": {
-  // Show/hide a button that displays the active buffer's language.
-  // Clicking the button brings up the language selector.
-  // Defaults to true.
+  // アクティブなバッファーの言語を表示するボタンを表示/非表示。
+  // ボタンをクリックすると言語セレクターが開きます。
+  // 既定値は true。
   "active_language_button": true,
-  // Show/hide a button that displays the cursor's position.
-  // Clicking the button brings up an input for jumping to a line and column.
-  // Defaults to true.
+  // カーソル位置を表示するボタンを表示/非表示。
+  // ボタンをクリックすると、行とカラムへジャンプする入力欄が開きます。
+  // 既定値は true。
   "cursor_position_button": true,
-  // Show/hide a button that displays the buffer's line-ending mode.
-  // Clicking the button brings up the line-ending selector.
-  // Defaults to false.
+  // バッファーの改行モードを表示するボタンを表示/非表示。
+  // ボタンをクリックすると改行コードセレクターが開きます。
+  // 既定値は false。
   "line_endings_button": false,
-  // Show/hide a button that displays the buffer's character encoding.
-  // If set to "non_utf8", the button is hidden only for UTF-8 without BOM.
-  // Defaults to "non_utf8".
+  // バッファーの文字エンコーディングを表示するボタンを表示/非表示。
+  // "non_utf8" に設定すると、BOM なしの UTF-8 の場合のみボタンが非表示になります。
+  // 既定値は "non_utf8"。
   "active_encoding_button": "non_utf8"
 },
 "global_lsp_settings": {
-  // Show/hide the LSP button in the status bar.
-  // Activity from the LSP is still shown.
-  // Button is not shown if "enable_language_server" if false.
+  // ステータスバーの LSP ボタンを表示/非表示。
+  // LSP のアクティビティは引き続き表示されます。
+  // "enable_language_server" が false の場合はボタンが表示されません。
   "button": true
 },
 ```
 
-### Multibuffer
+### マルチバッファー
 
 ```json
 {
-  // The default number of lines to expand excerpts in the multibuffer by.
+  // マルチバッファーで抜粋を展開する既定の行数。
   "expand_excerpt_lines": 5,
-  // The default number of lines of context provided for excerpts in the multibuffer by.
+  // マルチバッファーの抜粋に提供する既定のコンテキスト行数。
   "excerpt_context_lines": 2,
 }
 ```
 
-### Editor Completions, Snippets, Actions, Diagnostics {#editor-lsp}
+### エディターの補完、スニペット、アクション、診断 {#editor-lsp}
 
 ```json
-  "snippet_sort_order": "inline",        // Snippets completions: top, inline, bottom, none
-  "show_completions_on_input": true,     // Show completions while typing
-  "show_completion_documentation": true, // Show documentation in completions
-  "auto_signature_help": false,          // Show method signatures inside parentheses
+  "snippet_sort_order": "inline",        // スニペット補完: top、inline、bottom、none
+  "show_completions_on_input": true,     // 入力中に補完を表示
+  "show_completion_documentation": true, // 補完にドキュメントを表示
+  "auto_signature_help": false,          // 括弧内にメソッドのシグネチャを表示
 
-  // Whether to show the signature help after completion or a bracket pair inserted.
-  // If `auto_signature_help` is enabled, this setting will be treated as enabled also.
+  // 補完後、または括弧の組の挿入後にシグネチャヘルプを表示するか。
+  // `auto_signature_help` が有効な場合、この設定も有効として扱われます。
   "show_signature_help_after_edits": false,
 
-  // Whether to show code action button at start of buffer line.
+  // バッファー行の先頭にコードアクションボタンを表示するか。
   "inline_code_actions": true,
 
-  // Which level to use to filter out diagnostics displayed in the editor:
-  "diagnostics_max_severity": null,      // off, error, warning, info, hint, null (all)
+  // エディターに表示する診断をフィルタリングするレベル:
+  "diagnostics_max_severity": null,      // off、error、warning、info、hint、null（すべて）
 
-  // How to render LSP `textDocument/documentColor` colors in the editor.
-  "lsp_document_colors": "inlay",        // none, inlay, border, background
-  // When to show the scrollbar in the completion menu.
-  "completion_menu_scrollbar": "never", // auto, system, always, never
-  // How to display the LSP item kind (function, method, variable, etc.)
-  // of each entry in the completions menu. "symbol" shows a syntax-colored
-  // single-letter badge.
-  "completion_menu_item_kind": "off", // off, symbol
-  // What should the Supertab action do when not completing?
-  "supertab_fallback": "tab", // tab, indent
-  // Sync the kill ring (emacs mode)
-  "sync_kill_ring": "clipboard", // clipboard, primary or none
-  // Line number scale
-  "line_number_scale": "default", // default, small, xsmall
-  // Turn on colorization of brackets in editors (configurable per language)
+  // エディターで LSP の `textDocument/documentColor` の色をレンダリングする方法。
+  "lsp_document_colors": "inlay",        // none、inlay、border、background
+  // 補完メニューでスクロールバーをいつ表示するか。
+  "completion_menu_scrollbar": "never", // auto、system、always、never
+  // 補完メニューの各項目で LSP の項目種別（関数、メソッド、変数など）を
+  // どのように表示するか。"symbol" は構文に応じて色付けされた
+  // 1 文字のバッジを表示します。
+  "completion_menu_item_kind": "off", // off、symbol
+  // 補完中でないとき、Supertab アクションは何をすべきか？
+  "supertab_fallback": "tab", // tab、indent
+  // kill ring を同期（emacs モード）
+  "sync_kill_ring": "clipboard", // clipboard、primary、または none
+  // 行番号のスケール
+  "line_number_scale": "default", // default、small、xsmall
+  // エディターで括弧の色付けを有効にする（言語ごとに構成可能）
   "colorize_brackets": true,
 ```
 
-### Editor Inlay Hints
+### エディターのインレイヒント
 
 ```json
 {
   "inlay_hints": {
     "enabled": false,
-    // Toggle certain types of hints on and off, all switched on by default.
+    // 特定の種類のヒントを個別にオン/オフする。既定ではすべてオン。
     "show_type_hints": true,
     "show_parameter_hints": true,
     "show_other_hints": true,
 
-    // Whether to show a background for inlay hints (theme `hint.background`)
+    // インレイヒントに背景を表示するか（テーマの `hint.background`）
     "show_background": false, //
 
-    // Time to wait after editing before requesting hints (0 to disable debounce)
+    // ヒントを要求する前に、編集後どれだけ待つか（0 でデバウンス無効）
     "edit_debounce_ms": 700,
-    // Time to wait after scrolling before requesting hints (0 to disable debounce)
+    // ヒントを要求する前に、スクロール後どれだけ待つか（0 でデバウンス無効）
     "scroll_debounce_ms": 50,
 
-    // A set of modifiers which, when pressed, will toggle the visibility of inlay hints.
+    // 押すとインレイヒントの表示を切り替える修飾キーの組。
     "toggle_on_modifiers_press": {
       "control": false,
       "shift": false,
@@ -438,134 +432,131 @@ TBD: Centered layout related settings
 }
 ```
 
-## File Finder
+## ファイルファインダー
 
 ```json
-// File Finder Settings
+// ファイルファインダーの設定
 "file_finder": {
-  "file_icons": true,         // Show/hide file icons
-  "modal_max_width": "small", // Horizontal size: small, medium, large, xlarge, full
-  "git_status": true,         // Show the git status for each entry
-  "include_ignored": null     // gitignored files in results: true, false, null
+  "file_icons": true,         // ファイルアイコンを表示/非表示
+  "modal_max_width": "small", // 水平方向のサイズ: small、medium、large、xlarge、full
+  "git_status": true,         // 各項目の git ステータスを表示
+  "include_ignored": null     // 結果に gitignore 対象を含める: true、false、null
 },
 ```
 
-## Project Panel
+## プロジェクトパネル
 
-The project panel can be shown/hidden using {#action project_panel::ToggleFocus}
-({#kb project_panel::ToggleFocus}) or {#action pane::RevealInProjectPanel} ({#kb
-pane::RevealInProjectPanel}).
+プロジェクトパネルは {#action project_panel::ToggleFocus}（{#kb project_panel::ToggleFocus}）または {#action pane::RevealInProjectPanel}（{#kb pane::RevealInProjectPanel}）で表示/非表示を切り替えられます。
 
 ```json
-  // Project Panel Settings
+  // プロジェクトパネルの設定
   "project_panel": {
-    "button": true,                 // Show/hide button in the status bar
-    "default_width": 240,           // Default panel width
-    "dock": "left",                 // Position of the dock (left, right)
-    "entry_spacing": "comfortable", // Vertical spacing (comfortable, standard)
-    "file_icons": true,             // Show/hide file icons
-    "folder_icons": true,           // Show/hide folder icons
-    "git_status": true,             // Indicate new/updated files
-    "indent_size": 20,              // Pixels for each successive indent
-    "auto_reveal_entries": true,    // Show file in panel when activating its buffer
-    "auto_fold_dirs": true,         // Fold dirs with single subdir
-    "sticky_scroll": true,          // Stick parent directories at top of the project panel.
-    "drag_and_drop": true,          // Whether drag and drop is enabled
-    "scrollbar": {                  // Project panel scrollbar settings
-      "show": null                  // Show/hide: (auto, system, always, never)
+    "button": true,                 // ステータスバーのボタンを表示/非表示
+    "default_width": 240,           // 既定のパネル幅
+    "dock": "left",                 // ドックの位置（left、right）
+    "entry_spacing": "comfortable", // 縦方向の間隔（comfortable、standard）
+    "file_icons": true,             // ファイルアイコンを表示/非表示
+    "folder_icons": true,           // フォルダーアイコンを表示/非表示
+    "git_status": true,             // 新規/更新されたファイルを示す
+    "indent_size": 20,              // インデント 1 段階ごとのピクセル数
+    "auto_reveal_entries": true,    // バッファーをアクティブにしたときパネルにファイルを表示
+    "auto_fold_dirs": true,         // サブディレクトリが 1 つだけのディレクトリを折りたたむ
+    "sticky_scroll": true,          // 親ディレクトリをプロジェクトパネルの先頭に固定。
+    "drag_and_drop": true,          // ドラッグ&ドロップを有効にするか
+    "scrollbar": {                  // プロジェクトパネルのスクロールバー設定
+      "show": null                  // 表示/非表示: (auto、system、always、never)
     },
     "show_diagnostics": "all",      //
-    // Settings related to indent guides in the project panel.
+    // プロジェクトパネルのインデントガイドに関連する設定。
     "indent_guides": {
-      // When to show indent guides in the project panel. (always, never)
+      // プロジェクトパネルでインデントガイドをいつ表示するか。(always、never)
       "show": "always"
     },
-    // Sort order for entries (directories_first, smart_sort, mixed, files_first)
+    // 項目の並び順（directories_first、smart_sort、mixed、files_first）
     "sort_mode": "directories_first",
-    // Whether to hide the root entry when only one folder is open in the window.
+    // ウィンドウで 1 つのフォルダーしか開いていないとき、ルート項目を隠すか。
     "hide_root": false,
-    // Whether to hide the hidden entries in the project panel.
+    // プロジェクトパネルで隠しファイルを隠すか。
     "hide_hidden": false
   }
 ```
 
-## Terminal Panel
+## ターミナルパネル
 
 ```json
-  // Terminal Panel Settings
+  // ターミナルパネルの設定
   "terminal": {
-    "dock": "bottom",                   // Where to dock: left, right, bottom
-    "button": true,                     // Show/hide status bar icon
-    "default_width": 640,               // Default width (left/right docked)
-    "default_height": 320,              // Default height (bottom docked)
+    "dock": "bottom",                   // ドックの位置: left、right、bottom
+    "button": true,                     // ステータスバーのアイコンを表示/非表示
+    "default_width": 640,               // 既定の幅（左右ドック時）
+    "default_height": 320,              // 既定の高さ（下部ドック時）
 
-    // Set the cursor blinking behavior in the terminal (on, off, terminal_controlled)
+    // ターミナルのカーソル点滅動作を設定（on、off、terminal_controlled）
     "blinking": "terminal_controlled",
-    // Default cursor shape for the terminal cursor (block, bar, underline, hollow)
+    // ターミナルカーソルの既定の形状（block、bar、underline、hollow）
     "cursor_shape": "block",
 
-    // Environment variables to add to terminal's process environment
+    // ターミナルのプロセス環境に追加する環境変数
     "env": {
       // "KEY": "value"
     },
 
-    // Terminal scrollbar
+    // ターミナルのスクロールバー
     "scrollbar": {
-      "show": null                       // Show/hide: (auto, system, always, never)
+      "show": null                       // 表示/非表示: (auto、system、always、never)
     },
-    // Terminal Font Settings
+    // ターミナルのフォント設定
     "font_family": "Fira Code",
     "font_size": 15,
     "font_weight": 400,
-    // Terminal line height: comfortable (1.618), standard(1.3) or `{ "custom": 2 }`
+    // ターミナルの行の高さ: comfortable（1.618）、standard（1.3）、または `{ "custom": 2 }`
     "line_height": "comfortable",
 
-    "max_scroll_history_lines": 10000,   // Scrollback history (0=disable, max=100000)
+    "max_scroll_history_lines": 10000,   // スクロールバックの履歴（0=無効、最大=100000）
   }
 ```
 
-See [Terminal settings](./configuring-gram.md#terminal) for additional
-non-visual customization options.
+見た目以外のカスタマイズオプションについては、[ターミナルの設定](./configuring-gram.md#terminal) を参照してください。
 
-### Other Panels
+### その他のパネル
 
 ```json
-  // Git Panel
+  // Git パネル
   "git_panel": {
-    "button": true,               // Show/hide status bar icon
-    "dock": "left",               // Where to dock: left, right
-    "default_width": 360,         // Default width of the git panel.
-    "status_style": "icon",       // label_color, icon
-    "sort_by_path": false,        // Sort by path (false) or status (true)
-    "tree_view": false,           // Tree (true) or flat list (false)
-    "diff_stats": true,           // Show added/deleted line counts
+    "button": true,               // ステータスバーのアイコンを表示/非表示
+    "dock": "left",               // ドックの位置: left、right
+    "default_width": 360,         // git パネルの既定の幅。
+    "status_style": "icon",       // label_color、icon
+    "sort_by_path": false,        // パス順（false）かステータス順（true）で並べ替え
+    "tree_view": false,           // ツリー表示（true）かフラットな一覧（false）
+    "diff_stats": true,           // 追加/削除された行数を表示
     "scrollbar": {
-      "show": null                // Show/hide: (auto, system, always, never)
+      "show": null                // 表示/非表示: (auto、system、always、never)
     }
   },
 
-  // Debugger Panel
+  // デバッガーパネル
   "debugger": {
-    "dock": "bottom",             // Where to dock: left, right, bottom
-    "button": true                // Show/hide status bar icon
+    "dock": "bottom",             // ドックの位置: left、right、bottom
+    "button": true                // ステータスバーのアイコンを表示/非表示
   },
 
-  // Outline Panel
+  // アウトラインパネル
   "outline_panel": {
-    "button": true,               // Show/hide status bar icon
-    "default_width": 300,         // Default width of the git panel
-    "dock": "left",               // Where to dock: left, right
-    "file_icons": true,           // Show/hide file_icons
-    "folder_icons": true,         // Show file_icons (true), chevrons (false) for dirs
-    "git_status": true,           // Show git status
-    "indent_size": 20,            // Indentation for nested items (pixels)
+    "button": true,               // ステータスバーのアイコンを表示/非表示
+    "default_width": 300,         // git パネルの既定の幅
+    "dock": "left",               // ドックの位置: left、right
+    "file_icons": true,           // file_icons を表示/非表示
+    "folder_icons": true,         // ディレクトリにファイルアイコン（true）かシェブロン（false）を表示
+    "git_status": true,           // git ステータスを表示
+    "indent_size": 20,            // ネストした項目のインデント（ピクセル）
     "indent_guides": {
-      "show": "always"            // Show indent guides (always, never)
+      "show": "always"            // インデントガイドを表示（always、never）
     },
-    "auto_reveal_entries": true,  // Show file in panel when activating its buffer
-    "auto_fold_dirs": true,       // Fold dirs with single subdir
-    "scrollbar": {                // Project panel scrollbar settings
-      "show": null                // Show/hide: (auto, system, always, never)
+    "auto_reveal_entries": true,  // バッファーをアクティブにしたときパネルにファイルを表示
+    "auto_fold_dirs": true,       // サブディレクトリが 1 つだけのディレクトリを折りたたむ
+    "scrollbar": {                // プロジェクトパネルのスクロールバー設定
+      "show": null                // 表示/非表示: (auto、system、always、never)
     }
   }
 ```

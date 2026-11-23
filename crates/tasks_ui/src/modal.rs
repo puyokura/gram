@@ -20,7 +20,7 @@ pub use app_actions::{Rerun, Spawn};
 use util::{ResultExt, truncate_and_trailoff};
 use workspace::{ModalView, Workspace};
 
-/// A modal used to spawn new tasks.
+/// 新しいタスクを実行するモーダル。
 pub struct TasksModalDelegate {
     task_store: Entity<TaskStore>,
     candidates: Option<Vec<(TaskSourceKind, ResolvedTask)>>,
@@ -53,9 +53,9 @@ impl TasksModalDelegate {
             reveal_target: Some(RevealTarget::Center),
         }) = &task_overrides
         {
-            Arc::from("Find a task, or run a command in the central pane")
+            Arc::from("タスクを検索するか、中央ペインでコマンドを実行")
         } else {
-            Arc::from("Find a task, or run a command")
+            Arc::from("タスクを検索するか、コマンドを実行")
         };
         Self {
             task_store,
@@ -507,7 +507,7 @@ impl PickerDelegate for TasksModalDelegate {
                                         picker.delegate.last_used_candidate_index.unwrap_or(0).checked_sub(1);
                                     picker.refresh(window, cx);
                                 }))
-                                .tooltip(|_, cx| Tooltip::simple("Delete Previously Scheduled Task", cx)),
+                                .tooltip(|_, cx| Tooltip::simple("前に予約したタスクを削除", cx)),
                         );
                         item.end_hover_slot(delete_button)
                     } else {
@@ -564,7 +564,7 @@ impl PickerDelegate for TasksModalDelegate {
             .last_scheduled_task(None)
             .is_some()
         {
-            Some(("Rerun Last Task", Rerun::default().boxed_clone()))
+            Some(("最後のタスクを再実行", Rerun::default().boxed_clone()))
         } else {
             None
         };
@@ -597,9 +597,9 @@ impl PickerDelegate for TasksModalDelegate {
                         .boxed_clone();
                         this.child({
                             let spawn_oneshot_label = if current_modifiers.secondary() {
-                                "Spawn Oneshot Without History"
+                                "履歴を残さずワンショットで実行"
                             } else {
-                                "Spawn Oneshot"
+                                "ワンショットで実行"
                             };
 
                             Button::new("spawn-onehshot", spawn_oneshot_label)
@@ -609,9 +609,9 @@ impl PickerDelegate for TasksModalDelegate {
                     } else if current_modifiers.secondary() {
                         this.child({
                             let label = if is_recent_selected {
-                                "Rerun Without History"
+                                "履歴を残さず再実行"
                             } else {
-                                "Spawn Without History"
+                                "履歴を残さず実行"
                             };
                             Button::new("spawn", label)
                                 .key_binding(KeyBinding::for_action(&menu::SecondaryConfirm, cx))
@@ -621,7 +621,7 @@ impl PickerDelegate for TasksModalDelegate {
                         })
                     } else {
                         this.child({
-                            let run_entry_label = if is_recent_selected { "Rerun" } else { "Spawn" };
+                            let run_entry_label = if is_recent_selected { "再実行" } else { "実行" };
 
                             Button::new("spawn", run_entry_label)
                                 .key_binding(KeyBinding::for_action(&menu::Confirm, cx))

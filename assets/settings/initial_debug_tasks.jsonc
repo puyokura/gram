@@ -1,7 +1,7 @@
-// Some example tasks for common languages.
+// 一般的な言語向けのタスク例。
 //
-// For more documentation on how to configure debug tasks,
-// see: gram://docs/debugger
+// デバッグタスクの設定方法の詳細は、
+// 次を参照してください: gram://docs/debugger
 [
   {
     "label": "Debug active Python file",

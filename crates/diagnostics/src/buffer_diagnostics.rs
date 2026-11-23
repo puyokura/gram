@@ -35,7 +35,7 @@ use workspace::{
 actions!(
     diagnostics,
     [
-        /// Opens the project diagnostics view for the currently focused file.
+        /// 現在のフォーカス先ファイルについて、プロジェクトの診断ビューを開く。
         DeployCurrentFile,
     ]
 );
@@ -761,12 +761,12 @@ impl Item for BufferDiagnosticsEditor {
     }
 
     fn tab_content_text(&self, _detail: usize, _app: &App) -> SharedString {
-        "Buffer Diagnostics".into()
+        "バッファーの診断".into()
     }
 
     fn tab_tooltip_text(&self, cx: &App) -> Option<SharedString> {
         let path_style = self.project.read(cx).path_style(cx);
-        Some(format!("Buffer Diagnostics - {}", self.project_path.path.display(path_style)).into())
+        Some(format!("バッファーの診断 - {}", self.project_path.path.display(path_style)).into())
     }
 
     fn to_item_events(event: &EditorEvent, f: impl FnMut(ItemEvent)) {
@@ -786,8 +786,8 @@ impl Render for BufferDiagnosticsEditor {
 
         let child = if error_count + warning_count == 0 {
             let label = match warning_count {
-                0 => "No problems in",
-                _ => "No errors in",
+                0 => "問題はありません:",
+                _ => "エラーはありません:",
             };
 
             v_flex()
@@ -802,7 +802,7 @@ impl Render for BufferDiagnosticsEditor {
                     div().h_flex().child(Label::new(label).color(Color::Muted)).child(
                         Button::new("open-file", filename)
                             .style(ButtonStyle::Transparent)
-                            .tooltip(Tooltip::text("Open File"))
+                            .tooltip(Tooltip::text("ファイルを開く"))
                             .on_click(cx.listener(|buffer_diagnostics, _, window, cx| {
                                 if let Some(workspace) = window.root::<Workspace>() {
                                     workspace.update(cx, |workspace, cx| {
@@ -815,10 +815,7 @@ impl Render for BufferDiagnosticsEditor {
                     ),
                 )
                 .when(self.summary.warning_count > 0, |div| {
-                    let label = match self.summary.warning_count {
-                        1 => "Show 1 warning".into(),
-                        warning_count => format!("Show {} warnings", warning_count),
-                    };
+                    let label = format!("警告を{}件表示", self.summary.warning_count);
 
                     div.child(
                         Button::new("diagnostics-show-warning-label", label).on_click(cx.listener(

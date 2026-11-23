@@ -25,7 +25,13 @@ use workspace::Workspace;
 
 use crate::{ToggleDataBreakpoint, session::running::stack_frame_list::StackFrameList};
 
-actions!(debugger, [GoToSelectedAddress]);
+actions!(
+    debugger,
+    [
+        /// 選択したメモリアドレスに移動します。
+        GoToSelectedAddress
+    ]
+);
 
 pub(crate) struct MemoryView {
     workspace: WeakEntity<Workspace>,
@@ -375,14 +381,14 @@ impl MemoryView {
         if !self.is_writing_memory {
             self.query_editor.update(cx, |this, cx| {
                 this.clear(window, cx);
-                this.set_placeholder_text("Write to Selected Memory Range", window, cx);
+                this.set_placeholder_text("選択したメモリ範囲に書き込み", window, cx);
             });
             self.is_writing_memory = true;
             self.query_editor.focus_handle(cx).focus(window, cx);
         } else {
             self.query_editor.update(cx, |this, cx| {
                 this.clear(window, cx);
-                this.set_placeholder_text("Go to Memory Address / Expression", window, cx);
+                this.set_placeholder_text("メモリアドレス / 式に移動", window, cx);
             });
             self.is_writing_memory = false;
         }
@@ -436,7 +442,9 @@ impl MemoryView {
                         _ = self.workspace.update(cx, |this, cx| {
                             this.toggle_status_toast(
                                 StatusToast::new(
-                                    format!("Debug Adapter `{adapter_name}` does not support writing to memory"),
+                                    format!(
+                                        "デバッグアダプター `{adapter_name}` はメモリへの書き込みをサポートしていません"
+                                    ),
                                     cx,
                                     |this, cx| {
                                         cx.spawn(async move |this, cx| {
@@ -586,14 +594,14 @@ impl MemoryView {
 
             let mut menu = menu.action_disabled_when(
                 range_too_large || *memory_unreadable,
-                "Go To Selected Address",
+                "選択したアドレスに移動",
                 GoToSelectedAddress.boxed_clone(),
             );
 
             if supports_data_breakpoints {
                 menu = menu.action_disabled_when(
                     *memory_unreadable,
-                    "Set Data Breakpoint",
+                    "データブレークポイントを設定",
                     ToggleDataBreakpoint { access_type: None }.boxed_clone(),
                 );
             }
@@ -633,13 +641,13 @@ impl ViewWidth {
 }
 
 static WIDTHS: [ViewWidth; 7] = [
-    ViewWidth::new(1, "1 byte"),
-    ViewWidth::new(2, "2 bytes"),
-    ViewWidth::new(4, "4 bytes"),
-    ViewWidth::new(8, "8 bytes"),
-    ViewWidth::new(16, "16 bytes"),
-    ViewWidth::new(32, "32 bytes"),
-    ViewWidth::new(64, "64 bytes"),
+    ViewWidth::new(1, "1 バイト"),
+    ViewWidth::new(2, "2 バイト"),
+    ViewWidth::new(4, "4 バイト"),
+    ViewWidth::new(8, "8 バイト"),
+    ViewWidth::new(16, "16 バイト"),
+    ViewWidth::new(32, "32 バイト"),
+    ViewWidth::new(64, "64 バイト"),
 ];
 
 fn render_single_memory_view_line(
@@ -786,9 +794,9 @@ fn render_single_memory_view_line(
 impl Render for MemoryView {
     fn render(&mut self, window: &mut ui::Window, cx: &mut ui::Context<Self>) -> impl ui::IntoElement {
         let (icon, tooltip_text) = if self.is_writing_memory {
-            (IconName::Pencil, "Edit memory at a selected address")
+            (IconName::Pencil, "選択したアドレスのメモリを編集")
         } else {
-            (IconName::LocationEdit, "Change address of currently viewed memory")
+            (IconName::LocationEdit, "表示中のメモリアドレスを変更")
         };
         v_flex()
             .id("Memory-view")

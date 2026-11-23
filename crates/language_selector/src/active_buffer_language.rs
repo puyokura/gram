@@ -46,7 +46,7 @@ impl Render for ActiveBufferLanguage {
             let active_language_text = if let Some(active_language_text) = active_language {
                 active_language_text.to_string()
             } else {
-                "Unknown".to_string()
+                "不明".to_string()
             };
             let icon_size = StatusBarSettings::get_global(cx).icon_size;
 
@@ -58,7 +58,7 @@ impl Render for ActiveBufferLanguage {
                             workspace.update(cx, |workspace, cx| LanguageSelector::toggle(workspace, window, cx));
                         }
                     }))
-                    .tooltip(|_window, cx| Tooltip::for_action("Select Language", &Toggle, cx)),
+                    .tooltip(|_window, cx| Tooltip::for_action("言語を選択", &Toggle, cx)),
             )
         })
     }

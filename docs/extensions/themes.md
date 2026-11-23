@@ -1,55 +1,51 @@
-# Themes
+# テーマ
 
-The `themes` directory in an extension should contain one or more theme files.
+拡張機能の `themes` フォルダーには、1つ以上のテーマファイルを置きます。
 
-Each theme file should adhere to the JSON schema specified at
-[`https://zed.dev/schema/themes/v0.2.0.json`](https://zed.dev/schema/themes/v0.2.0.json).
+各テーマファイルは、[`https://zed.dev/schema/themes/v0.2.0.json`](https://zed.dev/schema/themes/v0.2.0.json) で定義された JSON スキーマに従う必要があります。
 
-See [this Zed blog post](https://zed.dev/blog/user-themes-now-in-preview) for
-more details about creating themes.
+テーマの作成について詳しくは、[この Zed のブログ記事](https://zed.dev/blog/user-themes-now-in-preview)を参照してください。
 
-## Theme JSON Structure
+## テーマの JSON 構造
 
-The structure of a Gram theme is defined in the
-[Zed Theme JSON Schema](https://zed.dev/schema/themes/v0.2.0.json).
+Gram のテーマの構造は、[Zed Theme JSON Schema](https://zed.dev/schema/themes/v0.2.0.json) で定義されています。
 
-A Gram theme consists of a Theme Family object including:
+Gram のテーマは、次の要素を含む Theme Family オブジェクトで構成されます:
 
-- `name`: The name for the theme family
-- `author`: The name of the author of the theme family
-- `themes`: An array of Themes belonging to the theme family
+- `name`: テーマファミリーの名前
+- `author`: テーマファミリーの作者名
+- `themes`: テーマファミリーに属する Theme オブジェクトの配列
 
-The core components a Theme object include:
+Theme オブジェクトの主要な構成要素は次のとおりです:
 
-1. Theme Metadata:
+1. テーマのメタデータ:
 
-   - `name`: The name of the theme
-   - `appearance`: Either "light" or "dark"
+   - `name`: テーマの名前
+   - `appearance`: "light" または "dark"
 
-2. Style Properties under the `style`, such as:
+2. `style` 以下のスタイルプロパティ。たとえば:
 
-   - `background`: The main background color
-   - `foreground`: The main text color
-   - `accent`: The accent color used for highlighting and emphasis
+   - `background`: メインの背景色
+   - `foreground`: メインのテキスト色
+   - `accent`: 強調やハイライトに使うアクセント色
 
-3. Syntax Highlighting:
+3. シンタックスハイライト:
 
-   - `syntax`: An object containing color definitions for various syntax
-     elements (e.g., keywords, strings, comments)
+   - `syntax`: 各種の構文要素（キーワード、文字列、コメントなど）の色定義を含むオブジェクト
 
-4. UI Elements:
+4. UI 要素:
 
-   - Colors for various UI components such as:
-     - `element.background`: Background color for UI elements
-     - `border`: Border colors for different states (normal, focused, selected)
-     - `text`: Text colors for different states (normal, muted, accent)
+   - 各種 UI コンポーネントの色。たとえば:
+     - `element.background`: UI 要素の背景色
+     - `border`: 状態ごと（通常、フォーカス、選択）の枠線の色
+     - `text`: 状態ごと（通常、ミュート、アクセント）のテキスト色
 
-5. Editor-specific Colors:
+5. エディター固有の色:
 
-   - Colors for editor-related elements such as:
-     - `editor.background`: Editor background color
-     - `editor.gutter`: Gutter colors
-     - `editor.line_number`: Line number colors
+   - エディター関連要素の色。たとえば:
+     - `editor.background`: エディターの背景色
+     - `editor.gutter`: ガターの色
+     - `editor.line_number`: 行番号の色
 
-6. Terminal Colors:
-   - ANSI color definitions for the integrated terminal
+6. ターミナルの色:
+   - 統合ターミナル用の ANSI 色定義

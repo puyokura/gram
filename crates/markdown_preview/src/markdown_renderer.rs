@@ -409,7 +409,7 @@ fn render_markdown_list_item(parsed: &ParsedMarkdownListItem, cx: &mut RenderCon
                     })
                 }),
             )
-            .tooltip(|_, cx| InteractiveMarkdownElementTooltip::new(None, "toggle checkbox", cx).into())
+            .tooltip(|_, cx| InteractiveMarkdownElementTooltip::new(None, "チェックボックスを切り替え", cx).into())
             .into_any_element(),
     };
     let bullet = div().mr(cx.scaled_rems(0.5)).child(bullet);
@@ -717,7 +717,7 @@ fn render_markdown_code_block(parsed: &ParsedMarkdownCodeBlock, cx: &mut RenderC
     };
 
     let copy_block_button = CopyButton::new("copy-codeblock", parsed.contents.clone())
-        .tooltip_label("Copy Codeblock")
+        .tooltip_label("コードブロックをコピー")
         .visible_on_hover("markdown-block");
 
     let font = gpui::Font {
@@ -754,7 +754,7 @@ fn render_mermaid_diagram(parsed: &ParsedMarkdownMermaidDiagram, cx: &mut Render
                             .max_w_full()
                             .with_fallback(|| {
                                 div()
-                                    .child(Label::new("Failed to load mermaid diagram"))
+                                    .child(Label::new("Mermaid 図の読み込みに失敗しました"))
                                     .into_any_element()
                             }),
                     ),
@@ -783,7 +783,7 @@ fn render_mermaid_diagram(parsed: &ParsedMarkdownMermaidDiagram, cx: &mut Render
                             .max_w_full()
                             .with_fallback(|| {
                                 div()
-                                    .child(Label::new("Failed to load mermaid diagram"))
+                                    .child(Label::new("Mermaid 図の読み込みに失敗しました"))
                                     .into_any_element()
                             }),
                     )
@@ -803,7 +803,7 @@ fn render_mermaid_diagram(parsed: &ParsedMarkdownMermaidDiagram, cx: &mut Render
             .bg(cx.code_block_background_color)
             .rounded_sm()
             .child(
-                Label::new("Rendering mermaid diagram...")
+                Label::new("Mermaid 図を描画しています…")
                     .color(Color::Muted)
                     .with_animation(
                         "mermaid-loading-pulse",
@@ -970,7 +970,7 @@ fn render_markdown_image(image: &Image, cx: &mut RenderContext) -> AnyElement {
             move |_, cx| {
                 InteractiveMarkdownElementTooltip::new(
                     Some(alt_text.clone().unwrap_or(link.to_string().into())),
-                    "open image",
+                    "画像を開く",
                     cx,
                 )
                 .into()
@@ -1056,7 +1056,7 @@ impl Render for InteractiveMarkdownElementTooltip {
                         this.child(Label::new(text).size(LabelSize::Small))
                     })
                     .child(
-                        Label::new(format!("{}-click to {}", secondary_modifier, self.action_text))
+                        Label::new(format!("{}+クリックで{}", secondary_modifier, self.action_text))
                             .size(LabelSize::Small)
                             .color(Color::Muted),
                     ),

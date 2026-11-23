@@ -1,18 +1,13 @@
-# Helix Mode
+# Helix モード
 
-_Work in progress! Not all Helix keybindings are implemented yet._
+_開発進行中！Helix のすべてのキーバインドが実装されているわけではありません。_
 
-The Helix mode is an emulation layer that brings Helix-style keybindings and
-modal editing to Gram. It builds upon [Vim mode](./vim.md), so much of the core
-functionality is shared. Enabling `helix_mode` will also enable `vim_mode`.
+Helix モードは、Helix スタイルのキーバインドとモーダル編集を Gram にもたらすエミュレーション層です。[Vim モード](./vim.md) をベースに構築されているため、コア機能の多くが共有されています。`helix_mode` を有効にすると、`vim_mode` も同時に有効になります。
 
-For a guide on Vim-related features that are also available in Helix mode,
-please refer to the [Vim mode documentation](./vim.md).
+Helix モードでも利用可能な Vim 関連機能のガイドについては、[Vim モードのドキュメント](./vim.md) を参照してください。
 
-For a detailed list of Helix's default keybindings, please visit the
-[official Helix documentation](https://docs.helix-editor.com/keymap.html).
+Helix のデフォルトキーバインドの詳細な一覧については、[公式 Helix ドキュメント](https://docs.helix-editor.com/keymap.html) を参照してください。
 
-## Core differences
+## 主な相違点
 
-Any text object that works with `m i` or `m a` also works with `]` and `[`, so
-for example `] (` selects the next pair of parentheses after the cursor.
+`m i` や `m a` で機能するテキストオブジェクトはすべて `]` や `[` でも機能します。たとえば、`] (` を押すとカーソル以降の次の丸括弧のペアが選択されます。

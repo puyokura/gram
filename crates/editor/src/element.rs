@@ -2930,7 +2930,7 @@ impl EditorElement {
                         });
                     })
                     .tooltip(Tooltip::for_action_title(
-                        "Expand Excerpt",
+                        "抜粋を展開",
                         &crate::actions::ExpandExcerpts::default(),
                     ))
                     .into_any_element();
@@ -3665,13 +3665,13 @@ impl EditorElement {
                                             move |_window, cx| {
                                                 Tooltip::with_meta_in(
                                                     if is_folded_for_tooltip {
-                                                        "Unfold Excerpt"
+                                                        "抜粋を展開"
                                                     } else {
-                                                        "Fold Excerpt"
+                                                        "抜粋を折りたたむ"
                                                     },
                                                     Some(&ToggleFold),
                                                     format!(
-                                                        "{} to toggle all",
+                                                        "{}ですべて切り替え",
                                                         text_for_keystroke(&Modifiers::alt(), "click", cx)
                                                     ),
                                                     &focus_handle,
@@ -3719,7 +3719,7 @@ impl EditorElement {
                             .justify_between()
                             .overflow_hidden()
                             .child(h_flex().min_w_0().flex_1().gap_0p5().map(|path_header| {
-                                let filename = filename.map(SharedString::from).unwrap_or_else(|| "untitled".into());
+                                let filename = filename.map(SharedString::from).unwrap_or_else(|| "無題".into());
 
                                 path_header
                                     .when(ItemSettings::get_global(cx).file_icons, |el| {
@@ -3837,7 +3837,7 @@ impl EditorElement {
                         menu = menu
                             .when_some(abs_path, |menu, abs_path| {
                                 menu.entry(
-                                    "Copy Path",
+                                    "パスをコピー",
                                     Some(Box::new(app_actions::workspace::CopyPath)),
                                     window.handler_for(&editor, move |_, _, cx| {
                                         cx.write_to_clipboard(ClipboardItem::new_string(
@@ -3848,7 +3848,7 @@ impl EditorElement {
                             })
                             .when_some(relative_path, |menu, relative_path| {
                                 menu.entry(
-                                    "Copy Relative Path",
+                                    "相対パスをコピー",
                                     Some(Box::new(app_actions::workspace::CopyRelativePath)),
                                     window.handler_for(&editor, move |_, _, cx| {
                                         cx.write_to_clipboard(ClipboardItem::new_string(
@@ -3862,7 +3862,7 @@ impl EditorElement {
                             })
                             .when_some(reveal_in_project_panel, |menu, entry_id| {
                                 menu.entry(
-                                    "Reveal In Project Panel",
+                                    "プロジェクトパネルで表示",
                                     Some(Box::new(RevealInProjectPanel::default())),
                                     window.handler_for(&editor, move |editor, _, cx| {
                                         if let Some(project) = &mut editor.project {
@@ -3875,7 +3875,7 @@ impl EditorElement {
                             })
                             .when_some(parent_abs_path, |menu, parent_abs_path| {
                                 menu.entry(
-                                    "Open in Terminal",
+                                    "ターミナルで開く",
                                     Some(Box::new(OpenInTerminal)),
                                     window.handler_for(&editor, move |_, window, cx| {
                                         window.dispatch_action(
@@ -3913,10 +3913,15 @@ impl EditorElement {
         } else {
             "View File"
         };
+        let button_label = if can_open_current_file || !is_read_only {
+            "ファイルを開く"
+        } else {
+            "ファイルを表示"
+        };
         Some(SplitButton::new(
             ButtonLike::new_rounded_left(ElementId::Name(format!("file-split-button-left-{}", title).into()))
                 .size(ButtonSize::Default)
-                .child(Label::new(title).size(LabelSize::Small).mr_0p5())
+                .child(Label::new(button_label).size(LabelSize::Small).mr_0p5())
                 .tooltip({
                     let file_name = current_file
                         .as_ref()
@@ -3925,11 +3930,11 @@ impl EditorElement {
                     move |_window, cx| {
                         Tooltip::with_meta(
                             if can_open_current_file {
-                                "Open the current file unless it has been removed."
+                                "削除されていない限り、現在のファイルを開きます。"
                             } else if is_read_only {
-                                "Open a read-only view of the file at the given commit."
+                                "指定されたコミットでのファイルの読み取り専用ビューを開きます。"
                             } else {
-                                "Open the file at the current line."
+                                "現在の行でファイルを開きます。"
                             },
                             if can_open_current_file {
                                 None
@@ -4016,7 +4021,7 @@ impl EditorElement {
                 )
                 .menu(move |window, cx| {
                     Some(ContextMenu::build(window, cx, |context_menu, _, _| {
-                        context_menu.action("View File", Box::new(OpenExcerpts))
+                        context_menu.action("ファイルを表示", Box::new(OpenExcerpts))
                     }))
                 })
                 .anchor(Corner::TopRight)

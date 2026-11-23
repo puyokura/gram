@@ -1,17 +1,17 @@
 # Scheme
 
-## Formatting
+## フォーマット
 
-To support automatically formatting your code, you can use
-[raviqqe/schemat](https://github.com/raviqqe/schemat), a Scheme code formatter.
+コードを自動でフォーマットするには、Scheme のコードフォーマッターである
+[raviqqe/schemat](https://github.com/raviqqe/schemat) を使用できます。
 
-Install with:
+インストール:
 
 ```bash
 cargo install schemat
 ```
 
-Then add the following to your Gram `settings.json`:
+次に、Gram の `settings.json` に以下を追加します:
 
 ```json
 "languages": {

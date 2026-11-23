@@ -69,7 +69,7 @@ fn open_performance_profiler(
     cx.open_window(
         WindowOptions {
             titlebar: Some(TitlebarOptions {
-                title: Some("Profiler Window".into()),
+                title: Some("プロファイラーウィンドウ".into()),
                 appears_transparent: false,
                 traffic_light_position: None,
             }),
@@ -242,8 +242,8 @@ impl Render for ProfilerWindow {
                                 Button::new(
                                     "switch-mode",
                                     match self.data {
-                                        DataMode::Snapshot { .. } => "Resume",
-                                        DataMode::Realtime(_) => "Pause",
+                                        DataMode::Snapshot { .. } => "再開",
+                                        DataMode::Realtime(_) => "一時停止",
                                     },
                                 )
                                 .style(ButtonStyle::Filled)
@@ -262,7 +262,7 @@ impl Render for ProfilerWindow {
                                     cx.notify();
                                 })),
                             )
-                            .child(Button::new("export-data", "Save").style(ButtonStyle::Filled).on_click(
+                            .child(Button::new("export-data", "保存").style(ButtonStyle::Filled).on_click(
                                 cx.listener(|this, _, _window, cx| {
                                     let Some(workspace) = this.workspace else {
                                         return;

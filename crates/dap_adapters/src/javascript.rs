@@ -498,7 +498,7 @@ impl DebugAdapter for JsDebugAdapter {
             anyhow::bail!("js_debug_dap not downloaded: allow_binary_download not set");
         }
         if self.checked.set(()).is_ok() {
-            delegate.output_to_console(format!("Checking latest version of {}...", self.name()));
+            delegate.output_to_console(format!("{} の最新バージョンを確認中…", self.name()));
             if let Some(version) = self.fetch_latest_adapter_version(delegate).await.log_err() {
                 adapters::download_adapter_from_github(
                     self.name(),
@@ -509,7 +509,7 @@ impl DebugAdapter for JsDebugAdapter {
                 )
                 .await?;
             } else {
-                delegate.output_to_console(format!("{} debug adapter is up to date", self.name()));
+                delegate.output_to_console(format!("{} デバッグアダプターは最新です", self.name()));
             }
         }
 

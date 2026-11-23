@@ -37,13 +37,12 @@ pub enum Direction {
 actions!(
     picker,
     [
-        /// Confirms the selected completion in the picker.
+        /// ピッカーで選択中の補完候補を確定します。
         ConfirmCompletion
     ]
 );
 
-/// ConfirmInput is an alternative editor action which - instead of selecting active picker entry - treats pickers editor input literally,
-/// performing some kind of action on it.
+/// ピッカーの項目を選択する代わりに、入力文字列をそのまま確定してアクションを実行します。
 #[derive(Clone, PartialEq, Deserialize, JsonSchema, Default, Action)]
 #[action(namespace = picker)]
 #[serde(deny_unknown_fields)]
@@ -122,7 +121,7 @@ pub trait PickerDelegate: Sized + 'static {
     }
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str>;
     fn no_matches_text(&self, _window: &mut Window, _cx: &mut App) -> Option<SharedString> {
-        Some("No matches".into())
+        Some("一致なし".into())
     }
     fn update_matches(&mut self, query: String, window: &mut Window, cx: &mut Context<Picker<Self>>) -> Task<()>;
 

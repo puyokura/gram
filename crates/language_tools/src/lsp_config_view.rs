@@ -24,7 +24,7 @@ use workspace::{Item, ItemHandle as _, Workspace};
 actions!(
     lsp,
     [
-        /// Opens the language server configuration view.
+        /// 言語サーバー設定ビューを開きます。
         OpenLanguageServerConfig
     ]
 );
@@ -119,7 +119,7 @@ impl LspConfigView {
                                     BinaryStatus::Failed { error }
                                 } else {
                                     BinaryStatus::Failed {
-                                        error: "Unknown error".to_string(),
+                                        error: "不明なエラー".to_string(),
                                     }
                                 }
                             }
@@ -270,12 +270,12 @@ impl LspConfigView {
 
     fn get_status_info(binary_status: &BinaryStatus) -> (SharedString, Color) {
         match binary_status {
-            BinaryStatus::None => ("Running".into(), Color::Success),
-            BinaryStatus::Starting => ("Starting".into(), Color::Accent),
-            BinaryStatus::Downloading => ("Downloading".into(), Color::Accent),
-            BinaryStatus::CheckingForUpdate => ("Checking".into(), Color::Muted),
-            BinaryStatus::Stopping => ("Stopping".into(), Color::Warning),
-            BinaryStatus::Stopped => ("Stopped".into(), Color::Muted),
+            BinaryStatus::None => ("実行中".into(), Color::Success),
+            BinaryStatus::Starting => ("起動中".into(), Color::Accent),
+            BinaryStatus::Downloading => ("ダウンロード中".into(), Color::Accent),
+            BinaryStatus::CheckingForUpdate => ("確認中".into(), Color::Muted),
+            BinaryStatus::Stopping => ("停止中".into(), Color::Warning),
+            BinaryStatus::Stopped => ("停止".into(), Color::Muted),
             BinaryStatus::Failed { error } => (error.into(), Color::Error),
         }
     }
@@ -307,7 +307,7 @@ impl LspConfigView {
     fn render_error_message(msg: &Option<String>) -> impl IntoElement {
         v_flex().when_some(msg.clone(), |this, msg| {
             this.child(
-                Label::new(format!("Error: {}", msg))
+                Label::new(format!("エラー: {}", msg))
                     .size(LabelSize::Small)
                     .color(Color::Error)
                     .truncate(),
@@ -349,10 +349,12 @@ impl LspConfigView {
                         }),
                     )
                     .child(
-                        v_flex().gap_1p5().child(Label::new("Allow Download")).child(
-                            Label::new("Allow the editor to download a language server binary (if available)")
-                                .size(LabelSize::Small)
-                                .color(Color::Muted),
+                        v_flex().gap_1p5().child(Label::new("ダウンロードを許可")).child(
+                            Label::new(
+                                "利用可能な場合、エディターが言語サーバーのバイナリをダウンロードすることを許可します",
+                            )
+                            .size(LabelSize::Small)
+                            .color(Color::Muted),
                         ),
                     ),
             )
@@ -381,8 +383,8 @@ impl LspConfigView {
                         }),
                     )
                     .child(
-                        v_flex().gap_1p5().child(Label::new("Ignore System Version")).child(
-                            Label::new("Ignore any language server binary installed system-wide")
+                        v_flex().gap_1p5().child(Label::new("システムバージョンを無視")).child(
+                            Label::new("システム全体にインストールされた言語サーバーのバイナリを無視します")
                                 .size(LabelSize::Small)
                                 .color(Color::Muted),
                         ),
@@ -413,8 +415,8 @@ impl LspConfigView {
                         }),
                     )
                     .child(
-                        v_flex().gap_1p5().child(Label::new("Auto Update")).child(
-                            Label::new("Automatically download new versions of the language server when released")
+                        v_flex().gap_1p5().child(Label::new("自動更新")).child(
+                            Label::new("言語サーバーの新しいバージョンが公開されたら自動的にダウンロードします")
                                 .size(LabelSize::Small)
                                 .color(Color::Muted),
                         ),
@@ -428,11 +430,11 @@ impl LspConfigView {
             .items_center()
             .justify_between()
             .pb_2()
-            .child(Headline::new("Language Server Configuration").size(HeadlineSize::Small))
+            .child(Headline::new("言語サーバー設定").size(HeadlineSize::Small))
             .child(
                 IconButton::new("lsp-config-info", IconName::Info)
                     .icon_size(IconSize::Custom(rems(1.5)))
-                    .tooltip(Tooltip::text("Language Servers Documentation"))
+                    .tooltip(Tooltip::text("言語サーバーのドキュメント"))
                     .on_click(move |_, _, cx| cx.open_url("gram://docs/language-servers")),
             )
     }
@@ -472,8 +474,8 @@ impl LspConfigView {
                         })),
                     )
                     .child(
-                        v_flex().gap_1p5().child(Label::new("Download Node.js")).child(
-                            Label::new("Allow the editor to download a Node.js binary if it can't find one.")
+                        v_flex().gap_1p5().child(Label::new("Node.js をダウンロード")).child(
+                            Label::new("Node.js のバイナリが見つからない場合、エディターによるダウンロードを許可します。")
                                 .size(LabelSize::Small)
                                 .color(Color::Muted),
                         ),
@@ -493,8 +495,8 @@ impl LspConfigView {
                         })),
                     )
                     .child(
-                        v_flex().gap_1p5().child(Label::new("Download Prettier")).child(
-                            Label::new("Allow the editor to download the Prettier formatter unless already available.")
+                        v_flex().gap_1p5().child(Label::new("Prettier をダウンロード")).child(
+                            Label::new("利用できない場合、エディターが Prettier フォーマッターをダウンロードすることを許可します。")
                                 .size(LabelSize::Small)
                                 .color(Color::Muted),
                         ),
@@ -512,8 +514,8 @@ impl LspConfigView {
                         ),
                     )
                     .child(
-                        v_flex().gap_1p5().child(Label::new("Allow npm install")).child(
-                            Label::new("Allow the editor to install NPM packages.")
+                        v_flex().gap_1p5().child(Label::new("npm install を許可")).child(
+                            Label::new("エディターによる NPM パッケージのインストールを許可します。")
                                 .size(LabelSize::Small)
                                 .color(Color::Muted),
                         ),
@@ -579,7 +581,7 @@ impl LspConfigView {
                 .child(self.render_server_header(
                     name.0.clone(),
                     IconName::Debug,
-                    "Debug Adapter".into(),
+                    "デバッグアダプター".into(),
                     Color::Default,
                 ))
                 .child(v_flex().gap_2().child(self.render_dap_settings(&name, settings, cx)))
@@ -620,8 +622,8 @@ impl LspConfigView {
                         }),
                     )
                     .child(
-                        v_flex().gap_1p5().child(Label::new("Allow Download")).child(
-                            Label::new("Allow the editor to download a debug adapter binary (if available)")
+                        v_flex().gap_1p5().child(Label::new("ダウンロードを許可")).child(
+                            Label::new("利用可能な場合、エディターがデバッグアダプターのバイナリをダウンロードすることを許可します")
                                 .size(LabelSize::Small)
                                 .color(Color::Muted),
                         ),
@@ -652,8 +654,8 @@ impl LspConfigView {
                         }),
                     )
                     .child(
-                        v_flex().gap_1p5().child(Label::new("Ignore System Version")).child(
-                            Label::new("Ignore any debug adapter binary installed system-wide")
+                        v_flex().gap_1p5().child(Label::new("システムバージョンを無視")).child(
+                            Label::new("システム全体にインストールされたデバッグアダプターのバイナリを無視します")
                                 .size(LabelSize::Small)
                                 .color(Color::Muted),
                         ),
@@ -684,8 +686,8 @@ impl LspConfigView {
                         }),
                     )
                     .child(
-                        v_flex().gap_1p5().child(Label::new("Auto Update")).child(
-                            Label::new("Automatically download new versions of the debug adapter when released")
+                        v_flex().gap_1p5().child(Label::new("自動更新")).child(
+                            Label::new("デバッグアダプターの新しいバージョンが公開されたら自動的にダウンロードします")
                                 .size(LabelSize::Small)
                                 .color(Color::Muted),
                         ),
@@ -750,6 +752,6 @@ impl Item for LspConfigView {
     type Event = EditorEvent;
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        SharedString::from("Language Servers and Debug Adapters")
+        SharedString::from("言語サーバーとデバッグアダプター")
     }
 }

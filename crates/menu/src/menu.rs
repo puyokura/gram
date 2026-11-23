@@ -12,25 +12,25 @@ pub fn init() {}
 actions!(
     menu,
     [
-        /// Cancels the current menu operation.
+        /// 現在のメニュー操作をキャンセルします。
         Cancel,
-        /// Confirms the selected menu item.
+        /// 選択中のメニュー項目を確定します。
         Confirm,
-        /// Performs secondary confirmation action.
+        /// セカンダリ確定アクションを実行します。
         SecondaryConfirm,
-        /// Selects the previous item in the menu.
+        /// メニュー内の前の項目を選択します。
         SelectPrevious,
-        /// Selects the next item in the menu.
+        /// メニュー内の次の項目を選択します。
         SelectNext,
-        /// Selects the first item in the menu.
+        /// メニュー内の最初の項目を選択します。
         SelectFirst,
-        /// Selects the last item in the menu.
+        /// メニュー内の最後の項目を選択します。
         SelectLast,
-        /// Enters a submenu (navigates to child menu).
+        /// サブメニューに入ります（子メニューへ移動）。
         SelectChild,
-        /// Exits a submenu (navigates to parent menu).
+        /// サブメニューから出ます（親メニューへ移動）。
         SelectParent,
-        /// Restarts the menu from the beginning.
+        /// メニューを最初からやり直します。
         Restart,
         EndSlot,
     ]

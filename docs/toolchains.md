@@ -1,57 +1,33 @@
-# Toolchains
+# ツールチェーン
 
-The toolchain selection UI is used to pick from a set of tools when working with
-a given language in a current project.
+ツールチェーン選択 UI は、現在のプロジェクトで特定の言語を扱う際に、一連のツールから使用するものを選ぶために使います。
 
-Imagine that you are working in a Python project, which has virtual environments
-that encapsulate a set of dependencies of your project along with a suitable
-interpreter to run it with. The language server has to know which virtual
-environment you are working with, as it uses the virtual environment to resolve
-dependencies and parse the code in the project.
+たとえば、プロジェクトの依存関係一式と、それを実行するための適切なインタープリターを含む仮想環境を持つ Python プロジェクトで作業しているとします。言語サーバーは依存関係を解決しプロジェクト内のコードを解析するために仮想環境を使うため、どの仮想環境で作業しているかを把握している必要があります。
 
-The toolchain selector UI is used to pick the correct virtual environment for
-your project.
+ツールチェーンセレクター UI は、プロジェクトに正しい仮想環境を選ぶために使います。
 
-It's also possible to select different toolchains for different sub-projects
-within a Gram project. The exact definition of a sub-project depends on the
-language used.
+Gram プロジェクト内の異なるサブプロジェクトに対して、それぞれ別のツールチェーンを選択することもできます。サブプロジェクトの正確な定義は、使用する言語によって異なります。
 
-In [remote projects](./remote-development.md), use the toolchain selector to
-control the active toolchain on the remote host.
+[リモートプロジェクト](./remote-development.md) では、ツールチェーンセレクターを使ってリモートホスト上のアクティブなツールチェーンを制御します。
 
-## Why are toolchains necessary?
+## ツールチェーンが必要な理由
 
-Language servers need to use the correct toolchain / virtual environment to
-function properly. If it cannot resolve dependencies, functionality like "Go to
-definition" or code completion may be unavailable.
+言語サーバーが正しく動作するには、正しいツールチェーン / 仮想環境を使う必要があります。依存関係を解決できない場合、「定義へ移動」やコード補完といった機能が利用できないことがあります。
 
-If the toolchain provides an "activation script", the integrated terminal panel
-will invoke the script automatically so that the shell environment is set up
-correctly.
+ツールチェーンが「アクティベーションスクリプト」を提供している場合、統合ターミナルパネルが自動的にそのスクリプトを実行し、シェル環境を正しく設定します。
 
-This also applies to [tasks](./tasks.md). Tasks behave as if they were launched
-from a new terminal tab, so any activation script will be called before
-executing a task.
+これは[タスク](./tasks.md)にも当てはまります。タスクは新しいターミナルタブから起動されたかのように動作するため、タスクの実行前にアクティベーションスクリプトが呼び出されます。
 
-## Selecting toolchains
+## ツールチェーンを選択する
 
-The active toolchain (if any) is displayed in the status bar, on the right hand
-side of the editor window. Clicking it open the toolchain selector.
-Alternatively, run the command {#action toolchain::Select} from the command
-palette.
+アクティブなツールチェーン（存在する場合）は、エディターウィンドウの右側にあるステータスバーに表示されます。それをクリックするとツールチェーンセレクターが開きます。あるいは、コマンドパレットからコマンド {#action toolchain::Select} を実行します。
 
-The editor will automatically try to infer a set of toolchains to choose from. A
-default will also be selected on a best-effort basis when opening a project for
-the first time.
+エディターは、選択肢となるツールチェーンの組を自動的に推測しようとします。プロジェクトを初めて開く際には、ベストエフォートで既定のツールチェーンも選択されます。
 
-Toolchain selection applies to the current subproject. This might be the whole
-project, or in the case of a monorepo with multiple subprojects it may apply to
-the current subproject only.
+ツールチェーンの選択は現在のサブプロジェクトに適用されます。サブプロジェクトがプロジェクト全体である場合もあれば、複数のサブプロジェクトを持つモノレポの場合は現在のサブプロジェクトのみに適用されることもあります。
 
-## Adding toolchains manually
+## ツールチェーンを手動で追加する
 
-If the automatic detection fails to discover all toolchains you can add
-additional toolchains manually using the "Add toolchain" button in the toolchain
-selector UI.
+自動検出で検出しきれないツールチェーンがある場合は、ツールチェーンセレクター UI の「ツールチェーンを追加」ボタンから、追加のツールチェーンを手動で追加できます。
 
-Provide a path to the toolchain and give it a descriptive name.
+ツールチェーンへのパスを指定し、わかりやすい名前を付けてください。

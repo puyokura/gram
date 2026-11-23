@@ -78,35 +78,35 @@ use workspace::{Pane, notifications::DetachAndPromptErr};
 actions!(
     gram,
     [
-        /// Hides the application window.
+        /// アプリケーションウィンドウを隠します。
         Hide,
-        /// Hides all other application windows.
+        /// ほかのアプリケーションウィンドウをすべて隠します。
         HideOthers,
-        /// Minimizes the current window.
+        /// 現在のウィンドウを最小化します。
         Minimize,
-        /// Opens the default settings file.
+        /// 既定の設定ファイルを開きます。
         OpenDefaultSettings,
-        /// Opens the Gram repository on GitHub.
+        /// Gramリポジトリを開きます。
         OpenGramRepo,
-        /// Opens project-specific settings file.
+        /// プロジェクト設定ファイルを開きます。
         OpenProjectSettingsFile,
-        /// Opens the project tasks configuration.
+        /// プロジェクトのタスク設定を開きます。
         OpenProjectTasks,
-        /// Opens the tasks panel.
+        /// タスクパネルを開きます。
         OpenTasks,
-        /// Opens debug tasks configuration.
+        /// デバッグタスク設定を開きます。
         OpenDebugTasks,
-        /// Resets the application database.
+        /// アプリケーションデータベースをリセットします。
         ResetDatabase,
-        /// Shows all hidden windows.
+        /// すべての非表示ウィンドウを表示します。
         ShowAll,
-        /// Toggles fullscreen mode.
+        /// 全画面表示を切り替えます。
         ToggleFullScreen,
-        /// Zooms the window.
+        /// ウィンドウをズームします。
         Zoom,
-        /// Triggers a test panic for debugging.
+        /// デバッグ用のテストパニックを発生させます。
         TestPanic,
-        /// Triggers a hard crash for debugging.
+        /// デバッグ用のハードクラッシュを発生させます。
         TestCrash,
     ]
 );
@@ -131,8 +131,13 @@ pub fn init(cx: &mut App) {
                 cx.update(|_, cx| cx.write_to_clipboard(ClipboardItem::new_string(specs.clone())))
                     .log_err();
 
-                cx.prompt(PromptLevel::Info, "Copied into clipboard", Some(&specs), &["OK"])
-                    .await
+                cx.prompt(
+                    PromptLevel::Info,
+                    "クリップボードにコピーしました",
+                    Some(&specs),
+                    &["OK"],
+                )
+                .await
             })
             .detach();
         });
@@ -172,7 +177,7 @@ pub fn init(cx: &mut App) {
             open_bundled_file(
                 workspace,
                 asset_str::<Assets>("licenses.md"),
-                "License Information",
+                "ライセンス情報",
                 "Markdown",
                 window,
                 cx,
@@ -224,7 +229,7 @@ pub fn init(cx: &mut App) {
             open_bundled_file(
                 workspace,
                 settings::default_settings(),
-                "Default Settings",
+                "既定の設定",
                 "JSON",
                 window,
                 cx,
@@ -236,7 +241,7 @@ pub fn init(cx: &mut App) {
             open_bundled_file(
                 workspace,
                 settings::default_keymap(),
-                "Default Key Bindings",
+                "既定のキーバインド",
                 "JSON",
                 window,
                 cx,
@@ -439,17 +444,17 @@ fn initialize_file_watcher(window: &mut Window, cx: &mut Context<Workspace>) {
             any(target_os = "linux", target_os = "freebsd") => {
                 let message = format!(
                     db::indoc! {r#"
-                            inotify_init returned {}
+                            inotify_init が {} を返しました
 
-                            This may be due to system-wide limits on inotify instances. For troubleshooting see: gram://docs/linux
+                            これはシステム全体の inotify インスタンスの上限が原因である可能性があります。トラブルシューティングについては以下を参照してください: gram://docs/linux
                             "#},
                     e
                 );
                 let prompt = window.prompt(
                     PromptLevel::Critical,
-                    "Could not start inotify",
+                    "inotifyを開始できませんでした",
                     Some(&message),
-                    &["Troubleshoot and Quit"],
+                    &["トラブルシューティングを表示して終了"],
                     cx,
                 );
                 cx.spawn(async move |_, cx| {
@@ -466,17 +471,17 @@ fn initialize_file_watcher(window: &mut Window, cx: &mut Context<Workspace>) {
             target_os = "windows" => {
                 let message = format!(
                     db::indoc! {r#"
-                            ReadDirectoryChangesW initialization failed: {}
+                            ReadDirectoryChangesW の初期化に失敗しました: {}
 
-                            This may occur on network filesystems and WSL paths. For troubleshooting see: gram://docs/windows
+                            これはネットワークファイルシステムやWSLパスで発生することがあります。トラブルシューティングについては以下を参照してください: gram://docs/windows
                             "#},
                     e
                 );
                 let prompt = window.prompt(
                     PromptLevel::Critical,
-                    "Could not start ReadDirectoryChangesW",
+                    "ReadDirectoryChangesWを開始できませんでした",
                     Some(&message),
-                    &["Troubleshoot and Quit"],
+                    &["トラブルシューティングを表示して終了"],
                     cx,
                 );
                 cx.spawn(async move |_, cx| {
@@ -503,21 +508,21 @@ fn show_software_emulation_warning_if_needed(specs: gpui::GpuSpecs, window: &mut
         };
         let message = format!(
             db::indoc! {r"
-            Gram uses {} for rendering and requires a compatible GPU.
+            Gram はレンダリングに {} を使用しており、対応するGPUが必要です。
 
-            Currently you are using a software emulated GPU ({}) which
-            will result in awful performance.
+            現在ソフトウェアエミュレートされたGPU（{}）を使用しており、
+            著しくパフォーマンスが低下します。
 
-            For troubleshooting see: {}
-            Set GRAM_ALLOW_EMULATED_GPU=1 env var to permanently override.
+            トラブルシューティングについては以下を参照してください: {}
+            永続的にオーバーライドするには環境変数 GRAM_ALLOW_EMULATED_GPU=1 を設定してください。
             "},
             graphics_api, specs.device_name, docs_url
         );
         let prompt = window.prompt(
             PromptLevel::Critical,
-            "Unsupported GPU",
+            "サポートされていないGPU",
             Some(&message),
-            &["Skip", "Troubleshoot and Quit"],
+            &["スキップ", "トラブルシューティングを表示して終了"],
             cx,
         );
         cx.spawn(async move |_, cx| {
@@ -595,7 +600,7 @@ fn register_actions(app_state: Arc<AppState>, workspace: &mut Workspace, _: &mut
                 Err(e) => {
                     workspace.show_error(
                         &anyhow::anyhow!(
-                            "Opening this URL in a browser failed because the URL is invalid: {}\n\nError was: {e}",
+                            "URLが無効なため、ブラウザーで開けませんでした: {}\n\nエラー: {e}",
                             action.url
                         ),
                         cx,
@@ -820,7 +825,7 @@ fn register_actions(app_state: Arc<AppState>, workspace: &mut Workspace, _: &mut
                         Toast::new(
                             NotificationId::unique::<RegisterUriScheme>(),
                             format!(
-                                "gram:// links will now open in {}.",
+                                "gram:// リンクは今後 {} で開かれます。",
                                 ReleaseChannel::global(cx).display_name()
                             ),
                         ),
@@ -829,7 +834,7 @@ fn register_actions(app_state: Arc<AppState>, workspace: &mut Workspace, _: &mut
                 })?;
                 Ok(())
             })
-            .detach_and_prompt_err("Error registering gram:// scheme", window, cx, |_, _, _| None);
+            .detach_and_prompt_err("gram:// スキームの登録エラー", window, cx, |_, _, _| None);
         })
         .register_action(open_project_settings_file)
         .register_action(open_project_tasks_file)
@@ -1107,9 +1112,9 @@ fn open_about(cx: &mut App) {
                                 div().child(
                                     Label::new(
                                         "Copyright (C) 2026 The Gram Project\n\
-                               Gram comes with ABSOLUTELY NO WARRANTY; for details see Help > License.\n\
+                               Gram comes with ABSOLUTELY NO WARRANTY; for details see ヘルプ > ライセンス.\n\
                                This is free software, and you are welcome to redistribute it\n\
-                               under certain conditions; see Help > License for details.",
+                               under certain conditions; see ヘルプ > ライセンス for details.",
                                     )
                                     .color(Color::Muted)
                                     .size(LabelSize::XSmall),
@@ -1129,7 +1134,7 @@ fn open_about(cx: &mut App) {
                                     window.remove_window();
                                 }))
                                 .child(
-                                    Button::new("ok", "Ok")
+                                    Button::new("ok", "OK")
                                         .full_width()
                                         .style(ButtonStyle::OutlinedGhost)
                                         .toggle_state(ok_is_focused)
@@ -1171,7 +1176,7 @@ fn open_about(cx: &mut App) {
     cx.open_window(
         WindowOptions {
             titlebar: Some(TitlebarOptions {
-                title: Some("About".into()),
+                title: Some("Gramについて".into()),
                 appears_transparent: true,
                 traffic_light_position: Some(point(px(12.), px(12.))),
             }),
@@ -1227,9 +1232,9 @@ fn quit(_: &Quit, cx: &mut App) {
                 .update(cx, |_, window, cx| {
                     window.prompt(
                         PromptLevel::Info,
-                        "Are you sure you want to quit?",
+                        "本当に終了しますか？",
                         None,
-                        &["Quit", "Cancel"],
+                        &["終了", "キャンセル"],
                         cx,
                     )
                 })
@@ -1304,7 +1309,7 @@ fn open_log_file(workspace: &mut Workspace, window: &mut Window, cx: &mut Contex
                                 cx.new(|cx| {
                                     MessageNotification::new(
                                         format!(
-                                            "Unable to access/open log file at path {:?}",
+                                            "パス {:?} のログファイルにアクセスまたは開くことができません",
                                             paths::log_file().as_path()
                                         ),
                                         cx,
@@ -1318,14 +1323,14 @@ fn open_log_file(workspace: &mut Workspace, window: &mut Window, cx: &mut Contex
                             project.create_local_buffer(&log, log_language, false, cx)
                         });
 
-                        let buffer = cx.new(|cx| MultiBuffer::singleton(buffer, cx).with_title("Log".into()));
+                        let buffer = cx.new(|cx| MultiBuffer::singleton(buffer, cx).with_title("ログ".into()));
                         let editor = cx.new(|cx| {
                             let mut editor = Editor::for_multibuffer(buffer, Some(project), window, cx);
                             editor.set_read_only(true);
                             editor.set_breadcrumb_header(format!(
-                                "Last {} lines in {}",
-                                MAX_LINES,
-                                paths::log_file().display()
+                                "{} の直近 {} 行",
+                                paths::log_file().display(),
+                                MAX_LINES
                             ));
                             editor
                         });
@@ -1365,8 +1370,8 @@ fn notify_settings_errors(result: settings::SettingsParseResult, is_user: bool, 
         } else {
             show_app_notification(id, cx, move |cx| {
                 cx.new(|cx| {
-                    MessageNotification::new(format!("Invalid user settings file\n{error}"), cx)
-                        .primary_message("Open Settings File")
+                    MessageNotification::new(format!("ユーザー設定ファイルが無効です\n{error}"), cx)
+                        .primary_message("設定ファイルを開く")
                         .primary_icon(IconName::Settings)
                         .primary_on_click(|window, cx| {
                             window.dispatch_action(app_actions::OpenSettingsFile.boxed_clone(), cx);
@@ -1392,12 +1397,12 @@ fn notify_settings_errors(result: settings::SettingsParseResult, is_user: bool, 
                     cx.new(|cx| {
                         MessageNotification::new(
                             format!(
-                                "Failed to migrate settings\n\
+                                "設定の移行に失敗しました\n\
                                 {err}"
                             ),
                             cx,
                         )
-                        .primary_message("Open Settings File")
+                        .primary_message("設定ファイルを開く")
                         .primary_icon(IconName::Settings)
                         .primary_on_click(|window, cx| {
                             window.dispatch_action(app_actions::OpenSettingsFile.boxed_clone(), cx);
@@ -1576,11 +1581,13 @@ pub fn handle_keymap_file_changes(mut user_keymap_file_rx: mpsc::UnboundedReceiv
 }
 
 fn show_keymap_file_json_error(notification_id: NotificationId, error: &anyhow::Error, cx: &mut App) {
-    let message: SharedString = format!("JSON parse error in keymap file. Bindings not reloaded.\n\n{error}").into();
+    let message: SharedString =
+        format!("キーマップファイルにJSON解析エラーがあります。キーバインドは再読み込みされませんでした。\n\n{error}")
+            .into();
     show_app_notification(notification_id, cx, move |cx| {
         cx.new(|cx| {
             MessageNotification::new(message.clone(), cx)
-                .primary_message("Open Keymap File")
+                .primary_message("キーマップファイルを開く")
                 .primary_icon(IconName::Settings)
                 .primary_on_click(|window, cx| {
                     window.dispatch_action(app_actions::OpenKeymapFile.boxed_clone(), cx);
@@ -1594,7 +1601,7 @@ fn show_keymap_file_load_error(notification_id: NotificationId, error_message: M
     show_markdown_app_notification(
         notification_id,
         error_message,
-        "Open Keymap File".into(),
+        "キーマップファイルを開く".into(),
         |window, cx| {
             window.dispatch_action(app_actions::OpenKeymapFile.boxed_clone(), cx);
             cx.emit(DismissEvent);
@@ -1665,7 +1672,7 @@ fn reload_keymaps(cx: &mut App, mut user_key_bindings: Vec<KeyBinding>) {
     cx.set_menus(menus);
     // On Windows, this is set in the `update_jump_list` method of the `HistoryManager`.
     #[cfg(not(target_os = "windows"))]
-    cx.set_dock_menu(vec![gpui::MenuItem::action("New Window", workspace::NewWindow)]);
+    cx.set_dock_menu(vec![gpui::MenuItem::action("新規ウィンドウ", workspace::NewWindow)]);
     // todo: nicer api here?
     keymap_editor::KeymapEventChannel::trigger_keymap_changed(cx);
 }
@@ -1839,7 +1846,7 @@ fn open_local_file(
         struct NoOpenFolders;
 
         workspace.show_notification(NotificationId::unique::<NoOpenFolders>(), cx, |cx| {
-            cx.new(|cx| MessageNotification::new("This project has no folders open.", cx))
+            cx.new(|cx| MessageNotification::new("このプロジェクトで開いているフォルダーはありません。", cx))
         });
     }
 }
@@ -2392,7 +2399,7 @@ mod tests {
             .unwrap();
         executor.run_until_parked();
 
-        cx.simulate_prompt_answer("Don't Save");
+        cx.simulate_prompt_answer("保存しない");
         close.await.unwrap();
 
         // Advance the clock to ensure that the item has been serialized and dropped from the queue
@@ -2446,7 +2453,7 @@ mod tests {
         assert_eq!(cx.update(|cx| cx.windows().len()), 1);
 
         // The window is successfully closed after the user dismisses the prompt.
-        cx.simulate_prompt_answer("Don't Save");
+        cx.simulate_prompt_answer("保存しない");
         executor.run_until_parked();
         assert_eq!(cx.update(|cx| cx.windows().len()), 0);
     }
@@ -3124,7 +3131,7 @@ mod tests {
             })
             .unwrap();
         cx.background_executor.run_until_parked();
-        cx.simulate_prompt_answer("Overwrite");
+        cx.simulate_prompt_answer("上書き");
         save_task.await.unwrap();
         window
             .update(cx, |_, _, cx| {
@@ -3414,7 +3421,7 @@ mod tests {
             },
         );
         cx.background_executor.run_until_parked();
-        cx.simulate_prompt_answer("Don't Save");
+        cx.simulate_prompt_answer("保存しない");
         cx.background_executor.run_until_parked();
 
         window

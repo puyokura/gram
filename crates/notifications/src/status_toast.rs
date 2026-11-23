@@ -133,7 +133,7 @@ impl Render for StatusToast {
                         .shape(ui::IconButtonShape::Square)
                         .icon_size(IconSize::Small)
                         .icon_color(Color::Muted)
-                        .tooltip(Tooltip::text("Dismiss"))
+                        .tooltip(Tooltip::text("閉じる"))
                         .on_click(move |_click_event, _window, cx| {
                             handle.update(cx, |_, cx| {
                                 cx.emit(DismissEvent);
@@ -164,40 +164,50 @@ impl Component for StatusToast {
     }
 
     fn preview(_window: &mut Window, cx: &mut App) -> Option<AnyElement> {
-        let text_example = StatusToast::new("Operation completed", cx, |this, _| this);
+        let text_example = StatusToast::new("操作が完了しました", cx, |this, _| this);
 
-        let action_example = StatusToast::new("Update ready to install", cx, |this, _cx| {
-            this.action("Restart", |_, _| {})
+        let action_example = StatusToast::new("アップデートの準備ができました", cx, |this, _cx| {
+            this.action("再起動", |_, _| {})
         });
 
-        let dismiss_button_example = StatusToast::new("Dismiss Button", cx, |this, _| this.dismiss_button(true));
+        let dismiss_button_example = StatusToast::new("閉じるボタン", cx, |this, _| this.dismiss_button(true));
 
-        let icon_example = StatusToast::new("A grumpy toad accepted your contact request", cx, |this, _| {
-            this.icon(ToastIcon::new(IconName::Check).color(Color::Muted))
-        });
+        let icon_example = StatusToast::new(
+            "不機嫌なヒキガエルがコンタクト申請を承認しました",
+            cx,
+            |this, _| this.icon(ToastIcon::new(IconName::Check).color(Color::Muted)),
+        );
 
-        let success_example = StatusToast::new("Pushed 4 changes to `gram/main`", cx, |this, _| {
-            this.icon(ToastIcon::new(IconName::Check).color(Color::Success))
-        });
+        let success_example = StatusToast::new(
+            "4 件の変更を `gram/main` にプッシュしました",
+            cx,
+            |this, _| this.icon(ToastIcon::new(IconName::Check).color(Color::Success)),
+        );
 
         let error_example = StatusToast::new(
-            "git push: Couldn't find remote origin `GramEditor/gram`",
+            "git push: リモート origin `GramEditor/gram` が見つかりませんでした",
             cx,
             |this, _cx| {
                 this.icon(ToastIcon::new(IconName::XCircle).color(Color::Error))
-                    .action("More Info", |_, _| {})
+                    .action("詳細を見る", |_, _| {})
             },
         );
 
-        let warning_example = StatusToast::new("You have outdated settings", cx, |this, _cx| {
+        let warning_example = StatusToast::new("設定が古くなっています", cx, |this, _cx| {
             this.icon(ToastIcon::new(IconName::Warning).color(Color::Warning))
-                .action("More Info", |_, _| {})
+                .action("詳細を見る", |_, _| {})
         });
 
-        let pr_example = StatusToast::new("`gram/new-notification-system` created!", cx, |this, _cx| {
-            this.icon(ToastIcon::new(IconName::GitBranchAlt).color(Color::Muted))
-                .action("Open Pull Request", |_, cx| cx.open_url("https://github.com/"))
-        });
+        let pr_example = StatusToast::new(
+            "`gram/new-notification-system` を作成しました",
+            cx,
+            |this, _cx| {
+                this.icon(ToastIcon::new(IconName::GitBranchAlt).color(Color::Muted))
+                    .action("プルリクエストを開く", |_, cx| {
+                        cx.open_url("https://github.com/")
+                    })
+            },
+        );
 
         Some(
             v_flex()
@@ -205,21 +215,21 @@ impl Component for StatusToast {
                 .p_4()
                 .children(vec![
                     example_group_with_title(
-                        "Basic Toast",
+                        "基本的なトースト",
                         vec![
-                            single_example("Text", div().child(text_example).into_any_element()),
-                            single_example("Action", div().child(action_example).into_any_element()),
-                            single_example("Icon", div().child(icon_example).into_any_element()),
-                            single_example("Dismiss Button", div().child(dismiss_button_example).into_any_element()),
+                            single_example("テキスト", div().child(text_example).into_any_element()),
+                            single_example("アクション", div().child(action_example).into_any_element()),
+                            single_example("アイコン", div().child(icon_example).into_any_element()),
+                            single_example("閉じるボタン", div().child(dismiss_button_example).into_any_element()),
                         ],
                     ),
                     example_group_with_title(
-                        "Examples",
+                        "例",
                         vec![
-                            single_example("Success", div().child(success_example).into_any_element()),
-                            single_example("Error", div().child(error_example).into_any_element()),
-                            single_example("Warning", div().child(warning_example).into_any_element()),
-                            single_example("Create PR", div().child(pr_example).into_any_element()),
+                            single_example("成功", div().child(success_example).into_any_element()),
+                            single_example("エラー", div().child(error_example).into_any_element()),
+                            single_example("警告", div().child(warning_example).into_any_element()),
+                            single_example("PR を作成", div().child(pr_example).into_any_element()),
                         ],
                     )
                     .vertical(),

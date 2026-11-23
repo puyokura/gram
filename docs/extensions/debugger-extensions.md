@@ -1,12 +1,10 @@
-# Debugger Extensions
+# デバッガー拡張機能
 
-[Debug Adapter Protocol](https://microsoft.github.io/debug-adapter-protocol)
-Servers can be exposed as extensions for use in the [debugger](../debugger.md).
+[Debug Adapter Protocol](https://microsoft.github.io/debug-adapter-protocol) のサーバーを拡張機能として公開し、[デバッガー](../debugger.md)で使用できます。
 
-## Defining Debugger Extensions
+## デバッガー拡張機能の定義
 
-A given extension may provide one or more DAP servers. Each DAP server must be
-registered in the `extension.toml`:
+1つの拡張機能は、1つ以上の DAP サーバーを提供できます。各 DAP サーバーは `extension.toml` に登録する必要があります:
 
 ```toml
 [debug_adapters.my-debug-adapter]
@@ -15,8 +13,7 @@ registered in the `extension.toml`:
 schema_path = "relative/path/to/schema.json"
 ```
 
-Then, in the Rust code for your extension, implement the `get_dap_binary` method
-on your extension:
+次に、拡張機能の Rust コードで `get_dap_binary` メソッドを実装します:
 
 ```rust
 impl gram::Extension for MyExtension {
@@ -30,19 +27,11 @@ impl gram::Extension for MyExtension {
 }
 ```
 
-This method should return the command to start up a debug adapter protocol
-server, along with any arguments or environment variables necessary for it to
-function.
+このメソッドは、デバッグアダプタープロトコルサーバーを起動するコマンドと、その動作に必要な引数や環境変数を返す必要があります。
 
-If you need to download the DAP server from an external source—like GitHub
-Releases or npm—you can also do that in this function. Make sure to check for
-updates only periodically, as this function is called whenever a user spawns a
-new debug session with your debug adapter.
+GitHub Releases や npm などの外部ソースから DAP サーバーをダウンロードする必要がある場合も、この関数で行えます。この関数は、ユーザーがデバッグアダプターで新しいデバッグセッションを起動するたびに呼び出されるため、更新の確認は定期的に行うだけにしてください。
 
-You must also implement `dap_request_kind`. This function is used to determine
-whether a given debug scenario will _launch_ a new debuggee or _attach_ to an
-existing one. We also use it to determine that a given debug scenario requires
-running a _locator_.
+また `dap_request_kind` も実装する必要があります。この関数は、特定のデバッグシナリオが新しいデバッグ対象を _起動_ するのか、既存のデバッグ対象に _アタッチ_ するのかを判定するために使います。また、特定のデバッグシナリオが _ロケーター_ の実行を必要とするかの判定にも使います。
 
 ```rust
 impl gram::Extension for MyExtension {
@@ -54,9 +43,7 @@ impl gram::Extension for MyExtension {
 }
 ```
 
-These two functions are sufficient to expose your debug adapter in
-`debug.jsonc`-based user workflows, but you should strongly consider
-implementing `dap_config_to_scenario` as well.
+この2つの関数で、`debug.jsonc` ベースのユーザーワークフローにデバッグアダプターを公開するには十分ですが、`dap_config_to_scenario` も実装することを強くおすすめします。
 
 ```rust
 impl gram::Extension for MyExtension {
@@ -67,43 +54,23 @@ impl gram::Extension for MyExtension {
 }
 ```
 
-`dap_config_to_scenario` is used when the user spawns a session via new process
-modal UI. At a high level, it takes a generic debug configuration (that isn't
-specific to any debug adapter) and tries to turn it into a concrete debug
-scenario for your adapter. Put another way, it is supposed to answer the
-question: "Given a program, a list of arguments, current working directory and
-environment variables, what would the configuration for spawning this debug
-adapter look like?".
+`dap_config_to_scenario` は、ユーザーが新しいプロセスモーダルの UI からセッションを起動するときに使われます。大まかに言うと、汎用的なデバッグ構成（特定のデバッグアダプターに依存しないもの）を受け取り、それをあなたのアダプター用の具体的なデバッグシナリオに変換しようとします。言い換えれば、「プログラム、引数リスト、現在の作業フォルダー、環境変数が与えられたとき、このデバッグアダプターを起動するための構成はどうなるか」という問いに答えるものです。
 
-## Defining Debug Locators
+## デバップロケーターの定義
 
-Gram offers an automatic way to create debug scenarios with _debug locators_. A
-locator locates the debug target and figures out how to spawn a debug session
-for it. Thanks to locators, we can automatically convert existing user tasks
-(e.g. `cargo run`) and convert them into debug scenarios (e.g. `cargo build`
-followed by spawning a debugger with `target/debug/my_program` as the program to
-debug).
+Gram は、_デバップロケーター_ を使ってデバッグシナリオを自動作成する仕組みを提供しています。ロケーターはデバッグ対象を特定し、そのためのデバッグセッションを起動する方法を判断します。ロケーターのおかげで、既存のユーザータスク（例: `cargo run`）を自動的にデバッグシナリオ（例: `cargo build` の実行後、`target/debug/my_program` をデバッグ対象プログラムとしてデバッガーを起動する）に変換できます。
 
-> Your extension can define its own debug locators even if it does not expose a
-> debug adapter. We strongly recommend doing so when your extension already
-> exposes language tasks, as it allows users to spawn a debug session without
-> having to manually configure the debug adapter.
+> 拡張機能がデバッグアダプターを公開していなくても、独自のデバップロケーターを定義できます。拡張機能がすでに言語タスクを公開している場合は、ユーザーがデバッグアダプターを手動で設定せずにデバッグセッションを起動できるようになるため、そうすることを強くおすすめします。
 
-Locators can (but don't have to) be agnostic to the debug adapter they are used
-with. They are simply responsible for locating the debug target and figuring out
-how to spawn a debug session for it. This allows for a more flexible and
-extensible debugging experience.
+ロケーターは、使用されるデバッグアダプターに依存しない（ただし、そうする必要はありません）ものにできます。ロケーターは単にデバッグ対象の特定と、そのデバッグセッションの起動方法の判断を担います。これにより、より柔軟で拡張性の高いデバッグ体験が可能になります。
 
-Your extension can define one or more debug locators. Each debug locator must be
-registered in the `extension.toml`:
+拡張機能は、1つ以上のデバップロケーターを定義できます。各デバップロケーターは `extension.toml` に登録する必要があります:
 
 ```toml
 [debug_locators.my-debug-locator]
 ```
 
-Locators have two components. First, each locator is ran on each available task
-to figure out if any of the available locators can provide a debug scenario for
-a given task. This is done by calling `dap_locator_create_scenario`.
+ロケーターには2つの要素があります。まず、各ロケーターは利用可能な各タスクに対して実行され、利用可能なロケーターの中に特定のタスク用のデバッグシナリオを提供できるものがあるかを判断します。これは `dap_locator_create_scenario` を呼び出すことで行われます。
 
 ```rust
 impl gram::Extension for MyExtension {
@@ -117,10 +84,7 @@ impl gram::Extension for MyExtension {
 }
 ```
 
-This function should return `Some` debug scenario when that scenario defines a
-debugging counterpart to a given user task. Note that a `DebugScenario` can
-include a [build task](../debugger.md#build-tasks). If there is one, we will
-execute `run_dap_locator` after a build task is finished successfully.
+この関数は、そのシナリオが特定のユーザータスクに対応するデバッグ用のものを定義する場合に `Some` のデバッグシナリオを返す必要があります。`DebugScenario` には[ビルドタスク](../debugger.md#build-tasks)を含められることに注意してください。ビルドタスクがある場合、それが正常に完了した後に `run_dap_locator` を実行します。
 
 ```rust
 impl gram::Extension for MyExtension {
@@ -132,16 +96,8 @@ impl gram::Extension for MyExtension {
 }
 ```
 
-`run_dap_locator` is useful in case you cannot determine a build target
-deterministically. Some build systems may produce artifacts whose names are not
-known up-front. Note however that you do _not_ need to go through a 2-phase
-resolution; if you can determine the full debug configuration with just
-`dap_locator_create_scenario`, you can omit `build` property on a returned
-`DebugScenario`. Please also note that your locator **will be** called with
-tasks it's unlikely to accept; thus you should take some effort to return `None`
-early before performing any expensive operations.
+`run_dap_locator` は、ビルドターゲットを決定的に特定できない場合に有用です。一部のビルドシステムは、名前を事前に知ることができない成果物を生成します。ただし、2段階の解決を経る必要は _ない_ ことに注意してください。`dap_locator_create_scenario` だけで完全なデバッグ構成を決定できる場合は、返す `DebugScenario` の `build` プロパティを省略できます。また、あなたのロケーターは、受け入れる可能性が低いタスクでも **呼び出される** ことに注意してください。そのため、高コストな処理を実行する前に、早めに `None` を返すよう努めるべきです。
 
-## Testing
+## テスト
 
-To test your new Debug Adapter Protocol server extension, you can install it.
-Read more in [Developing Extensions](../extensions/developing-extensions.md).
+新しい Debug Adapter Protocol サーバー拡張機能をテストするには、それをインストールします。詳しくは[拡張機能の開発](../extensions/developing-extensions.md)を参照してください。

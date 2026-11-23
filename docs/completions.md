@@ -1,30 +1,24 @@
-# Completions
+# 補完
 
-"Code Completions" provided by Language Servers (LSPs) automatically installed
-by Gram or via [Gram Language Extensions](./languages.md).
+「コード補完」は、Gram によって自動的にインストールされる言語サーバー（LSP）、または [Gram の言語拡張機能](./languages.md) 経由で提供されます。
 
-## Language Server Code Completions {#code-completions}
+## 言語サーバーによるコード補完 {#code-completions}
 
-When there is an appropriate language server available, Gram will provide
-completions of variable names, functions, and other symbols in the current file.
-You can disable these by adding the following to your Gram `settings.jsonc`
-file:
+適切な言語サーバーが利用可能な場合、Gram は現在のファイル内の変数名、関数、その他のシンボルの補完候補を提示します。これを無効化するには、Gram の `settings.jsonc` ファイルに以下を追加します。
 
 ```json
 "show_completions_on_input": false
 ```
 
-You can manually trigger completions with `ctrl-space` or by triggering the
-`editor::ShowCompletions` action from the command palette.
+`ctrl-space` を押すか、コマンドパレットから `editor::ShowCompletions` アクションを実行することで、手動で補完を呼び出すこともできます。
 
-The code completions can optionally show a text icon to show what kind of item
-it is. e.g. Function / Property / Constant etc. Defaults to `"Off"` Enable with:
+コード補完では、オプションで項目の種類（関数、プロパティ、定数など）を示すテキストアイコンを表示できます。デフォルトは `"Off"` です。有効にするには次のように設定します。
 
 ```json
 "completion_menu_item_kind": "symbol"
 ```
 
-For more information, see:
+詳細については、以下を参照してください。
 
-- [Configuring Supported Languages](./configuring-languages.md)
-- [List of Gram Supported Languages](./languages.md)
+- [対応言語の設定](./configuring-languages.md)
+- [Gram が対応している言語一覧](./languages.md)

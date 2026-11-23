@@ -1,123 +1,90 @@
-# Environment Variables
+# 環境変数
 
-Multiple features in Gram are affected by environment variables:
+Gram では、複数の機能が環境変数の影響を受けます。
 
-- Tasks
-- Built-in terminal
-- Look-up of language servers
-- Language servers
+- タスク
+- 組み込みターミナル
+- 言語サーバーの検索
+- 言語サーバー
 
-In order to make the best use of these features, it's helpful to understand
-where Gram gets its environment variables from and how they're used.
+これらの機能を最大限に活用するためには、Gram がどこから環境変数を取得し、どのように使用しているかを理解しておくと役立ちます。
 
-## Where does Gram get its environment variables from?
+## Gram はどこから環境変数を取得するか
 
-How Gram was started — whether it's icon was clicked in the macOS Dock or in a
-Linux window manager, or whether it was started via the CLI `gram` that comes
-with Gram — influences which environment variables Gram can use.
+macOS の Dock や Linux のウィンドウマネージャーでアイコンをクリックして起動したか、Gram に付属の CLI である `gram` を介して起動したかなど、Gram の起動方法によって Gram が利用できる環境変数が変わります。
 
-### Launched from the CLI
+### CLI から起動した場合
 
-If Gram is opened via the CLI (`gram`), it will inherit the environment
-variables from the surrounding shell session.
+CLI（`gram`）を介して Gram を開いた場合、起動元のシェルセッションから環境変数が継承されます。
 
-That means if you do
+つまり、以下のように実行した場合:
 
 ```
 $ export MY_ENV_VAR=hello
 $ zed .
 ```
 
-the environment variable `MY_ENV_VAR` is now available inside Gram. For example,
-in the built-in terminal.
+環境変数 `MY_ENV_VAR` が Gram 内部（たとえば組み込みターミナルなど）で利用可能になります。
 
-The CLI `gram` will _always_ pass along its environment to Gram, regardless of
-whether a Gram instance was previously running or not.
+CLI の `gram` は、Gram のインスタンスがすでに起動中であったかどうかに関係なく、_常に_ その環境を Gram に渡します。
 
-### Launched via window manager, Dock, or launcher
+### ウィンドウマネージャー、Dock、またはランチャーから起動した場合
 
-When Gram has been launched via the macOS Dock, or a GNOME or KDE icon on Linux,
-or an application launcher like Alfred or Raycast, it has no surrounding shell
-environment from which to inherit its environment variables.
+Gram が macOS の Dock、Linux 上の GNOME や KDE のアイコン、あるいは Alfred や Raycast などのアプリケーションランチャーから起動された場合、環境変数を継承するための親シェル環境が存在しません。
 
-In order to still have a useful environment, Gram spawns a login shell in the
-user's home directory and gets its environment. This environment is then set on
-the Gram _process_. That means all Gram windows and projects will inherit that
-home directory environment.
+それでも有用な環境を確保するために、Gram はユーザーのホームディレクトリでログインシェルを起動し、その環境を取得します。この環境は Gram の _プロセス_ に設定されます。つまり、すべての Gram ウィンドウとプロジェクトがこのホームディレクトリの環境を継承します。
 
-Since that can lead to problems for users that require different environment
-variables for a project (because they use `direnv`, or `asdf`, or `mise`, ... in
-that project), when opening project, Gram spawns another login shell. This time
-in the project's directory. The environment from that login shell is _not_ set
-on the process (because that would mean opening a new project changes the
-environment for all Gram windows). Instead, the environment is stored and passed
-along when running tasks, opening terminals, or spawning language servers.
+ただし、プロジェクトごとに異なる環境変数を必要とするユーザー（プロジェクト内で `direnv`、`asdf`、`mise` などを使用している場合）では問題が生じる可能性があります。そのため、Gram はプロジェクトを開く際に、そのプロジェクトのディレクトリ内でもうひとつのログインシェルを起動します。このログインシェルの環境はプロセスには設定 _されません_（設定してしまうと、新しいプロジェクトを開くたびにすべての Gram ウィンドウの環境が変わってしまうためです）。代わりに、その環境は保持され、タスクの実行、ターミナルの起動、言語サーバーの起動時に渡されます。
 
-## Where and how are environment variables used?
+## 環境変数はどこでどのように使用されるか
 
-There are two sets of environment variables:
+環境変数には以下の 2 種類があります。
 
-1. Environment variables of the Gram process
-2. Environment variables stored per project
+1. Gram プロセスの環境変数
+2. プロジェクトごとに保持される環境変数
 
-The variables from (1) are always used, since they are stored on the process
-itself and every spawned process (tasks, terminals, language servers, ...) will
-inherit them by default.
+(1) の変数はプロセス自体に保持されているため常に使用され、起動されるすべてのプロセス（タスク、ターミナル、言語サーバーなど）がデフォルトでこれらを継承します。
 
-The variables from (2) are used explicitly, depending on the feature.
+(2) の変数は、機能に応じて明示的に使用されます。
 
-### Tasks
+### タスク
 
-Tasks are spawned with a combined environment. In order of precedence (low to
-high, with the last overwriting the first):
+タスクは、結合された環境で起動されます。優先順位は以下のとおりです（低から高の順で、後ろの項目が前の項目を上書きします）。
 
-- the Gram process environment
-- if the project was opened from the CLI: the CLI environment
-- if the project was not opened from the CLI: the project environment variables
-  obtained by running a login shell in the project's root folder
-- optional, explicitly configured environment in settings
+- Gram プロセスの環境
+- プロジェクトが CLI から開かれた場合: CLI の環境
+- プロジェクトが CLI 以外から開かれた場合: プロジェクトのルートフォルダーでログインシェルを実行して取得したプロジェクトの環境変数
+- 設定で明示的に構成された環境（任意）
 
-### Built-in terminal
+### 組み込みターミナル
 
-Built-in terminals, like tasks, are spawned with an combined environment. In
-order of precedence (low to high):
+組み込みターミナルもタスクと同様に、結合された環境で起動されます。優先順位は以下のとおりです（低から高の順）。
 
-- the Gram process environment
-- if the project was opened from the CLI: the CLI environment
-- if the project was not opened from the CLI: the project environment variables
-  obtained by running a login shell in the project's root folder
-- optional, explicitly configured environment in settings
+- Gram プロセスの環境
+- プロジェクトが CLI から開かれた場合: CLI の環境
+- プロジェクトが CLI 以外から開かれた場合: プロジェクトのルートフォルダーでログインシェルを実行して取得したプロジェクトの環境変数
+- 設定で明示的に構成された環境（任意）
 
-### Look-up of language servers
+### 言語サーバーの検索
 
-For some languages the language server adapters lookup the binary in the user's
-`$PATH`. Examples:
+一部の言語では、言語サーバーアダプターがユーザーの `$PATH` からバイナリを検索します。例:
 
 - Go
 - Zig
-- Rust (if [configured to do so](./languages/rust.md#binary))
+- Rust（[そのように設定されている場合](./languages/rust.md#binary)）
 - C
 - TypeScript
 
-For this look-up, Gram uses the following the environment:
+この検索を行う際、Gram は以下の環境を使用します。
 
-- if the project was opened from the CLI: the CLI environment
-- if the project was not opened from the CLI: the project environment variables
-  obtained by running a login shell in the project's root folder
+- プロジェクトが CLI から開かれた場合: CLI の環境
+- プロジェクトが CLI 以外から開かれた場合: プロジェクトのルートフォルダーでログインシェルを実行して取得したプロジェクトの環境変数
 
-### Language servers
+### 言語サーバー
 
-After looking up a language server, Gram starts them.
+言語サーバーを検索した後、Gram はそれを起動します。
 
-These language server processes always inherit Gram's process environment. But,
-depending on the language server look-up, additional environment variables might
-be set or overwrite the process environment.
+言語サーバーのプロセスは、常に Gram のプロセス環境を継承します。ただし、言語サーバーの検索結果に応じて、追加の環境変数が設定されたり、プロセス環境が上書きされたりすることがあります。
 
-- If the language server was found in the project environment's `$PATH`, then
-  the project environment's is passed along to the language server process.
-  Where the project environment comes from depends on how the project was
-  opened, via CLI or not. See previous point on look-up of language servers.
-- If the language servers was not found in the project environment, Gram tries
-  to install it globally and start it globally. In that case, the process will
-  inherit Gram's process environment, and — if the project was opened via ClI —
-  from the CLI.
+- 言語サーバーがプロジェクト環境の `$PATH` 内で見つかった場合、そのプロジェクト環境が言語サーバープロセスに渡されます。プロジェクト環境がどこから取得されるかは、プロジェクトが CLI 経由で開かれたかどうかによって決まります（上記の言語サーバーの検索を参照）。
+- 言語サーバーがプロジェクト環境内に見つからなかった場合、Gram はそれをグローバルにインストールしてグローバルに起動しようとします。その場合、プロセスは Gram のプロセス環境を継承し、プロジェクトが CLI 経由で開かれた場合は CLI からの環境も継承します。

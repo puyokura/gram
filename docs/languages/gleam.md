@@ -1,21 +1,21 @@
 # Gleam
 
-Gleam support is built into the editor.
+Gleam のサポートはエディターに組み込まれています。
 
-Gleam is a friendly language for building type-safe systems that scale!
+Gleam は、スケールする型安全なシステムを構築するための親しみやすい言語です!
 
-To learn more:
+さらに学ぶには:
 
-- [Website](https://gleam.run)
-- [Documentation](https://gleam.run/documentation/)
-- [`gleam_stdlib` reference](https://hexdocs.pm/gleam_stdlib/).
+- [ウェブサイト](https://gleam.run)
+- [ドキュメント](https://gleam.run/documentation/)
+- [`gleam_stdlib` リファレンス](https://hexdocs.pm/gleam_stdlib/).
 - [gleam-lang/tree-sitter-gleam](https://github.com/gleam-lang/tree-sitter-gleam)
 
-The Gleam language server is built into the gleam compiler and has a lot of
-helpful features, including go-to definition, automatic imports, and
-[more](https://gleam.run/language-server/).
+Gleam の言語サーバーは gleam コンパイラーに組み込まれており、定義への移動、
+自動インポートなど、多くの便利な機能を備えています
+（[詳細](https://gleam.run/language-server/)）。
 
-See also:
+関連項目:
 
 - [Elixir](./elixir.md)
 - [Erlang](./erlang.md)

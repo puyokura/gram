@@ -40,14 +40,14 @@ impl QuickActionBar {
         let (button_id, tooltip_text, open_action, open_to_side_action, open_action_for_tooltip) = match preview_type {
             PreviewType::Markdown => (
                 "toggle-markdown-preview",
-                "Preview Markdown",
+                "Markdownのプレビュー",
                 Box::new(MarkdownOpenPreview) as Box<dyn gpui::Action>,
                 Box::new(MarkdownOpenPreviewToTheSide) as Box<dyn gpui::Action>,
                 &markdown_preview::OpenPreview as &dyn gpui::Action,
             ),
             PreviewType::Svg => (
                 "toggle-svg-preview",
-                "Preview SVG",
+                "SVGのプレビュー",
                 Box::new(SvgOpenPreview) as Box<dyn gpui::Action>,
                 Box::new(SvgOpenPreviewToTheSide) as Box<dyn gpui::Action>,
                 &svg_preview::OpenPreview as &dyn gpui::Action,
@@ -68,7 +68,7 @@ impl QuickActionBar {
                     tooltip_text,
                     Some(open_action_for_tooltip),
                     format!(
-                        "{} to open in a split",
+                        "{}で分割して開く",
                         text_for_keystroke(&alt_click.modifiers, &alt_click.key, cx)
                     ),
                     cx,

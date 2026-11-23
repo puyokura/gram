@@ -1,91 +1,59 @@
-# Installing Extensions
+# 拡張機能のインストール
 
-Some extensions, particularly extensions that add language support, need to
-compile the extension into a Wasm bundle. To do this, Gram uses Rust together
-with the `wasm32-wasip2` target to build the Wasm extension on your local
-machine.
+一部の拡張機能、とくに言語サポートを追加する拡張機能は、拡張機能を Wasm バンドルにコンパイルする必要があります。そのため Gram は、Rust と `wasm32-wasip2` ターゲットを使って、お使いのマシン上で Wasm 拡張機能をビルドします。
 
-You can either install these dependencies yourself, or alternatively if you have
-[installed Rust via rustup](https://www.rust-lang.org/tools/install), Gram will
-try to add the `wasm32-wasip2` target for you.
+これらの依存関係を自分でインストールすることもできますが、[rustup 経由で Rust をインストール](https://www.rust-lang.org/tools/install)していれば、Gram が `wasm32-wasip2` ターゲットの追加を試みます。
 
-If you have installed Rust via a package manager but don't have the
-`wasm32-wasip2` target installed, installing the extension will not work.
+パッケージマネージャー経由で Rust をインストールしていて `wasm32-wasip2` ターゲットが入っていない場合、拡張機能のインストールは機能しません。
 
-The editor will also need the WASI SDK in order to compile the extension and
-tree-sitter grammar for language extensions. If the system-installed version of
-`cargo` is able to compile to Wasm, the editor will only download the WASI
-sysroot instead.
+エディターは、拡張機能と、言語拡張機能用の tree-sitter 文法をコンパイルするために WASI SDK も必要とします。システムにインストールされた `cargo` が Wasm へコンパイルできる場合、エディターは代わりに WASI sysroot だけをダウンロードします。
 
-> **Note:** This is a core difference between Zed and Gram. Zed will download a
-> precompiled Wasm bundle from the Zed website when installing an extension, to
-> avoid having to build the extension locally.
+> **注:** これは Zed と Gram の根本的な違いです。Zed は、拡張機能をローカルでビルドする必要を避けるため、拡張機能のインストール時に Zed の Web サイトからコンパイル済みの Wasm バンドルをダウンロードします。
 
-You can manage your extensions by launching the Gram Extension Gallery.
+拡張機能は Gram の拡張機能ギャラリーを開いて管理できます。
 
-Press {#kb gram::Extensions} , open the command palette and select {#action
-gram::Extensions} or select "Gram > Extensions" from the menu bar.
+{#kb gram::Extensions} を押すか、コマンドパレットを開いて {#action gram::Extensions} を選択するか、メニューバーから「Gram > Extensions」を選択します。
 
-Here you can view the extensions that you currently have installed, and you can
-also install extensions for your local file system, or via a git URL. To get the
-git URL for a Zed extension, go to the Zed extensions website, find the
-extension you want to use and copy the "Visit Repository" link.
+ここでは、現在インストールされている拡張機能を確認でき、ローカルファイルシステムから、または git URL 経由で拡張機能をインストールすることもできます。Zed 拡張機能の git URL を取得するには、Zed の拡張機能 Web サイトにアクセスし、使用したい拡張機能を見つけて「Visit Repository」リンクをコピーします。
 
-## Requirements
+## 要件
 
-The exact requirements for compiling Wasm extensions varies by OS and
-architecture, so giving exact instructions is very difficult.
+Wasm 拡張機能をコンパイルするための正確な要件は OS とアーキテクチャによって異なるため、正確な手順を示すのは非常に困難です。
 
-You will probably need to install `clang`.
+おそらく `clang` のインストールが必要になります。
 
-On Chimera Linux, you will need to install `wasm-component-ld` and `wasi-clang`.
+Chimera Linux では、`wasm-component-ld` と `wasi-clang` をインストールする必要があります。
 
-On Manjaro, you will need `rust-wasm` and `wasi-compiler-rt`.
+Manjaro では、`rust-wasm` と `wasi-compiler-rt` が必要です。
 
-On Mac OS, you will need `rustup`, but it is not recommended to install it via
-Homebrew as users have reported problems compiling extensions with the Homebrew
-version. It is possible that compilation may work if the `rust-wasm` Homebrew
-package is installed, but this is not verified.
+Mac OS では `rustup` が必要ですが、Homebrew 版の `rustup` では拡張機能のコンパイルに問題が発生したという報告があるため、Homebrew 経由でのインストールは推奨しません。Homebrew の `rust-wasm` パッケージをインストールすればコンパイルできる可能性がありますが、確認されていません。
 
-## Installing Local Extensions
+## ローカル拡張機能のインストール
 
-From the extensions page, click the `Install Local` button (or the {#action
-gram::InstallExtensionFromFolder} action) and select the directory containing
-your extension. You should see the extension begin to install in the status bar.
+拡張機能のページで `Install Local` ボタン（または {#action gram::InstallExtensionFromFolder} アクション）をクリックし、拡張機能を含むフォルダーを選択します。ステータスバーで拡張機能のインストールが始まるはずです。
 
-## System-installed extensions
+## システムにインストールされた拡張機能
 
-If Gram is compiled or started with the environment variable
-`GRAM_SYSTEM_EXTENSIONS_DIR` set, it will also look for installed extensions in
-that directory. This way, a Linux distribution can provide packaged extensions
-for Gram that are installed and managed using the system package manager.
+Gram が環境変数 `GRAM_SYSTEM_EXTENSIONS_DIR` を設定してコンパイルまたは起動された場合、そのフォルダーにインストールされた拡張機能も探します。これにより、Linux ディストリビューションは、システムのパッケージマネージャーでインストール・管理される Gram 用のパッケージ済み拡張機能を提供できます。
 
-System-installed extensions are always enabled and cannot be uninstalled from
-the editor.
+システムにインストールされた拡張機能は常に有効で、エディターからアンインストールすることはできません。
 
-## Installing Extensions From A Git URL
+## Git URL からの拡張機能のインストール
 
-From the extensions page, click the `Install From URL` button (or the {#action
-gram::InstallExtensionFromUrl} action) and enter the git url for the extension.
-You should see the extension begin to install in the status bar.
+拡張機能のページで `Install From URL` ボタン（または {#action gram::InstallExtensionFromUrl} アクション）をクリックし、拡張機能の git URL を入力します。ステータスバーで拡張機能のインストールが始まるはずです。
 
-> **Note:** The editor must be able to authenticate the git URL, but does not
-> support SSH authentication. Using a public URL such as an `http(s)` git URL is
-> recommended. Check the logs to debug ({#action gram::OpenLog}).
+> **注:** エディターは git URL を認証できる必要がありますが、SSH 認証はサポートしていません。`http(s)` の git URL のような公開 URL の使用を推奨します。デバッグにはログを確認してください（{#action gram::OpenLog}）。
 
-## Installation Location
+## インストール先
 
-- On macOS, extensions are installed in
-  `~/Library/Application Support/Gram/extensions`.
-- On Linux, they are installed in either `$XDG_DATA_HOME/gram/extensions` or
-  `~/.local/share/gram/extensions`.
+- macOS では、拡張機能は `~/Library/Application Support/Gram/extensions` にインストールされます。
+- Linux では、`$XDG_DATA_HOME/gram/extensions` または `~/.local/share/gram/extensions` のいずれかにインストールされます。
 
-This directory contains two subdirectories:
+このフォルダーには2つのサブフォルダーがあります:
 
-- `installed`, which contains the source code for each extension.
-- `work` which contains files created by the extension itself, such as
-  downloaded language servers.
+- `installed`: 各拡張機能のソースコードが入ります。
+- `work`: 拡張機能自身が作成したファイル（ダウンロードした言語サーバーなど）が入ります。
 
-## Removing extensions
+## 拡張機能の削除
 
-Remove extensions from the Extensions interface.
+拡張機能は拡張機能のインターフェースから削除します。

@@ -54,7 +54,7 @@ use std::future::Future;
 use std::ops::Range;
 use std::path::Path;
 use std::{sync::Arc, time::Duration};
-use strum::{IntoEnumIterator, VariantNames};
+use strum::IntoEnumIterator;
 use time::OffsetDateTime;
 use ui::{
     ButtonLike, Checkbox, ContextMenu, DiffStat as DiffStatLabel, ElevationIndex, IndentGuideColors, PopoverMenu,
@@ -71,47 +71,52 @@ use workspace::{
 actions!(
     git_panel,
     [
-        /// Closes the git panel.
+        /// Git パネルを閉じます。
         Close,
-        /// Toggles the git panel.
+        /// Git パネルの表示を切り替えます。
         Toggle,
-        /// Toggles focus on the git panel.
+        /// Git パネルへのフォーカスを切り替えます。
         ToggleFocus,
-        /// Opens the git panel menu.
+        /// Git パネルのメニューを開きます。
         OpenMenu,
-        /// Focuses on the commit message editor.
+        /// コミットメッセージエディターにフォーカスします。
         FocusEditor,
-        /// Focuses on the changes list.
+        /// 変更リストにフォーカスします。
         FocusChanges,
-        /// Select next git panel menu item, and show it in the diff view
+        /// 次の Git パネルの項目を選択し、差分ビューに表示します。
         NextEntry,
-        /// Select previous git panel menu item, and show it in the diff view
+        /// 前の Git パネルの項目を選択し、差分ビューに表示します。
         PreviousEntry,
-        /// Select first git panel menu item, and show it in the diff view
+        /// 最初の Git パネルの項目を選択し、差分ビューに表示します。
         FirstEntry,
-        /// Select last git panel menu item, and show it in the diff view
+        /// 最後の Git パネルの項目を選択し、差分ビューに表示します。
         LastEntry,
-        /// Toggles sorting entries by path vs status.
+        /// 項目の並び順をパス順とステータス順で切り替えます。
         ToggleSortByPath,
-        /// Toggles showing entries in tree vs flat view.
+        /// 項目の表示をツリー表示とフラット表示で切り替えます。
         ToggleTreeView,
-        /// Expands the selected entry to show its children.
+        /// 選択中の項目を展開して子を表示します。
         ExpandSelectedEntry,
-        /// Collapses the selected entry to hide its children.
+        /// 選択中の項目を折りたたんで子を非表示にします。
         CollapseSelectedEntry,
     ]
 );
 
-fn prompt<T>(msg: &str, detail: Option<&str>, window: &mut Window, cx: &mut App) -> Task<anyhow::Result<T>>
+fn prompt<T>(
+    msg: &str,
+    detail: Option<&str>,
+    labels: &[&str],
+    window: &mut Window,
+    cx: &mut App,
+) -> Task<anyhow::Result<T>>
 where
-    T: IntoEnumIterator + VariantNames + 'static,
+    T: IntoEnumIterator + 'static,
 {
-    let rx = window.prompt(PromptLevel::Info, msg, detail, T::VARIANTS, cx);
+    let rx = window.prompt(PromptLevel::Info, msg, detail, labels, cx);
     cx.spawn(async move |_| Ok(T::iter().nth(rx.await?).unwrap()))
 }
 
-#[derive(strum::EnumIter, strum::VariantNames)]
-#[strum(serialize_all = "title_case")]
+#[derive(strum::EnumIter)]
 enum TrashCancel {
     Trash,
     Cancel,
@@ -136,43 +141,51 @@ fn git_panel_context_menu(
     ContextMenu::build(window, cx, move |context_menu, _, _| {
         context_menu
             .context(focus_handle)
-            .action("Open Git Graph", app_actions::git::OpenGraph.boxed_clone())
+            .action("Git グラフを開く", app_actions::git::OpenGraph.boxed_clone())
             .separator()
-            .action_disabled_when(!state.has_unstaged_changes, "Stage All", StageAll.boxed_clone())
-            .action_disabled_when(!state.has_staged_changes, "Unstage All", UnstageAll.boxed_clone())
+            .action_disabled_when(!state.has_unstaged_changes, "すべてステージ", StageAll.boxed_clone())
+            .action_disabled_when(
+                !state.has_staged_changes,
+                "すべてステージ解除",
+                UnstageAll.boxed_clone(),
+            )
             .separator()
             .action_disabled_when(
                 !(state.has_new_changes || state.has_tracked_changes),
-                "Stash All",
+                "すべてスタッシュ",
                 StashAll.boxed_clone(),
             )
-            .action_disabled_when(!state.has_stash_items, "Stash Pop", StashPop.boxed_clone())
-            .action("View Stash", app_actions::git::ViewStash.boxed_clone())
+            .action_disabled_when(!state.has_stash_items, "スタッシュをポップ", StashPop.boxed_clone())
+            .action("スタッシュを表示", app_actions::git::ViewStash.boxed_clone())
             .separator()
             .action("Open Diff", project_diff::Diff.boxed_clone())
             .separator()
             .action_disabled_when(
                 !state.has_tracked_changes,
-                "Discard Tracked Changes",
+                "追跡ファイルの変更を破棄",
                 RestoreTrackedFiles.boxed_clone(),
             )
             .action_disabled_when(
                 !state.has_new_changes,
-                "Trash Untracked Files",
+                "未追跡ファイルをゴミ箱へ移動",
                 TrashUntrackedFiles.boxed_clone(),
             )
             .separator()
             .entry(
-                if state.tree_view { "Flat View" } else { "Tree View" },
+                if state.tree_view {
+                    "フラット表示"
+                } else {
+                    "ツリー表示"
+                },
                 Some(Box::new(ToggleTreeView)),
                 move |window, cx| window.dispatch_action(Box::new(ToggleTreeView), cx),
             )
             .when(!state.tree_view, |this| {
                 this.entry(
                     if state.sort_by_path {
-                        "Sort by Status"
+                        "ステータス順に並べ替え"
                     } else {
-                        "Sort by Path"
+                        "パス順に並べ替え"
                     },
                     Some(Box::new(ToggleSortByPath)),
                     move |window, cx| window.dispatch_action(Box::new(ToggleSortByPath), cx),
@@ -254,9 +267,9 @@ impl GitHeaderEntry {
     }
     pub fn title(&self) -> &'static str {
         match self.header {
-            Section::Conflict => "Conflicts",
-            Section::Tracked => "Tracked",
-            Section::New => "Untracked",
+            Section::Conflict => "競合",
+            Section::Tracked => "追跡",
+            Section::New => "未追跡",
         }
     }
 }
@@ -1274,22 +1287,21 @@ impl GitPanel {
                 Task::ready(Ok(0))
             } else {
                 let (message, confirm_text) = if entry.status.is_deleted() {
-                    ("Are you sure you want to restore", "Restore File")
+                    ("{} を復元しますか？", "ファイルを復元")
                 } else {
-                    ("Are you sure you want to discard changes to", "Discard Changes")
+                    ("{} への変更を破棄しますか？", "変更を破棄")
                 };
                 let prompt = window.prompt(
                     PromptLevel::Warning,
-                    &format!(
-                        "{} {}?",
-                        message,
+                    &message.replace(
+                        "{}",
                         entry
                             .repo_path
                             .file_name()
                             .unwrap_or(entry.repo_path.display(path_style).as_ref()),
                     ),
                     None,
-                    &[confirm_text, "Cancel"],
+                    &[confirm_text, "キャンセル"],
                     cx,
                 );
                 cx.background_spawn(prompt)
@@ -1385,7 +1397,7 @@ impl GitPanel {
             if !entry.status.is_created() {
                 self.perform_checkout(vec![entry.clone()], window, cx);
             } else {
-                let prompt = prompt(&format!("Trash {}?", filename), None, window, cx);
+                let prompt = prompt(&format!("Trash {}?", filename), None, &["Trash", "Cancel"], window, cx);
                 cx.spawn_in(window, async move |_, cx| {
                     match prompt.await? {
                         TrashCancel::Trash => {}
@@ -1401,7 +1413,12 @@ impl GitPanel {
                     }
                     Ok(())
                 })
-                .detach_and_prompt_err("Failed to trash file", window, cx, |e, _, _| Some(format!("{e}")));
+                .detach_and_prompt_err(
+                    "ファイルをゴミ箱に移動できませんでした",
+                    window,
+                    cx,
+                    |e, _, _| Some(format!("{e}")),
+                );
             }
             Some(())
         });
@@ -1507,7 +1524,13 @@ impl GitPanel {
             RestoreTrackedFiles,
             Cancel,
         }
-        let prompt = prompt("Discard changes to these files?", Some(&details), window, cx);
+        let prompt = prompt(
+            "Discard changes to these files?",
+            Some(&details),
+            &["RestoreTrackedFiles", "Cancel"],
+            window,
+            cx,
+        );
         cx.spawn_in(window, async move |this, cx| {
             if let Ok(RestoreCancel::RestoreTrackedFiles) = prompt.await {
                 this.update_in(cx, |this, window, cx| {
@@ -1555,7 +1578,7 @@ impl GitPanel {
             details.push_str(&format!("\nand {} more…", to_delete.len() - 5))
         }
 
-        let prompt = prompt("Trash these files?", Some(&details), window, cx);
+        let prompt = prompt("Trash these files?", Some(&details), &["Trash", "Cancel"], window, cx);
         cx.spawn_in(window, async move |this, cx| {
             match prompt.await? {
                 TrashCancel::Trash => {}
@@ -1582,7 +1605,12 @@ impl GitPanel {
             }
             Ok(())
         })
-        .detach_and_prompt_err("Failed to trash files", window, cx, |e, _, _| Some(format!("{e}")));
+        .detach_and_prompt_err(
+            "ファイルをゴミ箱に移動できませんでした",
+            window,
+            cx,
+            |e, _, _| Some(format!("{e}")),
+        );
     }
 
     fn change_all_files_stage(&mut self, stage: bool, cx: &mut Context<Self>) {
@@ -2082,7 +2110,7 @@ impl GitPanel {
             return;
         };
         let error_spawn = |message, window: &mut Window, cx: &mut App| {
-            let prompt = window.prompt(PromptLevel::Warning, message, None, &["Ok"], cx);
+            let prompt = window.prompt(PromptLevel::Warning, message, None, &["OK"], cx);
             cx.spawn(async move |_| {
                 prompt.await.ok();
             })
@@ -2224,7 +2252,7 @@ impl GitPanel {
                     pushed_to.into_iter().join(", ")
                 );
                 let result = cx
-                    .update(|window, cx| prompt("Are you sure?", Some(&detail), window, cx))?
+                    .update(|window, cx| prompt("Are you sure?", Some(&detail), &["Uncommit", "Cancel"], window, cx))?
                     .await?;
 
                 match result {
@@ -2455,9 +2483,9 @@ impl GitPanel {
         } else if worktrees.is_empty() {
             let result = window.prompt(
                 PromptLevel::Warning,
-                "Unable to initialize a git repository",
-                Some("Open a directory first"),
-                &["Ok"],
+                "Git リポジトリを初期化できません",
+                Some("先にディレクトリを開いてください"),
+                &["OK"],
                 cx,
             );
             cx.background_executor()
@@ -3183,7 +3211,7 @@ impl GitPanel {
                     Toast => this.icon(ToastIcon::new(IconName::GitBranchAlt).color(Color::Muted)),
                     ToastWithLog { output } => this
                         .icon(ToastIcon::new(IconName::GitBranchAlt).color(Color::Muted))
-                        .action("View Log", move |window, cx| {
+                        .action("ログを表示", move |window, cx| {
                             let output = output.clone();
                             let output = format!("stdout:\n{}\nstderr:\n{}", output.stdout, output.stderr);
                             workspace_weak
@@ -3431,9 +3459,9 @@ impl GitPanel {
         self.active_repository.as_ref()?;
 
         let (text, action, stage, tooltip) = if self.total_staged_count() == self.entry_count && self.entry_count > 0 {
-            ("Unstage All", UnstageAll.boxed_clone(), false, "git reset")
+            ("すべてステージ解除", UnstageAll.boxed_clone(), false, "git reset")
         } else {
-            ("Stage All", StageAll.boxed_clone(), true, "git add --all")
+            ("すべてステージ", StageAll.boxed_clone(), true, "git add --all")
         };
 
         let change_string = match self.changes_count {
@@ -3702,7 +3730,7 @@ impl GitPanel {
                 ),
             )
             .child(
-                panel_button("Cancel")
+                panel_button("キャンセル")
                     .size(ButtonSize::Default)
                     .on_click(cx.listener(|this, _, _, cx| this.set_amend_pending(false, cx))),
             )
@@ -3746,7 +3774,7 @@ impl GitPanel {
                             .icon_color(Color::Muted)
                             .tooltip(move |_window, cx| {
                                 Tooltip::with_meta(
-                                    "Uncommit",
+                                    "コミットを取り消す",
                                     Some(&git::Uncommit),
                                     if has_unstaged {
                                         "git reset HEAD^ --soft"
@@ -5285,9 +5313,9 @@ pub(crate) fn show_error_toast(
     } else {
         workspace.update(cx, |workspace, cx| {
             let workspace_weak = cx.weak_entity();
-            let toast = StatusToast::new(format!("git {} failed", action), cx, |this, _cx| {
+            let toast = StatusToast::new(format!("git {} に失敗しました", action), cx, |this, _cx| {
                 this.icon(ToastIcon::new(IconName::XCircle).color(Color::Error)).action(
-                    "View Log",
+                    "ログを表示",
                     move |window, cx| {
                         let message = message.clone();
                         let action = action.clone();

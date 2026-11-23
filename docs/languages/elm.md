@@ -1,32 +1,31 @@
 # Elm
 
-Elm support is available through the
-[Elm extension](https://github.com/zed-extensions/elm).
+Elm のサポートは
+[Elm 拡張機能](https://github.com/zed-extensions/elm) から利用できます。
 
 - Tree-sitter:
   [elm-tooling/tree-sitter-elm](https://github.com/elm-tooling/tree-sitter-elm)
-- Language Server:
+- 言語サーバー:
   [elm-tooling/elm-language-server](https://github.com/elm-tooling/elm-language-server)
 
-## Setup
+## セットアップ
 
-Gram support for Elm requires installation of `elm`, `elm-format`, and
-`elm-review`.
+Gram の Elm サポートには `elm`、`elm-format`、`elm-review` のインストールが必要です。
 
-1. [Install Elm](https://guide.elm-lang.org/install/elm.html) (or run
-   `brew install elm` on macOS).
-2. Install `elm-review` to support code linting:
+1. [Elm をインストール](https://guide.elm-lang.org/install/elm.html) します
+   （macOS では `brew install elm` でも可）。
+2. コードリンティングをサポートするため `elm-review` をインストール:
    ```sh
    npm install elm-review --save-dev
    ```
-3. Install `elm-format` to support automatic formatting
+3. 自動フォーマットをサポートするため `elm-format` をインストール
    ```sh
    npm install -g elm-format
    ```
 
-## Configuring `elm-language-server`
+## `elm-language-server` の構成
 
-Elm language server can be configured in your `settings.jsonc`, e.g.:
+Elm 言語サーバーは `settings.jsonc` で構成できます。例:
 
 ```json
 {
@@ -42,6 +41,7 @@ Elm language server can be configured in your `settings.jsonc`, e.g.:
 }
 ```
 
-`elm-format`, `elm-review` and `elm` need to be installed and made available in
-the environment or configured in the settings. See the
-[full list of server settings here](https://github.com/elm-tooling/elm-language-server?tab=readme-ov-file#server-settings).
+`elm-format`、`elm-review`、`elm` はインストールして環境から利用できるようにするか、
+設定で指定する必要があります。
+[サーバー設定の完全な一覧はこちら](https://github.com/elm-tooling/elm-language-server?tab=readme-ov-file#server-settings)
+を参照してください。

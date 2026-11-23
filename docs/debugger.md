@@ -1,61 +1,36 @@
-# Debugger
+# デバッガー
 
-Gram uses the
-[Debug Adapter Protocol (DAP)](https://microsoft.github.io/debug-adapter-protocol/)
-to provide debugging functionality across multiple programming languages. DAP is
-a standardized protocol that defines how debuggers, editors, and IDEs
-communicate with each other. It allows Gram to support various debuggers without
-needing to implement language-specific debugging logic. Gram implements the
-client side of the protocol, and various _debug adapters_ implement the server
-side.
+Gram では、複数のプログラミング言語にまたがるデバッグ機能を提供するために [Debug Adapter Protocol (DAP)](https://microsoft.github.io/debug-adapter-protocol/) を採用しています。DAP は、デバッガー、エディター、および IDE 間の通信方法を定義する標準化されたプロトコルです。これにより、Gram は言語固有のデバッグロジックを個別に実装することなく、さまざまなデバッガーをサポートできます。Gram はプロトコルのクライアント側を実装し、各種 _デバッグアダプター_ がサーバー側を実装します。
 
-This protocol enables features like setting breakpoints, stepping through code,
-inspecting variables, and more, in a consistent manner across different
-programming languages and runtime environments.
+このプロトコルにより、ブレークポイントの設定、コードのステップ実行、変数の検査などの機能が、異なるプログラミング言語やランタイム環境間で一貫した方法で実現されます。
 
-## Supported Languages
+## サポートされている言語
 
-To debug code written in a specific language, Gram needs to find a debug adapter
-for that language. Some debug adapters are provided by Gram without additional
-setup, and some are provided by
-[language extensions](./extensions/debugger-extensions.md). The following
-languages currently have debug adapters available:
+特定の言語で書かれたコードをデバッグするには、Gram がその言語用のデバッグアダプターを検出できる必要があります。一部のデバッグアダプターは追加の設定なしに Gram に組み込まれており、一部は [言語拡張機能](./extensions/debugger-extensions.md) によって提供されます。現在、以下の言語でデバッグアダプターが利用可能です。
 
-- [C](./languages/c.md#debugging) (built-in)
-- [C++](./languages/cpp.md#debugging) (built-in)
-- [Go](./languages/go.md#debugging) (built-in)
-- [Java](./languages/java.md#debugging) (provided by extension)
-- [JavaScript](./languages/javascript.md#debugging) (built-in)
-- [PHP](./languages/php.md#debugging) (built-in)
-- [Python](./languages/python.md#debugging) (built-in)
-- [Ruby](./languages/ruby.md#debugging) (provided by extension)
-- [Rust](./languages/rust.md#debugging) (built-in)
-- [Swift](./languages/swift.md#debugging) (provided by extension)
-- [TypeScript](./languages/typescript.md#debugging) (built-in)
+- [C](./languages/c.md#debugging)（組み込み）
+- [C++](./languages/cpp.md#debugging)（組み込み）
+- [Go](./languages/go.md#debugging)（組み込み）
+- [Java](./languages/java.md#debugging)（拡張機能により提供）
+- [JavaScript](./languages/javascript.md#debugging)（組み込み）
+- [PHP](./languages/php.md#debugging)（組み込み）
+- [Python](./languages/python.md#debugging)（組み込み）
+- [Ruby](./languages/ruby.md#debugging)（拡張機能により提供）
+- [Rust](./languages/rust.md#debugging)（組み込み）
+- [Swift](./languages/swift.md#debugging)（拡張機能により提供）
+- [TypeScript](./languages/typescript.md#debugging)（組み込み）
 
-> If your language isn't listed, you can contribute by
-> [adding a debug adapter for it](./extensions/debugger-extensions.md).
+> お使いの言語が記載されていない場合でも、[デバッグアダプターの追加](./extensions/debugger-extensions.md) を通じて貢献していただけます。
 
-Follow those links for language- and adapter-specific information and examples,
-or read on for more about Gram's general debugging features that apply to all
-adapters.
+各言語およびアダプター固有の情報や設定例については上記リンクを参照してください。以下では、すべてのアダプターに共通する Gram の全般的なデバッグ機能について説明します。
 
-## Getting Started
+## はじめに
 
-For most languages, the fastest way to get started is to run {#action
-debugger::Start} ({#kb debugger::Start}). This opens the _new process modal_,
-which shows you a contextual list of preconfigured debug tasks for the current
-project. Debug tasks are created from tests, entry points (like a `main`
-function), and from other sources — consult the documentation for your language
-for full information about what's supported.
+多くの言語において、最も迅速にデバッグを開始する方法は {#action debugger::Start}（{#kb debugger::Start}）を実行することです。これにより _新規プロセスモーダル_ が開き、現在のプロジェクト用に事前構成されたデバッグタスクが文脈に応じて一覧表示されます。デバッグタスクは、テスト、エントリーポイント（`main` 関数など）、その他のソースから生成されます。サポート状況の詳細については、各言語のドキュメントを参照してください。
 
-You can open the same modal by clicking the "plus" button at the top right of
-the debug panel.
+デバッグパネルの右上にある「プラス（+）」ボタンをクリックしても同じモーダルを開くことができます。
 
-For languages that don't provide preconfigured debug tasks (this includes C,
-C++, and some extension-supported languages), you can define debug
-configurations in the `.gram/debug.jsonc` file in your project root. This file
-should be an array of configuration objects:
+事前構成されたデバッグタスクが提供されない言語（C、C++、および一部の拡張機能でサポートされる言語など）では、プロジェクトのルートにある `.gram/debug.jsonc` ファイルにデバッグ構成を定義できます。このファイルは構成オブジェクトの配列として記述します。
 
 ```json [debug]
 [
@@ -72,87 +47,58 @@ should be an array of configuration objects:
 ]
 ```
 
-Check the documentation for your language for example configurations covering
-typical use-cases. Once you've added configurations to `.gram/debug.jsonc`,
-they'll appear in the list in the new process modal.
+一般的なユースケースをカバーする構成例については、各言語のドキュメントを確認してください。`.gram/debug.jsonc` に構成を追加すると、新規プロセスモーダルのリストに表示されるようになります。
 
-Gram will also load debug configurations from `.vscode/launch.json`, and show
-them in the new process modal if no configurations are found in
-`.gram/debug.jsonc`.
+また、`.gram/debug.jsonc` に構成が見つからない場合、Gram は `.vscode/launch.json` からもデバッグ構成を読み込み、新規プロセスモーダルに表示します。
 
-#### Global debug configurations
+#### グローバルデバッグ構成
 
-If you run the same launch profiles across multiple projects, you can store them
-once in your user configuration. Invoke {#action gram::OpenDebugTasks} from the
-command palette to open the global `debug.jsonc` file; Gram creates it next to
-your user `settings.jsonc` and keeps it in sync with the debugger UI. The file
-lives at:
+複数のプロジェクトで同じ起動プロファイルを使用する場合は、ユーザー設定に一度保存しておくだけで共有できます。コマンドパレットから {#action gram::OpenDebugTasks} を呼び出して、グローバルな `debug.jsonc` ファイルを開きます。Gram はこれをユーザーの `settings.jsonc` と同じ場所に作成し、デバッガー UI と同期を保ちます。ファイルの配置場所は以下のとおりです。
 
 - **macOS:** `~/Library/Application Support/Gram/debug.jsonc`
-- **Linux/BSD:** `$XDG_CONFIG_HOME/gram/debug.jsonc` (falls back to
-  `~/.config/gram/debug.jsonc`)
+- **Linux/BSD:** `$XDG_CONFIG_HOME/gram/debug.jsonc`（見つからない場合は `~/.config/gram/debug.jsonc`）
 - **Windows:** `%APPDATA%\Gram\debug.jsonc`
 
-Populate this file with the same array of objects you would place in
-`.gram/debug.jsonc`. Any scenarios defined there are merged into every
-workspace, so your favorite launch presets appear automatically in the "New
-Debug Session" dialog.
+このファイルに、`.gram/debug.jsonc` と同様のオブジェクト配列を記述します。ここで定義されたシナリオはすべてのワークスペースにマージされるため、お気に入りの起動プリセットが「New Debug Session」ダイアログに自動的に表示されます。
 
-### Launching & Attaching
+### 起動（Launch）とアタッチ（Attach）
 
-Gram debugger offers two ways to debug your program; you can either _launch_ a
-new instance of your program or _attach_ to an existing process. Which one you
-choose depends on what you are trying to achieve.
+Gram デバッガーには、プログラムをデバッグするための 2 つの方法があります。プログラムの新しいインスタンスを _起動（launch）_ するか、既存のプロセスに _アタッチ（attach）_ するかです。どちらを選択するかは、目的によって異なります。
 
-When launching a new instance, Gram (and the underlying debug adapter) can often
-do a better job at picking up the debug information compared to attaching to an
-existing process, since it controls the lifetime of a whole program. Running
-unit tests or a debug build of your application is a good use case for
-launching.
+新しいインスタンスを起動する場合、Gram（および基盤となるデバッグアダプター）はプログラム全体のライフタイムを制御できるため、既存のプロセスにアタッチする場合と比べて、多くの場合より適切にデバッグ情報を収集できます。単体テストの実行やアプリケーションのデバッグビルドを実行する場合は、起動（launch）が適しています。
 
-Compared to launching, attaching to an existing process might seem inferior, but
-that's far from truth; there are cases where you cannot afford to restart your
-program, because for example, the bug is not reproducible outside of a
-production environment or some other circumstances.
+起動と比較すると既存プロセスへのアタッチは劣るように思えるかもしれませんが、決してそうではありません。たとえば本番環境以外では再現しないバグがある場合など、プログラムを再起動できない状況ではアタッチが不可欠です。
 
-## Configuration
+## 構成
 
-Gram requires the `adapter` and `label` fields for all debug tasks. In addition,
-Gram will use the `build` field to run any necessary setup steps before the
-debugger starts [(see below)](#build-tasks), and can accept a `tcp_connection`
-field to connect to an existing process.
+Gram では、すべてのデバッグタスクにおいて `adapter` フィールドと `label` フィールドが必須です。さらに、Gram はデバッガー起動前に必要なセットアップ手順を実行するために `build` フィールドを使用し（[後述](#build-tasks)）、既存のプロセスに接続するために `tcp_connection` フィールドを受け入れることができます。
 
-All other fields are provided by the debug adapter and can contain
-[task variables](./tasks.md#variables). Most adapters support `request`,
-`program`, and `cwd`:
+その他すべてのフィールドはデバッグアダプターによって提供され、[タスク変数](./tasks.md#variables) を含めることができます。ほとんどのアダプターは `request`、`program`、`cwd` をサポートしています。
 
 ```json [debug]
 [
   {
-    // The label for the debug configuration and used to identify the debug session inside the debug panel & new process modal
+    // デバッグ構成のラベル。デバッグパネルおよび新規プロセスモーダル内でデバッグセッションを識別するために使用されます
     "label": "Example Start debugger config",
-    // The debug adapter that Gram should use to debug the program
+    // Gram がプログラムのデバッグに使用するデバッグアダプター
     "adapter": "Example adapter name",
     // Request:
-    //  - launch: Gram will launch the program if specified, or show a debug terminal with the right configuration
-    //  - attach: Gram will attach to a running program to debug it, or when the process_id is not specified, will show a process picker (only supported for node currently)
+    //  - launch: 指定された場合、Gram はプログラムを起動するか、適切な構成でデバッグターミナルを表示します
+    //  - attach: Gram は実行中のプログラムにアタッチしてデバッグします。process_id が指定されていない場合はプロセスピッカーを表示します（現在は Node のみサポート）
     "request": "launch",
-    // The program to debug. This field supports path resolution with ~ or . symbols.
+    // デバッグ対象のプログラム。このフィールドは ~ や . 記号によるパス解決をサポートしています
     "program": "path_to_program",
-    // cwd: defaults to the current working directory of your project ($GRAM_WORKTREE_ROOT)
+    // cwd: デフォルトはプロジェクトの現在の作業ディレクトリ（$GRAM_WORKTREE_ROOT）です
     "cwd": "$GRAM_WORKTREE_ROOT"
   }
 ]
 ```
 
-Check your debug adapter's documentation for more information on the fields it
-supports.
+サポートされているフィールドの詳細については、各デバッグアダプターのドキュメントを確認してください。
 
-### Build tasks
+### ビルドタスク
 
-Gram allows embedding a Gram task in the `build` field that is run before the
-debugger starts. This is useful for setting up the environment or running any
-necessary setup steps before the debugger starts.
+Gram では、デバッガーが起動する前に実行される Gram タスクを `build` フィールドに埋め込むことができます。これは、環境の準備や、デバッガー起動前に必要なセットアップ手順を実行するのに便利です。
 
 ```json [debug]
 [
@@ -169,7 +115,7 @@ necessary setup steps before the debugger starts.
 ]
 ```
 
-Build tasks can also refer to the existing tasks by unsubstituted label:
+ビルドタスクは、置換前のラベルによって既存のタスクを参照することもできます。
 
 ```json [debug]
 [
@@ -178,72 +124,51 @@ Build tasks can also refer to the existing tasks by unsubstituted label:
     "adapter": "CodeLLDB",
     "program": "path_to_program",
     "request": "launch",
-    "build": "my build task" // Or "my build task for $GRAM_FILE"
+    "build": "my build task" // または "my build task for $GRAM_FILE"
   }
 ]
 ```
 
-### Automatic scenario creation
+### シナリオの自動生成
 
-Given a Gram task, Gram can automatically create a scenario for you. Automatic
-scenario creation also powers our scenario creation from gutter. Automatic
-scenario creation is currently supported for Rust, Go, Python, JavaScript, and
-TypeScript.
+Gram タスクが与えられた場合、Gram は自動的にシナリオを作成できます。このシナリオ自動生成機能は、ガターからのシナリオ生成にも利用されています。現在、Rust、Go、Python、JavaScript、TypeScript でシナリオの自動生成がサポートされています。
 
-## Breakpoints
+## ブレークポイント
 
-To set a breakpoint, simply click next to the line number in the editor gutter.
-Breakpoints can be tweaked depending on your needs; to access additional options
-of a given breakpoint, right-click on the breakpoint icon in the gutter and
-select the desired option. At present, you can:
+ブレークポイントを設定するには、エディターのガターにある行番号の横をクリックするだけです。ブレークポイントは必要に応じて細かく調整できます。特定のブレークポイントの追加オプションにアクセスするには、ガター内のブレークポイントアイコンを右クリックして目的のオプションを選択します。現在、以下の操作が可能です。
 
-- Add a log to a breakpoint, which will output a log message whenever that
-  breakpoint is hit.
-- Make the breakpoint conditional, which will only stop at the breakpoint when
-  the condition is met. The syntax for conditions is adapter-specific.
-- Add a hit count to a breakpoint, which will only stop at the breakpoint after
-  it's hit a certain number of times.
-- Disable a breakpoint, which will prevent it from being hit while leaving it
-  visible in the gutter.
+- ブレークポイントにログを追加: そのブレークポイントに到達するたびにログメッセージを出力します。
+- 条件付きブレークポイントにする: 条件が満たされた場合にのみブレークポイントで停止します。条件の構文はアダプター固有です。
+- ヒットカウントを追加: 一定回数ヒットした後にのみブレークポイントで停止します。
+- ブレークポイントを無効化: ガターに表示を残したまま、ヒットしないようにします。
 
-Some debug adapters (e.g. CodeLLDB and JavaScript) will also _verify_ whether
-your breakpoints can be hit; breakpoints that cannot be hit are surfaced more
-prominently in the UI.
+一部のデバッグアダプター（CodeLLDB や JavaScript など）は、ブレークポイントがヒット可能かどうかを _検証（verify）_ することもできます。ヒットできないブレークポイントは UI 上でより目立つように表示されます。
 
-All breakpoints enabled for a given project are also listed in "Breakpoints"
-item in your debugging session UI. From "Breakpoints" item in your UI you can
-also manage exception breakpoints. The debug adapter will then stop whenever an
-exception of a given kind occurs. Which exception types are supported depends on
-the debug adapter.
+特定のプロジェクトで有効になっているすべてのブレークポイントは、デバッグセッション UI の「Breakpoints」項目にも一覧表示されます。UI の「Breakpoints」項目からは、例外ブレークポイントを管理することもできます。これにより、特定の種類の例外が発生するたびにデバッグアダプターが停止します。どの例外タイプがサポートされているかは、デバッグアダプターによって異なります。
 
-## Settings
+## 設定
 
-The settings for the debugger are grouped under the `debugger` key in
-`settings.jsonc`:
+デバッガーの設定は、`settings.jsonc` の `debugger` キーの下にまとめられています。
 
-- `dock`: Determines the position of the debug panel in the UI.
-- `stepping_granularity`: Determines the stepping granularity.
-- `save_breakpoints`: Whether the breakpoints should be reused across Gram
-  sessions.
-- `button`: Whether to show the debug button in the status bar.
-- `timeout`: Time in milliseconds until timeout error when connecting to a TCP
-  debug adapter.
-- `log_dap_communications`: Whether to log messages between active debug
-  adapters and Gram.
-- `format_dap_log_messages`: Whether to format DAP messages when adding them to
-  the debug adapter logger.
+- `dock`: UI 内でのデバッグパネルの位置を決定します。
+- `stepping_granularity`: ステップ実行の粒度を決定します。
+- `save_breakpoints`: Gram のセッション間でブレークポイントを保持・再利用するかどうか。
+- `button`: ステータスバーにデバッグボタンを表示するかどうか。
+- `timeout`: TCP デバッグアダプターに接続する際のタイムアウトエラーまでの時間（ミリ秒）。
+- `log_dap_communications`: アクティブなデバッグアダプターと Gram 間のメッセージをログに記録するかどうか。
+- `format_dap_log_messages`: デバッグアダプターロガーに追加する際に DAP メッセージを整形（フォーマット）するかどうか。
 
 ### Dock
 
-- Description: The position of the debug panel in the UI.
-- Default: `bottom`
-- Setting: debugger.dock
+- 説明: UI 内でのデバッグパネルの位置。
+- デフォルト: `bottom`
+- 設定: `debugger.dock`
 
-**Options**
+**選択肢**
 
-1. `left` - The debug panel will be docked to the left side of the UI.
-2. `right` - The debug panel will be docked to the right side of the UI.
-3. `bottom` - The debug panel will be docked to the bottom of the UI.
+1. `left`: デバッグパネルが UI の左側にドックされます。
+2. `right`: デバッグパネルが UI の右側にドックされます。
+3. `bottom`: デバッグパネルが UI の下部にドックされます。
 
 ```json
 "debugger": {
@@ -251,19 +176,15 @@ The settings for the debugger are grouped under the `debugger` key in
 },
 ```
 
-### Stepping granularity
+### ステップ実行の粒度（Stepping granularity）
 
-- Description: The Step granularity that the debugger will use
-- Default: `line`
-- Setting: `debugger.stepping_granularity`
+- 説明: デバッガーが使用するステップ実行の粒度。
+- デフォルト: `line`
+- 設定: `debugger.stepping_granularity`
 
-**Options**
+**選択肢**
 
-1. Statement - The step should allow the program to run until the current
-   statement has finished executing. The meaning of a statement is determined by
-   the adapter and it may be considered equivalent to a line. For example
-   'for(int i = 0; i < 10; i++)' could be considered to have 3 statements 'int i
-   = 0', 'i < 10', and 'i++'.
+1. Statement: 現在の文（statement）の実行が完了するまでプログラムを実行します。文の意味はアダプターによって定義され、行と同等とみなされる場合もあります。たとえば `for(int i = 0; i < 10; i++)` は、`int i = 0`、`i < 10`、`i++` という 3 つの文を持つとみなされることがあります。
 
 ```json
 {
@@ -273,8 +194,7 @@ The settings for the debugger are grouped under the `debugger` key in
 }
 ```
 
-2. Line - The step should allow the program to run until the current source line
-   has executed.
+2. Line: 現在のソースコード行が実行されるまでプログラムを実行します。
 
 ```json
 {
@@ -284,8 +204,7 @@ The settings for the debugger are grouped under the `debugger` key in
 }
 ```
 
-3. Instruction - The step should allow one instruction to execute (e.g. one x86
-   instruction).
+3. Instruction: 1 つの命令（x86 命令など）が実行されるまでプログラムを実行します。
 
 ```json
 {
@@ -295,15 +214,15 @@ The settings for the debugger are grouped under the `debugger` key in
 }
 ```
 
-### Save Breakpoints
+### ブレークポイントの保存（Save Breakpoints）
 
-- Description: Whether the breakpoints should be saved across Gram sessions.
-- Default: `true`
-- Setting: `debugger.save_breakpoints`
+- 説明: Gram のセッション間でブレークポイントを保存するかどうか。
+- デフォルト: `true`
+- 設定: `debugger.save_breakpoints`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ```json
 {
@@ -313,15 +232,15 @@ The settings for the debugger are grouped under the `debugger` key in
 }
 ```
 
-### Button
+### ボタン（Button）
 
-- Description: Whether the button should be displayed in the debugger toolbar.
-- Default: `true`
-- Setting: `debugger.show_button`
+- 説明: デバッガーツールバーにボタンを表示するかどうか。
+- デフォルト: `true`
+- 設定: `debugger.show_button`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ```json
 {
@@ -331,16 +250,15 @@ The settings for the debugger are grouped under the `debugger` key in
 }
 ```
 
-### Timeout
+### タイムアウト（Timeout）
 
-- Description: Time in milliseconds until timeout error when connecting to a TCP
-  debug adapter.
-- Default: `2000`
-- Setting: `debugger.timeout`
+- 説明: TCP デバッグアダプターに接続する際のタイムアウトエラーまでのミリ秒単位の時間。
+- デフォルト: `2000`
+- 設定: `debugger.timeout`
 
-**Options**
+**選択肢**
 
-`integer` values
+`integer` 値
 
 ```json
 {
@@ -350,14 +268,13 @@ The settings for the debugger are grouped under the `debugger` key in
 }
 ```
 
-### Inline Values
+### インライン値（Inline Values）
 
-- Description: Whether to enable editor inlay hints showing the values of
-  variables in your code during debugging sessions.
-- Default: `true`
-- Setting: `inlay_hints.show_value_hints`
+- 説明: デバッグセッション中にコード内の変数の値をインラインで表示するインレイヒントを有効にするかどうか。
+- デフォルト: `true`
+- 設定: `inlay_hints.show_value_hints`
 
-**Options**
+**選択肢**
 
 ```json
 {
@@ -367,19 +284,17 @@ The settings for the debugger are grouped under the `debugger` key in
 }
 ```
 
-Inline value hints can also be toggled from the Editor Controls menu in the
-editor toolbar.
+インライン値ヒントは、エディターツールバーの「Editor Controls」メニューから切り替えることもできます。
 
-### Log Dap Communications
+### DAP 通信のログ記録（Log Dap Communications）
 
-- Description: Whether to log messages between active debug adapters and Gram.
-  (Used for DAP development)
-- Default: false
-- Setting: debugger.log_dap_communications
+- 説明: アクティブなデバッグアダプターと Gram 間のメッセージをログに記録するかどうか（DAP 開発用）。
+- デフォルト: `false`
+- 設定: `debugger.log_dap_communications`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ```json
 {
@@ -389,16 +304,15 @@ editor toolbar.
 }
 ```
 
-### Format Dap Log Messages
+### DAP ログメッセージの整形（Format Dap Log Messages）
 
-- Description: Whether to format DAP messages when adding them to the debug
-  adapter logger. (Used for DAP development)
-- Default: false
-- Setting: debugger.format_dap_log_messages
+- 説明: デバッグアダプターロガーに追加する際に DAP メッセージを整形するかどうか（DAP 開発用）。
+- デフォルト: `false`
+- 設定: `debugger.format_dap_log_messages`
 
-**Options**
+**選択肢**
 
-`boolean` values
+`boolean` 値
 
 ```json
 {
@@ -408,16 +322,13 @@ editor toolbar.
 }
 ```
 
-### Customizing Debug Adapters
+### デバッグアダプターのカスタマイズ
 
-- Description: Custom program path and arguments to override how Gram launches a
-  specific debug adapter.
-- Default: Adapter-specific
-- Setting: `dap.$ADAPTER.binary` and `dap.$ADAPTER.args`
+- 説明: Gram が特定のデバッグアダプターを起動する方法をオーバーライドするためのカスタムプログラムパスと引数。
+- デフォルト: アダプター依存
+- 設定: `dap.$ADAPTER.binary` および `dap.$ADAPTER.args`
 
-You can pass `binary`, `args`, or both. `binary` should be a path to a _debug
-adapter_ (like `lldb-dap`) not a _debugger_ (like `lldb` itself). The `args`
-setting overrides any arguments that Gram would otherwise pass to the adapter.
+`binary`、`args`、またはその両方を指定できます。`binary` には、_デバッガー_ 自体（`lldb` など）ではなく、_デバッグアダプター_（`lldb-dap` など）へのパスを指定する必要があります。`args` 設定は、Gram が通常アダプターに渡す引数をすべて上書きします。
 
 ```json
 {
@@ -434,25 +345,16 @@ setting overrides any arguments that Gram would otherwise pass to the adapter.
 }
 ```
 
-## Theme
+## テーマ
 
-The Debugger supports the following theme options:
+デバッガーは以下のテーマオプションをサポートしています。
 
-- `debugger.accent`: Color used to accent breakpoint & breakpoint-related
-  symbols
-- `editor.debugger_active_line.background`: Background color of active debug
-  line
+- `debugger.accent`: ブレークポイントおよびブレークポイント関連シンボルの強調表示に使用される色
+- `editor.debugger_active_line.background`: アクティブなデバッグ行の背景色
 
-## Troubleshooting
+## トラブルシューティング
 
-If you're running into problems with the debugger, there are some features you
-can use to gather more information about the problem:
+デバッガーで問題が発生した場合、問題に関する詳細情報を収集するために役立つ機能がいくつかあります。
 
-- When you have a session running in the debug panel, you can run the {#action
-  dev::CopyDebugAdapterArguments} action to copy a JSON blob to the clipboard
-  that describes how Gram initialized the session. This is especially useful
-  when the session failed to start, and is great context to add if you open a
-  GitHub issue.
-- You can also use the {#action dev::OpenDebugAdapterLogs} action to see a trace
-  of all of Gram's communications with debug adapters during the most recent
-  debug sessions.
+- デバッグパネルでセッションが実行中の場合、{#action dev::CopyDebugAdapterArguments} アクションを実行して、Gram がセッションをどのように初期化したかを説明する JSON データをクリップボードにコピーできます。これはセッションの開始に失敗したときに特に有用で、GitHub の Issue を作成する際に有益な文脈情報となります。
+- また、{#action dev::OpenDebugAdapterLogs} アクションを使用すると、直近のデバッグセッション中に Gram がデバッグアダプターと行ったすべての通信のトレースログを確認できます。

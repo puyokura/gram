@@ -1,24 +1,11 @@
-# Language Servers
+# 言語サーバー
 
-Gram relies on _Language Servers_ to provide semantic information about
-different programming languages. Each language has its own set of language
-servers. A language server is a separate program which Gram communicates with
-using the _Language Server Protocol_. Many code editors speak the LSP these days
-and so different editors can provide advanced language features like
-autocompletion without having to implement them independently.
+Gram は、さまざまなプログラミング言語のセマンティック（意味的）情報を提供するために「言語サーバー（Language Server）」を利用しています。各言語にはそれぞれ対応する言語サーバーが存在します。言語サーバーは独立したプログラムであり、Gram は「Language Server Protocol（LSP）」を使用してこれと通信します。現在では多くのコードエディターが LSP に対応しているため、各エディターは独自に機能を再実装することなく、自動補完などの高度な言語機能を提供できます。
 
-If Gram knows about a particular language, either natively or via an extension,
-it can use any language servers it finds already installed on the system.
+Gram が（標準機能または拡張機能経由で）特定の言語を認識している場合、システム上に既にインストールされている言語サーバーを利用できます。
 
-Gram can also download and install language servers. The Zed editor will do this
-without asking, but Gram tries not to do anything like downloading binaries from
-the internet without explicit permission to do so.
+また、Gram は言語サーバーをダウンロードしてインストールすることも可能です。Zed エディターはこれをユーザーへの確認なしに自動で行いますが、Gram は明示的な許可なくインターネットからバイナリをダウンロードするような処理を行わない方針をとっています。
 
-Once Gram has failed to launch a language server, an error will be reported and
-the bot icon in the lower left of the editor window will have a red indicator.
-Click that icon and then choose `Configure Servers`. Alternatively use the
-Command Palette to run the {#action lsp::OpenLanguageServerConfig} command.
+言語サーバーの起動に失敗した場合、エラーが報告され、エディターウィンドウ左下のボットアイコンに赤いインジケーターが表示されます。そのアイコンをクリックして `Configure Servers` を選択してください。または、コマンドパレットから {#action lsp::OpenLanguageServerConfig} コマンドを実行することもできます。
 
-In this view, you can see all the loaded language servers and choose whether to
-install any missing language servers yourself or let the editor try to install
-them for you.
+この設定画面では、読み込まれているすべての言語サーバーを確認でき、未インストールの言語サーバーをご自身でインストールするか、エディターに自動インストールを試みさせるかを選択できます。

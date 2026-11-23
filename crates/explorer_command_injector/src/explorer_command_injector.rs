@@ -39,7 +39,7 @@ struct ExplorerCommandInjector;
 #[allow(non_snake_case)]
 impl IExplorerCommand_Impl for ExplorerCommandInjector_Impl {
     fn GetTitle(&self, _: Ref<IShellItemArray>) -> Result<windows_core::PWSTR> {
-        let command_description = retrieve_command_description().unwrap_or(HSTRING::from("Open with Gram"));
+        let command_description = retrieve_command_description().unwrap_or(HSTRING::from("Gram で開く"));
         unsafe { SHStrDupW(&command_description) }
     }
 

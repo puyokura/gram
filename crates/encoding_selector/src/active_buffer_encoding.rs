@@ -64,7 +64,7 @@ impl Render for ActiveBufferEncoding {
                 .on_click(|_, _, _cx| {
                     // No-op
                 })
-                .tooltip(Tooltip::text("Current Encoding")),
+                .tooltip(Tooltip::text("現在の文字コード")),
         )
     }
 }

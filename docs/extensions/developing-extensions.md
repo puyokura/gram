@@ -1,37 +1,29 @@
-# Developing Extensions
+# 拡張機能の開発
 
-## Extension Features
+## 拡張機能が提供できる機能
 
-Extensions are able to provide the following features to Gram:
+拡張機能は次の機能を Gram に提供できます:
 
-- [Languages](../extensions/languages.md)
-- [Debuggers](../extensions/debugger-extensions.md)
-- [Themes](../extensions/themes.md)
-- [Icon Themes](../extensions/icon-themes.md)
+- [言語](../extensions/languages.md)
+- [デバッガー](../extensions/debugger-extensions.md)
+- [テーマ](../extensions/themes.md)
+- [アイコンテーマ](../extensions/icon-themes.md)
 
-## Developing an Extension
+## 拡張機能の開発
 
-Before starting to develop an extension for Gram, be sure to
-[install Rust via rustup](https://www.rust-lang.org/tools/install).
+Gram 用の拡張機能の開発を始める前に、必ず [rustup 経由で Rust をインストール](https://www.rust-lang.org/tools/install)してください。
 
-Note: If you have installed rustup via [Homebrew](https://brew.sh), you may need
-to run `rustup-init` for the command to work properly.
+注: [Homebrew](https://brew.sh) 経由で rustup をインストールした場合、コマンドが正しく動作するために `rustup-init` の実行が必要になることがあります。
 
-When developing an extension, you can use it in Gram by installing it:
+拡張機能を開発する際は、インストールして Gram で使用できます:
 
-From the extensions page, click the `Install Local` button (or the {#action
-gram::InstallExtensionFromFolder} action) and select the directory containing
-your extension.
+拡張機能のページで `Install Local` ボタン（または {#action gram::InstallExtensionFromFolder} アクション）をクリックし、拡張機能を含むフォルダーを選択します。
 
-If you need to troubleshoot, you can check the Gram.log ({#action
-gram::OpenLog}) for additional output. For debug output, close and relaunch the
-editor with the flag `gram --foreground` from the command line which show more
-verbose INFO level logging.
+トラブルシューティングが必要な場合は、追加の出力について Gram.log（{#action gram::OpenLog}）を確認できます。デバッグ出力が必要な場合は、コマンドラインからフラグ `gram --foreground` を付けてエディターを終了・再起動してください。より詳細な INFO レベルのログが表示されます。
 
-## Directory Structure of a Gram Extension
+## Gram 拡張機能のフォルダー構成
 
-A Gram extension is a Git repository that contains an `extension.toml`. This
-file must contain some basic information about the extension:
+Gram の拡張機能は、`extension.toml` を含む Git リポジトリです。このファイルには、拡張機能に関する基本情報を含める必要があります:
 
 ```toml
 id = "my-extension"
@@ -43,9 +35,7 @@ description = "My cool extension"
 repository = "https://github.com/your-name/my-gram-extension"
 ```
 
-In addition to this, there are several other optional files and directories that
-can be used to add functionality to a Gram extension. An example directory
-structure of an extension that provides all capabilities is as follows:
+これに加えて、Gram の拡張機能に機能を追加するための任意のファイルとフォルダーがいくつかあります。すべての機能を提供する拡張機能のフォルダー構成の例は次のとおりです:
 
 ```
 my-extension/
@@ -63,9 +53,7 @@ my-extension/
 
 ## WebAssembly
 
-Procedural parts of extensions are written in Rust and compiled to WebAssembly.
-To develop an extension that includes custom code, include a `Cargo.toml` like
-this:
+拡張機能の手続き的な部分は Rust で書かれ、WebAssembly にコンパイルされます。カスタムコードを含む拡張機能を開発するには、次のような `Cargo.toml` を含めます:
 
 ```toml
 [package]
@@ -80,14 +68,9 @@ crate-type = ["cdylib"]
 zed_extension_api = "0.1.0"
 ```
 
-Use the latest version of the
-[`zed_extension_api`](https://crates.io/crates/zed_extension_api) available on
-crates.io. Make sure it's still compatible with Gram versions you want to
-support.
+crates.io で公開されている最新版の [`zed_extension_api`](https://crates.io/crates/zed_extension_api) を使用してください。サポートしたい Gram のバージョンと互換性があることを確認してください。
 
-In the `src/lib.rs` file in your Rust crate you will need to define a struct for
-your extension and implement the `Extension` trait, as well as use the
-`register_extension!` macro to register your extension:
+Rust クレートの `src/lib.rs` ファイルで、拡張機能用の構造体を定義し、`Extension` トレイトを実装する必要があります。また `register_extension!` マクロを使って拡張機能を登録します:
 
 ```rs
 use zed_extension_api as zed;
@@ -103,25 +86,17 @@ impl gram::Extension for MyExtension {
 gram::register_extension!(MyExtension);
 ```
 
-> `stdout`/`stderr` is forwarded directly to the Gram process. In order to see
-> `println!`/`dbg!` output from your extension, you can start Gram in your
-> terminal with a `--foreground` flag.
+> `stdout`/`stderr` は Gram プロセスに直接転送されます。拡張機能の `println!`/`dbg!` の出力を確認するには、ターミナルで `--foreground` フラグを付けて Gram を起動します。
 
-## Extension License
+## 拡張機能のライセンス
 
-Extension repositories should include a license. The following licenses are
-recommended:
+拡張機能のリポジトリにはライセンスを含めるべきです。次のライセンスを推奨します:
 
 - [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html)
 - [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 - [BSD 3-Clause](https://opensource.org/license/bsd-3-clause)
 - [MIT](https://opensource.org/license/mit)
 
-Your license file should be at the root of your extension repository. Any
-filename that has `LICENCE` or `LICENSE` as a prefix (case insensitive).
+ライセンスファイルは拡張機能リポジトリのルートに置く必要があります。ファイル名は `LICENCE` または `LICENSE` を先頭に持つもの（大文字小文字を区別しません）です。
 
-> Note: This license applies only to your extension code itself. It does not
-> apply to any tools your extension may download or interact with, such as
-> language servers or other external dependencies. If your repository contains
-> both extension code and other projects (like a language server), you don't
-> need to relicense those other projects.
+> 注: このライセンスは拡張機能のコード自体にのみ適用されます。言語サーバーやその他の外部依存関係など、拡張機能がダウンロードまたは連携する可能性のあるツールには適用されません。リポジトリに拡張機能のコードと他のプロジェクト（言語サーバーなど）の両方が含まれる場合、それらの他のプロジェクトを再ライセンスする必要はありません。

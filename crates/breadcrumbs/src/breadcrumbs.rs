@@ -124,13 +124,13 @@ impl Render for Breadcrumbs {
                         if let Some(editor) = editor.upgrade() {
                             let focus_handle = editor.read(cx).focus_handle(cx);
                             Tooltip::for_action_in(
-                                "Show Symbol Outline",
+                                "シンボルアウトラインを表示",
                                 &app_actions::outline::ToggleOutline,
                                 &focus_handle,
                                 cx,
                             )
                         } else {
-                            Tooltip::for_action("Show Symbol Outline", &app_actions::outline::ToggleOutline, cx)
+                            Tooltip::for_action("シンボルアウトラインを表示", &app_actions::outline::ToggleOutline, cx)
                         }
                     }),
             ),

@@ -545,9 +545,9 @@ impl Item for MarkdownPreviewView {
                 local_file
                     .abs_path(cx)
                     .file_name()
-                    .map(|name| format!("Preview {}", name.to_string_lossy()).into())
+                    .map(|name| format!("プレビュー: {}", name.to_string_lossy()).into())
             })
-            .unwrap_or_else(|| SharedString::from("Markdown Preview"))
+            .unwrap_or_else(|| SharedString::from("Markdown プレビュー"))
     }
 
     fn to_item_events(_event: &Self::Event, _f: impl FnMut(workspace::item::ItemEvent)) {}

@@ -1,28 +1,28 @@
 # Kotlin
 
-Kotlin language support in Gram is provided by the community-maintained
-[Kotlin extension](https://github.com/zed-extensions/kotlin). Report issues to:
+Gram での Kotlin 言語サポートは、コミュニティが保守する
+[Kotlin 拡張機能](https://github.com/zed-extensions/kotlin) によって提供されます。
+問題は
 [https://github.com/zed-extensions/kotlin/issues](https://github.com/zed-extensions/kotlin/issues)
+に報告してください。
 
 - Tree-sitter:
   [fwcd/tree-sitter-kotlin](https://github.com/fwcd/tree-sitter-kotlin)
-- Language Server:
+- 言語サーバー:
   [fwcd/kotlin-language-server](https://github.com/fwcd/kotlin-language-server)
 
-## Configuration
+## 構成
 
-Workspace configuration options can be passed to the language server via lsp
-settings in `settings.jsonc`.
+ワークスペースの構成オプションは、`settings.jsonc` の lsp 設定を通じて言語サーバーに渡せます。
 
-The full list of lsp `settings` can be found
-[here](https://github.com/fwcd/kotlin-language-server/blob/main/server/src/main/kotlin/org/javacs/kt/Configuration.kt)
-under `class Configuration` and initialization_options under
-`class InitializationOptions`.
+lsp の `settings` の完全な一覧は
+[こちら](https://github.com/fwcd/kotlin-language-server/blob/main/server/src/main/kotlin/org/javacs/kt/Configuration.kt)
+の `class Configuration` に、initialization_options は
+`class InitializationOptions` にあります。
 
-### JVM Target
+### JVM ターゲット
 
-The following example changes the JVM target from `default` (which is 1.8) to
-`17`:
+次の例は、JVM ターゲットを `default`（1.8）から `17` に変更します:
 
 ```json
 {
@@ -42,8 +42,7 @@ The following example changes the JVM target from `default` (which is 1.8) to
 
 ### JAVA_HOME
 
-To use a specific java installation, just specify the `JAVA_HOME` environment
-variable with:
+特定の Java インストールを使用するには、`JAVA_HOME` 環境変数を次のように指定します:
 
 ```json
 {

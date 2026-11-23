@@ -46,7 +46,7 @@ use registrar::{ForDeployed, ForDismissed, SearchActionsRegistrar};
 const MAX_BUFFER_SEARCH_HISTORY_SIZE: usize = 50;
 pub const BUFFER_SEARCH_DEBOUNCE_MS: u64 = 100;
 
-/// Opens the buffer search interface with the specified configuration.
+/// 指定した設定でバッファー検索のインターフェースを開きます。
 #[derive(PartialEq, Clone, Deserialize, JsonSchema, Action)]
 #[action(namespace = buffer_search)]
 #[serde(deny_unknown_fields)]
@@ -62,13 +62,13 @@ pub struct Deploy {
 actions!(
     buffer_search,
     [
-        /// Deploys the search and replace interface.
+        /// 検索と置換のインターフェースを展開します。
         DeployReplace,
-        /// Dismisses the search bar.
+        /// 検索バーを閉じます。
         Dismiss,
-        /// Focuses back on the editor.
+        /// エディターにフォーカスを戻します。
         FocusEditor,
-        /// Sets the search query to the current selection without opening the search bar or running a search.
+        /// 検索バーを開かずに検索も実行せずに、検索クエリを現在の選択範囲に設定します。
         UseSelectionForFind,
     ]
 );
@@ -158,12 +158,12 @@ impl Render for BufferSearchBar {
 
         self.query_editor.update(cx, |query_editor, cx| {
             if query_editor.placeholder_text(cx).is_none() {
-                query_editor.set_placeholder_text("Search…", window, cx);
+                query_editor.set_placeholder_text("検索…", window, cx);
             }
         });
 
         self.replacement_editor.update(cx, |editor, cx| {
-            editor.set_placeholder_text("Replace with…", window, cx);
+            editor.set_placeholder_text("置換後の文字列…", window, cx);
         });
 
         let mut color_override = None;
@@ -243,7 +243,7 @@ impl Render for BufferSearchBar {
                     "buffer-search-bar-toggle",
                     IconName::Replace,
                     self.replace_enabled.then_some(ActionButtonState::Toggled),
-                    "Toggle Replace",
+                    "置換を切り替え",
                     &ToggleReplace,
                     focus_handle.clone(),
                 ))
@@ -263,7 +263,7 @@ impl Render for BufferSearchBar {
                         .tooltip({
                             let focus_handle = focus_handle.clone();
                             move |_window, cx| {
-                                Tooltip::for_action_in("Toggle Search Selection", &ToggleSelection, &focus_handle, cx)
+                                Tooltip::for_action_in("検索対象の選択を切り替え", &ToggleSelection, &focus_handle, cx)
                             }
                         }),
                 )
@@ -280,7 +280,7 @@ impl Render for BufferSearchBar {
                             "buffer-search-nav-button",
                             ui::IconName::ChevronLeft,
                             self.active_match_index.is_none().then_some(ActionButtonState::Disabled),
-                            "Select Previous Match",
+                            "前の一致を選択",
                             &SelectPreviousMatch,
                             query_focus.clone(),
                         ))
@@ -288,7 +288,7 @@ impl Render for BufferSearchBar {
                             "buffer-search-nav-button",
                             ui::IconName::ChevronRight,
                             self.active_match_index.is_none().then_some(ActionButtonState::Disabled),
-                            "Select Next Match",
+                            "次の一致を選択",
                             &SelectNextMatch,
                             query_focus.clone(),
                         ))
@@ -308,7 +308,7 @@ impl Render for BufferSearchBar {
                     "buffer-search-nav-button",
                     IconName::SelectAll,
                     Default::default(),
-                    "Select All Matches",
+                    "すべての一致を選択",
                     &SelectAllMatches,
                     query_focus,
                 ))
@@ -319,7 +319,7 @@ impl Render for BufferSearchBar {
                     "buffer-search",
                     IconName::Close,
                     Default::default(),
-                    "Close Search Bar",
+                    "検索バーを閉じる",
                     &Dismiss,
                     focus_handle.clone(),
                 ))
@@ -329,7 +329,7 @@ impl Render for BufferSearchBar {
             .w_full()
             .gap_2()
             .when(find_in_results, |el| {
-                el.child(Label::new("Find in results").color(Color::Hint))
+                el.child(Label::new("結果内を検索").color(Color::Hint))
             })
             .child(query_column)
             .child(mode_column);
@@ -346,7 +346,7 @@ impl Render for BufferSearchBar {
                     "buffer-search-replace-button",
                     IconName::ReplaceNext,
                     Default::default(),
-                    "Replace Next Match",
+                    "次の一致を置換",
                     &ReplaceNext,
                     focus_handle.clone(),
                 ))
@@ -354,7 +354,7 @@ impl Render for BufferSearchBar {
                     "buffer-search-replace-button",
                     IconName::ReplaceAll,
                     Default::default(),
-                    "Replace All Matches",
+                    "すべての一致を置換",
                     &ReplaceAll,
                     focus_handle,
                 ));
@@ -383,7 +383,7 @@ impl Render for BufferSearchBar {
                     "buffer-search",
                     IconName::Close,
                     Default::default(),
-                    "Close Search Bar",
+                    "検索バーを閉じる",
                     &Dismiss,
                     focus_handle.clone(),
                 )))
@@ -661,7 +661,7 @@ impl BufferSearchBar {
                 let regex_language = languages
                     .language_for_name("regex")
                     .await
-                    .context("loading regex language")?;
+                    .context("正規表現言語を読み込めませんでした")?;
                 buffer_search_bar
                     .update(cx, |buffer_search_bar, cx| {
                         buffer_search_bar.regex_language = Some(regex_language);

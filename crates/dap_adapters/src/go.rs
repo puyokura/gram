@@ -411,7 +411,7 @@ impl DebugAdapter for GoDebugAdapter {
             let go = delegate
                 .which(OsStr::new("go"))
                 .await
-                .context("Go not found in path. Please install Go first, then Dlv will be installed automatically.")?;
+                .context("PATH に Go が見つかりません。先に Go をインストールしてください。その後 Dlv が自動的にインストールされます。")?;
 
             let adapter_path = paths::debug_adapters_dir().join(Self::ADAPTER_NAME);
 
@@ -424,7 +424,7 @@ impl DebugAdapter for GoDebugAdapter {
 
             if !install_output.status.success() {
                 bail!(
-                    "failed to install dlv via `go install`. stdout: {:?}, stderr: {:?}\n Please try installing it manually using 'go install github.com/go-delve/delve/cmd/dlv@latest'",
+                    "go install による dlv のインストールに失敗しました。stdout: {:?}, stderr: {:?}\n'go install github.com/go-delve/delve/cmd/dlv@latest' を使って手動でインストールしてください",
                     String::from_utf8_lossy(&install_output.stdout),
                     String::from_utf8_lossy(&install_output.stderr)
                 );

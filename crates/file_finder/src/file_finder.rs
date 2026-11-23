@@ -51,11 +51,11 @@ use workspace::{
 actions!(
     file_finder,
     [
-        /// Selects the previous item in the file finder.
+        /// ファイル検索で前の項目を選択します。
         SelectPrevious,
-        /// Toggles the file filter menu.
+        /// ファイルフィルターメニューを切り替えます。
         ToggleFilterMenu,
-        /// Toggles the split direction menu.
+        /// 分割方向メニューを切り替えます。
         ToggleSplitMenu
     ]
 );
@@ -996,13 +996,13 @@ impl FileFinderDelegate {
             }
             Match::Search(path_match) => self.labels_for_path_match(&path_match.0, path_style),
             Match::OpenPath(external_path) => (
-                format!("Open {}", (*external_path.path).display()),
+                format!("{} を開く", (*external_path.path).display()),
                 vec![],
                 String::from(""),
                 vec![],
             ),
             Match::CreateNew(project_path) => (
-                format!("Create file: {}", project_path.path.display(path_style)),
+                format!("ファイルを作成: {}", project_path.path.display(path_style)),
                 vec![],
                 String::from(""),
                 vec![],
@@ -1210,7 +1210,7 @@ impl PickerDelegate for FileFinderDelegate {
     type ListItem = ListItem;
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Search project files...".into()
+        "プロジェクトのファイルを検索…".into()
     }
 
     fn match_count(&self) -> usize {
@@ -1567,7 +1567,7 @@ impl PickerDelegate for FileFinderDelegate {
                             {
                                 let focus_handle = focus_handle.clone();
                                 move |_window, cx| {
-                                    Tooltip::for_action_in("Filter Options", &ToggleFilterMenu, &focus_handle, cx)
+                                    Tooltip::for_action_in("フィルターオプション", &ToggleFilterMenu, &focus_handle, cx)
                                 }
                             },
                         )
@@ -1580,9 +1580,9 @@ impl PickerDelegate for FileFinderDelegate {
                                     let focus_handle = focus_handle.clone();
                                     move |menu, _, _| {
                                         menu.context(focus_handle.clone())
-                                            .header("Filter Options")
+                                            .header("フィルターオプション")
                                             .toggleable_entry(
-                                                "Include Ignored Files",
+                                                "無視されたファイルを含める",
                                                 include_ignored.unwrap_or(false),
                                                 ui::IconPosition::End,
                                                 Some(ToggleIncludeIgnored.boxed_clone()),
@@ -1607,7 +1607,7 @@ impl PickerDelegate for FileFinderDelegate {
                                 .offset(gpui::Point { x: px(1.0), y: px(1.0) })
                                 .trigger(
                                     ButtonLike::new("split-trigger")
-                                        .child(Label::new("Split…"))
+                                        .child(Label::new("分割…"))
                                         .selected_style(ButtonStyle::Tinted(TintColor::Accent))
                                         .child(
                                             KeyBinding::for_action_in(&ToggleSplitMenu, &focus_handle, cx)
@@ -1622,17 +1622,17 @@ impl PickerDelegate for FileFinderDelegate {
                                             let focus_handle = focus_handle.clone();
                                             move |menu, _, _| {
                                                 menu.context(focus_handle)
-                                                    .action("Split Left", pane::SplitLeft.boxed_clone())
-                                                    .action("Split Right", pane::SplitRight.boxed_clone())
-                                                    .action("Split Up", pane::SplitUp.boxed_clone())
-                                                    .action("Split Down", pane::SplitDown.boxed_clone())
+                                                    .action("左に分割", pane::SplitLeft.boxed_clone())
+                                                    .action("右に分割", pane::SplitRight.boxed_clone())
+                                                    .action("上に分割", pane::SplitUp.boxed_clone())
+                                                    .action("下に分割", pane::SplitDown.boxed_clone())
                                             }
                                         }))
                                     }
                                 }),
                         )
                         .child(
-                            Button::new("open-selection", "Open")
+                            Button::new("open-selection", "開く")
                                 .key_binding(
                                     KeyBinding::for_action_in(&menu::Confirm, &focus_handle, cx)
                                         .map(|kb| kb.size(TextSize::Small.rems(cx))),

@@ -1,71 +1,50 @@
-# Key bindings
+# キーバインド
 
-## Predefined Keymaps
+## 定義済みキーマップ
 
-If you're used to a specific editor's defaults, you can change your
-`base_keymap` through the settings window ({#kb gram::OpenSettings}) or directly
-through your `settings.jsonc` file ({#kb gram::OpenSettingsFile}).
+特定のエディターのデフォルト操作に慣れている場合は、設定ウィンドウ（{#kb gram::OpenSettings}）または `settings.jsonc` ファイル（{#kb gram::OpenSettingsFile}）から直接 `base_keymap` を変更できます。
 
-The following keymap styles are currently supported:
+現在、以下のキーマップスタイルがサポートされています。
 
-- Emacs (default)
+- Emacs（デフォルト）
 - VS Code
 - Atom
 - JetBrains
 - Sublime Text
 - TextMate
-- Minimal (for vim/helix)
-- None (disables _all_ key bindings)
+- Minimal（Vim/Helix 向け）
+- None（_すべての_ キーバインドを無効化）
 
-This setting can also be changed via the command palette through the
-`gram: toggle base keymap selector` action.
+この設定は、コマンドパレットから `gram: toggle base keymap selector` アクションを実行して変更することもできます。
 
-You can also enable `vim_mode` or `helix_mode`, which add modal bindings. For
-more information, see the documentation for [Vim mode](./vim.md) and
-[Helix mode](./helix.md). You may also want to use the Minimal base keymap if
-you want a pure vim/helix experience without any key bindings from another
-application.
+また、モーダルバインドを追加する `vim_mode` や `helix_mode` を有効にすることも可能です。詳細については、[Vim モード](./vim.md) および [Helix モード](./helix.md) のドキュメントを参照してください。他のアプリケーションのキーバインドを排して純粋な Vim/Helix 体験を望む場合は、Minimal ベースキーマップを使用することをおすすめします。
 
-## Keymap Editor
+## キーマップエディター
 
-You can access the keymap editor through the {#kb gram::OpenKeymap} action or by
-running {#action gram::OpenKeymap} action from the command palette. You can
-easily add or change a keybind for an action with the `Change Keybinding` or
-`Add Keybinding` button on the command pallets left bottom corner.
+キーマップエディターは、{#kb gram::OpenKeymap} を押すか、コマンドパレットから {#action gram::OpenKeymap} アクションを実行して開くことができます。コマンドパレットの左下隅にある「Change Keybinding」または「Add Keybinding」ボタンから、アクションに対するキーバインドの追加や変更を簡単に行えます。
 
-In there, you can see all of the existing actions in Gram as well as the
-associated keybindings set to them by default.
+キーマップエディターでは、Gram に存在するすべての既存アクションと、デフォルトで設定されている関連キーバインドを確認できます。
 
-You can also customize them right from there, either by clicking on the pencil
-icon that appears when you hover over a particular action, by double-clicking on
-the action row, or by pressing the `enter` key.
+また、各アクションにマウスホバーしたときに表示される鉛筆アイコンをクリックするか、アクションの行をダブルクリックするか、`Enter` キーを押すことで、その場で直接カスタマイズできます。
 
-Anything that you end up doing on the keymap editor also gets reflected on the
-`keymap.jsonc` file.
+キーマップエディターで行った操作はすべて `keymap.jsonc` ファイルにも反映されます。
 
-## User Keymaps
+## ユーザーキーマップ
 
-The keymap file is stored in the following locations for each platform:
+キーマップファイルは、各プラットフォームの以下の場所に保存されます。
 
 - macOS/Linux: `~/.config/gram/keymap.jsonc`
 - Windows: `~\AppData\Roaming\Gram/keymap.jsonc`
 
-You can open the keymap with the {#action gram::OpenKeymapFile} action from the
-command palette.
+コマンドパレットから {#action gram::OpenKeymapFile} アクションを実行してキーマップを開くことができます。
 
-This file contains a JSON array of objects with `"bindings"`. If no `"context"`
-is set, the bindings are always active. If it is set, the binding is only active
-when the [context matches](#contexts).
+このファイルには、`"bindings"` を含むオブジェクトの JSON 配列が記述されます。`"context"` が設定されていない場合、そのバインドは常にアクティブになります。設定されている場合、[コンテキストが一致](#contexts) した場合にのみバインドが有効になります。
 
-Within each binding section, a [key sequence](#keybinding-syntax) is mapped to
-[an action](#actions). If conflicts are detected, they are resolved as
-[described below](#precedence).
+各バインドセクション内では、[キーシーケンス](#keybinding-syntax) が [アクション](#actions) にマッピングされます。衝突が検出された場合は、[後述のルール](#precedence) に従って解決されます。
 
-If you are using a non-QWERTY, Latin-character keyboard, you may want to set
-`use_key_equivalents` to `true`. See
-[Non-QWERTY keyboards](#non-qwerty-keyboards) for more information.
+非 QWERTY 配列のラテン文字キーボードを使用している場合は、`use_key_equivalents` を `true` に設定するとよいでしょう。詳細については [非 QWERTY キーボード](#non-qwerty-keyboards) を参照してください。
 
-For example:
+設定例:
 
 ```json
 [
@@ -84,184 +63,119 @@ For example:
 ]
 ```
 
-If you want to debug problems with custom keymaps, you can use
-`dev: Open Key Context View` from the command palette.
+カスタムキーマップに関する問題をデバッグしたい場合は、コマンドパレットから `dev: Open Key Context View` を使用できます。
 
-### Keybinding Syntax
+### キーバインド構文
 
-Gram has the ability to match against not just a single keypress, but a sequence
-of keys typed in order. Each key in the `"bindings"` map is a sequence of
-keypresses separated with a space.
+Gram では、単一のキー入力だけでなく、順番に入力されるキーのシーケンスとも照合できます。`"bindings"` マップ内の各キーは、スペースで区切られたキー入力のシーケンスです。
 
-Each keypress is a sequence of modifiers followed by a key. The modifiers are:
+各キー入力は、修飾キーのシーケンスの後にキーが続く形式です。修飾キーは以下のとおりです。
 
-- `ctrl-` The control key
-- `cmd-`, `win-` or `super-` for the platform modifier (Command on macOS,
-  Windows key on Windows, and the Super key on Linux).
-- `alt-` for alt (option on macOS)
-- `shift-` The shift key
-- `fn-` The function key
-- `secondary-` Equivalent to `cmd` when Gram is running on macOS and `ctrl` when
-  on Windows and Linux
+- `ctrl-`: Control キー
+- `cmd-`, `win-`, `super-`: プラットフォーム修飾キー（macOS では Command、Windows では Windows キー、Linux では Super キー）。
+- `alt-`: Alt キー（macOS では Option）
+- `shift-`: Shift キー
+- `fn-`: Function キー
+- `secondary-`: Gram が macOS 上で動作しているときは `cmd`、Windows および Linux 上では `ctrl` と同等
 
-The keys can be any single Unicode codepoint that your keyboard generates (for
-example `a`, `0`, `£` or `ç`), or any named key (`tab`, `f1`, `shift`, or
-`cmd`). If you are using a non-Latin layout (e.g. Cyrillic), you can bind either
-to the Cyrillic character or the Latin character that key generates with `cmd`
-pressed.
+キーには、キーボードが生成する任意の単一 Unicode コードポイント（例: `a`, `0`, `£`, `ç`）、または任意の名前付きキー（`tab`, `f1`, `shift`, `cmd`）を指定できます。キリル文字などの非ラテン配列を使用している場合は、キリル文字自体、または `cmd` を押しながらそのキーを押したときに生成されるラテン文字のいずれかにバインドできます。
 
-A few examples:
+いくつかの例:
 
 ```json
 "bindings": {
-  "cmd-k cmd-s": "gram::OpenKeymap", // matches ⌘-k then ⌘-s
-  "space e": "editor::Complete", // type space then e
-  "ç": "editor::Complete", // matches ⌥-c
-  "shift shift": "file_finder::Toggle", // matches pressing and releasing shift twice
+  "cmd-k cmd-s": "gram::OpenKeymap", // ⌘-k の後に ⌘-s を押す
+  "space e": "editor::Complete", // Space の後に e を押す
+  "ç": "editor::Complete", // ⌥-c に一致
+  "shift shift": "file_finder::Toggle", // Shift を 2 回連続で押して離す
 }
 ```
 
-The `shift-` modifier can only be used in combination with a letter to indicate
-the uppercase version. For example, `shift-g` matches typing `G`. Although on
-many keyboards shift is used to type punctuation characters like `(`, the
-keypress is not considered to be modified, and so `shift-(` does not match.
+`shift-` 修飾キーは、大文字であることを示すために文字と組み合わせてのみ使用できます。たとえば、`shift-g` は `G` の入力に一致します。多くのキーボードでは `(` などの記号を入力するために Shift を使用しますが、そのキー入力は修飾キー付きとはみなされないため、`shift-(` には一致しません。
 
-The `alt-` modifier can be used on many layouts to generate a different key. For
-example, on a macOS US keyboard, the combination `alt-c` types `ç`. You can
-match against either in your keymap file, though by convention, Gram spells this
-combination as `alt-c`.
+`alt-` 修飾キーは、多くの配列で別のキーを生成するために使用されます。たとえば、macOS の US キーボードでは、`alt-c` の組み合わせで `ç` が入力されます。キーマップファイルではどちらでも照合できますが、慣例として Gram ではこの組み合わせを `alt-c` と記述します。
 
-It is possible to match against typing a modifier key on its own. For example,
-`shift shift` can be used to implement JetBrains' 'Search Everywhere' shortcut.
-In this case, the binding happens on key release instead of on keypress.
+修飾キー単体の入力と照合することも可能です。たとえば、JetBrains の「Search Everywhere」ショートカットを実装するために `shift shift` を使用できます。この場合、バインドはキーを押した瞬間ではなく、キーを離した（release）ときにトリガーされます。
 
-### Contexts
+### コンテキスト
 
-If a binding group has a `"context"` key, it will be matched against the
-currently active contexts in Gram.
+バインドグループに `"context"` キーが含まれている場合、Gram 内で現在アクティブなコンテキストと照合されます。
 
-Gram's contexts make up a tree, with the root being `Workspace`. Workspaces
-contain Panes and Panels, and Panes contain Editors, etc. The easiest way to see
-what contexts are active at a given moment is the key context view, which you
-can get to with the `dev: open key context view` command in the command palette.
+Gram のコンテキストはツリー構造を成しており、ルートは `Workspace` です。Workspace には Pane（ペイン）や Panel（パネル）が含まれ、Pane には Editor（エディター）などが含まれます。特定の時点でどのコンテキストがアクティブであるかを確認する最も簡単な方法はキーコンテキストビューであり、コマンドパレットの `dev: open key context view` コマンドからアクセスできます。
 
-For example:
+表示例:
 
 ```
-# in an editor, it might look like this:
+# エディター内では以下のようになります:
 Workspace os=macos keyboard_layout=com.apple.keylayout.QWERTY
   Pane
     Editor mode=full extension=md vim_mode=insert
 
-# in the project panel
+# プロジェクトパネル内:
 Workspace os=macos
   Dock
     ProjectPanel not_editing
 ```
 
-Context expressions can contain the following syntax:
+コンテキスト式には以下の構文を使用できます。
 
-- `X && Y`, `X || Y` to and/or two conditions
-- `!X` to check that a condition is false
-- `(X)` for grouping
-- `X > Y` to match if an ancestor in the tree matches X and this layer matches
-  Y.
+- `X && Y`, `X || Y`: 2 つの条件の AND / OR
+- `!X`: 条件が false であることを確認
+- `(X)`: グループ化
+- `X > Y`: ツリー内の祖先が X に一致し、現在の層が Y に一致する場合に照合
 
-For example:
+例:
 
-- `"context": "Editor"` - matches any editor (including inline inputs)
-- `"context": "Editor && mode == full"` - matches the main editors used for
-  editing code
-- `"context": "!Editor && !Terminal"` - matches anywhere except where an Editor
-  or Terminal is focused
-- `"context": "os == macos > Editor"` - matches any editor on macOS.
+- `"context": "Editor"`: 任意のエディター（インライン入力欄を含む）に一致
+- `"context": "Editor && mode == full"`: コード編集に使用されるメインエディターに一致
+- `"context": "!Editor && !Terminal"`: Editor または Terminal にフォーカスがある場所以外のすべてに一致
+- `"context": "os == macos > Editor"`: macOS 上の任意のエディターに一致
 
-It's worth noting that attributes are only available on the node they are
-defined on. This means that if you want to (for example) only enable a
-keybinding when the debugger is stopped in vim normal mode, you need to do
-`debugger_stopped > vim_mode == normal`.
+属性は、それが定義されているノード上でのみ利用可能である点に注意してください。つまり、たとえばデバッガーが停止しており、かつ Vim のノーマルモードである場合にのみキーバインドを有効にしたい場合は、`debugger_stopped > vim_mode == normal` と記述する必要があります。
 
-> Note: Before Gram v0.197.x, the `!` operator only looked at one node at a
-> time, and `>` meant "parent" not "ancestor". This meant that `!Editor` would
-> match the context `Workspace > Pane > Editor`, because (confusingly) the Pane
-> matches `!Editor`, and that `os == macos > Editor` did not match the context
-> `Workspace > Pane > Editor` because of the intermediate `Pane` node.
+> 注意: Gram v0.197.x より前は、`!` 演算子は一度に 1 つのノードのみを対象とし、`>` は「祖先」ではなく「親」を意味していました。そのため、`!Editor` が `Workspace > Pane > Editor` というコンテキストに一致してしまったり（紛らわしいことに Pane が `!Editor` に一致するため）、中間に `Pane` ノードが存在するために `os == macos > Editor` が `Workspace > Pane > Editor` に一致しなかったりしていました。
 
-If you're using Vim mode, we have information on how
-[vim modes influence the context](./vim.md#contexts). Helix mode is built on top
-of Vim mode and uses the same contexts.
+Vim モードをご利用の場合は、[Vim モードがコンテキストに与える影響](./vim.md#contexts) を参照してください。Helix モードは Vim モードを基盤として構築されており、同じコンテキストを使用します。
 
-### Actions
+### アクション
 
-Almost all of Gram's functionality is exposed as actions.
+Gram の機能のほぼすべてがアクションとして公開されています。
 
-Most actions do not require any arguments, and so you can bind them as strings:
-`"ctrl-a": "language_selector::Toggle"`. Some require a single argument and must
-be bound as an array: `"cmd-1": ["workspace::ActivatePane", 0]`. Some actions
-require multiple arguments and are bound as an array of a string and an object:
-`"ctrl-a": ["pane::DeploySearch", { "replace_enabled": true }]`.
+ほとんどのアクションは引数を必要としないため、文字列としてバインドできます: `"ctrl-a": "language_selector::Toggle"`。単一の引数を必要とするものもあり、配列としてバインドする必要があります: `"cmd-1": ["workspace::ActivatePane", 0]`。一部のアクションは複数の引数を必要とし、文字列とオブジェクトの配列としてバインドします: `"ctrl-a": ["pane::DeploySearch", { "replace_enabled": true }]`。
 
-### Precedence
+### 優先順位
 
-When multiple keybindings have the same keystroke and are active at the same
-time, precedence is resolved in two ways:
+複数のキーバインドが同じキーストロークを持ち、同時にアクティブである場合、優先順位は次の 2 つの方法で解決されます。
 
-- Bindings that match on lower nodes in the context tree win. This means that if
-  you have a binding with a context of `Editor`, it will take precedence over a
-  binding with a context of `Workspace`. Bindings with no context match at the
-  lowest level in the tree.
-- If there are multiple bindings that match at the same level in the tree, then
-  the binding defined later takes precedence. As user keybindings are loaded
-  after system keybindings, this allows user bindings to take precedence over
-  built-in keybindings.
+- コンテキストツリーのより下層のノードで一致するバインドが優先されます。つまり、`Editor` コンテキストを持つバインドは、`Workspace` コンテキストを持つバインドよりも優先されます。コンテキストのないバインドは、ツリーの最下層で一致します。
+- ツリーの同じ階層で一致する複数のバインドがある場合は、後から定義されたバインドが優先されます。ユーザーキーバインドはシステムキーバインドの後に読み込まれるため、これによりユーザーバインドが組み込みキーバインドよりも優先されます。
 
-The other kind of conflict that arises is when you have two bindings, one of
-which is a prefix of the other. For example, if you have
-`"ctrl-w":"editor::DeleteToNextWordEnd"` and
-`"ctrl-w left":"editor::DeleteToEndOfLine"`.
+もうひとつの衝突のパターンは、2 つのバインドのうち一方が他方のプレフィックス（接頭辞）になっている場合です。たとえば、`"ctrl-w":"editor::DeleteToNextWordEnd"` と `"ctrl-w left":"editor::DeleteToEndOfLine"` がある場合です。
 
-When this happens, and both bindings are active in the current context, Gram
-will wait for 1 second after you type `ctrl-w` to see if you're about to type
-`left`. If you don't type anything, or if you type a different key, then
-`DeleteToNextWordEnd` will be triggered. If you do, then `DeleteToEndOfLine`
-will be triggered.
+このような状況が発生し、現在のコンテキストで両方のバインドがアクティブである場合、Gram は `ctrl-w` を入力した後に 1 秒間待機し、続けて `left` が入力されるかどうかを確認します。何も入力されないか、別のキーが入力された場合は `DeleteToNextWordEnd` がトリガーされます。`left` が入力された場合は `DeleteToEndOfLine` がトリガーされます。
 
-### Non-QWERTY keyboards
+### 非 QWERTY キーボード
 
-Gram's support for non-QWERTY keyboards is still a work in progress.
+Gram における非 QWERTY キーボードのサポートは現在も開発途上です。
 
-If your keyboard can type the full ASCII range (DVORAK, COLEMAK, etc.), then
-shortcuts should work as you expect.
+キーボードが完全な ASCII 範囲を入力できる場合（DVORAK、COLEMAK など）、ショートカットは期待どおりに動作するはずです。
 
-Otherwise, read on...
+それ以外の場合は、以下をお読みください。
 
 #### macOS
 
-On Cyrillic, Hebrew, Armenian, and other keyboards that are mostly non-ASCII,
-macOS automatically maps keys to the ASCII range when `cmd` is held. Gram takes
-this a step further, and it can always match key-presses against either the
-ASCII layout or the real layout, regardless of modifiers and the
-`use_key_equivalents` setting. For example, in Thai, pressing `ctrl-ๆ` will
-match bindings associated with `ctrl-q` or `ctrl-ๆ`.
+キリル文字、ヘブライ語、アルメニア語など、大半が非 ASCII であるキーボードでは、macOS は `cmd` を押している間にキーを ASCII 範囲に自動マッピングします。Gram はこれをさらに推し進め、修飾キーや `use_key_equivalents` の設定に関係なく、キーストロークを常に ASCII 配列または実際の配列のいずれに対しても照合できます。たとえばタイ語では、`ctrl-ๆ` を押すと `ctrl-q` または `ctrl-ๆ` に関連付けられたバインドに一致します。
 
-On keyboards that support extended Latin alphabets (French AZERTY, German
-QWERTZ, etc.), it is often not possible to type the entire ASCII range without
-`option`. This introduces an ambiguity: `option-2` produces `@`. To ensure that
-all the built-in keyboard shortcuts can still be typed on these keyboards, we
-move key bindings around. For example, shortcuts bound to `@` on QWERTY are
-moved to `"` on a Spanish layout. This mapping is based on the macOS system
-defaults and can be seen by running `dev: open key context view` from the
-command palette.
+拡張ラテン文字をサポートするキーボード（フランス語 AZERTY、ドイツ語 QWERTZ など）では、多くの場合 `option` なしでは ASCII 範囲全体を入力できません。これにより曖昧さが生じます（例: `option-2` で `@` が入力されるなど）。これらのキーボードでもすべての組み込みキーボードショートカットを入力できるように、キーバインドの再配置を行っています。たとえば、QWERTY で `@` に割り当てられているショートカットは、スペイン語配列では `"` に移動されます。このマッピングは macOS システムのデフォルトに基づいており、コマンドパレットから `dev: open key context view` を実行することで確認できます。
 
-If you are defining shortcuts in your personal keymap, you can opt into the key
-equivalent mapping by setting `use_key_equivalents` to `true` in your keymap:
+個人用キーマップでショートカットを定義する際、キーマップで `use_key_equivalents` を `true` に設定することで、キー等価マッピングを有効化できます。
 
 ```json
 [
   {
     "use_key_equivalents": true,
     "bindings": {
-      "ctrl->": "editor::Indent", // parsed as ctrl-: when a German QWERTZ keyboard is active
+      "ctrl->": "editor::Indent", // ドイツ語 QWERTZ キーボードがアクティブな場合は ctrl-: として解釈されます
     },
   },
 ]
@@ -269,80 +183,60 @@ equivalent mapping by setting `use_key_equivalents` to `true` in your keymap:
 
 ### Linux
 
-Since v0.196.0, on Linux, if the key that you type doesn't produce an ASCII
-character, then we use the QWERTY-layout equivalent key for keyboard shortcuts.
-This means that many shortcuts can be typed on many layouts.
+Linux では v0.196.0 以降、入力したキーが ASCII 文字を生成しない場合、キーボードショートカットには QWERTY 配列の同等キーを使用します。これにより、多くの配列で多くのショートカットが入力可能になります。
 
-We do not yet move shortcuts around to ensure that all the built-in shortcuts
-can be typed on every layout, so if there are some ASCII characters that cannot
-be typed, and your keyboard layout has different ASCII characters on the same
-keys as would be needed to type them, you may need to add custom key bindings to
-make this work. We do intend to fix this at some point, and help is very much
-appreciated!
+すべての配列ですべての組み込みショートカットが確実に入力できるようにするためのショートカットの移動処理はまだ行われていないため、入力できない ASCII 文字があり、キーボード配列上でそれらを入力するために必要なキーに異なる ASCII 文字が割り当てられている場合は、動作させるためにカスタムキーバインドを追加する必要がある場合があります。この問題はいずれ修正する予定であり、ご協力は大歓迎です。
 
-## Tips and tricks
+## ヒントとテクニック
 
-### Disabling a binding
+### バインドの無効化
 
-If you'd like a given binding to do nothing in a given context, you can use
-`null` as the action. This is useful if you hit the key binding by accident and
-want to disable it, or if you want to type the character that would be typed by
-the sequence, or if you want to disable multikey bindings starting with that
-key.
+特定のコンテキストで特定のバインドを何もしないようにしたい場合は、アクションとして `null` を使用できます。これは、誤ってキーバインドを押してしまうのを防ぐために無効化したい場合や、そのシーケンスによって入力されるはずの文字を入力したい場合、またはそのキーで始まるマルチキーバインドを無効化したい場合に役立ちます。
 
 ```json
 [
   {
     "context": "Workspace",
     "bindings": {
-      "cmd-r": null, // cmd-r will do nothing when the Workspace context is active
+      "cmd-r": null, // Workspace コンテキストがアクティブなとき、cmd-r は何もしません
     },
   },
 ]
 ```
 
-A `null` binding follows the same precedence rules as normal actions, so it
-disables all bindings that would match further up in the tree too. If you'd like
-a binding that matches further up in the tree to take precedence over a lower
-binding, you need to rebind it to the action you want in the context you want.
+`null` バインドは通常のアクションと同じ優先順位ルールに従うため、ツリーのより上位で一致するはずのすべてのバインドも無効化されます。ツリーの上位で一致するバインドを下位のバインドよりも優先させたい場合は、目的のコンテキストで目的のアクションに再バインドする必要があります。
 
-This is useful for preventing Gram from falling back to a default key binding
-when the action you specified is conditional and propagates. For example,
-`buffer_search::DeployReplace` only triggers when the search bar is not in view.
-If the search bar is in view, it would propagate and trigger the default action
-set for that key binding, such as opening the right dock. To prevent this from
-happening:
+これは、指定したアクションが条件付きで伝播する場合に、Gram がデフォルトのキーバインドにフォールバックするのを防ぐのに便利です。たとえば、`buffer_search::DeployReplace` は検索バーが表示されていない場合にのみトリガーされます。検索バーが表示されている場合、キー入力が伝播して、右ドックを開くなどそのキーバインドに設定されたデフォルトのアクションがトリガーされてしまいます。これを防ぐには次のように記述します。
 
 ```json
 [
   {
     "context": "Workspace",
     "bindings": {
-      "cmd-r": null, // cmd-r will do nothing when the search bar is in view
+      "cmd-r": null, // 検索バーが表示されているとき、cmd-r は何もしません
     },
   },
   {
     "context": "Workspace",
     "bindings": {
-      "cmd-r": "buffer_search::DeployReplace", // cmd-r will deploy replace when the search bar is not in view
+      "cmd-r": "buffer_search::DeployReplace", // 検索バーが表示されていないとき、cmd-r は置換を展開します
     },
   },
 ]
 ```
 
-### Remapping keys
+### キーのリマッピング
 
-A common request is to be able to map from a single keystroke to a sequence. You
-can do this with the `workspace::SendKeystrokes` action.
+よくある要望として、単一のキーストロークから一連のシーケンスへのマッピングがあります。これは `workspace::SendKeystrokes` アクションで実現できます。
 
 ```json
 [
   {
     "bindings": {
-      // Move down four times
+      // 4 回下に移動
       "alt-down": ["workspace::SendKeystrokes", "down down down down"],
-      // Expand the selection (editor::SelectLargerSyntaxNode);
-      // copy to the clipboard; and then undo the selection expansion.
+      // 選択範囲を拡大（editor::SelectLargerSyntaxNode）、
+      // クリップボードにコピーし、選択範囲の拡大を取り消す
       "cmd-alt-c": [
         "workspace::SendKeystrokes",
         "ctrl-shift-right ctrl-shift-right ctrl-shift-right cmd-c ctrl-shift-left ctrl-shift-left ctrl-shift-left",
@@ -358,34 +252,21 @@ can do this with the `workspace::SendKeystrokes` action.
 ]
 ```
 
-There are some limitations to this, notably:
+これにはいくつかの制限事項があります。主なものは以下のとおりです。
 
-- Any asynchronous operation will not happen until after all your key bindings
-  have been dispatched. For example, this means that while you can use a binding
-  to open a file (as in the `cmd-alt-r` example), you cannot send further
-  keystrokes and hope to have them interpreted by the new view.
-- Other examples of asynchronous things are: opening the command palette,
-  communicating with a language server, changing the language of a buffer,
-  anything that hits the network.
-- There is a limit of 100 simulated keys at a time.
+- すべてのキーバインドがディスパッチされるまで、非同期操作は実行されません。たとえば、バインドを使用してファイルを開くことはできますが、追加のキーストロークを送信して新しいビューに解釈させることはできません。
+- 非同期処理のその他の例: コマンドパレットを開く、言語サーバーと通信する、バッファーの言語を変更する、ネットワークにアクセスする処理など。
+- 一度にシミュレートできるキーは 100 個までに制限されています。
 
-The argument to `SendKeystrokes` is a space-separated list of keystrokes (using
-the same syntax as above). Due to the way that keystrokes are parsed, any
-segment that is not recognized as a keypress will be sent verbatim to the
-currently focused input field.
+`SendKeystrokes` への引数は、スペース区切りのキーストロークリストです（上記と同じ構文を使用します）。キーストロークの解析方法の都合上、キー入力として認識されないセグメントは、現在フォーカスされている入力フィールドにそのまま verbatim で送信されます。
 
-If the argument to `SendKeystrokes` contains the binding used to trigger it, it
-will use the next-highest-precedence definition of that binding. This allows you
-to extend the default behavior of a key binding.
+`SendKeystrokes` の引数にそれをトリガーするために使用されたバインド自体が含まれている場合、そのバインドの次に優先度の高い定義が使用されます。これにより、キーバインドのデフォルトの動作を拡張することができます。
 
-### Forward keys to terminal
+### キーをターミナルへ転送
 
-If you're on Linux or Windows, you might find yourself wanting to forward key
-combinations to the built-in terminal instead of them being handled by Gram.
+Linux や Windows では、キーの組み合わせが Gram に処理されるのではなく、組み込みターミナルに転送されるようにしたい場合があります。
 
-For example, `ctrl-n` creates a new tab in Gram on Linux. If you want to send
-`ctrl-n` to the built-in terminal when it's focused, add the following to your
-keymap:
+たとえば、Linux の Gram では `ctrl-n` で新しいタブが作成されます。組み込みターミナルにフォーカスがあるときに `ctrl-n` をターミナルに送信したい場合は、キーマップに以下を追加します。
 
 ```json
 {
@@ -396,7 +277,6 @@ keymap:
 }
 ```
 
-### Task Key bindings
+### タスクのキーバインド
 
-You can also bind keys to launch Gram Tasks defined in your `tasks.jsonc`. See
-the [tasks documentation](./tasks.md#custom-keybindings-for-tasks) for more.
+`tasks.jsonc` で定義された Gram タスクを起動するためのキーをバインドすることもできます。詳細については [タスクのドキュメント](./tasks.md#custom-keybindings-for-tasks) を参照してください。

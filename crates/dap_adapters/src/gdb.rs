@@ -204,10 +204,10 @@ impl DebugAdapter for GdbDebugAdapter {
                 .which(OsStr::new("gdb"))
                 .await
                 .and_then(|p| p.to_str().map(|s| s.to_string()))
-                .context("Could not find gdb in path");
+                .context("PATH に gdb が見つかりません");
 
             if gdb_path_result.is_err() && user_setting_path.is_none() {
-                bail!("Could not find gdb path or it's not installed");
+                bail!("gdb のパスが見つからないか、インストールされていません");
             }
 
             user_setting_path.unwrap_or_else(|| gdb_path_result.unwrap())

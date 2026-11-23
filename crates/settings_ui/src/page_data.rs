@@ -17,12 +17,12 @@ const DEFAULT_EMPTY_SHARED_STRING: Option<&SharedString> = Some(&DEFAULT_SHARED_
 pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
     vec![
         SettingsPage {
-            title: "General",
+            title: "一般",
             items: vec![
-                SettingsPageItem::SectionHeader("General Settings"),
+                SettingsPageItem::SectionHeader("一般設定"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "When Closing With No Tabs",
-                    description: "What to do when using the 'close active item' action with no tabs.",
+                    title: "タブがない状態での終了時の動作",
+                    description: "タブが開いていない状態で「アクティブな項目を閉じる」を実行したときの動作を設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("when_closing_with_no_tabs"),
@@ -40,8 +40,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "On Last Window Closed",
-                    description: "What to do when the last window is closed.",
+                    title: "最後のウィンドウを閉じたときの動作",
+                    description: "最後のウィンドウを閉じたときの動作を設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("on_last_window_closed"),
@@ -56,8 +56,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Use System Path Prompts",
-                    description: "Use native OS dialogs for 'Open' and 'Save As'.",
+                    title: "システム標準のパスプロンプトを使用",
+                    description: "「開く」や「名前を付けて保存」にOS標準のダイアログを使用します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("use_system_path_prompts"),
@@ -72,8 +72,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Use System Prompts",
-                    description: "Use native OS dialogs for confirmations.",
+                    title: "システム標準のプロンプトを使用",
+                    description: "確認ダイアログにOS標準のダイアログを使用します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("use_system_prompts"),
@@ -88,8 +88,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Redact Private Values",
-                    description: "Hide the values of variables in private files.",
+                    title: "プライベートな値を伏字化",
+                    description: "プライベートファイル内の変数の値を非表示にします。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("redact_private_values"),
@@ -104,8 +104,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Private Files",
-                    description: "Globs to match against file paths to determine if a file is private.",
+                    title: "プライベートファイル",
+                    description: "ファイルがプライベートであるかを判定するためのパス照合用Globパターンを指定します。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -122,10 +122,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Workspace Restoration"),
+                SettingsPageItem::SectionHeader("ワークスペースの復元"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Restore Unsaved Buffers",
-                    description: "Whether or not to restore unsaved buffers on restart.",
+                    title: "未保存バッファーの復元",
+                    description: "再起動時に未保存のバッファーを復元するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("session.restore_unsaved_buffers"),
@@ -146,8 +146,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Restore On Startup",
-                    description: "What to restore from the previous session when opening Gram.",
+                    title: "起動時の復元",
+                    description: "Gramの起動時に前回のセッションから何を復元するかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("restore_on_startup"),
@@ -161,11 +161,11 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Profiles"),
+                SettingsPageItem::SectionHeader("プロファイル"),
                 SettingsPageItem::SettingItem(SettingItem {
                     files: USER,
-                    title: "Settings Profiles",
-                    description: "Any number of settings profiles that are temporarily applied on top of your existing user settings.",
+                    title: "設定プロファイル",
+                    description: "既存のユーザー設定の上に一時的に適用する設定プロファイルを指定します。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -183,14 +183,14 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
             ],
         },
         SettingsPage {
-            title: "Appearance",
+            title: "外観",
             items: vec![
-                SettingsPageItem::SectionHeader("Theme"),
+                SettingsPageItem::SectionHeader("テーマ"),
                 SettingsPageItem::DynamicItem(DynamicItem {
                     discriminant: SettingItem {
                         files: USER,
-                        title: "Theme Mode",
-                        description: "Choose a static, fixed theme or dynamically select themes based on appearance and light/dark modes.",
+                        title: "テーマモード",
+                        description: "固定テーマを使用するか、外観やライト/ダークモードに応じて動的に選択するかを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("theme$"),
@@ -249,8 +249,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                             settings::ThemeSelectionDiscriminants::Static => vec![
                                 SettingItem {
                                     files: USER,
-                                    title: "Theme Name",
-                                    description: "The name of your selected theme.",
+                                    title: "テーマ名",
+                                    description: "選択中のテーマ名です。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("theme"),
@@ -275,8 +275,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                             settings::ThemeSelectionDiscriminants::Dynamic => vec![
                                 SettingItem {
                                     files: USER,
-                                    title: "Mode",
-                                    description: "Choose whether to use the selected light or dark theme or to follow your OS appearance configuration.",
+                                    title: "モード",
+                                    description: "選択したライト/ダークテーマを使用するか、OSの外観設定に従うかを設定します。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("theme.mode"),
@@ -299,8 +299,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                                 },
                                 SettingItem {
                                     files: USER,
-                                    title: "Light Theme",
-                                    description: "The theme to use when mode is set to light, or when mode is set to system and it is in light mode.",
+                                    title: "ライトテーマ",
+                                    description: "モードがライトのとき、またはシステム連動のライトモード時に使用するテーマです。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("theme.light"),
@@ -323,8 +323,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                                 },
                                 SettingItem {
                                     files: USER,
-                                    title: "Dark Theme",
-                                    description: "The theme to use when mode is set to dark, or when mode is set to system and it is in dark mode.",
+                                    title: "ダークテーマ",
+                                    description: "モードがダークのとき、またはシステム連動のダークモード時に使用するテーマです。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("theme.dark"),
@@ -352,8 +352,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 SettingsPageItem::DynamicItem(DynamicItem {
                     discriminant: SettingItem {
                         files: USER,
-                        title: "Icon Theme",
-                        description: "The custom set of icons Gram will associate with files and directories.",
+                        title: "アイコンテーマ",
+                        description: "ファイルやフォルダーに関連付けるカスタムアイコンセットです。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("icon_theme$"),
@@ -412,8 +412,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                             settings::IconThemeSelectionDiscriminants::Static => vec![
                                 SettingItem {
                                     files: USER,
-                                    title: "Icon Theme Name",
-                                    description: "The name of your selected icon theme.",
+                                    title: "アイコンテーマ名",
+                                    description: "選択中のアイコンテーマ名です。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("icon_theme$string"),
@@ -438,8 +438,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                             settings::IconThemeSelectionDiscriminants::Dynamic => vec![
                                 SettingItem {
                                     files: USER,
-                                    title: "Mode",
-                                    description: "Choose whether to use the selected light or dark icon theme or to follow your OS appearance configuration.",
+                                    title: "モード",
+                                    description: "選択したライト/ダークアイコンテーマを使用するか、OSの外観設定に従うかを設定します。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("icon_theme"),
@@ -462,8 +462,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                                 },
                                 SettingItem {
                                     files: USER,
-                                    title: "Light Icon Theme",
-                                    description: "The icon theme to use when mode is set to light, or when mode is set to system and it is in light mode.",
+                                    title: "ライトアイコンテーマ",
+                                    description: "モードがライトのとき、またはシステム連動のライトモード時に使用するアイコンテーマです。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("icon_theme.light"),
@@ -486,8 +486,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                                 },
                                 SettingItem {
                                     files: USER,
-                                    title: "Dark Icon Theme",
-                                    description: "The icon theme to use when mode is set to dark, or when mode is set to system and it is in dark mode.",
+                                    title: "ダークアイコンテーマ",
+                                    description: "モードがダークのとき、またはシステム連動のダークモード時に使用するアイコンテーマです。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("icon_theme.dark"),
@@ -512,10 +512,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         }
                     }).collect(),
                 }),
-                SettingsPageItem::SectionHeader("Buffer Font"),
+                SettingsPageItem::SectionHeader("バッファーフォント"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Font Family",
-                    description: "Font family for editor text.",
+                    title: "フォントファミリー",
+                    description: "エディターテキストのフォントファミリーです。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("buffer_font_family"),
@@ -526,8 +526,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Font Size",
-                    description: "Font size for editor text.",
+                    title: "フォントサイズ",
+                    description: "エディターテキストのフォントサイズです。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("buffer_font_size"),
@@ -538,8 +538,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Font Weight",
-                    description: "Font weight for editor text (100-900).",
+                    title: "フォントウェイト",
+                    description: "エディターテキストのフォントの太さ（100-900）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("buffer_font_weight"),
@@ -552,8 +552,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 SettingsPageItem::DynamicItem(DynamicItem {
                     discriminant: SettingItem {
                         files: USER,
-                        title: "Line Height",
-                        description: "Line height for editor text.",
+                        title: "行の高さ",
+                        description: "エディターテキストの行の高さです。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("buffer_line_height$"),
@@ -599,8 +599,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                             settings::BufferLineHeightDiscriminants::Custom => vec![
                                 SettingItem {
                                     files: USER,
-                                    title: "Custom Line Height",
-                                    description: "Custom line height value (must be at least 1.0).",
+                                    title: "カスタムの行の高さ",
+                                    description: "行の高さのカスタム値（1.0以上）です。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("buffer_line_height"),
@@ -627,8 +627,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
                     files: USER,
-                    title: "Font Features",
-                    description: "The OpenType features to enable for rendering in text buffers.",
+                    title: "フォント機能",
+                    description: "テキストバッファーの描画で有効にするOpenType機能です。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -647,8 +647,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
                     files: USER,
-                    title: "Font Fallbacks",
-                    description: "The font fallbacks to use for rendering in text buffers.",
+                    title: "フォールバックフォント",
+                    description: "テキストバッファーの描画で使用するフォールバックフォントです。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -665,10 +665,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     ),
                     metadata: None,
                 }),
-                SettingsPageItem::SectionHeader("UI Font"),
+                SettingsPageItem::SectionHeader("UIフォント"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Font Family",
-                    description: "Font family for UI elements.",
+                    title: "フォントファミリー",
+                    description: "UI要素のフォントファミリーです。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("ui_font_family"),
@@ -679,8 +679,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Font Size",
-                    description: "Font size for UI elements.",
+                    title: "フォントサイズ",
+                    description: "UI要素のフォントサイズです。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("ui_font_size"),
@@ -691,8 +691,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Font Weight",
-                    description: "Font weight for UI elements (100-900).",
+                    title: "フォントウェイト",
+                    description: "UI要素のフォントの太さ（100-900）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("ui_font_weight"),
@@ -704,8 +704,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
                     files: USER,
-                    title: "Font Features",
-                    description: "The OpenType features to enable for rendering in UI elements.",
+                    title: "フォント機能",
+                    description: "UI要素の描画で有効にするOpenType機能です。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -724,8 +724,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
                     files: USER,
-                    title: "Font Fallbacks",
-                    description: "The font fallbacks to use for rendering in the UI.",
+                    title: "フォールバックフォント",
+                    description: "UIの描画で使用するフォールバックフォントです。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -742,10 +742,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     ),
                     metadata: None,
                 }),
-                SettingsPageItem::SectionHeader("Text Rendering"),
+                SettingsPageItem::SectionHeader("テキスト描画"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Text Rendering Mode",
-                    description: "The text rendering mode to use.",
+                    title: "テキスト描画モード",
+                    description: "使用するテキスト描画モードです。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("text_rendering_mode"),
@@ -759,10 +759,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Cursor"),
+                SettingsPageItem::SectionHeader("カーソル"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Multi Cursor Modifier",
-                    description: "Modifier key for adding multiple cursors.",
+                    title: "マルチカーソル修飾キー",
+                    description: "複数カーソルを追加するための修飾キーです。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("multi_cursor_modifier"),
@@ -778,8 +778,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Cursor Blink",
-                    description: "Whether the cursor blinks in the editor.",
+                    title: "カーソルの点滅",
+                    description: "エディター内でカーソルを点滅させるかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("cursor_blink"),
@@ -790,8 +790,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Cursor Shape",
-                    description: "Cursor shape for the editor.",
+                    title: "カーソル形状",
+                    description: "エディターのカーソル形状です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("cursor_shape"),
@@ -802,8 +802,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Smooth Cursor",
-                    description: "Whether the cursor smoothly animates when moving around the editor.",
+                    title: "スムーズカーソル",
+                    description: "エディター内を移動する際にカーソルを滑らかにアニメーションさせるかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("smooth_cursor.enabled"),
@@ -827,8 +827,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Smooth Cursor Duration",
-                    description: "Duration in milliseconds for cursor movement.",
+                    title: "スムーズカーソルの所要時間",
+                    description: "カーソル移動アニメーションの所要時間（ミリ秒）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("smooth_cursor.duration_ms"),
@@ -852,8 +852,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Hide Mouse",
-                    description: "When to hide the mouse cursor.",
+                    title: "マウスの非表示",
+                    description: "マウスカーソルを非表示にするタイミングを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("hide_mouse"),
@@ -863,10 +863,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Highlighting"),
+                SettingsPageItem::SectionHeader("ハイライト"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Unnecessary Code Fade",
-                    description: "How much to fade out unused code (0.0 - 0.9).",
+                    title: "不要なコードのフェード",
+                    description: "未使用のコードをどの程度薄く表示するか（0.0 - 0.9）を設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("unnecessary_code_fade"),
@@ -882,8 +882,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Current Line Highlight",
-                    description: "How to highlight the current line.",
+                    title: "現在の行のハイライト",
+                    description: "カーソルがある行をハイライトする方法を設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("current_line_highlight"),
@@ -899,8 +899,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Selection Highlight",
-                    description: "Highlight all occurrences of selected text.",
+                    title: "選択テキストのハイライト",
+                    description: "選択したテキストと一致するすべての箇所をハイライトします。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("selection_highlight"),
@@ -916,8 +916,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Rounded Selection",
-                    description: "Whether the text selection should have rounded corners.",
+                    title: "角丸の選択範囲",
+                    description: "テキスト選択範囲の角を丸くするかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("rounded_selection"),
@@ -928,8 +928,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Minimum Contrast For Highlights",
-                    description: "The minimum APCA perceptual contrast to maintain when rendering text over highlight backgrounds.",
+                    title: "ハイライトの最小コントラスト",
+                    description: "ハイライト背景の上にテキストを描画する際に維持するAPCA知覚コントラストの最小値です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("minimum_contrast_for_highlights"),
@@ -947,10 +947,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Guides"),
+                SettingsPageItem::SectionHeader("ガイド"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Wrap Guides",
-                    description: "Show wrap guides (vertical rulers).",
+                    title: "折り返しガイドを表示",
+                    description: "折り返しガイド（垂直ルーラー）を表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("show_wrap_guides"),
@@ -976,8 +976,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 }),
                 // todo(settings_ui): This needs a custom component
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Wrap Guides",
-                    description: "Character counts at which to show wrap guides.",
+                    title: "折り返しガイド",
+                    description: "折り返しガイドを表示する文字数列を指定します。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -999,10 +999,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER | PROJECT,
                 }),
-                SettingsPageItem::SectionHeader("Decorations"),
+                SettingsPageItem::SectionHeader("装飾"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Client Side Decoration Rounding",
-                    description: "Defines window border radius for platforms that use client side decorations.",
+                    title: "クライアントサイド装飾の角丸",
+                    description: "クライアントサイド装飾を使用するプラットフォームでのウィンドウ枠の角丸半径を設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("client_side_decoration_rounding"),
@@ -1018,8 +1018,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Client Side Decoration Shadow",
-                    description: "Defines window shadow size for platforms that use client side decorations.",
+                    title: "クライアントサイド装飾の影",
+                    description: "クライアントサイド装飾を使用するプラットフォームでのウィンドウの影の大きさを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("client_side_decoration_shadow"),
@@ -1037,13 +1037,13 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
             ],
         },
         SettingsPage {
-            title: "Keymap",
+            title: "キーマップ",
             items: vec![
-                SettingsPageItem::SectionHeader("Keybindings"),
+                SettingsPageItem::SectionHeader("キーバインド"),
                 SettingsPageItem::ActionLink(ActionLink {
-                    title: "Edit Keybindings".into(),
-                    description: Some("Customize keybindings in the keymap editor.".into()),
-                    button_text: "Open Keymap".into(),
+                    title: "キーバインドの編集".into(),
+                    description: Some("キーマップエディターでキーバインドをカスタマイズします。".into()),
+                    button_text: "キーマップを開く".into(),
                     on_click: Arc::new(|settings_window, window, cx| {
                         let Some(original_window) = settings_window.original_window else {
                             return;
@@ -1058,10 +1058,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         window.remove_window();
                     }),
                 }),
-                SettingsPageItem::SectionHeader("Base Keymap"),
+                SettingsPageItem::SectionHeader("ベースキーマップ"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Base Keymap",
-                    description: "The name of a base set of key bindings to use.",
+                    title: "ベースキーマップ",
+                    description: "基本セットとして使用するキーバインドの名称です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("base_keymap"),
@@ -1076,12 +1076,12 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     })),
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Modal Editing"),
+                SettingsPageItem::SectionHeader("モーダル編集"),
                 // todo(settings_ui): Vim/Helix Mode should be apart of one type because it's undefined
                 // behavior to have them both enabled at the same time
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Vim Mode",
-                    description: "Enable Vim mode and key bindings.",
+                    title: "Vimモード",
+                    description: "Vimモードとキーバインドを有効にします。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("vim_mode"),
@@ -1094,8 +1094,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Helix Mode",
-                    description: "Enable Helix mode and key bindings.",
+                    title: "Helixモード",
+                    description: "Helixモードとキーバインドを有効にします。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("helix_mode"),
@@ -1110,15 +1110,15 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
             ],
         },
         SettingsPage {
-            title: "Editor",
+            title: "エディター",
             items: {
                 let mut items = vec![
-                    SettingsPageItem::SectionHeader("Auto Save"),
+                    SettingsPageItem::SectionHeader("自動保存"),
                     SettingsPageItem::DynamicItem(DynamicItem {
                         discriminant: SettingItem {
                             files: USER,
-                            title: "Auto Save Mode",
-                            description: "When to auto save buffer changes.",
+                            title: "自動保存モード",
+                            description: "バッファーの変更を自動保存するタイミングを設定します。",
                             aliases: None,
                             field: Box::new(SettingField {
                                 json_path: Some("autosave$"),
@@ -1169,8 +1169,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                                 settings::AutosaveSettingDiscriminants::AfterDelay => vec![
                                     SettingItem {
                                         files: USER,
-                                        title: "Delay (milliseconds)",
-                                        description: "Save after inactivity period (in milliseconds).",
+                                        title: "遅延時間（ミリ秒）",
+                                        description: "操作が行われなくなってから保存するまでの待機時間（ミリ秒）です。",
                                         aliases: None,
                                         field: Box::new(SettingField {
                                             json_path: Some("autosave.after_delay.milliseconds"),
@@ -1198,10 +1198,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                             }
                         }).collect(),
                     }),
-                    SettingsPageItem::SectionHeader("which-key"),
+                    SettingsPageItem::SectionHeader("Which-Key"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "which-key",
-                        description: "Display menu with matching key bindings while a multi-stroke is pending.",
+                        title: "Which-Key",
+                        description: "連続キー入力の途中で一致するキーバインドの一覧メニューを表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("which_key.enabled"),
@@ -1222,8 +1222,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Menu Delay",
-                        description: "Delay in milliseconds before the which-key menu appears.",
+                        title: "メニュー表示遅延",
+                        description: "Which-Keyメニューが表示されるまでの遅延時間（ミリ秒）です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("which_key.delay_ms"),
@@ -1243,10 +1243,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         metadata: None,
                         files: USER,
                     }),
-                    SettingsPageItem::SectionHeader("Multibuffer"),
+                    SettingsPageItem::SectionHeader("マルチバッファー"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Double Click In Multibuffer",
-                        description: "What to do when multibuffer is double-clicked in some of its excerpts.",
+                        title: "マルチバッファーのダブルクリック動作",
+                        description: "マルチバッファーの抜粋部分をダブルクリックしたときの動作を設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("double_click_in_multibuffer"),
@@ -1261,8 +1261,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Expand Excerpt Lines",
-                        description: "How many lines to expand the multibuffer excerpts by default.",
+                        title: "抜粋の展開行数",
+                        description: "マルチバッファーの抜粋を展開するデフォルトの行数です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("expand_excerpt_lines"),
@@ -1277,8 +1277,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Excerpt Context Lines",
-                        description: "How many lines of context to provide in multibuffer excerpts by default.",
+                        title: "抜粋のコンテキスト行数",
+                        description: "マルチバッファーの抜粋でデフォルトで表示する前後のコンテキスト行数です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("excerpt_context_lines"),
@@ -1293,8 +1293,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Expand Outlines With Depth",
-                        description: "Default depth to expand outline items in the current file.",
+                        title: "アウトライン展開の深さ",
+                        description: "現在のファイルのアウトライン項目をデフォルトで展開する深さです。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("outline_panel.expand_outlines_with_depth"),
@@ -1316,10 +1316,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         metadata: None,
                         files: USER,
                     }),
-                    SettingsPageItem::SectionHeader("Scrolling"),
+                    SettingsPageItem::SectionHeader("スクロール"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Scroll Beyond Last Line",
-                        description: "Whether the editor will scroll beyond the last line.",
+                        title: "最終行を超えてスクロール",
+                        description: "エディターで最終行を超えてスクロールできるかどうかを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("scroll_beyond_last_line"),
@@ -1334,8 +1334,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Vertical Scroll Margin",
-                        description: "The number of lines to keep above/below the cursor when auto-scrolling.",
+                        title: "垂直スクロールマージン",
+                        description: "自動スクロール時にカーソルの上下に確保する行数です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("vertical_scroll_margin"),
@@ -1350,8 +1350,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Horizontal Scroll Margin",
-                        description: "The number of characters to keep on either side when scrolling with the mouse.",
+                        title: "水平スクロールマージン",
+                        description: "マウススクロール時にカーソルの左右に確保する文字数です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("horizontal_scroll_margin"),
@@ -1366,8 +1366,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Scroll Sensitivity",
-                        description: "Scroll sensitivity multiplier for both horizontal and vertical scrolling.",
+                        title: "スクロール感度",
+                        description: "水平および垂直スクロールの感度倍率です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("scroll_sensitivity"),
@@ -1382,8 +1382,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Fast Scroll Sensitivity",
-                        description: "Fast scroll sensitivity multiplier for both horizontal and vertical scrolling.",
+                        title: "高速スクロール感度",
+                        description: "水平および垂直の高速スクロール感度倍率です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("fast_scroll_sensitivity"),
@@ -1398,8 +1398,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Autoscroll On Clicks",
-                        description: "Whether to scroll when clicking near the edge of the visible text area.",
+                        title: "クリック時の自動スクロール",
+                        description: "表示されているテキスト領域の端付近をクリックしたときにスクロールするかどうかを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("autoscroll_on_clicks"),
@@ -1414,8 +1414,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Sticky Scroll",
-                        description: "Whether to stick scopes to the top of the editor",
+                        title: "スティッキースクロール",
+                        description: "現在のスコープをエディター上部に固定表示するかどうかを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("sticky_scroll.enabled"),
@@ -1430,8 +1430,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Smooth Scroll",
-                        description: "Whether to animate scrolling with a smooth easing effect.",
+                        title: "スムーズスクロール",
+                        description: "滑らかなイージング効果を付けてスクロールをアニメーション表示するかどうかを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("smooth_scroll.enabled"),
@@ -1446,8 +1446,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Scroll Animation Duration",
-                        description: "Duration of scroll animation",
+                        title: "スクロールアニメーション時間",
+                        description: "スクロールアニメーションの所要時間です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("smooth_scroll.duration"),
@@ -1462,10 +1462,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
 
-                    SettingsPageItem::SectionHeader("Signature Help"),
+                    SettingsPageItem::SectionHeader("シグネチャヘルプ"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Auto Signature Help",
-                        description: "Automatically show a signature help pop-up.",
+                        title: "自動シグネチャヘルプ",
+                        description: "シグネチャヘルプのポップアップを自動的に表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("auto_signature_help"),
@@ -1480,8 +1480,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Show Signature Help After Edits",
-                        description: "Show the signature help pop-up after completions or bracket pairs are inserted.",
+                        title: "編集後にシグネチャヘルプを表示",
+                        description: "補完の決定時や括弧ペアの挿入後にシグネチャヘルプのポップアップを表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("show_signature_help_after_edits"),
@@ -1499,8 +1499,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Snippet Sort Order",
-                        description: "Determines how snippets are sorted relative to other completion items.",
+                        title: "スニペットの並び順",
+                        description: "他の補完項目に対するスニペットの並び順を決定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("snippet_sort_order"),
@@ -1514,10 +1514,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         metadata: None,
                         files: USER,
                     }),
-                    SettingsPageItem::SectionHeader("Hover Popover"),
+                    SettingsPageItem::SectionHeader("ホバーポップオーバー"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Enabled",
-                        description: "Show the informational hover box when moving the mouse over symbols in the editor.",
+                        title: "有効",
+                        description: "エディター内のシンボル上にマウスを移動したときに情報ホバーボックスを表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("hover_popover_enabled"),
@@ -1533,8 +1533,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     }),
                     // todo(settings ui): add units to this number input
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Delay",
-                        description: "Time to wait in milliseconds before showing the informational hover box.",
+                        title: "遅延時間",
+                        description: "情報ホバーボックスを表示するまでの待機時間（ミリ秒）です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("hover_popover_enabled"),
@@ -1548,10 +1548,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         metadata: None,
                         files: USER,
                     }),
-                    SettingsPageItem::SectionHeader("Drag And Drop Selection"),
+                    SettingsPageItem::SectionHeader("ドラッグ＆ドロップ選択"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Enabled",
-                        description: "Enable drag and drop selection.",
+                        title: "有効",
+                        description: "ドラッグ＆ドロップによるテキスト選択を有効にします。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("drag_and_drop_selection.enabled"),
@@ -1574,8 +1574,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Delay",
-                        description: "Delay in milliseconds before drag and drop selection starts.",
+                        title: "遅延時間",
+                        description: "ドラッグ＆ドロップ選択が開始されるまでの遅延時間（ミリ秒）です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("drag_and_drop_selection.delay"),
@@ -1597,10 +1597,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         metadata: None,
                         files: USER,
                     }),
-                    SettingsPageItem::SectionHeader("Gutter"),
+                    SettingsPageItem::SectionHeader("ガター"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Show Line Numbers",
-                        description: "Show line numbers in the gutter.",
+                        title: "行番号を表示",
+                        description: "ガターに行番号を表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("gutter.line_numbers"),
@@ -1623,8 +1623,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Relative Line Numbers",
-                        description: "Controls line number display in the editor's gutter. \"disabled\" shows absolute line numbers, \"enabled\" shows relative line numbers for each absolute line, and \"wrapped\" shows relative line numbers for every line, absolute or wrapped.",
+                        title: "相対行番号",
+                        description: "エディターのガターにおける行番号の表示方法を制御します。「disabled」は絶対行番号を表示し、「enabled」は各絶対行に対する相対行番号を表示し、「wrapped」は折り返し行を含むすべての行の相対行番号を表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("relative_line_numbers"),
@@ -1639,8 +1639,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Line Number Scale",
-                        description: "Relative size of line numbers displayed in the editor.",
+                        title: "行番号の倍率",
+                        description: "エディターに表示される行番号の相対サイズです。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("editor.line_number_scale"),
@@ -1653,8 +1653,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Show Runnables",
-                        description: "Show runnable buttons in the gutter.",
+                        title: "実行可能ボタンを表示",
+                        description: "ガターに実行ボタンを表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("gutter.runnables"),
@@ -1677,8 +1677,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Show Breakpoints",
-                        description: "Show breakpoints in the gutter.",
+                        title: "ブレークポイントを表示",
+                        description: "ガターにブレークポイントを表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("gutter.breakpoints"),
@@ -1701,8 +1701,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Show Folds",
-                        description: "Show code folding controls in the gutter.",
+                        title: "コード折りたたみを表示",
+                        description: "ガターにコード折りたたみコントロールを表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("gutter.folds"),
@@ -1722,8 +1722,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Min Line Number Digits",
-                        description: "Minimum number of characters to reserve space for in the gutter.",
+                        title: "行番号の最小桁数",
+                        description: "ガターで行番号用に確保する最小の文字幅です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("gutter.min_line_number_digits"),
@@ -1746,8 +1746,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Inline Code Actions",
-                        description: "Show code action button at start of buffer line.",
+                        title: "インラインコードアクション",
+                        description: "バッファー行の先頭にコードアクションボタンを表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("inline_code_actions"),
@@ -1761,10 +1761,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         metadata: None,
                         files: USER,
                     }),
-                    SettingsPageItem::SectionHeader("Scrollbar"),
+                    SettingsPageItem::SectionHeader("スクロールバー"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Show",
-                        description: "When to show the scrollbar in the editor.",
+                        title: "表示",
+                        description: "エディターでスクロールバーを表示するタイミングを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("scrollbar"),
@@ -1783,8 +1783,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Cursors",
-                        description: "Show cursor positions in the scrollbar.",
+                        title: "カーソル",
+                        description: "スクロールバー上にカーソル位置を表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("scrollbar.cursors"),
@@ -1803,8 +1803,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Git Diff",
-                        description: "Show Git diff indicators in the scrollbar.",
+                        title: "Git差分",
+                        description: "スクロールバー上にGitの差分インジケーターを表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("scrollbar.git_diff"),
@@ -1828,8 +1828,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Search Results",
-                        description: "Show buffer search result indicators in the scrollbar.",
+                        title: "検索結果",
+                        description: "スクロールバー上にバッファー内検索結果のインジケーターを表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("scrollbar.search_results"),
@@ -1853,8 +1853,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Selected Text",
-                        description: "Show selected text occurrences in the scrollbar.",
+                        title: "選択テキスト",
+                        description: "スクロールバー上に選択テキストの一致箇所を表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("scrollbar.selected_text"),
@@ -1878,8 +1878,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Selected Symbol",
-                        description: "Show selected symbol occurrences in the scrollbar.",
+                        title: "選択シンボル",
+                        description: "スクロールバー上に選択シンボルの一致箇所を表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("scrollbar.selected_symbol"),
@@ -1903,8 +1903,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Diagnostics",
-                        description: "Which diagnostic indicators to show in the scrollbar.",
+                        title: "診断",
+                        description: "スクロールバー上にどの診断インジケーターを表示するかを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("scrollbar.diagnostics"),
@@ -1928,8 +1928,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Horizontal Scrollbar",
-                        description: "When false, forcefully disables the horizontal scrollbar.",
+                        title: "水平スクロールバー",
+                        description: "falseの場合、水平スクロールバーを強制的に無効化します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("scrollbar.axes.horizontal"),
@@ -1957,8 +1957,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Vertical Scrollbar",
-                        description: "When false, forcefully disables the vertical scrollbar.",
+                        title: "垂直スクロールバー",
+                        description: "falseの場合、垂直スクロールバーを強制的に無効化します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("scrollbar.axes.vertical"),
@@ -1985,10 +1985,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         metadata: None,
                         files: USER,
                     }),
-                    SettingsPageItem::SectionHeader("Minimap"),
+                    SettingsPageItem::SectionHeader("ミニマップ"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Show",
-                        description: "When to show the minimap in the editor.",
+                        title: "表示",
+                        description: "エディターでミニマップを表示するタイミングを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("minimap.show"),
@@ -2004,8 +2004,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Display In",
-                        description: "Where to show the minimap in the editor.",
+                        title: "表示位置",
+                        description: "エディターのどこにミニマップを表示するかを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("minimap.display_in"),
@@ -2029,8 +2029,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Thumb",
-                        description: "When to show the minimap thumb.",
+                        title: "つまみ",
+                        description: "ミニマップのつまみ（スライダー）を表示するタイミングを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("minimap.thumb"),
@@ -2049,8 +2049,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Thumb Border",
-                        description: "Border style for the minimap's scrollbar thumb.",
+                        title: "つまみの枠線",
+                        description: "ミニマップのスクロールバーつまみの枠線スタイルです。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("minimap.thumb_border"),
@@ -2074,8 +2074,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Current Line Highlight",
-                        description: "How to highlight the current line in the minimap.",
+                        title: "現在の行のハイライト",
+                        description: "ミニマップで現在の行をハイライトする方法を設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("minimap.current_line_highlight"),
@@ -2099,8 +2099,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Max Width Columns",
-                        description: "Maximum number of columns to display in the minimap.",
+                        title: "最大列幅",
+                        description: "ミニマップに表示する最大列数（文字数幅）です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("minimap.max_width_columns"),
@@ -2123,10 +2123,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         metadata: None,
                         files: USER,
                     }),
-                    SettingsPageItem::SectionHeader("Toolbar"),
+                    SettingsPageItem::SectionHeader("ツールバー"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Breadcrumbs",
-                        description: "Show breadcrumbs.",
+                        title: "パンくずリスト",
+                        description: "パンくずリストを表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("toolbar.breadcrumbs"),
@@ -2150,8 +2150,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Quick Actions",
-                        description: "Show quick action buttons (e.g., search, selection, editor controls, etc.).",
+                        title: "クイックアクション",
+                        description: "クイックアクションボタン（検索、選択、エディター制御など）を表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("toolbar.quick_actions"),
@@ -2175,8 +2175,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Selections Menu",
-                        description: "Show the selections menu in the editor toolbar.",
+                        title: "選択メニュー",
+                        description: "エディターのツールバーに選択メニューを表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("toolbar.selections_menu"),
@@ -2200,8 +2200,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Code Actions",
-                        description: "Show code action buttons in the editor toolbar.",
+                        title: "コードアクション",
+                        description: "エディターのツールバーにコードアクションボタンを表示します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("toolbar.code_actions"),
@@ -2230,15 +2230,15 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
             },
         },
         SettingsPage {
-            title: "Languages & Tools",
+            title: "言語とツール",
             items: {
                 let mut items = vec![];
                 items.extend(non_editor_language_settings_data());
                 items.extend([
-                    SettingsPageItem::SectionHeader("File Types"),
+                    SettingsPageItem::SectionHeader("ファイルの種類"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "File Type Associations",
-                        description: "A mapping from languages to files and file extensions that should be treated as that language.",
+                        title: "ファイルの関連付け",
+                        description: "言語と、その言語として扱うファイルや拡張子の対応付けを設定します。",
                         aliases: None,
                         field: Box::new(
                             SettingField {
@@ -2259,10 +2259,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 ]);
 
                 items.extend([
-                    SettingsPageItem::SectionHeader("Diagnostics"),
+                    SettingsPageItem::SectionHeader("診断"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Max Severity",
-                        description: "Which level to use to filter out diagnostics displayed in the editor.",
+                        title: "最大重要度",
+                        description: "エディターに表示する診断をフィルタリングする重要度レベルを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("diagnostics_max_severity"),
@@ -2276,8 +2276,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Include Warnings",
-                        description: "Whether to show warnings or not by default.",
+                        title: "警告を含める",
+                        description: "デフォルトで警告を表示するかどうかを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("diagnostics.include_warnings"),
@@ -2296,10 +2296,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         metadata: None,
                         files: USER,
                     }),
-                    SettingsPageItem::SectionHeader("Inline Diagnostics"),
+                    SettingsPageItem::SectionHeader("インライン診断"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Enabled",
-                        description: "Whether to show diagnostics inline or not.",
+                        title: "有効",
+                        description: "診断をインラインで表示するかどうかを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("diagnostics.inline.enabled"),
@@ -2321,8 +2321,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Update Debounce",
-                        description: "The delay in milliseconds to show inline diagnostics after the last diagnostic update.",
+                        title: "更新デバウンス",
+                        description: "診断の最新更新後にインライン診断を表示するまでの遅延時間（ミリ秒）です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("diagnostics.inline.update_debounce_ms"),
@@ -2344,8 +2344,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Padding",
-                        description: "The amount of padding between the end of the source line and the start of the inline diagnostic.",
+                        title: "余白",
+                        description: "ソースコード行末とインライン診断表示開始位置との間の余白量です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("diagnostics.inline.padding"),
@@ -2367,8 +2367,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         files: USER,
                     }),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Minimum Column",
-                        description: "The minimum column at which to display inline diagnostics.",
+                        title: "最小列",
+                        description: "インライン診断を表示する最小列位置です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("diagnostics.inline.min_column"),
@@ -2389,10 +2389,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         metadata: None,
                         files: USER,
                     }),
-                    SettingsPageItem::SectionHeader("LSP Pull Diagnostics"),
+                    SettingsPageItem::SectionHeader("LSPプル診断"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Enabled",
-                        description: "Whether to pull for language server-powered diagnostics or not.",
+                        title: "有効",
+                        description: "言語サーバーによる診断を取得（プル）するかどうかを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("diagnostics.lsp_pull_diagnostics.enabled"),
@@ -2415,8 +2415,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     }),
                     // todo(settings_ui): Needs unit
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Debounce",
-                        description: "Minimum time to wait before pulling diagnostics from the language server(s).",
+                        title: "デバウンス",
+                        description: "言語サーバーから診断を取得するまでの最小待機時間です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("diagnostics.lsp_pull_diagnostics.debounce_ms"),
@@ -2437,10 +2437,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                         metadata: None,
                         files: USER,
                     }),
-                    SettingsPageItem::SectionHeader("LSP Highlights"),
+                    SettingsPageItem::SectionHeader("LSPハイライト"),
                     SettingsPageItem::SettingItem(SettingItem {
-                        title: "Debounce",
-                        description: "The debounce delay before querying highlights from the language.",
+                        title: "デバウンス",
+                        description: "言語からハイライトを問い合わせるまでのデバウンス遅延時間です。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("lsp_highlight_debounce"),
@@ -2483,12 +2483,12 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
             },
         },
         SettingsPage {
-            title: "Search & Files",
+            title: "検索とファイル",
             items: vec![
-                SettingsPageItem::SectionHeader("Search"),
+                SettingsPageItem::SectionHeader("検索"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Whole Word",
-                    description: "Search for whole words by default.",
+                    title: "単語全体",
+                    description: "デフォルトで単語全体に一致する文字列のみを検索します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("search.whole_word"),
@@ -2507,8 +2507,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Case Sensitive",
-                    description: "Search case-sensitively by default.",
+                    title: "大文字と小文字を区別",
+                    description: "デフォルトで大文字と小文字を区別して検索します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("search.case_sensitive"),
@@ -2532,8 +2532,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Use Smartcase Search",
-                    description: "Whether to automatically enable case-sensitive search based on the search query.",
+                    title: "スマートケース検索を使用",
+                    description: "検索文字列に応じて大文字と小文字の区別を自動的に切り替えるかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("use_smartcase_search"),
@@ -2548,8 +2548,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Include Ignored",
-                    description: "Include ignored files in search results by default.",
+                    title: "無視ファイルを含める",
+                    description: "デフォルトで検索結果に無視対象のファイルを含めるかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("search.include_ignored"),
@@ -2573,8 +2573,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Regex",
-                    description: "Use regex search by default.",
+                    title: "正規表現",
+                    description: "デフォルトで正規表現検索を使用します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("search.regex"),
@@ -2589,8 +2589,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Search Wrap",
-                    description: "Whether the editor search results will loop.",
+                    title: "折り返し検索",
+                    description: "エディターでの検索が末尾に達したときに先頭に戻ってループするかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("search_wrap"),
@@ -2603,8 +2603,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Center on Match",
-                    description: "Whether to center the current match in the editor",
+                    title: "一致箇所を中央に表示",
+                    description: "エディター内で現在の一致項目を画面中央に配置するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("editor.search.center_on_match"),
@@ -2627,8 +2627,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Seed Search Query From Cursor",
-                    description: "When to populate a new search's query based on the text under the cursor.",
+                    title: "カーソル位置のテキストから検索文字列を生成",
+                    description: "カーソル下のテキストを新規検索のクエリとして自動入力するタイミングを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("seed_search_query_from_cursor"),
@@ -2645,11 +2645,11 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("File Finder"),
+                SettingsPageItem::SectionHeader("ファイルファインダー"),
                 // todo: null by default
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Include Ignored in Search",
-                    description: "Use gitignored files when searching.",
+                    title: "検索に無視ファイルを含める",
+                    description: "ファイル検索時に.gitignoreで無視されたファイルを含めます。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -2673,8 +2673,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "File Icons",
-                    description: "Show file icons in the file finder.",
+                    title: "ファイルアイコン",
+                    description: "ファイルファインダーにファイルアイコンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("file_finder.file_icons"),
@@ -2692,8 +2692,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Modal Max Width",
-                    description: "Determines how much space the file finder can take up in relation to the available window width.",
+                    title: "モーダルの最大幅",
+                    description: "利用可能なウィンドウ幅に対してファイルファインダーが占有できる最大幅を設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("file_finder.modal_max_width"),
@@ -2715,8 +2715,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Skip Focus For Active In Search",
-                    description: "Whether the file finder should skip focus for the active file in search results.",
+                    title: "検索結果のアクティブファイルのフォーカスをスキップ",
+                    description: "ファイルファインダーの検索結果において、現在アクティブなファイルへのフォーカスをスキップするかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("file_finder.skip_focus_for_active_in_search"),
@@ -2738,8 +2738,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Git Status",
-                    description: "Show the Git status in the file finder.",
+                    title: "Gitステータス",
+                    description: "ファイルファインダーにGitのステータスを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("file_finder.git_status"),
@@ -2756,10 +2756,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("File Scan"),
+                SettingsPageItem::SectionHeader("ファイルスキャン"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "File Scan Exclusions",
-                    description: "Files or globs of files that will be excluded by Gram entirely. They will be skipped during file scans, file searches, and not be displayed in the project file tree. Takes precedence over \"File Scan Inclusions\"",
+                    title: "ファイルスキャン除外設定",
+                    description: "Gramが完全に除外するファイルまたはGlobパターンです。ファイルスキャンやファイル検索からスキップされ、プロジェクトファイルツリーにも表示されません。「ファイルスキャン包含設定」より優先されます。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -2781,8 +2781,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "File Scan Inclusions",
-                    description: "Files or globs of files that will be included by Gram, even when ignored by git. This is useful for files that are not tracked by git, but are still important to your project. Note that globs that are overly broad can slow down Gram's file scanning. \"File Scan Exclusions\" takes precedence over these inclusions",
+                    title: "ファイルスキャン包含設定",
+                    description: "Gitで無視されている場合でもGramに含めるファイルまたはGlobパターンです。Gitで追跡されていないがプロジェクトにとって重要なファイルに有用です。広すぎるGlobパターンはGramのファイルスキャンを遅くする可能性があります。「ファイルスキャン除外設定」がこれらより優先されます。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -2804,8 +2804,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Restore File State",
-                    description: "Restore previous file state when reopening.",
+                    title: "ファイル状態の復元",
+                    description: "ファイルを再度開いたときに以前の状態を復元します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("restore_on_file_reopen"),
@@ -2820,8 +2820,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Close on File Delete",
-                    description: "Automatically close files that have been deleted.",
+                    title: "ファイル削除時に閉じる",
+                    description: "削除されたファイルを自動的に閉じます。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("close_on_file_delete"),
@@ -2838,12 +2838,12 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
             ],
         },
         SettingsPage {
-            title: "Window & Layout",
+            title: "ウィンドウとレイアウト",
             items: vec![
-                SettingsPageItem::SectionHeader("Status Bar"),
+                SettingsPageItem::SectionHeader("ステータスバー"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show",
-                    description: "Display the status bar.",
+                    title: "表示",
+                    description: "ステータスバーを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("status_bar.show"),
@@ -2865,8 +2865,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Position",
-                    description: "Show the status bar at the bottom or top of the window.",
+                    title: "配置位置",
+                    description: "ステータスバーをウィンドウの上部または下部に表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("status_bar.position"),
@@ -2888,8 +2888,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Icon Size",
-                    description: "Size of the icons in the status bar",
+                    title: "アイコンサイズ",
+                    description: "ステータスバー内のアイコンのサイズです。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("status_bar.icon_size"),
@@ -2911,8 +2911,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Active File",
-                    description: "Show the active file name in the status bar.",
+                    title: "アクティブファイル",
+                    description: "ステータスバーにアクティブなファイル名を表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("status_bar.active_file"),
@@ -2934,8 +2934,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Project Panel Button",
-                    description: "Show the project panel button in the status bar.",
+                    title: "プロジェクトパネルボタン",
+                    description: "ステータスバーにプロジェクトパネルボタンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.button"),
@@ -2953,8 +2953,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Active Language Button",
-                    description: "Show the active language button in the status bar.",
+                    title: "アクティブ言語ボタン",
+                    description: "ステータスバーにアクティブ言語ボタンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("status_bar.active_language_button"),
@@ -2976,8 +2976,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Active Encoding Button",
-                    description: "Control when to show the active encoding in the status bar.",
+                    title: "アクティブエンコーディングボタン",
+                    description: "ステータスバーにアクティブなエンコーディングを表示するタイミングを制御します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("status_bar.active_encoding_button"),
@@ -2999,8 +2999,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Cursor Position Button",
-                    description: "Show the cursor position button in the status bar.",
+                    title: "カーソル位置ボタン",
+                    description: "ステータスバーにカーソル位置ボタンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("status_bar.cursor_position_button"),
@@ -3022,8 +3022,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Terminal Button",
-                    description: "Show the terminal button in the status bar.",
+                    title: "ターミナルボタン",
+                    description: "ステータスバーにターミナルボタンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.button"),
@@ -3038,8 +3038,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Diagnostics Button",
-                    description: "Show the project diagnostics button in the status bar.",
+                    title: "診断ボタン",
+                    description: "ステータスバーにプロジェクトの診断ボタンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("diagnostics.button"),
@@ -3054,8 +3054,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Project Search Button",
-                    description: "Show the project search button in the status bar.",
+                    title: "プロジェクト検索ボタン",
+                    description: "ステータスバーにプロジェクト検索ボタンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("search.button"),
@@ -3074,8 +3074,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Debugger Button",
-                    description: "Show the debugger button in the status bar.",
+                    title: "デバッガーボタン",
+                    description: "ステータスバーにデバッガーボタンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("debugger.button"),
@@ -3089,10 +3089,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Title Bar"),
+                SettingsPageItem::SectionHeader("タイトルバー"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Title Bar",
-                    description: "Show or hide the entire title bar.",
+                    title: "タイトルバーを表示",
+                    description: "タイトルバー全体を表示または非表示にします。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("title_bar.show"),
@@ -3114,8 +3114,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Branch Icon",
-                    description: "Show the branch icon beside branch switcher in the titlebar.",
+                    title: "ブランチアイコンを表示",
+                    description: "タイトルバーのブランチ切り替えの横にブランチアイコンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("title_bar.show_branch_icon"),
@@ -3137,8 +3137,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Branch Name",
-                    description: "Show the branch name button in the titlebar.",
+                    title: "ブランチ名を表示",
+                    description: "タイトルバーにブランチ名ボタンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("title_bar.show_branch_name"),
@@ -3160,8 +3160,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Project Items",
-                    description: "Show the project host and name in the titlebar.",
+                    title: "プロジェクト項目を表示",
+                    description: "タイトルバーにプロジェクトのホストと名前を表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("title_bar.show_project_items"),
@@ -3183,8 +3183,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Onboarding Banner",
-                    description: "Show banners announcing new features in the titlebar.",
+                    title: "オンボーディングバナーを表示",
+                    description: "タイトルバーに新機能を通知するバナーを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("title_bar.show_onboarding_banner"),
@@ -3206,8 +3206,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Menus",
-                    description: "Show the menus in the titlebar.",
+                    title: "メニューを表示",
+                    description: "タイトルバーにメニューを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("title_bar.show_menus"),
@@ -3224,10 +3224,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Tab Bar"),
+                SettingsPageItem::SectionHeader("タブバー"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Tab Bar",
-                    description: "Show the tab bar in the editor.",
+                    title: "タブバーを表示",
+                    description: "エディターにタブバーを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("tab_bar.show"),
@@ -3240,8 +3240,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Git Status In Tabs",
-                    description: "Show the Git file status on a tab item.",
+                    title: "タブにGitステータスを表示",
+                    description: "タブ項目にGitのファイルステータスを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("tabs.git_status"),
@@ -3256,8 +3256,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show File Icons In Tabs",
-                    description: "Show the file icon for a tab.",
+                    title: "タブにファイルアイコンを表示",
+                    description: "タブにファイルアイコンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("tabs.file_icons"),
@@ -3272,8 +3272,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Tab Close Position",
-                    description: "Position of the close button in a tab.",
+                    title: "タブの閉じるボタンの位置",
+                    description: "タブ内の閉じるボタンの配置位置です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("tabs.close_position"),
@@ -3289,8 +3289,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
                     files: USER,
-                    title: "Maximum Tabs",
-                    description: "Maximum open tabs in a pane. Will not close an unsaved tab.",
+                    title: "最大タブ数",
+                    description: "ペイン内で開ける最大タブ数です。未保存のタブは閉じられません。",
                     aliases: None,
                     // todo(settings_ui): The default for this value is null and it's use in code
                     // is complex, so I'm going to come back to this later
@@ -3307,8 +3307,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Pinned Tabs Layout",
-                    description: "Show pinned tabs in a separate row above unpinned tabs.",
+                    title: "固定タブのレイアウト",
+                    description: "固定されたタブを通常のタブの上に別行として表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("tab_bar.show_pinned_tabs_in_separate_row"),
@@ -3330,8 +3330,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Wrap Tabs",
-                    description: "Wrap tabs onto additional rows when the tab bar overflows.",
+                    title: "タブの折り返し",
+                    description: "タブバーがあふれたときにタブを次の行へ折り返して表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("tab_bar.wrap_tabs"),
@@ -3346,8 +3346,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Navigation History Buttons",
-                    description: "Show the navigation history buttons in the tab bar.",
+                    title: "ナビゲーション履歴ボタンを表示",
+                    description: "タブバーにナビゲーション履歴ボタンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("tab_bar.show_nav_history_buttons"),
@@ -3369,8 +3369,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Tab Bar Buttons",
-                    description: "Show the tab bar buttons (New, Split Pane, Zoom).",
+                    title: "タブバーボタンを表示",
+                    description: "タブバーボタン（新規作成、ペイン分割、ズーム）を表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("tab_bar.show_tab_bar_buttons"),
@@ -3391,10 +3391,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Tab Settings"),
+                SettingsPageItem::SectionHeader("タブ設定"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Activate On Close",
-                    description: "What to do after closing the current tab.",
+                    title: "閉じたときのアクティブ化対象",
+                    description: "現在のタブを閉じた後にアクティブにするタブを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("tabs.activate_on_close"),
@@ -3412,8 +3412,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Tab Show Diagnostics",
-                    description: "Which files containing diagnostic errors/warnings to mark in the tabs.",
+                    title: "タブの診断表示",
+                    description: "診断エラーや警告を含むファイルをタブ上でどのようにマークするかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("tabs.show_diagnostics"),
@@ -3431,8 +3431,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Close Button",
-                    description: "Controls the appearance behavior of the tab's close button.",
+                    title: "閉じるボタンを表示",
+                    description: "タブの閉じるボタンの表示動作を設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("tabs.show_close_button"),
@@ -3449,10 +3449,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Preview Tabs"),
+                SettingsPageItem::SectionHeader("プレビュータブ"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Preview Tabs Enabled",
-                    description: "Show opened editors as preview tabs.",
+                    title: "プレビュータブを有効化",
+                    description: "開いたエディターをプレビュータブとして表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("preview_tabs.enabled"),
@@ -3470,8 +3470,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Enable Preview From Project Panel",
-                    description: "Whether to open tabs in preview mode when opened from the project panel with a single click.",
+                    title: "プロジェクトパネルからのプレビューを有効化",
+                    description: "プロジェクトパネルからシングルクリックで開いたときにプレビューモードで開くかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("preview_tabs.enable_preview_from_project_panel"),
@@ -3493,8 +3493,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Enable Preview From File Finder",
-                    description: "Whether to open tabs in preview mode when selected from the file finder.",
+                    title: "ファイルファインダーからのプレビューを有効化",
+                    description: "ファイルファインダーから選択したときにプレビューモードで開くかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("preview_tabs.enable_preview_from_file_finder"),
@@ -3516,8 +3516,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Enable Preview From Multibuffer",
-                    description: "Whether to open tabs in preview mode when opened from a multibuffer.",
+                    title: "マルチバッファーからのプレビューを有効化",
+                    description: "マルチバッファーから開いたときにプレビューモードで開くかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("preview_tabs.enable_preview_from_multibuffer"),
@@ -3539,8 +3539,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Enable Preview Multibuffer From Code Navigation",
-                    description: "Whether to open tabs in preview mode when code navigation is used to open a multibuffer.",
+                    title: "コードナビゲーションからのマルチバッファープレビューを有効化",
+                    description: "コードナビゲーションを使用してマルチバッファーを開いたときにプレビューモードで開くかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("preview_tabs.enable_preview_multibuffer_from_code_navigation"),
@@ -3562,8 +3562,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Enable Preview File From Code Navigation",
-                    description: "Whether to open tabs in preview mode when code navigation is used to open a single file.",
+                    title: "コードナビゲーションからのファイルプレビューを有効化",
+                    description: "コードナビゲーションを使用して単一ファイルを開いたときにプレビューモードで開くかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("preview_tabs.enable_preview_file_from_code_navigation"),
@@ -3585,8 +3585,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Enable Keep Preview On Code Navigation",
-                    description: "Whether to keep tabs in preview mode when code navigation is used to navigate away from them. If `enable_preview_file_from_code_navigation` or `enable_preview_multibuffer_from_code_navigation` is also true, the new tab may replace the existing one.",
+                    title: "コードナビゲーション時にプレビュー状態を維持",
+                    description: "コードナビゲーションで別のファイルへ移動する際にタブのプレビューモードを維持するかどうかを設定します。ファイルやマルチバッファーのプレビューが有効な場合、既存のタブが新しいタブに置き換わる可能性があります。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("preview_tabs.enable_keep_preview_on_code_navigation"),
@@ -3607,10 +3607,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Layout"),
+                SettingsPageItem::SectionHeader("レイアウト"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Bottom Dock Layout",
-                    description: "Layout mode for the bottom dock.",
+                    title: "ボトムドックのレイアウト",
+                    description: "ボトムドックのレイアウトモードです。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("bottom_dock_layout"),
@@ -3626,8 +3626,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
                     files: USER,
-                    title: "Centered Layout Left Padding",
-                    description: "Left padding for centered layout.",
+                    title: "中央揃えレイアウトの左余白",
+                    description: "中央揃えレイアウト時の左側の余白です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("centered_layout.left_padding"),
@@ -3651,8 +3651,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
                     files: USER,
-                    title: "Centered Layout Right Padding",
-                    description: "Right padding for centered layout.",
+                    title: "中央揃えレイアウトの右余白",
+                    description: "中央揃えレイアウト時の右側の余白です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("centered_layout.right_padding"),
@@ -3674,11 +3674,11 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     }),
                     metadata: None,
                 }),
-                SettingsPageItem::SectionHeader("Window"),
+                SettingsPageItem::SectionHeader("ウィンドウ"),
                 // todo(settings_ui): Should we filter by platform.as_ref()?
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Use System Window Tabs",
-                    description: "(macOS only) whether to allow Windows to tab together.",
+                    title: "システムウィンドウタブを使用",
+                    description: "（macOSのみ）ウィンドウ同士をタブとしてまとめることを許可するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("use_system_window_tabs"),
@@ -3693,8 +3693,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Window Decorations",
-                    description: "(Linux only) whether Gram or your compositor should draw window decorations.",
+                    title: "ウィンドウ装飾",
+                    description: "（Linuxのみ）ウィンドウの枠線や装飾をGram側で描画するかコンポジターに任せるかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("window_decorations"),
@@ -3709,8 +3709,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Option as Alt",
-                    description: "(Mac only) which Option keys should the editor treat as alt. Needs restart to take effect.",
+                    title: "OptionキーをAltとして扱う",
+                    description: "（macOSのみ）エディターでどちらのOptionキーをAltキーとして扱うかを設定します。反映には再起動が必要です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("option_as_alt"),
@@ -3724,10 +3724,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Pane Modifiers"),
+                SettingsPageItem::SectionHeader("ペイン修飾"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Inactive Opacity",
-                    description: "Opacity of inactive panels (0.0 - 1.0).",
+                    title: "非アクティブ時の不透明度",
+                    description: "非アクティブなパネルの不透明度（0.0 - 1.0）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("active_pane_modifiers.inactive_opacity"),
@@ -3751,8 +3751,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Border Size",
-                    description: "Size of the border surrounding the active pane.",
+                    title: "枠線の太さ",
+                    description: "アクティブなペインを囲む枠線の太さです。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("active_pane_modifiers.border_size"),
@@ -3776,8 +3776,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Zoomed Padding",
-                    description: "Show padding for zoomed panes.",
+                    title: "ズーム時の余白",
+                    description: "ズーム表示されたペインの余白を表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("zoomed_padding"),
@@ -3789,10 +3789,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Pane Split Direction"),
+                SettingsPageItem::SectionHeader("ペイン分割方向"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Vertical Split Direction",
-                    description: "Direction to split vertically.",
+                    title: "垂直分割方向",
+                    description: "垂直方向に分割する際の位置方向です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("pane_split_direction_vertical"),
@@ -3810,8 +3810,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Horizontal Split Direction",
-                    description: "Direction to split horizontally.",
+                    title: "水平分割方向",
+                    description: "水平方向に分割する際の位置方向です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("pane_split_direction_horizontal"),
@@ -3831,12 +3831,12 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
             ],
         },
         SettingsPage {
-            title: "Panels",
+            title: "パネル",
             items: vec![
-                SettingsPageItem::SectionHeader("Project Panel"),
+                SettingsPageItem::SectionHeader("プロジェクトパネル"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Project Panel Dock",
-                    description: "Where to dock the project panel.",
+                    title: "プロジェクトパネルのドック位置",
+                    description: "プロジェクトパネルをドックする位置です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.dock"),
@@ -3851,8 +3851,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Project Panel Default Width",
-                    description: "Default width of the project panel in pixels.",
+                    title: "プロジェクトパネルのデフォルト幅",
+                    description: "プロジェクトパネルのデフォルトの幅（ピクセル単位）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.default_width"),
@@ -3874,8 +3874,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Hide .gitignore",
-                    description: "Whether to hide the gitignore entries in the project panel.",
+                    title: ".gitignoreを非表示",
+                    description: "プロジェクトパネルでgitignore対象の項目を非表示にするかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.hide_gitignore"),
@@ -3897,8 +3897,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Entry Spacing",
-                    description: "Spacing between worktree entries in the project panel.",
+                    title: "項目の間隔",
+                    description: "プロジェクトパネル内のワークツリー項目の間隔です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.entry_spacing"),
@@ -3920,8 +3920,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "File Icons",
-                    description: "Show file icons in the project panel.",
+                    title: "ファイルアイコン",
+                    description: "プロジェクトパネルにファイルアイコンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.file_icons"),
@@ -3939,8 +3939,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Folder Icons",
-                    description: "Whether to show folder icons or chevrons for directories in the project panel.",
+                    title: "フォルダーアイコン",
+                    description: "プロジェクトパネルのフォルダーに対してアイコンを表示するかシェブロンを表示するかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.folder_icons"),
@@ -3962,8 +3962,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Git Status",
-                    description: "Show the Git status in the project panel.",
+                    title: "Gitステータス",
+                    description: "プロジェクトパネルにGitのステータスを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.git_status"),
@@ -3981,8 +3981,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Indent Size",
-                    description: "Amount of indentation for nested items.",
+                    title: "インデント幅",
+                    description: "階層化された項目のインデント幅です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.indent_size"),
@@ -4004,8 +4004,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Auto Reveal Entries",
-                    description: "Whether to reveal entries in the project panel automatically when a corresponding project entry becomes active.",
+                    title: "項目の自動展開表示",
+                    description: "対応するプロジェクトのファイルがアクティブになったときに、プロジェクトパネル内の項目を自動的に展開して表示するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.auto_reveal_entries"),
@@ -4027,8 +4027,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Starts Open",
-                    description: "Whether the project panel should open on startup.",
+                    title: "起動時に開く",
+                    description: "起動時にプロジェクトパネルを開いた状態にするかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.starts_open"),
@@ -4050,8 +4050,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Auto Fold Directories",
-                    description: "Whether to fold directories automatically and show compact folders when a directory has only one subdirectory inside.",
+                    title: "フォルダーの自動折りたたみ",
+                    description: "フォルダー内にサブフォルダーが1つしかない場合に、自動的に折りたたんでコンパクト表示にするかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.auto_fold_dirs"),
@@ -4073,8 +4073,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Scrollbar",
-                    description: "Show the scrollbar in the project panel.",
+                    title: "スクロールバーを表示",
+                    description: "プロジェクトパネルにスクロールバーを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.scrollbar.show"),
@@ -4102,8 +4102,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Diagnostics",
-                    description: "Which files containing diagnostic errors/warnings to mark in the project panel.",
+                    title: "診断を表示",
+                    description: "診断エラーや警告を含むファイルをプロジェクトパネルでどのようにマークするかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.show_diagnostics"),
@@ -4125,8 +4125,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Sticky Scroll",
-                    description: "Whether to stick parent directories at top of the project panel.",
+                    title: "スティッキースクロール",
+                    description: "親フォルダーをプロジェクトパネルの上部に固定表示するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.sticky_scroll"),
@@ -4149,8 +4149,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
                     files: USER,
-                    title: "Show Indent Guides",
-                    description: "Show indent guides in the project panel.",
+                    title: "インデントガイドを表示",
+                    description: "プロジェクトパネルにインデントガイドを表示します。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -4177,8 +4177,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Drag and Drop",
-                    description: "Whether to enable drag-and-drop operations in the project panel.",
+                    title: "ドラッグ＆ドロップ",
+                    description: "プロジェクトパネルでのドラッグ＆ドロップ操作を有効にするかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.drag_and_drop"),
@@ -4200,8 +4200,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Hide Root",
-                    description: "Whether to hide the root entry when only one folder is open in the window.",
+                    title: "ルートフォルダーを非表示",
+                    description: "ウィンドウにフォルダーが1つだけ開かれている場合に、ルートフォルダー項目を非表示にするかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.drag_and_drop"),
@@ -4219,8 +4219,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Hide Hidden",
-                    description: "Whether to hide the hidden entries in the project panel.",
+                    title: "隠し項目を非表示",
+                    description: "プロジェクトパネルで隠し項目を非表示にするかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.hide_hidden"),
@@ -4242,8 +4242,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Hidden Files",
-                    description: "Globs to match files that will be considered \"hidden\" and can be hidden from the project panel.",
+                    title: "隠しファイル",
+                    description: "「隠し項目」とみなされ、プロジェクトパネルから非表示にできるファイルを判定するためのGlobパターンを指定します。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -4260,10 +4260,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Auto Open Files"),
+                SettingsPageItem::SectionHeader("ファイル自動オープン"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "On Create",
-                    description: "Whether to automatically open newly created files in the editor.",
+                    title: "新規作成時",
+                    description: "新しく作成されたファイルをエディターで自動的に開くかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.auto_open.on_create"),
@@ -4278,8 +4278,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "On Paste",
-                    description: "Whether to automatically open files after pasting or duplicating them.",
+                    title: "貼り付け時",
+                    description: "ファイルの貼り付けや複製を行った後に自動的に開くかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.auto_open.on_paste"),
@@ -4294,8 +4294,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "On Drop",
-                    description: "Whether to automatically open files dropped from external sources.",
+                    title: "ドロップ時",
+                    description: "外部からドロップされたファイルを自動的に開くかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.auto_open.on_drop"),
@@ -4310,8 +4310,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Should Focus",
-                    description: "Whether to focus on files automatically opened.",
+                    title: "フォーカスを移動",
+                    description: "自動的に開かれたファイルにフォーカスを合わせるかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("project_panel.auto_open.should_focus"),
@@ -4326,8 +4326,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Sort Mode",
-                    description: "Sort order for entries in the project panel.",
+                    title: "並び替えモード",
+                    description: "プロジェクトパネル内の項目の並び順を設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         pick: |settings_content| {
@@ -4347,10 +4347,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     })),
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Terminal Panel"),
+                SettingsPageItem::SectionHeader("ターミナルパネル"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Terminal Dock",
-                    description: "Where to dock the terminal panel.",
+                    title: "ターミナルのドック位置",
+                    description: "ターミナルパネルをドックする位置です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.dock"),
@@ -4362,10 +4362,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Outline Panel"),
+                SettingsPageItem::SectionHeader("アウトラインパネル"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Outline Panel Button",
-                    description: "Show the outline panel button in the status bar.",
+                    title: "アウトラインパネルボタン",
+                    description: "ステータスバーにアウトラインパネルボタンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("outline_panel.button"),
@@ -4383,8 +4383,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Outline Panel Dock",
-                    description: "Where to dock the outline panel.",
+                    title: "アウトラインパネルのドック位置",
+                    description: "アウトラインパネルをドックする位置です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("outline_panel.dock"),
@@ -4399,8 +4399,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Outline Panel Default Width",
-                    description: "Default width of the outline panel in pixels.",
+                    title: "アウトラインパネルのデフォルト幅",
+                    description: "アウトラインパネルのデフォルトの幅（ピクセル単位）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("outline_panel.default_width"),
@@ -4422,8 +4422,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "File Icons",
-                    description: "Show file icons in the outline panel.",
+                    title: "ファイルアイコン",
+                    description: "アウトラインパネルにファイルアイコンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("outline_panel.file_icons"),
@@ -4441,8 +4441,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Folder Icons",
-                    description: "Whether to show folder icons or chevrons for directories in the outline panel.",
+                    title: "フォルダーアイコン",
+                    description: "アウトラインパネルのフォルダーに対してアイコンを表示するかシェブロンを表示するかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("outline_panel.folder_icons"),
@@ -4464,8 +4464,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Git Status",
-                    description: "Show the Git status in the outline panel.",
+                    title: "Gitステータス",
+                    description: "アウトラインパネルにGitのステータスを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("outline_panel.git_status"),
@@ -4483,8 +4483,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Indent Size",
-                    description: "Amount of indentation for nested items.",
+                    title: "インデント幅",
+                    description: "階層化された項目のインデント幅です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("outline_panel.indent_size"),
@@ -4506,8 +4506,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Auto Reveal Entries",
-                    description: "Whether to reveal when a corresponding outline entry becomes active.",
+                    title: "項目の自動展開表示",
+                    description: "対応するアウトライン項目がアクティブになったときに自動的に展開して表示するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("outline_panel.auto_reveal_entries"),
@@ -4529,8 +4529,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Auto Fold Directories",
-                    description: "Whether to fold directories automatically when a directory contains only one subdirectory.",
+                    title: "フォルダーの自動折りたたみ",
+                    description: "フォルダー内にサブフォルダーが1つしかない場合に自動的に折りたたむかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("outline_panel.auto_fold_dirs"),
@@ -4553,8 +4553,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
                     files: USER,
-                    title: "Show Indent Guides",
-                    description: "When to show indent guides in the outline panel.",
+                    title: "インデントガイドを表示",
+                    description: "アウトラインパネルにインデントガイドを表示するタイミングを設定します。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -4580,10 +4580,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     ),
                     metadata: None,
                 }),
-                SettingsPageItem::SectionHeader("Git Panel"),
+                SettingsPageItem::SectionHeader("Gitパネル"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Git Panel Button",
-                    description: "Show the Git panel button in the status bar.",
+                    title: "Gitパネルボタン",
+                    description: "ステータスバーにGitパネルボタンを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git_panel.button"),
@@ -4598,8 +4598,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Git Panel Dock",
-                    description: "Where to dock the Git panel.",
+                    title: "Gitパネルのドック位置",
+                    description: "Gitパネルをドックする位置です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git_panel.dock"),
@@ -4612,8 +4612,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Git Panel Default Width",
-                    description: "Default width of the Git panel in pixels.",
+                    title: "Gitパネルのデフォルト幅",
+                    description: "Gitパネルのデフォルトの幅（ピクセル単位）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git_panel.default_width"),
@@ -4631,8 +4631,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Git Panel Status Style",
-                    description: "How entry statuses are displayed.",
+                    title: "Gitパネルのステータススタイル",
+                    description: "項目のステータスをどのように表示するかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git_panel.status_style"),
@@ -4650,8 +4650,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Fallback Branch Name",
-                    description: "Default branch name will be when init.defaultbranch is not set in Git.",
+                    title: "フォールバックブランチ名",
+                    description: "Gitのinit.defaultbranchが未設定の場合に使用するデフォルトのブランチ名です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git_panel.fallback_branch_name"),
@@ -4673,8 +4673,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Sort By Path",
-                    description: "Enable to sort entries in the panel by path, disable to sort by status.",
+                    title: "パス順で並び替え",
+                    description: "有効にするとパネル内の項目をパス順で並び替えます。無効にするとステータス順で並び替えます。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git_panel.sort_by_path"),
@@ -4692,8 +4692,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Diff Stats",
-                    description: "Whether to show added and deleted line counts for each entry.",
+                    title: "差分統計",
+                    description: "各項目の追加行数および削除行数を表示するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git_panel.diff_stats"),
@@ -4706,8 +4706,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Collapse Untracked Diff",
-                    description: "Whether to collapse untracked files in the diff panel.",
+                    title: "未追跡の差分を折りたたむ",
+                    description: "差分パネルで未追跡ファイルを折りたたんで表示するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git_panel.collapse_untracked_diff"),
@@ -4729,8 +4729,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Tree View",
-                    description: "Enable to show entries in tree view list, disable to show in flat view list.",
+                    title: "ツリー表示",
+                    description: "有効にすると項目をツリー形式で一覧表示し、無効にするとフラットなリスト形式で表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git_panel.tree_view"),
@@ -4748,8 +4748,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Scroll Bar",
-                    description: "How and when the scrollbar should be displayed.",
+                    title: "スクロールバー",
+                    description: "スクロールバーを表示する方法とタイミングを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git_panel.scrollbar.show"),
@@ -4776,10 +4776,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Debugger Panel"),
+                SettingsPageItem::SectionHeader("デバッガーパネル"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Debugger Panel Dock",
-                    description: "The dock position of the debug panel.",
+                    title: "デバッガーパネルのドック位置",
+                    description: "デバッガーパネルのドック位置です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("debugger.dock"),
@@ -4794,12 +4794,12 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
             ],
         },
         SettingsPage {
-            title: "Debugger",
+            title: "デバッガー",
             items: vec![
-                SettingsPageItem::SectionHeader("General"),
+                SettingsPageItem::SectionHeader("一般"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Stepping Granularity",
-                    description: "Determines the stepping granularity for debug operations.",
+                    title: "ステップ実行の粒度",
+                    description: "デバッグ操作時のステップ実行の細かさを決定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("debugger.stepping_granularity"),
@@ -4821,8 +4821,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Save Breakpoints",
-                    description: "Whether breakpoints should be reused across Gram sessions.",
+                    title: "ブレークポイントを保存",
+                    description: "Gramのセッション間でブレークポイントを保持して再利用するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("debugger.save_breakpoints"),
@@ -4844,8 +4844,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Timeout",
-                    description: "Time in milliseconds until timeout error when connecting to a TCP debug adapter.",
+                    title: "タイムアウト",
+                    description: "TCPデバッグアダプターへの接続時にタイムアウトエラーとなるまでの時間（ミリ秒）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("debugger.timeout"),
@@ -4860,8 +4860,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Log DAP Communications",
-                    description: "Whether to log messages between active debug adapters and Gram.",
+                    title: "DAP通信のログ記録",
+                    description: "アクティブなデバッグアダプターとGramの間のメッセージをログに記録するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("debugger.log_dap_communications"),
@@ -4883,8 +4883,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Format DAP Log Messages",
-                    description: "Whether to format DAP messages when adding them to debug adapter logger.",
+                    title: "DAPログメッセージの整形",
+                    description: "デバッグアダプターロガーに追加する際にDAPメッセージを整形（フォーマット）するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("debugger.format_dap_log_messages"),
@@ -4908,14 +4908,14 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
             ],
         },
         SettingsPage {
-            title: "Terminal",
+            title: "ターミナル",
             items: vec![
-                SettingsPageItem::SectionHeader("Environment"),
+                SettingsPageItem::SectionHeader("環境"),
                 SettingsPageItem::DynamicItem(DynamicItem {
                     discriminant: SettingItem {
                         files: USER | PROJECT,
-                        title: "Shell",
-                        description: "What shell to use when opening a terminal.",
+                        title: "シェル",
+                        description: "ターミナルを開く際に使用するシェルを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("terminal.shell$"),
@@ -4987,8 +4987,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                             settings::ShellDiscriminants::Program => vec![
                                 SettingItem {
                                     files: USER | PROJECT,
-                                    title: "Program",
-                                    description: "The shell program to use.",
+                                    title: "プログラム",
+                                    description: "使用するシェルプログラムです。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("terminal.shell"),
@@ -5015,8 +5015,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                             settings::ShellDiscriminants::WithArguments => vec![
                                 SettingItem {
                                     files: USER | PROJECT,
-                                    title: "Program",
-                                    description: "The shell program to run.",
+                                    title: "プログラム",
+                                    description: "実行するシェルプログラムです。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("terminal.shell.program"),
@@ -5041,8 +5041,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                                 },
                                 SettingItem {
                                     files: USER | PROJECT,
-                                    title: "Arguments",
-                                    description: "The arguments to pass to the shell program.",
+                                    title: "引数",
+                                    description: "シェルプログラムに渡す引数です。",
                                     aliases: None,
                                     field: Box::new(
                                         SettingField {
@@ -5070,8 +5070,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                                 },
                                 SettingItem {
                                     files: USER | PROJECT,
-                                    title: "Title Override",
-                                    description: "An optional string to override the title of the terminal tab.",
+                                    title: "タイトルの上書き",
+                                    description: "ターミナルタブのタイトルを上書きするための任意の文字列です。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("terminal.shell.title_override"),
@@ -5098,8 +5098,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 SettingsPageItem::DynamicItem(DynamicItem {
                     discriminant: SettingItem {
                         files: USER | PROJECT,
-                        title: "Working Directory",
-                        description: "What working directory to use when launching the terminal.",
+                        title: "作業ディレクトリ",
+                        description: "ターミナル起動時に使用する作業ディレクトリを設定します。",
                         aliases: None,
                         field: Box::new(SettingField {
                             json_path: Some("terminal.working_directory$"),
@@ -5159,8 +5159,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                             settings::WorkingDirectoryDiscriminants::Always => vec![
                                 SettingItem {
                                     files: USER | PROJECT,
-                                    title: "Directory",
-                                    description: "The directory path to use (will be shell expanded).",
+                                    title: "ディレクトリ",
+                                    description: "使用するディレクトリパスです（シェル展開されます）。",
                                     aliases: None,
                                     field: Box::new(SettingField {
                                         json_path: Some("terminal.working_directory.always"),
@@ -5186,8 +5186,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     }).collect(),
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Environment Variables",
-                    description: "Key-value pairs to add to the terminal's environment.",
+                    title: "環境変数",
+                    description: "ターミナルの環境に追加するキーと値のペアです。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -5209,8 +5209,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER | PROJECT,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Detect Virtual Environment",
-                    description: "Activates the Python virtual environment, if one is found, in the terminal's working directory.",
+                    title: "仮想環境の検出",
+                    description: "ターミナルの作業ディレクトリ内にPython仮想環境が見つかった場合、自動的に有効化します。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -5236,10 +5236,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER | PROJECT,
                 }),
-                SettingsPageItem::SectionHeader("Font"),
+                SettingsPageItem::SectionHeader("フォント"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Font Size",
-                    description: "Font size for terminal text. If not set, defaults to buffer font size.",
+                    title: "フォントサイズ",
+                    description: "ターミナルテキストのフォントサイズです。未設定の場合はバッファーフォントサイズを継承します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.font_size"),
@@ -5258,8 +5258,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Font Family",
-                    description: "Font family for terminal text. If not set, defaults to buffer font family.",
+                    title: "フォントファミリー",
+                    description: "ターミナルテキストのフォントファミリーです。未設定の場合はバッファーフォントファミリーを継承します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.font_family"),
@@ -5281,8 +5281,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Font Fallbacks",
-                    description: "Font fallbacks for terminal text. If not set, defaults to buffer font fallbacks.",
+                    title: "フォールバックフォント",
+                    description: "ターミナルテキストのフォールバックフォントです。未設定の場合はバッファーフォールバックフォントを継承します。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -5307,8 +5307,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Font Weight",
-                    description: "Font weight for terminal text in CSS weight units (100-900).",
+                    title: "フォントウェイト",
+                    description: "CSSウェイト単位（100-900）でのターミナルテキストのフォントの太さです。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.font_weight"),
@@ -5326,8 +5326,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Font Features",
-                    description: "Font features for terminal text.",
+                    title: "フォント機能",
+                    description: "ターミナルテキスト用のOpenType機能です。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -5351,10 +5351,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Display Settings"),
+                SettingsPageItem::SectionHeader("表示設定"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Line Height",
-                    description: "Line height for terminal text.",
+                    title: "行の高さ",
+                    description: "ターミナルテキストの行の高さです。",
                     aliases: None,
                     field: Box::new(
                         SettingField {
@@ -5375,8 +5375,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Cursor Shape",
-                    description: "Default cursor shape for the terminal (bar, block, underline, or hollow).",
+                    title: "カーソル形状",
+                    description: "ターミナルのデフォルトのカーソル形状（バー、ブロック、下線、中空）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.cursor_shape"),
@@ -5394,8 +5394,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Cursor Blinking",
-                    description: "Sets the cursor blinking behavior in the terminal.",
+                    title: "カーソルの点滅",
+                    description: "ターミナル内でのカーソル点滅動作を設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.blinking"),
@@ -5410,8 +5410,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Alternate Scroll",
-                    description: "Whether alternate scroll mode is active by default (converts mouse scroll to arrow keys in apps like Vim).",
+                    title: "オルタネートスクロール",
+                    description: "デフォルトでオルタネートスクロールモードを有効にするかどうか（Vim等のアプリでマウススクロールを矢印キーに変換）を設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.alternate_scroll"),
@@ -5433,8 +5433,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Minimum Contrast",
-                    description: "The minimum APCA perceptual contrast between foreground and background colors (0-106).",
+                    title: "最小コントラスト",
+                    description: "前景色と背景色の間のAPCA知覚コントラストの最小値（0-106）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.minimum_contrast"),
@@ -5455,10 +5455,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Behavior Settings"),
+                SettingsPageItem::SectionHeader("動作設定"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Option As Meta",
-                    description: "Whether the option key behaves as the meta key.",
+                    title: "OptionをMetaとして扱う",
+                    description: "OptionキーをMetaキーとして動作させるかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.option_as_meta"),
@@ -5476,8 +5476,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Copy On Select",
-                    description: "Whether selecting text in the terminal automatically copies to the system clipboard.",
+                    title: "選択時にコピー",
+                    description: "ターミナル内でテキストを選択したときに自動的にクリップボードへコピーするかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.copy_on_select"),
@@ -5495,8 +5495,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Keep Selection On Copy",
-                    description: "Whether to keep the text selection after copying it to the clipboard.",
+                    title: "コピー後も選択を維持",
+                    description: "クリップボードへのコピー後もテキストの選択状態を維持するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.keep_selection_on_copy"),
@@ -5517,10 +5517,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Layout Settings"),
+                SettingsPageItem::SectionHeader("レイアウト設定"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Default Width",
-                    description: "Default width when the terminal is docked to the left or right (in pixels).",
+                    title: "デフォルト幅",
+                    description: "ターミナルが左右にドックされている場合のデフォルトの幅（ピクセル単位）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.default_width"),
@@ -5538,8 +5538,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Default Height",
-                    description: "Default height when the terminal is docked to the bottom (in pixels).",
+                    title: "デフォルトの高さ",
+                    description: "ターミナルが下部にドックされている場合のデフォルトの高さ（ピクセル単位）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.default_height"),
@@ -5556,10 +5556,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Advanced Settings"),
+                SettingsPageItem::SectionHeader("詳細設定"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Max Scroll History Lines",
-                    description: "Maximum number of lines to keep in scrollback history (max: 100,000; 0 disables scrolling).",
+                    title: "最大スクロール履歴行数",
+                    description: "スクロールバック履歴として保持する最大行数です（最大: 100,000、0でスクロール無効）。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.max_scroll_history_lines"),
@@ -5581,8 +5581,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Scroll Multiplier",
-                    description: "The multiplier for scrolling in the terminal with the mouse wheel",
+                    title: "スクロール倍率",
+                    description: "マウスホイールによるターミナル内スクロールの感度倍率です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.scroll_multiplier"),
@@ -5599,10 +5599,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Toolbar"),
+                SettingsPageItem::SectionHeader("ツールバー"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Breadcrumbs",
-                    description: "Display the terminal title in breadcrumbs inside the terminal pane.",
+                    title: "パンくずリスト",
+                    description: "ターミナルペイン内のパンくずリストにターミナルのタイトルを表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.toolbar.breadcrumbs"),
@@ -5627,10 +5627,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Scrollbar"),
+                SettingsPageItem::SectionHeader("スクロールバー"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Scrollbar",
-                    description: "When to show the scrollbar in the terminal.",
+                    title: "スクロールバーを表示",
+                    description: "ターミナルでスクロールバーを表示するタイミングを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("terminal.scrollbar.show"),
@@ -5660,12 +5660,12 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
             ],
         },
         SettingsPage {
-            title: "Version Control",
+            title: "バージョン管理",
             items: vec![
-                SettingsPageItem::SectionHeader("Diffs"),
+                SettingsPageItem::SectionHeader("差分"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Side By Side Diff",
-                    description: "Open repository diffs, commits and file comparisons in two panels.",
+                    title: "左右並列の差分表示",
+                    description: "リポジトリの差分、コミット、ファイル比較を2つのパネルに並べて開きます。",
                     aliases: Some(&["Split Diff"]),
                     field: Box::new(SettingField {
                         json_path: Some("git.split_diff"),
@@ -5675,10 +5675,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Git Gutter"),
+                SettingsPageItem::SectionHeader("Gitガター"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Visibility",
-                    description: "Control whether Git status is shown in the editor's gutter.",
+                    title: "表示",
+                    description: "エディターのガターにGitステータスを表示するかどうかを制御します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git.git_gutter"),
@@ -5692,8 +5692,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                 }),
                 // todo(settings_ui): Figure out the right default for this value in default.jsonc
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Debounce",
-                    description: "Debounce threshold in milliseconds after which changes are reflected in the Git gutter.",
+                    title: "デバウンス",
+                    description: "変更がGitガターに反映されるまでのデバウンスしきい値（ミリ秒）です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git.gutter_debounce"),
@@ -5707,10 +5707,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Inline Git Blame"),
+                SettingsPageItem::SectionHeader("インラインGit Blame"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Enabled",
-                    description: "Whether or not to show Git blame data inline in the currently focused line.",
+                    title: "有効",
+                    description: "現在フォーカスされている行にGit blameの情報をインライン表示するかどうかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git.inline_blame.enabled"),
@@ -5736,8 +5736,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Delay",
-                    description: "The delay after which the inline blame information is shown.",
+                    title: "遅延時間",
+                    description: "インラインblame情報が表示されるまでの遅延時間です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git.inline_blame.delay_ms"),
@@ -5763,8 +5763,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Padding",
-                    description: "Padding between the end of the source line and the start of the inline blame in columns.",
+                    title: "余白",
+                    description: "ソースコード行末とインラインblame開始位置との間の余白列数です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git.inline_blame.padding"),
@@ -5790,8 +5790,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Minimum Column",
-                    description: "The minimum column number at which to show the inline blame information.",
+                    title: "最小列",
+                    description: "インラインblame情報を表示する最小列番号です。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git.inline_blame.min_column"),
@@ -5817,8 +5817,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Commit Summary",
-                    description: "Show commit summary as part of the inline blame.",
+                    title: "コミットサマリーを表示",
+                    description: "インラインblameの一部としてコミットの概要を表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git.inline_blame.show_commit_summary"),
@@ -5843,10 +5843,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Git Blame View"),
+                SettingsPageItem::SectionHeader("Git Blameビュー"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Avatar",
-                    description: "Show the avatar of the author of the commit.",
+                    title: "アバターを表示",
+                    description: "コミット作成者のアバター画像を表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git.blame.show_avatar"),
@@ -5871,10 +5871,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Branch Picker"),
+                SettingsPageItem::SectionHeader("ブランチピッカー"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Show Author Name",
-                    description: "Show author name as part of the commit information in branch picker.",
+                    title: "作成者名を表示",
+                    description: "ブランチピッカー内のコミット情報の一部として作成者名を表示します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git.branch_picker.show_author_name"),
@@ -5899,10 +5899,10 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     metadata: None,
                     files: USER,
                 }),
-                SettingsPageItem::SectionHeader("Git Hunks"),
+                SettingsPageItem::SectionHeader("Gitハンク"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Hunk Style",
-                    description: "How Git hunks are displayed visually in the editor.",
+                    title: "ハンクスタイル",
+                    description: "エディター内でGitハンクをどのように視覚表示するかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git.hunk_style"),
@@ -5915,8 +5915,8 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
                     files: USER,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Path Style",
-                    description: "Should the name or path be displayed first in the git view.",
+                    title: "パススタイル",
+                    description: "Gitビューで名前とパスのどちらを先に表示するかを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("git.path_style"),
@@ -5931,12 +5931,12 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
             ],
         },
         SettingsPage {
-            title: "Network",
+            title: "ネットワーク",
             items: vec![
-                SettingsPageItem::SectionHeader("Network"),
+                SettingsPageItem::SectionHeader("ネットワーク"),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Proxy",
-                    description: "The proxy to use for network requests.",
+                    title: "プロキシ",
+                    description: "ネットワークリクエストに使用するプロキシを設定します。",
                     aliases: None,
                     field: Box::new(SettingField {
                         json_path: Some("proxy"),
@@ -5956,7 +5956,7 @@ pub(crate) fn settings_data(cx: &App) -> Vec<SettingsPage> {
     ]
 }
 
-const LANGUAGES_SECTION_HEADER: &str = "Languages";
+const LANGUAGES_SECTION_HEADER: &str = "言語";
 
 fn current_language() -> Option<SharedString> {
     sub_page_stack()
@@ -5997,10 +5997,10 @@ fn language_settings_field_mut<T>(
 
 fn language_settings_data() -> Vec<SettingsPageItem> {
     let mut items = vec![
-        SettingsPageItem::SectionHeader("Indentation"),
+        SettingsPageItem::SectionHeader("インデント"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Tab Size",
-            description: "How many columns a tab should occupy.",
+            title: "タブ幅",
+            description: "タブが占める文字幅（列数）です。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).tab_size"), // TODO(cameron): not JQ syntax because not URL-safe
@@ -6017,8 +6017,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Hard Tabs",
-            description: "Whether to indent lines using tab characters, as opposed to multiple spaces.",
+            title: "ハードタブ",
+            description: "スペースの代わりにタブ文字を使用して行をインデントするかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).hard_tabs"),
@@ -6035,8 +6035,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Auto Indent",
-            description: "Whether indentation should be adjusted based on the context whilst typing.",
+            title: "自動インデント",
+            description: "タイピング中のコンテキストに基づいてインデントを自動調整するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).auto_indent"),
@@ -6053,8 +6053,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Auto Indent On Paste",
-            description: "Whether indentation of pasted content should be adjusted based on the context.",
+            title: "貼り付け時の自動インデント",
+            description: "貼り付けた内容のインデントをコンテキストに基づいて自動調整するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).auto_indent_on_paste"),
@@ -6070,10 +6070,10 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             metadata: None,
             files: USER | PROJECT,
         }),
-        SettingsPageItem::SectionHeader("Wrapping"),
+        SettingsPageItem::SectionHeader("折り返し"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Soft Wrap",
-            description: "How to soft-wrap long lines of text.",
+            title: "折り返し",
+            description: "長いテキスト行の折り返し方法を設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).soft_wrap"),
@@ -6090,8 +6090,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Show Wrap Guides",
-            description: "Show wrap guides in the editor.",
+            title: "折り返しガイドを表示",
+            description: "エディターに折り返しガイドを表示します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).show_wrap_guides"),
@@ -6108,8 +6108,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Preferred Line Length",
-            description: "The column at which to soft-wrap lines, for buffers where soft-wrap is enabled.",
+            title: "推奨行長",
+            description: "折り返しが有効なバッファーで、行を折り返す列位置です。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).preferred_line_length"),
@@ -6126,8 +6126,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Wrap Guides",
-            description: "Character counts at which to show wrap guides in the editor.",
+            title: "折り返しガイド",
+            description: "エディターで折り返しガイドを表示する文字数列を指定します。",
             aliases: None,
             field: Box::new(
                 SettingField {
@@ -6147,8 +6147,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Allow Rewrap",
-            description: "Controls where the `editor::rewrap` action is allowed for this language.",
+            title: "再折り返しを許可",
+            description: "この言語で`editor::rewrap`アクションを許可する箇所を制御します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).allow_rewrap"),
@@ -6164,10 +6164,10 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             metadata: None,
             files: USER | PROJECT,
         }),
-        SettingsPageItem::SectionHeader("Indent Guides"),
+        SettingsPageItem::SectionHeader("インデントガイド"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Enabled",
-            description: "Display indent guides in the editor.",
+            title: "有効",
+            description: "エディターにインデントガイドを表示します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).indent_guides.enabled"),
@@ -6189,8 +6189,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Line Width",
-            description: "The width of the indent guides in pixels, between 1 and 10.",
+            title: "線の太さ",
+            description: "インデントガイドの太さ（1〜10ピクセル）です。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).indent_guides.line_width"),
@@ -6212,8 +6212,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Active Line Width",
-            description: "The width of the active indent guide in pixels, between 1 and 10.",
+            title: "アクティブ時の線の太さ",
+            description: "アクティブなインデントガイドの太さ（1〜10ピクセル）です。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).indent_guides.active_line_width"),
@@ -6235,8 +6235,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Coloring",
-            description: "Determines how indent guides are colored.",
+            title: "配色",
+            description: "インデントガイドの着色方法を設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).indent_guides.coloring"),
@@ -6258,8 +6258,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Background Coloring",
-            description: "Determines how indent guide backgrounds are colored.",
+            title: "背景の配色",
+            description: "インデントガイドの背景色の着色方法を設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).indent_guides.background_coloring"),
@@ -6280,10 +6280,10 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             metadata: None,
             files: USER | PROJECT,
         }),
-        SettingsPageItem::SectionHeader("Formatting"),
+        SettingsPageItem::SectionHeader("フォーマット"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Format On Save",
-            description: "Whether or not to perform a buffer format before saving.",
+            title: "保存時にフォーマット",
+            description: "保存前にバッファーのフォーマットを実行するかどうかを設定します。",
             aliases: None,
             field: Box::new(
                 // TODO(settings_ui): this setting should just be a bool
@@ -6303,8 +6303,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Remove Trailing Whitespace On Save",
-            description: "Whether or not to remove any trailing whitespace from lines of a buffer before saving it.",
+            title: "保存時に末尾の空白を削除",
+            description: "バッファーの保存前に行末の余分な空白文字を削除するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).remove_trailing_whitespace_on_save"),
@@ -6323,8 +6323,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Ensure Final Newline On Save",
-            description: "Whether or not to ensure there's a single newline at the end of a buffer when saving it.",
+            title: "保存時に末尾に改行を確保",
+            description: "バッファーの保存時に末尾に必ず1つの改行がある状態にするかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).ensure_final_newline_on_save"),
@@ -6343,8 +6343,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Formatter",
-            description: "How to perform a buffer format.",
+            title: "フォーマッター",
+            description: "バッファーのフォーマットを実行する方法を設定します。",
             aliases: None,
             field: Box::new(
                 SettingField {
@@ -6364,8 +6364,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Use On Type Format",
-            description: "Whether to use additional LSP queries to format (and amend) the code after every \"trigger\" symbol input, defined by LSP server capabilities",
+            title: "入力時フォーマットを使用",
+            description: "LSPサーバーの機能で定義された「トリガー」記号の入力ごとに、コードのフォーマットおよび修正を行う追加LSPクエリを使用するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).use_on_type_format"),
@@ -6382,8 +6382,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Code Actions On Format",
-            description: "Additional code actions to run when formatting.",
+            title: "フォーマット時のコードアクション",
+            description: "フォーマット実行時に追加で実行するコードアクションです。",
             aliases: None,
             field: Box::new(
                 SettingField {
@@ -6402,10 +6402,10 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             metadata: None,
             files: USER | PROJECT,
         }),
-        SettingsPageItem::SectionHeader("Autoclose"),
+        SettingsPageItem::SectionHeader("自動クローズ"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Use Autoclose",
-            description: "Whether to automatically type closing characters for you. For example, when you type '(', Gram will automatically add a closing ')' at the correct position.",
+            title: "自動クローズを使用",
+            description: "閉じ文字を自動入力するかどうかを設定します。たとえば「(」と入力した際に、正しい位置に自動で閉じ括弧「)」を追加します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).use_autoclose"),
@@ -6422,8 +6422,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Use Auto Surround",
-            description: "Whether to automatically surround text with characters for you. For example, when you select text and type '(', Gram will automatically surround text with ().",
+            title: "自動囲みを使用",
+            description: "選択したテキストを指定文字で自動的に囲むかどうかを設定します。たとえばテキストを選択して「(」と入力した際に「(...)」で囲みます。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).use_auto_surround"),
@@ -6440,8 +6440,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Always Treat Brackets As Autoclosed",
-            description: "Controls whether the closing characters are always skipped over and auto-removed no matter how they were inserted.",
+            title: "常に括弧を自動クローズとして扱う",
+            description: "閉じ文字がどのように挿入されたかに関わらず、常にスキップおよび自動削除の対象として扱うかを制御します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).always_treat_brackets_as_autoclosed"),
@@ -6460,8 +6460,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "JSX Tag Auto Close",
-            description: "Whether to automatically close JSX tags.",
+            title: "JSXタグの自動クローズ",
+            description: "JSXタグを自動的に閉じるかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).jsx_tag_auto_close"),
@@ -6480,10 +6480,10 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             metadata: None,
             files: USER | PROJECT,
         }),
-        SettingsPageItem::SectionHeader("Whitespace"),
+        SettingsPageItem::SectionHeader("空白文字"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Show Whitespaces",
-            description: "Whether to show tabs and spaces in the editor.",
+            title: "空白文字を表示",
+            description: "エディター内でタブやスペースを表示するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).show_whitespaces"),
@@ -6500,8 +6500,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Space Whitespace Indicator",
-            description: "Visible character used to render space characters when show_whitespaces is enabled (default: \"•\")",
+            title: "スペース空白インジケーター",
+            description: "空白文字の表示が有効な場合にスペース文字の描画に使用する可視文字です（デフォルト: \"•\"）。",
             aliases: None,
             field: Box::new(
                 SettingField {
@@ -6523,8 +6523,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Tab Whitespace Indicator",
-            description: "Visible character used to render tab characters when show_whitespaces is enabled (default: \"→\")",
+            title: "タブ空白インジケーター",
+            description: "空白文字の表示が有効な場合にタブ文字の描画に使用する可視文字です（デフォルト: \"→\"）。",
             aliases: None,
             field: Box::new(
                 SettingField {
@@ -6545,10 +6545,10 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             metadata: None,
             files: USER | PROJECT,
         }),
-        SettingsPageItem::SectionHeader("Completions"),
+        SettingsPageItem::SectionHeader("補完"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Show Completions On Input",
-            description: "Whether to pop the completions menu while typing in an editor without explicitly requesting it.",
+            title: "入力時に補完を表示",
+            description: "明示的な要求操作を行わなくても、エディターでの入力中に補完メニューを自動表示するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).show_completions_on_input"),
@@ -6565,8 +6565,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Show Completion Documentation",
-            description: "Whether to display inline and alongside documentation for items in the completions menu.",
+            title: "補完ドキュメントを表示",
+            description: "補完メニュー内の項目に対して、インラインおよび横並びのドキュメントを表示するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).show_completion_documentation"),
@@ -6585,8 +6585,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Words",
-            description: "Controls how words are completed.",
+            title: "単語補完",
+            description: "単語の補完方法を制御します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).completions.words"),
@@ -6605,8 +6605,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Words Min Length",
-            description: "How many characters has to be in the completions query to automatically show the words-based completions.",
+            title: "単語補完の最小文字数",
+            description: "単語ベースの補完を自動表示するためにクエリに必要な最小文字数です。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).completions.words_min_length"),
@@ -6625,8 +6625,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Completion Menu Scrollbar",
-            description: "When to show the scrollbar in the completion menu.",
+            title: "補完メニューのスクロールバー",
+            description: "補完メニューでスクロールバーを表示するタイミングを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("editor.completion_menu_scrollbar"),
@@ -6639,8 +6639,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Completion Menu Item Kind",
-            description: "How to display the LSP item kind (function, method, variable, etc.) of each entry in the completions menu.",
+            title: "補完メニュー項目の種類表示",
+            description: "補完メニューの各項目にLSPの種類（関数、メソッド、変数など）をどのように表示するかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("editor.completion_menu_item_kind"),
@@ -6653,8 +6653,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Supertab Mode",
-            description: "What the Supertab action should do when not completing.",
+            title: "Supertabモード",
+            description: "補完中でない場合にSupertabアクションが実行する動作を設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("editor.supertab_fallback"),
@@ -6667,8 +6667,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Sync Kill Ring",
-            description: "Whether to sync the kill ring with clipboard or primary selection.",
+            title: "キルリングの同期",
+            description: "キルリングをクリップボードまたはプライマリ選択と同期するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("editor.sync_kill_ring"),
@@ -6680,10 +6680,10 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             metadata: None,
             files: USER,
         }),
-        SettingsPageItem::SectionHeader("Inlay Hints"),
+        SettingsPageItem::SectionHeader("インレイヒント"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Enabled",
-            description: "Global switch to toggle hints on and off.",
+            title: "有効",
+            description: "ヒント表示の有効/無効を切り替えるグローバルスイッチです。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).inlay_hints.enabled"),
@@ -6702,8 +6702,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Show Value Hints",
-            description: "Global switch to toggle inline values on and off when debugging.",
+            title: "値のヒントを表示",
+            description: "デバッグ時にインライン値の表示/非表示を切り替えるグローバルスイッチです。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).inlay_hints.show_value_hints"),
@@ -6722,8 +6722,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Show Type Hints",
-            description: "Whether type hints should be shown.",
+            title: "型ヒントを表示",
+            description: "型ヒントを表示するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).inlay_hints.show_type_hints"),
@@ -6742,8 +6742,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Show Parameter Hints",
-            description: "Whether parameter hints should be shown.",
+            title: "パラメーターヒントを表示",
+            description: "パラメーターヒントを表示するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).inlay_hints.show_parameter_hints"),
@@ -6762,8 +6762,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Show Other Hints",
-            description: "Whether other hints should be shown.",
+            title: "その他のヒントを表示",
+            description: "その他のヒントを表示するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).inlay_hints.show_other_hints"),
@@ -6782,8 +6782,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Show Background",
-            description: "Show a background for inlay hints.",
+            title: "背景を表示",
+            description: "インレイヒントに背景を表示します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).inlay_hints.show_background"),
@@ -6802,8 +6802,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Edit Debounce",
-            description: "Time in milliseconds to debounce inlay hints updates after buffer edits (set to 0 to disable debouncing).",
+            title: "編集デバウンス",
+            description: "バッファー編集後にインレイヒントの更新をデバウンスする時間（ミリ秒）です（0でデバウンス無効）。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).inlay_hints.edit_debounce_ms"),
@@ -6822,8 +6822,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Scroll Debounce",
-            description: "Time in milliseconds to debounce inlay hints updates after buffer scrolls (set to 0 to disable debouncing).",
+            title: "スクロールデバウンス",
+            description: "バッファーのスクロール後にインレイヒントの更新をデバウンスする時間（ミリ秒）です（0でデバウンス無効）。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).inlay_hints.scroll_debounce_ms"),
@@ -6842,8 +6842,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Toggle On Modifiers Press",
-            description: "Toggles inlay hints (hides or shows) when the user presses the modifiers specified.",
+            title: "修飾キー押下時に切り替え",
+            description: "指定された修飾キーを押したときにインレイヒントの表示/非表示を切り替えます。",
             aliases: None,
             field: Box::new(
                 SettingField {
@@ -6867,8 +6867,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
     ];
     if current_language().is_none() {
         items.push(SettingsPageItem::SettingItem(SettingItem {
-            title: "LSP Document Colors",
-            description: "How to render LSP color previews in the editor.",
+            title: "LSPドキュメントカラー",
+            description: "エディター内でLSPのカラープレビューを描画する方法を設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("lsp_document_colors"),
@@ -6882,10 +6882,10 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
         }))
     }
     items.extend([
-        SettingsPageItem::SectionHeader("Tasks"),
+        SettingsPageItem::SectionHeader("タスク"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Enabled",
-            description: "Whether tasks are enabled for this language.",
+            title: "有効",
+            description: "この言語でタスクを有効にするかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).tasks.enabled"),
@@ -6905,8 +6905,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Variables",
-            description: "Extra task variables to set for a particular language.",
+            title: "変数",
+            description: "特定の言語に対して設定する追加のタスク変数です。",
             aliases: None,
             field: Box::new(
                 SettingField {
@@ -6929,8 +6929,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Prefer LSP",
-            description: "Use LSP tasks over Gram language extension tasks.",
+            title: "LSPを優先",
+            description: "Gramの言語拡張機能タスクよりもLSPタスクを優先して使用します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).tasks.prefer_lsp"),
@@ -6949,10 +6949,10 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             metadata: None,
             files: USER | PROJECT,
         }),
-        SettingsPageItem::SectionHeader("Miscellaneous"),
+        SettingsPageItem::SectionHeader("その他"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Word Diff Enabled",
-            description: "Whether to enable word diff highlighting in the editor. When enabled, changed words within modified lines are highlighted to show exactly what changed.",
+            title: "単語差分を有効化",
+            description: "エディターで単語単位の差分ハイライトを有効にするかどうかを設定します。有効にすると、変更された行内で変更箇所が強調表示されます。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).word_diff_enabled"),
@@ -6971,8 +6971,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Debuggers",
-            description: "Preferred debuggers for this language.",
+            title: "デバッガー",
+            description: "この言語で優先して使用するデバッガーです。",
             aliases: None,
             field: Box::new(
                 SettingField {
@@ -6993,8 +6993,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Middle Click Paste",
-            description: "Enable middle-click paste on Linux.",
+            title: "中クリックで貼り付け",
+            description: "Linuxで中クリックによる貼り付けを有効にします。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).editor.middle_click_paste"),
@@ -7005,8 +7005,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Extend Comment On Newline",
-            description: "Whether to start a new line with a comment when a previous line is a comment as well.",
+            title: "改行時にコメントを継続",
+            description: "前の行がコメントの場合に、新しい行もコメントで開始するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).extend_comment_on_newline"),
@@ -7026,8 +7026,8 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Colorize Brackets",
-            description: "Whether to colorize brackets in the editor.",
+            title: "括弧の色分け",
+            description: "エディター内の括弧を色分けして表示するかどうかを設定します。",
             aliases: Some(&["Rainbow Parentheses", "Rainbow Brackets"]),
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).colorize_brackets"),
@@ -7050,34 +7050,33 @@ fn language_settings_data() -> Vec<SettingsPageItem> {
     if current_language().is_none() {
         items.extend([
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Image Viewer",
-                description: "The unit for image file sizes.",
+                title: "画像ビューアー",
+                description: "画像ファイルサイズの表示単位です。",
                 aliases: None,
                 field: Box::new(SettingField {
                     json_path: Some("image_viewer.unit"),
                     pick: |settings_content| {
-                        settings_content.image_viewer.as_ref().and_then(|image_viewer| image_viewer.unit.as_ref())
+                        settings_content
+                            .image_viewer
+                            .as_ref()
+                            .and_then(|image_viewer| image_viewer.unit.as_ref())
                     },
                     write: |settings_content, value| {
                         settings_content.image_viewer.get_or_insert_default().unit = value;
-
                     },
                 }),
                 metadata: None,
                 files: USER,
             }),
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Drop Size Target",
-                description: "Relative size of the drop target in the editor that will open dropped file as a split pane.",
+                title: "ドロップ領域の目標サイズ",
+                description: "ドロップされたファイルを分割ペインとして開くエディター内のドロップ領域の相対サイズです。",
                 aliases: None,
                 field: Box::new(SettingField {
                     json_path: Some("drop_target_size"),
-                    pick: |settings_content| {
-                        settings_content.workspace.drop_target_size.as_ref()
-                    },
+                    pick: |settings_content| settings_content.workspace.drop_target_size.as_ref(),
                     write: |settings_content, value| {
                         settings_content.workspace.drop_target_size = value;
-
                     },
                 }),
                 metadata: None,
@@ -7094,8 +7093,8 @@ fn non_editor_language_settings_data() -> Vec<SettingsPageItem> {
     vec![
         SettingsPageItem::SectionHeader("LSP"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Enable Language Server",
-            description: "Whether to use language servers to provide code intelligence.",
+            title: "言語サーバーを有効化",
+            description: "コードインテリジェンスを提供するために言語サーバーを使用するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).enable_language_server"),
@@ -7112,8 +7111,8 @@ fn non_editor_language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Language Servers",
-            description: "The list of language servers to use (or disable) for this language.",
+            title: "言語サーバー",
+            description: "この言語で使用する（または無効化する）言語サーバーの一覧です。",
             aliases: None,
             field: Box::new(
                 SettingField {
@@ -7133,8 +7132,8 @@ fn non_editor_language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Linked Edits",
-            description: "Whether to perform linked edits of associated ranges, if the LS supports it. For example, when editing opening <html> tag, the contents of the closing </html> tag will be edited as well.",
+            title: "連動編集",
+            description: "言語サーバーがサポートしている場合に関連範囲の連動編集を行うかを設定します。たとえば開始タグ<html>を編集すると対応する終了タグ</html>も自動編集されます。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).linked_edits"),
@@ -7151,8 +7150,8 @@ fn non_editor_language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Go To Definition Fallback",
-            description: "Whether to follow-up empty Go to definition responses from the language server.",
+            title: "定義へ移動のフォールバック",
+            description: "言語サーバーからの「定義へ移動」の応答が空だった場合に追加検索を行うかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("go_to_definition_fallback"),
@@ -7164,10 +7163,10 @@ fn non_editor_language_settings_data() -> Vec<SettingsPageItem> {
             metadata: None,
             files: USER,
         }),
-        SettingsPageItem::SectionHeader("LSP Completions"),
+        SettingsPageItem::SectionHeader("LSP補完"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Enabled",
-            description: "Whether to fetch LSP completions or not.",
+            title: "有効",
+            description: "LSPによる補完を取得するかどうかを設定します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).completions.lsp"),
@@ -7184,8 +7183,8 @@ fn non_editor_language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Fetch Timeout (milliseconds)",
-            description: "When fetching LSP completions, determines how long to wait for a response of a particular server (set to 0 to wait indefinitely).",
+            title: "取得タイムアウト（ミリ秒）",
+            description: "LSP補完を取得する際に特定のサーバーからの応答を待機する時間です（0で無期限待機）。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).completions.lsp_fetch_timeout_ms"),
@@ -7204,8 +7203,8 @@ fn non_editor_language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Insert Mode",
-            description: "Controls how LSP completions are inserted.",
+            title: "挿入モード",
+            description: "LSP補完の挿入方法を制御します。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).completions.lsp_insert_mode"),
@@ -7223,10 +7222,10 @@ fn non_editor_language_settings_data() -> Vec<SettingsPageItem> {
             metadata: None,
             files: USER | PROJECT,
         }),
-        SettingsPageItem::SectionHeader("Debuggers"),
+        SettingsPageItem::SectionHeader("デバッガー"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Debuggers",
-            description: "Preferred debuggers for this language.",
+            title: "デバッガー",
+            description: "この言語で優先して使用するデバッガーです。",
             aliases: None,
             field: Box::new(
                 SettingField {
@@ -7247,8 +7246,8 @@ fn non_editor_language_settings_data() -> Vec<SettingsPageItem> {
         }),
         SettingsPageItem::SectionHeader("Prettier"),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Allowed",
-            description: "Enables or disables formatting with Prettier for a given language.",
+            title: "許可",
+            description: "指定された言語でPrettierによるフォーマットを有効または無効にします。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).prettier.allowed"),
@@ -7267,8 +7266,8 @@ fn non_editor_language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Parser",
-            description: "Forces Prettier integration to use a specific parser name when formatting files with the language.",
+            title: "パーサー",
+            description: "この言語のファイルをフォーマットする際にPrettier統合で使用を強制するパーサー名です。",
             aliases: None,
             field: Box::new(SettingField {
                 json_path: Some("languages.$(language).prettier.parser"),
@@ -7285,8 +7284,8 @@ fn non_editor_language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Plugins",
-            description: "Forces Prettier integration to use specific plugins when formatting files with the language.",
+            title: "プラグイン",
+            description: "この言語のファイルをフォーマットする際にPrettier統合で使用を強制するプラグインです。",
             aliases: None,
             field: Box::new(
                 SettingField {
@@ -7308,8 +7307,8 @@ fn non_editor_language_settings_data() -> Vec<SettingsPageItem> {
             files: USER | PROJECT,
         }),
         SettingsPageItem::SettingItem(SettingItem {
-            title: "Options",
-            description: "Default Prettier options, in the format as in package.json section for Prettier.",
+            title: "オプション",
+            description: "package.jsonのPrettier設定セクションと同じ形式で指定するデフォルトのPrettierオプションです。",
             aliases: None,
             field: Box::new(
                 SettingField {

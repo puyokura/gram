@@ -5,7 +5,7 @@ use project::project_settings::GoToDiagnosticSeverityFilter;
 use schemars::JsonSchema;
 use util::serde::default_true;
 
-/// Selects the next occurrence of the current selection.
+/// 現在の選択範囲の次の一致箇所を選択します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -14,7 +14,7 @@ pub struct SelectNext {
     pub replace_newest: bool,
 }
 
-/// Selects the previous occurrence of the current selection.
+/// 現在の選択範囲の前の一致箇所を選択します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -23,7 +23,7 @@ pub struct SelectPrevious {
     pub replace_newest: bool,
 }
 
-/// Moves the cursor to the beginning of the current line.
+/// カーソルを現在の行の先頭に移動します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -34,7 +34,7 @@ pub struct MoveToBeginningOfLine {
     pub stop_at_indent: bool,
 }
 
-/// Selects from the cursor to the beginning of the current line.
+/// カーソルから現在の行の先頭まで選択します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -45,7 +45,7 @@ pub struct SelectToBeginningOfLine {
     pub stop_at_indent: bool,
 }
 
-/// Deletes from the cursor to the beginning of the current line.
+/// カーソルから現在の行の先頭まで削除します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -54,7 +54,7 @@ pub struct DeleteToBeginningOfLine {
     pub(super) stop_at_indent: bool,
 }
 
-/// Moves the cursor up by one page.
+/// カーソルを1ページ上に移動します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -63,7 +63,7 @@ pub struct MovePageUp {
     pub(super) center_cursor: bool,
 }
 
-/// Moves the cursor down by one page.
+/// カーソルを1ページ下に移動します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -72,7 +72,7 @@ pub struct MovePageDown {
     pub(super) center_cursor: bool,
 }
 
-/// Moves the cursor to the end of the current line.
+/// カーソルを現在の行の末尾に移動します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -81,7 +81,7 @@ pub struct MoveToEndOfLine {
     pub stop_at_soft_wraps: bool,
 }
 
-/// Selects from the cursor to the end of the current line.
+/// カーソルから現在の行の末尾まで選択します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -90,7 +90,7 @@ pub struct SelectToEndOfLine {
     pub(super) stop_at_soft_wraps: bool,
 }
 
-/// Toggles the display of available code actions at the cursor position.
+/// カーソル位置で利用可能なコードアクションの表示を切り替えます。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -112,7 +112,7 @@ pub enum CodeActionSource {
     QuickActionBar,
 }
 
-/// Confirms and accepts the currently selected completion suggestion.
+/// 現在選択されている補完候補を確定して挿入します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -121,7 +121,7 @@ pub struct ConfirmCompletion {
     pub item_ix: Option<usize>,
 }
 
-/// Composes multiple completion suggestions into a single completion.
+/// 複数の補完候補を1つの補完に合成します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -130,7 +130,7 @@ pub struct ComposeCompletion {
     pub item_ix: Option<usize>,
 }
 
-/// Confirms and applies the currently selected code action.
+/// 現在選択されているコードアクションを確定して適用します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -139,7 +139,7 @@ pub struct ConfirmCodeAction {
     pub item_ix: Option<usize>,
 }
 
-/// Toggles comment markers for the selected lines.
+/// 選択行のコメント記号を切り替えます。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -150,7 +150,7 @@ pub struct ToggleComments {
     pub ignore_indent: bool,
 }
 
-/// Moves the cursor up by a specified number of lines.
+/// カーソルを指定行数上に移動します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -159,7 +159,7 @@ pub struct MoveUpByLines {
     pub(super) lines: u32,
 }
 
-/// Moves the cursor down by a specified number of lines.
+/// カーソルを指定行数下に移動します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -168,7 +168,7 @@ pub struct MoveDownByLines {
     pub(super) lines: u32,
 }
 
-/// Extends selection up by a specified number of lines.
+/// 選択範囲を指定行数上に拡張します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -177,7 +177,7 @@ pub struct SelectUpByLines {
     pub(super) lines: u32,
 }
 
-/// Extends selection down by a specified number of lines.
+/// 選択範囲を指定行数下に拡張します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -186,7 +186,7 @@ pub struct SelectDownByLines {
     pub(super) lines: u32,
 }
 
-/// Expands all excerpts in the editor.
+/// エディター内のすべての抜粋を展開します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -195,7 +195,7 @@ pub struct ExpandExcerpts {
     pub(super) lines: u32,
 }
 
-/// Expands excerpts above the current position.
+/// 現在位置より上の抜粋を展開します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -204,7 +204,7 @@ pub struct ExpandExcerptsUp {
     pub(super) lines: u32,
 }
 
-/// Expands excerpts below the current position.
+/// 現在位置より下の抜粋を展開します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -213,13 +213,13 @@ pub struct ExpandExcerptsDown {
     pub(super) lines: u32,
 }
 
-/// Handles text input in the editor.
+/// エディターでのテキスト入力を処理します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 pub struct HandleInput(pub String);
 
-/// Deletes from the cursor to the end of the next word.
-/// Stops before the end of the next word, if whitespace sequences of length >= 2 are encountered.
+/// カーソルから次の単語の末尾まで削除します。
+/// 長さ2以上の空白シーケンスがある場合は、その手前で停止します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -231,8 +231,8 @@ pub struct DeleteToNextWordEnd {
     pub ignore_brackets: bool,
 }
 
-/// Deletes from the cursor to the start of the previous word.
-/// Stops before the start of the previous word, if whitespace sequences of length >= 2 are encountered.
+/// カーソルから前の単語の先頭まで削除します。
+/// 長さ2以上の空白シーケンスがある場合は、その手前で停止します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -244,8 +244,8 @@ pub struct DeleteToPreviousWordStart {
     pub ignore_brackets: bool,
 }
 
-/// Deletes from the cursor to the end of the next subword.
-/// Stops before the end of the next subword, if whitespace sequences of length >= 2 are encountered.
+/// カーソルから次のサブワードの末尾まで削除します。
+/// 長さ2以上の空白シーケンスがある場合は、その手前で停止します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -257,8 +257,8 @@ pub struct DeleteToNextSubwordEnd {
     pub ignore_brackets: bool,
 }
 
-/// Deletes from the cursor to the start of the previous subword.
-/// Stops before the start of the previous subword, if whitespace sequences of length >= 2 are encountered.
+/// カーソルから前のサブワードの先頭まで削除します。
+/// 長さ2以上の空白シーケンスがある場合は、その手前で停止します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -270,7 +270,7 @@ pub struct DeleteToPreviousSubwordStart {
     pub ignore_brackets: bool,
 }
 
-/// Cuts from cursor to end of line.
+/// カーソルから行末まで切り取ります。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -279,12 +279,12 @@ pub struct CutToEndOfLine {
     pub stop_at_newlines: bool,
 }
 
-/// Folds all code blocks at the specified indentation level.
+/// 指定されたインデントレベルのすべてのコードブロックを折りたたみます。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 pub struct FoldAtLevel(pub u32);
 
-/// Spawns the nearest available task from the current cursor position.
+/// 現在のカーソル位置から最も近い利用可能なタスクを生成して実行します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -307,17 +307,17 @@ pub enum UuidVersion {
     V7,
 }
 
-/// Splits selection into individual lines.
+/// 選択範囲を行ごとの選択に分割します。
 #[derive(PartialEq, Clone, Deserialize, Default, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
 pub struct SplitSelectionIntoLines {
-    /// Keep the text selected after splitting instead of collapsing to cursors.
+    /// 分割後、カーソルに縮小せずテキストを選択状態のまま維持します。
     #[serde(default)]
     pub keep_selections: bool,
 }
 
-/// Goes to the next diagnostic in the file.
+/// ファイル内の次の診断へ移動します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -326,7 +326,7 @@ pub struct GoToDiagnostic {
     pub severity: GoToDiagnosticSeverityFilter,
 }
 
-/// Goes to the previous diagnostic in the file.
+/// ファイル内の前の診断へ移動します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -335,7 +335,7 @@ pub struct GoToPreviousDiagnostic {
     pub severity: GoToDiagnosticSeverityFilter,
 }
 
-/// Adds a cursor above the current selection.
+/// 現在の選択範囲の上にカーソルを追加します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -344,7 +344,7 @@ pub struct AddSelectionAbove {
     pub skip_soft_wrap: bool,
 }
 
-/// Adds a cursor below the current selection.
+/// 現在の選択範囲の下にカーソルを追加します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -353,7 +353,7 @@ pub struct AddSelectionBelow {
     pub skip_soft_wrap: bool,
 }
 
-/// Inserts a snippet at the cursor.
+/// カーソル位置にスニペットを挿入します。
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]
@@ -373,9 +373,9 @@ pub struct InsertSnippet {
 actions!(
     debugger,
     [
-        /// Runs program execution to the current cursor position.
+        /// 現在のカーソル位置までプログラムを実行します。
         RunToCursor,
-        /// Evaluates the selected text in the debugger context.
+        /// デバッガーコンテキストで選択テキストを評価します。
         EvaluateSelectedText
     ]
 );
@@ -383,7 +383,7 @@ actions!(
 actions!(
     go_to_line,
     [
-        /// Toggles the go to line dialog.
+        /// 指定行へ移動ダイアログの表示を切り替えます。
         #[action(name = "Toggle")]
         ToggleGoToLine
     ]
@@ -392,489 +392,488 @@ actions!(
 actions!(
     editor,
     [
-        /// Applies all diff hunks in the editor.
+        /// エディター内のすべての差分ハンクを適用します。
         ApplyAllDiffHunks,
-        /// Applies the diff hunk at the current position.
+        /// 現在位置の差分ハンクを適用します。
         ApplyDiffHunk,
-        /// Deletes the character before the cursor.
+        /// カーソルの前の文字を削除します。
         Backspace,
-        /// Shows git blame information for the current line.
+        /// 現在の行のGit Blame情報を表示します。
         BlameHover,
-        /// Cancels the current operation.
+        /// 現在の操作をキャンセルします。
         Cancel,
-        /// Cancels the running flycheck operation.
+        /// 実行中のflycheck操作をキャンセルします。
         CancelFlycheck,
-        /// Cancels pending language server work.
+        /// 保留中の言語サーバーの処理をキャンセルします。
         CancelLanguageServerWork,
-        /// Clears flycheck results.
+        /// flycheckの結果を消去します。
         ClearFlycheck,
-        /// Confirms the rename operation.
+        /// 名前変更操作を確定します。
         ConfirmRename,
-        /// Confirms completion by inserting at cursor.
+        /// カーソル位置に挿入して補完を確定します。
         ConfirmCompletionInsert,
-        /// Confirms completion by replacing existing text.
+        /// 既存のテキストを置換して補完を確定します。
         ConfirmCompletionReplace,
-        /// Navigates to the first item in the context menu.
+        /// コンテキストメニューの最初の項目に移動します。
         ContextMenuFirst,
-        /// Navigates to the last item in the context menu.
+        /// コンテキストメニューの最後の項目に移動します。
         ContextMenuLast,
-        /// Navigates to the next item in the context menu.
+        /// コンテキストメニューの次の項目に移動します。
         ContextMenuNext,
-        /// Navigates to the previous item in the context menu.
+        /// コンテキストメニューの前の項目に移動します。
         ContextMenuPrevious,
-        /// Converts indentation from tabs to spaces.
+        /// インデントをタブからスペースに変換します。
         ConvertIndentationToSpaces,
-        /// Converts indentation from spaces to tabs.
+        /// インデントをスペースからタブに変換します。
         ConvertIndentationToTabs,
-        /// Converts selected text to kebab-case.
+        /// 選択したテキストをkebab-caseに変換します。
         ConvertToKebabCase,
-        /// Converts selected text to lowerCamelCase.
+        /// 選択したテキストをlowerCamelCaseに変換します。
         ConvertToLowerCamelCase,
-        /// Converts selected text to lowercase.
+        /// 選択したテキストを小文字に変換します。
         ConvertToLowerCase,
-        /// Toggles the case of selected text.
+        /// 選択したテキストの大文字・小文字を反転します。
         ConvertToOppositeCase,
-        /// Converts selected text to sentence case.
+        /// 選択したテキストをセンテンスケースに変換します。
         ConvertToSentenceCase,
-        /// Converts selected text to snake_case.
+        /// 選択したテキストをsnake_caseに変換します。
         ConvertToSnakeCase,
-        /// Converts selected text to Title Case.
+        /// 選択したテキストをタイトルケースに変換します。
         ConvertToTitleCase,
-        /// Converts selected text to UpperCamelCase.
+        /// 選択したテキストをUpperCamelCaseに変換します。
         ConvertToUpperCamelCase,
-        /// Converts selected text to UPPERCASE.
+        /// 選択したテキストを大文字に変換します。
         ConvertToUpperCase,
-        /// Applies ROT13 cipher to selected text.
+        /// 選択したテキストにROT13暗号を適用します。
         ConvertToRot13,
-        /// Applies ROT47 cipher to selected text.
+        /// 選択したテキストにROT47暗号を適用します。
         ConvertToRot47,
-        /// Copies selected text to the clipboard.
+        /// 選択したテキストをクリップボードにコピーします。
         Copy,
-        /// Copies selected text to the clipboard with leading/trailing whitespace trimmed.
+        /// 前後の空白をトリムして選択テキストをクリップボードにコピーします。
         CopyAndTrim,
-        /// Copies the current file location to the clipboard.
+        /// 現在のファイル位置をクリップボードにコピーします。
         CopyFileLocation,
-        /// Copies the highlighted text as JSON.
+        /// ハイライトされたテキストをJSONとしてコピーします。
         CopyHighlightJson,
-        /// Copies the current file name to the clipboard.
+        /// 現在のファイル名をクリップボードにコピーします。
         CopyFileName,
-        /// Copies the file name without extension to the clipboard.
+        /// 拡張子を除いたファイル名をクリップボードにコピーします。
         CopyFileNameWithoutExtension,
-        /// Copies a permalink to the current line.
+        /// 現在の行へのパーマリンクをコピーします。
         CopyPermalinkToLine,
-        /// Cuts selected text to the clipboard.
+        /// 選択したテキストをクリップボードに切り取ります。
         Cut,
-        /// Deletes the character after the cursor.
+        /// カーソルの後の文字を削除します。
         Delete,
-        /// Deletes the current line.
+        /// 現在の行を削除します。
         DeleteLine,
-        /// Deletes from cursor to end of line.
+        /// カーソルから行末まで削除します。
         DeleteToEndOfLine,
-        /// Diffs the text stored in the clipboard against the current selection.
+        /// クリップボードのテキストと現在の選択範囲の差分を表示します。
         DiffClipboardWithSelection,
-        /// Displays names of all active cursors.
+        /// アクティブなすべてのカーソルの名前を表示します。
         DisplayCursorNames,
-        /// Duplicates the current line below.
+        /// 現在の行を下に行ごと複製します。
         DuplicateLineDown,
-        /// Duplicates the current line above.
+        /// 現在の行を上に行ごと複製します。
         DuplicateLineUp,
-        /// Duplicates the current selection.
+        /// 現在の選択範囲を複製します。
         DuplicateSelection,
-        /// Expands all diff hunks in the editor.
+        /// エディター内のすべての差分ハンクを展開します。
         #[action(deprecated_aliases = ["editor::ExpandAllHunkDiffs"])]
         ExpandAllDiffHunks,
-        /// Collapses all diff hunks in the editor.
+        /// エディター内のすべての差分ハンクを折りたたみます。
         CollapseAllDiffHunks,
-        /// Expands macros recursively at cursor position.
+        /// カーソル位置のマクロを再帰的に展開します。
         ExpandMacroRecursively,
-        /// Finds the next match in the search.
+        /// 検索で次の一致箇所を検索します。
         FindNextMatch,
-        /// Finds the previous match in the search.
+        /// 検索で前の一致箇所を検索します。
         FindPreviousMatch,
-        /// Folds the current code block.
+        /// 現在のコードブロックを折りたたみます。
         Fold,
-        /// Folds all foldable regions in the editor.
+        /// エディター内の折りたたみ可能なすべての領域を折りたたみます。
         FoldAll,
-        /// Folds all code blocks at indentation level 1.
+        /// インデントレベル1のすべてのコードブロックを折りたたみます。
         #[action(name = "FoldAtLevel_1")]
         FoldAtLevel1,
-        /// Folds all code blocks at indentation level 2.
+        /// インデントレベル2のすべてのコードブロックを折りたたみます。
         #[action(name = "FoldAtLevel_2")]
         FoldAtLevel2,
-        /// Folds all code blocks at indentation level 3.
+        /// インデントレベル3のすべてのコードブロックを折りたたみます。
         #[action(name = "FoldAtLevel_3")]
         FoldAtLevel3,
-        /// Folds all code blocks at indentation level 4.
+        /// インデントレベル4のすべてのコードブロックを折りたたみます。
         #[action(name = "FoldAtLevel_4")]
         FoldAtLevel4,
-        /// Folds all code blocks at indentation level 5.
+        /// インデントレベル5のすべてのコードブロックを折りたたみます。
         #[action(name = "FoldAtLevel_5")]
         FoldAtLevel5,
-        /// Folds all code blocks at indentation level 6.
+        /// インデントレベル6のすべてのコードブロックを折りたたみます。
         #[action(name = "FoldAtLevel_6")]
         FoldAtLevel6,
-        /// Folds all code blocks at indentation level 7.
+        /// インデントレベル7のすべてのコードブロックを折りたたみます。
         #[action(name = "FoldAtLevel_7")]
         FoldAtLevel7,
-        /// Folds all code blocks at indentation level 8.
+        /// インデントレベル8のすべてのコードブロックを折りたたみます。
         #[action(name = "FoldAtLevel_8")]
         FoldAtLevel8,
-        /// Folds all code blocks at indentation level 9.
+        /// インデントレベル9のすべてのコードブロックを折りたたみます。
         #[action(name = "FoldAtLevel_9")]
         FoldAtLevel9,
-        /// Folds all function bodies in the editor.
+        /// エディター内のすべての関数本体を折りたたみます。
         FoldFunctionBodies,
-        /// Folds the current code block and all its children.
+        /// 現在のコードブロックとその子をすべて再帰的に折りたたみます。
         FoldRecursive,
-        /// Folds the selected ranges.
+        /// 選択された範囲を折りたたみます。
         FoldSelectedRanges,
-        /// Toggles focus back to the last active buffer.
+        /// 最後にアクティブだったバッファーへフォーカスを戻します。
         ToggleFocus,
-        /// Toggles folding at the current position.
+        /// 現在位置の折りたたみを切り替えます。
         ToggleFold,
-        /// Toggles recursive folding at the current position.
+        /// 現在位置の再帰的な折りたたみを切り替えます。
         ToggleFoldRecursive,
-        /// Toggles all folds in a buffer or all excerpts in multibuffer.
+        /// バッファー内のすべての折りたたみまたはマルチバッファーのすべての抜粋を切り替えます。
         ToggleFoldAll,
-        /// Formats the entire document.
+        /// ドキュメント全体をフォーマットします。
         Format,
-        /// Formats only the selected text.
+        /// 選択したテキストのみをフォーマットします。
         FormatSelections,
-        /// Goes to the declaration of the symbol at cursor.
+        /// カーソル位置のシンボルの宣言へ移動します。
         GoToDeclaration,
-        /// Goes to declaration in a split pane.
+        /// 分割ペインで宣言へ移動します。
         GoToDeclarationSplit,
-        /// Goes to the definition of the symbol at cursor.
+        /// カーソル位置のシンボルの定義へ移動します。
         GoToDefinition,
-        /// Goes to definition in a split pane.
+        /// 分割ペインで定義へ移動します。
         GoToDefinitionSplit,
-        /// Goes to the next diff hunk.
+        /// 次の差分ハンクへ移動します。
         GoToHunk,
-        /// Goes to the previous diff hunk.
+        /// 前の差分ハンクへ移動します。
         GoToPreviousHunk,
-        /// Goes to the implementation of the symbol at cursor.
+        /// カーソル位置のシンボルの実装へ移動します。
         GoToImplementation,
-        /// Goes to implementation in a split pane.
+        /// 分割ペインで実装へ移動します。
         GoToImplementationSplit,
-        /// Goes to the next change in the file.
+        /// ファイル内の次の変更へ移動します。
         GoToNextChange,
-        /// Goes to the parent module of the current file.
+        /// 現在のファイルの親モジュールへ移動します。
         GoToParentModule,
-        /// Goes to the previous change in the file.
+        /// ファイル内の前の変更へ移動します。
         GoToPreviousChange,
-        /// Goes to the next reference to the symbol under the cursor.
+        /// カーソル下のシンボルの次の参照へ移動します。
         GoToNextReference,
-        /// Goes to the previous reference to the symbol under the cursor.
+        /// カーソル下のシンボルの前の参照へ移動します。
         GoToPreviousReference,
-        /// Goes to the type definition of the symbol at cursor.
+        /// カーソル位置のシンボルの型定義へ移動します。
         GoToTypeDefinition,
-        /// Goes to type definition in a split pane.
+        /// 分割ペインで型定義へ移動します。
         GoToTypeDefinitionSplit,
-        /// Goes to the next document highlight.
+        /// 次のドキュメントハイライトへ移動します。
         GoToNextDocumentHighlight,
-        /// Goes to the previous document highlight.
+        /// 前のドキュメントハイライトへ移動します。
         GoToPreviousDocumentHighlight,
-        /// Scrolls down by half a page.
+        /// 半ページ下にスクロールします。
         HalfPageDown,
-        /// Scrolls up by half a page.
+        /// 半ページ上にスクロールします。
         HalfPageUp,
-        /// Shows hover information for the symbol at cursor.
+        /// カーソル位置のシンボルのホバー情報を表示します。
         Hover,
-        /// Increases indentation of selected lines.
+        /// 選択行のインデントを増やします。
         Indent,
-        /// Inserts a UUID v4 at cursor position.
+        /// カーソル位置にUUID v4を挿入します。
         InsertUuidV4,
-        /// Inserts a UUID v7 at cursor position.
+        /// カーソル位置にUUID v7を挿入します。
         InsertUuidV7,
-        /// Joins the current line with the next line.
+        /// 現在の行と次の行を結合します。
         JoinLines,
-        /// Copies to kill ring (Emacs-style).
+        /// キルリングにコピーします（Emacsスタイル）。
         KillRingCopy,
-        /// Cuts rest of line to kill ring (Emacs-style).
+        /// 行末までをキルリングに切り取ります（Emacsスタイル）。
         KillLine,
-        /// Cuts to kill ring (Emacs-style).
+        /// キルリングに切り取ります（Emacsスタイル）。
         KillRingCut,
-        /// Yanks from kill ring (Emacs-style).
+        /// キルリングからヤンク（貼り付け）します（Emacsスタイル）。
         KillRingYank,
-        /// Moves cursor down one line.
+        /// カーソルを1行下に移動します。
         LineDown,
-        /// Moves cursor up one line.
+        /// カーソルを1行上に移動します。
         LineUp,
-        /// Moves cursor down.
+        /// カーソルを下に移動します。
         MoveDown,
-        /// Moves cursor left.
+        /// カーソルを左に移動します。
         MoveLeft,
-        /// Moves the current line down.
+        /// 現在の行を下に移動します。
         MoveLineDown,
-        /// Moves the current line up.
+        /// 現在の行を上に移動します。
         MoveLineUp,
-        /// Moves cursor right.
+        /// カーソルを右に移動します。
         MoveRight,
-        /// Moves cursor to the beginning of the document.
+        /// カーソルをドキュメントの先頭に移動します。
         MoveToBeginning,
-        /// Moves cursor to the enclosing bracket.
+        /// カーソルを外側の対応する括弧に移動します。
         MoveToEnclosingBracket,
-        /// Selects the content inside the nearest enclosing delimiters (brackets, braces, parentheses, or quotes).
+        /// 最も近い外側の区切り文字（括弧、中括弧、丸括弧、引用符など）の内側を選択します。
         SelectInsideDelimiters,
-        /// Selects the content inside the nearest surrounding delimiters, including the delimiters themselves.
+        /// 最も近い外側の区切り文字を自身を含めて選択します。
         SelectAroundDelimiters,
-        /// Moves cursor to the end of the document.
+        /// カーソルをドキュメントの末尾に移動します。
         MoveToEnd,
-        /// Moves cursor to the end of the paragraph.
+        /// カーソルを段落の末尾に移動します。
         MoveToEndOfParagraph,
-        /// Moves cursor to the end of the next subword.
+        /// カーソルを次のサブワードの末尾に移動します。
         MoveToNextSubwordEnd,
-        /// Moves cursor to the end of the next word.
+        /// カーソルを次の単語の末尾に移動します。
         MoveToNextWordEnd,
-        /// Moves cursor to the start of the previous subword.
+        /// カーソルを前のサブワードの先頭に移動します。
         MoveToPreviousSubwordStart,
-        /// Moves cursor to the start of the previous word.
+        /// カーソルを前の単語の先頭に移動します。
         MoveToPreviousWordStart,
-        /// Moves cursor to the start of the paragraph.
+        /// カーソルを段落の先頭に移動します。
         MoveToStartOfParagraph,
-        /// Moves cursor to the start of the current excerpt.
+        /// カーソルを現在の抜粋の先頭に移動します。
         MoveToStartOfExcerpt,
-        /// Moves cursor to the start of the next excerpt.
+        /// カーソルを次の抜粋の先頭に移動します。
         MoveToStartOfNextExcerpt,
-        /// Moves cursor to the end of the current excerpt.
+        /// カーソルを現在の抜粋の末尾に移動します。
         MoveToEndOfExcerpt,
-        /// Moves cursor to the end of the previous excerpt.
+        /// カーソルを前の抜粋の末尾に移動します。
         MoveToEndOfPreviousExcerpt,
-        /// Moves cursor to the start of the next larger syntax node.
+        /// カーソルを1つ外側の構文ノードの先頭に移動します。
         MoveToStartOfLargerSyntaxNode,
-        /// Moves cursor to the end of the next larger syntax node.
+        /// カーソルを1つ外側の構文ノードの末尾に移動します。
         MoveToEndOfLargerSyntaxNode,
-        /// Moves cursor up.
+        /// カーソルを上に移動します。
         MoveUp,
-        /// Inserts a new line and moves cursor to it.
+        /// 改行を挿入してカーソルを移動します。
         Newline,
-        /// Inserts a new line above the current line.
+        /// 現在の行の上に新しい行を挿入します。
         NewlineAbove,
-        /// Inserts a new line below the current line.
+        /// 現在の行の下に新しい行を挿入します。
         NewlineBelow,
-        /// Scrolls to the next screen.
+        /// 次の画面へスクロールします。
         NextScreen,
-        /// Goes to the next snippet tabstop if one exists.
+        /// スニペットの次のタブストップがあれば移動します。
         NextSnippetTabstop,
-        /// Opens the context menu at cursor position.
+        /// カーソル位置でコンテキストメニューを開きます。
         OpenContextMenu,
-        /// Opens excerpts from the current file.
+        /// 現在のファイルから抜粋を開きます。
         OpenExcerpts,
-        /// Opens excerpts in a split pane.
+        /// 分割ペインで抜粋を開きます。
         OpenExcerptsSplit,
-        /// Opens the proposed changes editor.
+        /// 変更提案エディターを開きます。
         OpenProposedChangesEditor,
-        /// Opens documentation for the symbol at cursor.
+        /// カーソル位置のシンボルのドキュメントを開きます。
         OpenDocs,
-        /// Opens a permalink to the current line.
+        /// 現在の行へのパーマリンクを開きます。
         OpenPermalinkToLine,
-        /// Opens the file whose name is selected in the editor.
+        /// エディター内で名前が選択されているファイルを開きます。
         #[action(deprecated_aliases = ["editor::OpenFile"])]
         OpenSelectedFilename,
-        /// Opens all selections in a multibuffer.
+        /// すべての選択範囲をマルチバッファーで開きます。
         OpenSelectionsInMultibuffer,
-        /// Opens the URL at cursor position.
+        /// カーソル位置のURLを開きます。
         OpenUrl,
-        /// Organizes import statements.
+        /// import文を整理します。
         OrganizeImports,
-        /// Decreases indentation of selected lines.
+        /// 選択行のインデントを減らします。
         Outdent,
-        /// Automatically adjusts indentation based on context.
+        /// コンテキストに基づいて自動的にインデントを調整します。
         AutoIndent,
-        /// Scrolls down by one page.
+        /// 1ページ下にスクロールします。
         PageDown,
-        /// Scrolls up by one page.
+        /// 1ページ上にスクロールします。
         PageUp,
-        /// Pastes from clipboard.
+        /// クリップボードから貼り付けます。
         Paste,
-        /// Goes to the previous snippet tabstop if one exists.
+        /// スニペットの前のタブストップがあれば移動します。
         PreviousSnippetTabstop,
-        /// Redoes the last undone edit.
+        /// 元に戻した最後の編集をやり直します。
         Redo,
-        /// Redoes the last selection change.
+        /// 最後の選択範囲の変更をやり直します。
         RedoSelection,
-        /// Renames the symbol at cursor.
+        /// カーソル位置のシンボルの名前を変更します。
         Rename,
-        /// Restarts the language server for the current file.
+        /// 現在のファイルの言語サーバーを再起動します。
         RestartLanguageServer,
-        /// Reveals the current file in the system file manager.
+        /// 現在のファイルをシステムファイルマネージャーで表示します。
         RevealInFileManager,
-        /// Reverses the order of selected lines.
+        /// 選択行の順序を反転します。
         ReverseLines,
-        /// Reloads the file from disk.
+        /// ファイルをディスクから再読み込みします。
         ReloadFile,
-        /// Rewraps text to fit within the preferred line length.
+        /// 推奨行長に収まるようにテキストを折り返します。
         Rewrap,
-        /// Rotates selections or lines backward.
+        /// 選択範囲または行を後方に回転します。
         RotateSelectionsBackward,
-        /// Rotates selections or lines forward.
+        /// 選択範囲または行を前方に回転します。
         RotateSelectionsForward,
-        /// Runs flycheck diagnostics.
+        /// flycheck診断を実行します。
         RunFlycheck,
-        /// Scrolls the cursor to the bottom of the viewport.
+        /// カーソルが表示領域の下端にくるようスクロールします。
         ScrollCursorBottom,
-        /// Scrolls the cursor to the center of the viewport.
+        /// カーソルが表示領域の中央にくるようスクロールします。
         ScrollCursorCenter,
-        /// Cycles cursor position between center, top, and bottom.
+        /// カーソル位置を表示領域の中央、上端、下端の間で順に切り替えます。
         ScrollCursorCenterTopBottom,
-        /// Scrolls the cursor to the top of the viewport.
+        /// カーソルが表示領域の上端にくるようスクロールします。
         ScrollCursorTop,
-        /// Selects all text in the editor.
+        /// エディター内のすべてのテキストを選択します。
         SelectAll,
-        /// Selects all matches of the current selection.
+        /// 現在の選択範囲のすべての一致箇所を選択します。
         SelectAllMatches,
-        /// Selects to the start of the current excerpt.
+        /// 現在の抜粋の先頭まで選択します。
         SelectToStartOfExcerpt,
-        /// Selects to the start of the next excerpt.
+        /// 次の抜粋の先頭まで選択します。
         SelectToStartOfNextExcerpt,
-        /// Selects to the end of the current excerpt.
+        /// 現在の抜粋の末尾まで選択します。
         SelectToEndOfExcerpt,
-        /// Selects to the end of the previous excerpt.
+        /// 前の抜粋の末尾まで選択します。
         SelectToEndOfPreviousExcerpt,
-        /// Extends selection down.
+        /// 選択範囲を下に拡張します。
         SelectDown,
-        /// Selects the enclosing symbol.
+        /// 外側のシンボルを選択します。
         SelectEnclosingSymbol,
-        /// Selects the next larger syntax node.
+        /// 1つ外側の構文ノードを選択します。
         SelectLargerSyntaxNode,
-        /// Selects the next syntax node sibling.
+        /// 次の兄弟構文ノードを選択します。
         SelectNextSyntaxNode,
-        /// Selects the previous syntax node sibling.
+        /// 前の兄弟構文ノードを選択します。
         SelectPreviousSyntaxNode,
-        /// Extends selection left.
+        /// 選択範囲を左に拡張します。
         SelectLeft,
-        /// Selects the current line.
+        /// 現在の行を選択します。
         SelectLine,
-        /// Extends selection down by one page.
+        /// 選択範囲を1ページ下に拡張します。
         SelectPageDown,
-        /// Extends selection up by one page.
+        /// 選択範囲を1ページ上に拡張します。
         SelectPageUp,
-        /// Extends selection right.
+        /// 選択範囲を右に拡張します。
         SelectRight,
-        /// Selects the next smaller syntax node.
+        /// 1つ内側の構文ノードを選択します。
         SelectSmallerSyntaxNode,
-        /// Selects to the beginning of the document.
+        /// ドキュメントの先頭まで選択します。
         SelectToBeginning,
-        /// Selects to the end of the document.
+        /// ドキュメントの末尾まで選択します。
         SelectToEnd,
-        /// Selects to the end of the paragraph.
+        /// 段落の末尾まで選択します。
         SelectToEndOfParagraph,
-        /// Selects to the end of the next subword.
+        /// 次のサブワードの末尾まで選択します。
         SelectToNextSubwordEnd,
-        /// Selects to the end of the next word.
+        /// 次の単語の末尾まで選択します。
         SelectToNextWordEnd,
-        /// Selects to the start of the previous subword.
+        /// 前のサブワードの先頭まで選択します。
         SelectToPreviousSubwordStart,
-        /// Selects to the start of the previous word.
+        /// 前の単語の先頭まで選択します。
         SelectToPreviousWordStart,
-        /// Selects to the start of the paragraph.
+        /// 段落の先頭まで選択します。
         SelectToStartOfParagraph,
-        /// Extends selection up.
+        /// 選択範囲を上に拡張します。
         SelectUp,
-        /// Shows code completion suggestions at the cursor position.
+        /// カーソル位置でコード補完候補を表示します。
         ShowCompletions,
-        /// Shows the system character palette.
+        /// システム文字パレットを表示します。
         ShowCharacterPalette,
-        /// Shows signature help for the current function.
+        /// 現在の関数のシグネチャヘルプを表示します。
         ShowSignatureHelp,
-        /// Shows word completions.
+        /// 単語補完を表示します。
         ShowWordCompletions,
-        /// Randomly shuffles selected lines.
+        /// 選択行をランダムにシャッフルします。
         ShuffleLines,
-        /// Navigates to the next signature in the signature help popup.
+        /// シグネチャヘルプポップアップ内の次のシグネチャに移動します。
         SignatureHelpNext,
-        /// Navigates to the previous signature in the signature help popup.
+        /// シグネチャヘルプポップアップ内の前のシグネチャに移動します。
         SignatureHelpPrevious,
-        /// Sorts selected lines by length.
+        /// 選択行を長さ順に並べ替えます。
         SortLinesByLength,
-        /// Sorts selected lines case-insensitively.
+        /// 選択行を大文字・小文字を区別せずに並べ替えます。
         SortLinesCaseInsensitive,
-        /// Sorts selected lines case-sensitively.
+        /// 選択行を大文字・小文字を区別して並べ替えます。
         SortLinesCaseSensitive,
-        /// Stops the language server for the current file.
+        /// 現在のファイルの言語サーバーを停止します。
         StopLanguageServer,
-        /// Shows completions, inserts a tab character or indents depending on context
+        /// コンテキストに応じて補完を表示、タブ文字を挿入、またはインデントします。
         SuperTab,
-        /// Switches between source and header files.
+        /// ソースファイルとヘッダーファイルを切り替えます。
         SwitchSourceHeader,
-        /// Inserts a tab character or indents.
+        /// タブ文字を挿入またはインデントします。
         Tab,
-        /// Removes a tab character or outdents.
+        /// タブ文字を削除またはインデントを減らします。
         Backtab,
-        /// Toggles a breakpoint at the current line.
+        /// 現在の行のブレークポイントを切り替えます。
         ToggleBreakpoint,
-        /// Toggles the case of selected text.
+        /// 選択したテキストの大文字・小文字を反転します。
         ToggleCase,
-        /// Disables the breakpoint at the current line.
+        /// 現在の行のブレークポイントを無効化します。
         DisableBreakpoint,
-        /// Enables the breakpoint at the current line.
+        /// 現在の行のブレークポイントを有効化します。
         EnableBreakpoint,
-        /// Edits the log message for a breakpoint.
+        /// ブレークポイントのログメッセージを編集します。
         EditLogBreakpoint,
-        /// Toggles automatic signature help.
+        /// シグネチャヘルプの自動表示を切り替えます。
         ToggleAutoSignatureHelp,
-        /// Toggles inline git blame display.
+        /// インラインGit Blameの表示を切り替えます。
         ToggleGitBlameInline,
-        /// Opens the git commit for the blame at cursor.
+        /// カーソル位置のBlameコミットを開きます。
         OpenGitBlameCommit,
-        /// Toggles the diagnostics panel.
+        /// 診断パネルの表示を切り替えます。
         ToggleDiagnostics,
-        /// Toggles indent guides display.
+        /// インデントガイドの表示を切り替えます。
         ToggleIndentGuides,
-        /// Toggles inlay hints display.
+        /// インレイヒントの表示を切り替えます。
         ToggleInlayHints,
-        /// Toggles inline values display.
+        /// インライン値の表示を切り替えます。
         ToggleInlineValues,
-        /// Toggles inline diagnostics display.
+        /// インライン診断の表示を切り替えます。
         ToggleInlineDiagnostics,
-        /// Toggles line numbers display.
+        /// 行番号の表示を切り替えます。
         ToggleLineNumbers,
-        /// Toggles the minimap display.
+        /// ミニマップの表示を切り替えます。
         ToggleMinimap,
-        /// Swaps the start and end of the current selection.
+        /// 現在の選択範囲の始点と終点を入れ替えます。
         SwapSelectionEnds,
-        /// Sets a mark at the current position.
+        /// 現在位置にマークを設定します。
         SetMark,
-        /// Toggles relative line numbers display.
+        /// 相対行番号の表示を切り替えます。
         ToggleRelativeLineNumbers,
-        /// Toggles diff display for selected hunks.
+        /// 選択したハンクの差分表示を切り替えます。
         #[action(deprecated_aliases = ["editor::ToggleHunkDiff"])]
         ToggleSelectedDiffHunks,
-        /// Toggles the selection menu.
+        /// 選択メニューの表示を切り替えます。
         ToggleSelectionMenu,
-        /// Toggles soft wrap mode.
+        /// 折り返し（ソフトラップ）モードを切り替えます。
         ToggleSoftWrap,
-        /// Toggle split diff view
+        /// 分割差分ビューを切り替えます。
         ToggleSplitDiff,
-        /// Toggles the tab bar display.
+        /// タブバーの表示を切り替えます。
         ToggleTabBar,
-        /// Transposes characters around cursor.
+        /// カーソルの前後の文字を入れ替えます。
         Transpose,
-        /// Undoes the last edit.
+        /// 最後の編集を元に戻します。
         Undo,
-        /// Undoes the last selection change.
+        /// 最後の選択範囲の変更を元に戻します。
         UndoSelection,
-        /// Unfolds all folded regions.
+        /// 折りたたまれたすべての領域を展開します。
         UnfoldAll,
-        /// Unfolds lines at cursor.
+        /// カーソル位置の行を展開します。
         UnfoldLines,
-        /// Unfolds recursively at cursor.
+        /// カーソル位置を再帰的に展開します。
         UnfoldRecursive,
-        /// Removes duplicate lines (case-insensitive).
+        /// 重複行を削除します（大文字・小文字を区別しない）。
         UniqueLinesCaseInsensitive,
-        /// Removes duplicate lines (case-sensitive).
+        /// 重複行を削除します（大文字・小文字を区別する）。
         UniqueLinesCaseSensitive,
-        /// Removes the surrounding syntax node (for example brackets, or closures)
-        /// from the current selections.
+        /// 現在の選択範囲から外側の構文ノード（括弧やクロージャなど）を取り除きます。
         UnwrapSyntaxNode,
-        /// Wraps selections in tag specified by language.
+        /// 選択範囲を言語で指定されたタグで囲みます。
         WrapSelectionsInTag,
-        /// Removes all trailing whitespace from buffer
+        /// バッファーから末尾の空白をすべて削除します。
         RemoveTrailingWhitespace,
     ]
 );
 
-/// Finds all references to the symbol at cursor.
+/// カーソル位置のシンボルのすべての参照を検索します。
 #[derive(PartialEq, Clone, Deserialize, JsonSchema, Action)]
 #[action(namespace = editor)]
 #[serde(deny_unknown_fields)]

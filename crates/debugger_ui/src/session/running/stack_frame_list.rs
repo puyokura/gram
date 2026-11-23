@@ -552,7 +552,9 @@ impl StackFrameList {
                                             this.restart_stack_frame(stack_frame_id, cx);
                                         }
                                     }))
-                                    .tooltip(move |window, cx| Tooltip::text("Restart Stack Frame")(window, cx)),
+                                    .tooltip(move |window, cx| {
+                                        Tooltip::text("スタックフレームを再開")(window, cx)
+                                    }),
                             ),
                     )
                 },
@@ -779,8 +781,8 @@ impl StackFrameList {
 
     pub(crate) fn render_control_strip(&self) -> AnyElement {
         let tooltip_title = match self.list_filter {
-            StackFrameFilter::All => "Show stack frames from your project",
-            StackFrameFilter::OnlyUserFrames => "Show all stack frames",
+            StackFrameFilter::All => "プロジェクトのスタックフレームのみ表示",
+            StackFrameFilter::OnlyUserFrames => "すべてのスタックフレームを表示",
         };
 
         h_flex()

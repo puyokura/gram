@@ -1,5 +1,5 @@
-// Project-local debug tasks
+// プロジェクトローカルのデバッグタスク
 //
-// For more documentation on how to configure debug tasks,
-// see: gram://docs/debugger
+// デバッグタスクの設定方法の詳細は、
+// 次を参照してください: gram://docs/debugger
 []

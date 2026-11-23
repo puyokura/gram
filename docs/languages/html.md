@@ -1,17 +1,17 @@
 # HTML
 
-HTML support is built into the editor, both syntax highlighting and language
-server support.
+HTML のサポート（シンタックスハイライトと言語サーバー）はエディターに組み込まれて
+います。
 
-- [Tree sitter grammar](https://github.com/tree-sitter/tree-sitter-html)
+- [Tree-sitter 文法](https://github.com/tree-sitter/tree-sitter-html)
 
-There is language server support available from two different servers:
+言語サーバーによるサポートは、2 つの異なるサーバーから利用できます:
 
 - [SuperHTML](https://github.com/kristoff-it/superhtml)
 - [microsoft/vscode-html-languageservice](https://github.com/microsoft/vscode-html-languageservice)
 
-By default, the Microsoft language server is disabled and SuperHTML enabled. To
-switch language server, add the following to your `settings.jsonc`:
+既定では Microsoft の言語サーバーは無効で、SuperHTML が有効です。言語サーバーを
+切り替えるには、`settings.jsonc` に次を追加します:
 
 ```json
 {
@@ -23,12 +23,11 @@ switch language server, add the following to your `settings.jsonc`:
 }
 ```
 
-## Formatting
+## フォーマット
 
-By default Gram uses [Prettier](https://prettier.io/) for formatting HTML.
+既定では Gram は HTML のフォーマットに [Prettier](https://prettier.io/) を使用します。
 
-You can disable `format_on_save` by adding the following to your Gram
-`settings.jsonc`:
+Gram の `settings.jsonc` に次を追加すると、`format_on_save` を無効にできます:
 
 ```json
   "languages": {
@@ -38,14 +37,13 @@ You can disable `format_on_save` by adding the following to your Gram
   }
 ```
 
-You can still trigger formatting manually with {#kb editor::Format} or by
-opening the Command Palette ({#kb command_palette::Toggle}) and selecting
-"Format Document".
+{#kb editor::Format} で手動フォーマットを実行することも、コマンドパレット
+（{#kb command_palette::Toggle}）を開いて "Format Document" を選ぶこともできます。
 
-### LSP Formatting
+### LSP によるフォーマット
 
-To use the language server auto-formatting instead of Prettier, add the
-following to your Gram settings:
+Prettier の代わりに言語サーバーの自動フォーマットを使うには、Gram の設定に次を
+追加します:
 
 ```json
   "languages": {
@@ -55,9 +53,9 @@ following to your Gram settings:
   }
 ```
 
-You can customize various
-[formatting options](https://code.visualstudio.com/docs/languages/html#_formatting)
-for `vscode-html-language-server` via your Gram `settings.json`:
+Gram の `settings.json` で、`vscode-html-language-server` のさまざまな
+[フォーマットオプション](https://code.visualstudio.com/docs/languages/html#_formatting)
+をカスタマイズできます:
 
 ```json
   "lsp": {
@@ -65,11 +63,11 @@ for `vscode-html-language-server` via your Gram `settings.json`:
       "settings": {
         "html": {
           "format": {
-            // Indent under <html> and <head> (default: false)
+            // <html> と <head> の中身をインデントする（既定: false）
             "indentInnerHtml": true,
-            // Disable formatting inside <svg> or <script>
+            // <svg> や <script> の中をフォーマットしない
             "contentUnformatted": "svg,script",
-            // Add an extra newline before <div> and <p>
+            // <div> と <p> の前に空行を追加する
             "extraLiners": "div,p"
           }
         }
@@ -78,7 +76,7 @@ for `vscode-html-language-server` via your Gram `settings.json`:
   }
 ```
 
-## See also
+## 関連項目
 
 - [CSS](./css.md)
 - [JavaScript](./javascript.md)

@@ -57,9 +57,9 @@ impl From<ScopeFileName> for ScopeName {
 actions!(
     snippets,
     [
-        /// Opens the snippets configuration file.
+        /// スニペット設定ファイルを開きます。
         ConfigureSnippets,
-        /// Opens the snippets folder in the file manager.
+        /// ファイルマネージャーでスニペットフォルダーを開きます。
         OpenFolder
     ]
 );
@@ -193,7 +193,7 @@ impl PickerDelegate for ScopeSelectorDelegate {
     type ListItem = ListItem;
 
     fn placeholder_text(&self, _window: &mut Window, _: &mut App) -> Arc<str> {
-        "Select snippet scope...".into()
+        "スニペットのスコープを選択…".into()
     }
 
     fn match_count(&self) -> usize {

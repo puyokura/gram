@@ -1,10 +1,10 @@
-// Gram keymap
+// Gram のキーマップ
 //
-// For information on binding keys, see the Gram
-// documentation: gram://docs/key-bindings
+// キーの割り当て方法については、Gram の
+// ドキュメントを参照してください: gram://docs/key-bindings
 //
-// To see the default key bindings run `gram: open default keymap`
-// from the command palette.
+// デフォルトのキーバインドを確認するには、コマンドパレットから `gram: open default keymap`
+// を実行してください。
 [
   {
     "context": "Workspace",

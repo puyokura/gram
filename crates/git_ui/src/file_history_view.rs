@@ -430,7 +430,7 @@ impl FileHistoryView {
         {
             path.as_unix_str().to_string().into()
         } else {
-            "Git History".into()
+            "Git 履歴".into()
         }
     }
 
@@ -473,7 +473,7 @@ impl Render for FileHistoryView {
                     .p_0p5()
                     .justify_between()
                     .child(
-                        Label::new(format!("{} commits", entry_count))
+                        Label::new(format!("{} 件のコミット", entry_count))
                             .size(LabelSize::Small)
                             .color(Color::Muted),
                     )
@@ -481,7 +481,7 @@ impl Render for FileHistoryView {
                         h_flex()
                             .gap_1()
                             .child(
-                                Button::new("refresh", "Refresh")
+                                Button::new("refresh", "更新")
                                     .disabled(self.loading_more)
                                     .label_size(LabelSize::Small)
                                     .icon(IconName::ArrowCircle)
@@ -493,7 +493,7 @@ impl Render for FileHistoryView {
                                     })),
                             )
                             .child(
-                                Button::new("load-more", "Load More")
+                                Button::new("load-more", "さらに読み込む")
                                     .disabled(self.loading_more | !self.has_more)
                                     .label_size(LabelSize::Small)
                                     .icon(IconName::ArrowCircle)
@@ -549,16 +549,16 @@ impl Item for FileHistoryView {
     fn tab_tooltip_text(&self, _cx: &App) -> Option<SharedString> {
         Some(
             format!(
-                "Git history for {}",
+                "{} の Git 履歴",
                 self.history
                     .path
                     .as_ref()
                     .map(|path| if !path.is_empty() {
                         path.as_unix_str()
                     } else {
-                        "project"
+                        "プロジェクト"
                     })
-                    .unwrap_or("project")
+                    .unwrap_or("プロジェクト")
             )
             .into(),
         )

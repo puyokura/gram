@@ -1,20 +1,19 @@
 # Terraform
 
-Terraform support is available through the
-[Terraform extension](https://github.com/zed-extensions/terraform).
+Terraform のサポートは、[Terraform 拡張機能](https://github.com/zed-extensions/terraform)を通じて利用できます。
 
 - Tree-sitter:
   [MichaHoffmann/tree-sitter-hcl](https://github.com/MichaHoffmann/tree-sitter-hcl)
-- Language Server:
+- 言語サーバー:
   [hashicorp/terraform-ls](https://github.com/hashicorp/terraform-ls)
 
-## Configuration
+## 設定
 
 <!--
 TBD: Add example using `rootModulePaths` to match upstream example https://github.com/hashicorp/terraform-ls/blob/main/docs/SETTINGS.md#vs-code
 -->
 
-The Terraform language server can be configured in your `settings.jsonc`, e.g.:
+Terraform 言語サーバーは `settings.jsonc` で設定できます。例:
 
 ```json
 {
@@ -30,5 +29,5 @@ The Terraform language server can be configured in your `settings.jsonc`, e.g.:
 }
 ```
 
-See the
-[full list of server settings here](https://github.com/hashicorp/terraform-ls/blob/main/docs/SETTINGS.md).
+サーバー設定の全一覧は
+[こちら](https://github.com/hashicorp/terraform-ls/blob/main/docs/SETTINGS.md)を参照してください。

@@ -39,9 +39,9 @@ const TERMINAL_PANEL_KEY: &str = "TerminalPanel";
 actions!(
     terminal_panel,
     [
-        /// Toggles the terminal panel.
+        /// ターミナルパネルを切り替える。
         Toggle,
-        /// Toggles focus on the terminal panel.
+        /// ターミナルパネルへのフォーカスを切り替える。
         ToggleFocus
     ]
 );
@@ -146,7 +146,7 @@ impl TerminalPanel {
                 PopoverMenu::new("terminal-tab-bar-popover-menu")
                     .trigger_with_tooltip(
                         IconButton::new("plus", IconName::Plus).icon_size(IconSize::Small),
-                        Tooltip::text("New…"),
+                        Tooltip::text("新規…"),
                     )
                     .anchor(Corner::TopRight)
                     .with_handle(pane.new_item_context_menu_handle.clone())
@@ -154,11 +154,11 @@ impl TerminalPanel {
                         let focus_handle = focus_handle.clone();
                         let menu = ContextMenu::build(window, cx, |menu, _, _| {
                             menu.context(focus_handle.clone())
-                                .action("New Terminal", workspace::NewTerminal.boxed_clone())
+                                .action("新規ターミナル", workspace::NewTerminal.boxed_clone())
                                 // We want the focus to go back to terminal panel once task modal is dismissed,
                                 // hence we focus that first. Otherwise, we'd end up without a focused element, as
                                 // context menu will be gone the moment we spawn the modal.
-                                .action("Spawn Task", app_actions::Spawn::modal().boxed_clone())
+                                .action("タスクを実行", app_actions::Spawn::modal().boxed_clone())
                         });
 
                         Some(menu)
@@ -168,7 +168,7 @@ impl TerminalPanel {
                 PopoverMenu::new("terminal-pane-tab-bar-split")
                     .trigger_with_tooltip(
                         IconButton::new("terminal-pane-split", IconName::Split).icon_size(IconSize::Small),
-                        Tooltip::text("Split Pane"),
+                        Tooltip::text("ペインを分割"),
                     )
                     .anchor(Corner::TopRight)
                     .with_handle(pane.split_item_context_menu_handle.clone())
@@ -176,10 +176,10 @@ impl TerminalPanel {
                         move |window, cx| {
                             ContextMenu::build(window, cx, |menu, _, _| {
                                 menu.when_some(split_context.clone(), |menu, split_context| menu.context(split_context))
-                                    .action("Split Right", SplitRight.boxed_clone())
-                                    .action("Split Left", SplitLeft.boxed_clone())
-                                    .action("Split Up", SplitUp.boxed_clone())
-                                    .action("Split Down", SplitDown.boxed_clone())
+                                    .action("右に分割", SplitRight.boxed_clone())
+                                    .action("左に分割", SplitLeft.boxed_clone())
+                                    .action("上に分割", SplitUp.boxed_clone())
+                                    .action("下に分割", SplitDown.boxed_clone())
                             })
                             .into()
                         }
@@ -195,7 +195,15 @@ impl TerminalPanel {
                         pane.toggle_zoom(&workspace::ToggleZoom, window, cx);
                     }))
                     .tooltip(move |_window, cx| {
-                        Tooltip::for_action(if zoomed { "Zoom Out" } else { "Zoom In" }, &ToggleZoom, cx)
+                        Tooltip::for_action(
+                            if zoomed {
+                                "ズームアウト"
+                            } else {
+                                "ズームイン"
+                            },
+                            &ToggleZoom,
+                            cx,
+                        )
                     })
             })
             .into_any_element()
@@ -1173,8 +1181,8 @@ impl Render for FailedToSpawnTerminal {
             .menu(move |window, cx| {
                 Some(ContextMenu::build(window, cx, |context_menu, _, _| {
                     context_menu
-                        .action("Open Settings", app_actions::OpenSettings.boxed_clone())
-                        .action("Edit settings.jsonc", app_actions::OpenSettingsFile.boxed_clone())
+                        .action("設定を開く", app_actions::OpenSettings.boxed_clone())
+                        .action("settings.jsonc を編集", app_actions::OpenSettingsFile.boxed_clone())
                 }))
             })
             .anchor(Corner::TopRight)
@@ -1193,7 +1201,7 @@ impl Render for FailedToSpawnTerminal {
                     .items_center()
                     .justify_center()
                     .text_center()
-                    .child(Label::new("Failed to spawn terminal"))
+                    .child(Label::new("ターミナルを起動できませんでした"))
                     .child(
                         Label::new(self.error.to_string())
                             .size(LabelSize::Small)
@@ -1202,7 +1210,7 @@ impl Render for FailedToSpawnTerminal {
                     )
                     .child(SplitButton::new(
                         ButtonLike::new("open-settings-ui")
-                            .child(Label::new("Edit Settings").size(LabelSize::Small))
+                            .child(Label::new("設定を編集").size(LabelSize::Small))
                             .on_click(|_, window, cx| {
                                 window.dispatch_action(app_actions::OpenSettings.boxed_clone(), cx);
                             }),
@@ -1218,7 +1226,7 @@ impl workspace::Item for FailedToSpawnTerminal {
     type Event = ();
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        SharedString::new_static("Failed to spawn terminal")
+        SharedString::new_static("ターミナルを起動できませんでした")
     }
 }
 
@@ -1471,7 +1479,7 @@ impl Panel for TerminalPanel {
     }
 
     fn icon_tooltip(&self, _window: &Window, _cx: &App) -> Option<&'static str> {
-        Some("Terminal Panel")
+        Some("ターミナルパネル")
     }
 
     fn toggle_action(&self) -> Box<dyn gpui::Action> {

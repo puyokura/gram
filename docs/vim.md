@@ -1,55 +1,35 @@
-# Vim Mode
+# Vim モード
 
-Gram includes an emulation of Vim mode (modal editing). To learn more about Vim
-and modal editing, see the [Vim documentation](https://www.vim.org/docs.php).
+Gram には Vim モード（モーダル編集）のエミュレーションが含まれています。Vim とモーダル編集の詳細については、[Vim のドキュメント](https://www.vim.org/docs.php) を参照してください。
 
-Full compatibility is impossible, but many of the basic features of Vim are
-supported as well as some features of various vim plugins.
+完全な互換性は不可能ですが、Vim の基本的な機能の多くと、各種 Vim プラグインの一部の機能をサポートしています。
 
-## Gram's vim mode design
+## Gram の Vim モードの設計
 
-The Gram Vim mode tries to offer a familiar experience to Vim users: it
-replicates the behavior of motions and commands precisely when it makes sense
-and uses Gram-specific functionality where appropriate.
+Gram の Vim モードは、Vim ユーザーにとって馴染みのある体験を提供しようとしています。意味のある場面ではモーションとコマンドの動作を正確に再現し、適切な場面では Gram 固有の機能を使います。
 
-This includes support for semantic navigation, multiple cursors, or other
-features usually provided by plugins like surrounding text.
+これには、セマンティックなナビゲーション、マルチカーソル、テキストを囲む操作など、通常はプラグインが提供する機能のサポートが含まれます。
 
-So, Gram's vim mode does not replicate Vim one-to-one, but meshes Vim's modal
-design with Gram's extended feature set. It's also possible to add additional
-key bindings or override the defaults.
+そのため、Gram の Vim モードは Vim を 1 対 1 で再現するのではなく、Vim のモーダル設計と Gram の拡張機能セットを組み合わせています。追加のキーバインドを加えたり、既定の設定を上書きしたりすることも可能です。
 
-### Core differences
+### 主な相違点
 
-There are four types of features in vim mode that use Gram's core functionality,
-leading to some differences in behavior:
+Vim モードには Gram の中核機能を使う 4 種類の機能があり、そのため動作にいくつか違いがあります:
 
-1. **Motions**: vim mode uses Gram's semantic parsing to tune the behavior of
-   motions per language. For example, in Rust, jumping to matching bracket with
-   `%` works with the pipe character `|`. In JavaScript, `w` considers `$` to be
-   a word character.
-2. **Visual block selections**: vim mode uses Gram's multiple cursor to emulate
-   visual block selections, making block selections a lot more flexible. For
-   example, anything you insert after a block selection updates on every line in
-   real-time, and you can add or remove cursors anytime.
-3. **Macros**: vim mode uses Gram's recording system for vim macros. So, you can
-   capture and replay more complex actions, like autocompletion.
-4. **Search and replace**: vim mode uses Gram's search system, so, the syntax
-   for regular expressions is slightly different compared to Vim. See the
-   [Regex differences](#regex-differences) section for details.
+1. **モーション**: Vim モードは Gram のセマンティック解析を使って、言語ごとにモーションの動作を調整します。たとえば Rust では、`%` による対応する括弧へのジャンプがパイプ文字 `|` でも機能します。JavaScript では、`w` が `$` を単語文字として扱います。
+2. **矩形選択（ビジュアルブロック）**: Vim モードは Gram のマルチカーソルを使って矩形選択をエミュレートするため、ブロック選択がはるかに柔軟になります。たとえば、ブロック選択の後に挿入した内容は各行にリアルタイムで反映され、カーソルはいつでも追加・削除できます。
+3. **マクロ**: Vim モードは Vim マクロに Gram の記録システムを使います。そのため、補完のようなより複雑な操作も記録して再生できます。
+4. **検索と置換**: Vim モードは Gram の検索システムを使うため、正規表現の構文が Vim と若干異なります。詳細は[正規表現の相違点](#regex-differences)セクションを参照してください。
 
-The foundations of Gram's vim mode should already cover many use cases, but
-patches to add features or additional functionality is always welcome.
+Gram の Vim モードの基盤はすでに多くのユースケースをカバーしているはずですが、機能や追加の動作を加えるパッチはいつでも歓迎します。
 
-## Enabling and disabling vim mode
+## Vim モードの有効化と無効化
 
-Vim mode can be enabled from the Onboarding screen shown when first installing
-the editor.
+Vim モードは、エディターを初めてインストールしたときに表示されるオンボーディング画面から有効にできます。
 
-Later, vim mode can be toggled on or off at any time using the command {#action
-workspace::ToggleVimMode}.
+その後は、いつでもコマンド {#action workspace::ToggleVimMode} を使って Vim モードを切り替えられます。
 
-> **Note**: This command toggles the following property in `settings.json`:
+> **注意**: このコマンドは `settings.json` の次のプロパティを切り替えます:
 >
 > ```json
 > {
@@ -57,398 +37,326 @@ workspace::ToggleVimMode}.
 > }
 > ```
 
-## Gram-specific features
+## Gram 固有の機能
 
-Gram uses Tree-sitter and the language server protocol to understand the
-structure of files and supports multiple cursors out of the box.
+Gram は Tree-sitter と言語サーバープロトコルを使ってファイルの構造を理解し、マルチカーソルを標準でサポートしています。
 
-Vim mode has several "core Gram" key bindings that will help make the most of
-Gram's specific feature set.
+Vim モードには、Gram 固有の機能を最大限に活用するための「Gram コア」キーバインドがいくつかあります。
 
-### Language server (LSP)
+### 言語サーバー（LSP）
 
-The following commands use a language server (if available) to help navigate and
-refactor code semantically.
+次のコマンドは、コードをセマンティックに移動・リファクタリングするために言語サーバー（利用可能な場合）を使います。
 
-| Command                                  | Default Shortcut |
-| ---------------------------------------- | ---------------- |
-| Go to definition                         | `g d`            |
-| Go to declaration                        | `g D`            |
-| Go to type definition                    | `g y`            |
-| Go to implementation                     | `g I`            |
-| Rename (change definition)               | `c d`            |
-| Go to All references to the current word | `g A`            |
-| Find symbol in current file              | `g s`            |
-| Find symbol in entire project            | `g S`            |
-| Go to next diagnostic                    | `g ]` or `] d`   |
-| Go to previous diagnostic                | `g [` or `[ d`   |
-| Show inline error (hover)                | `g h`            |
-| Open the code actions menu               | `g .`            |
+| コマンド                         | 既定のショートカット |
+| -------------------------------- | -------------------- |
+| 定義へ移動                       | `g d`                |
+| 宣言へ移動                       | `g D`                |
+| 型定義へ移動                     | `g y`                |
+| 実装へ移動                       | `g I`                |
+| 名前変更（定義の変更）           | `c d`                |
+| 現在の単語へのすべての参照へ移動 | `g A`                |
+| 現在のファイル内のシンボルを検索 | `g s`                |
+| プロジェクト全体のシンボルを検索 | `g S`                |
+| 次の診断へ移動                   | `g ]` または `] d`   |
+| 前の診断へ移動                   | `g [` または `[ d`   |
+| インラインエラーを表示（ホバー） | `g h`                |
+| コードアクションメニューを開く   | `g .`                |
 
 ### Git
 
-| Command                         | Default Shortcut |
-| ------------------------------- | ---------------- |
-| Go to next git change           | `] c`            |
-| Go to previous git change       | `[ c`            |
-| Expand diff hunk                | `d o`            |
-| Toggle staged                   | `d O`            |
-| Stage and next (in diff view)   | `d u`            |
-| Unstage and next (in diff view) | `d U`            |
-| Restore change                  | `d p`            |
+| コマンド                             | 既定のショートカット |
+| ------------------------------------ | -------------------- |
+| 次の git の変更へ移動                | `] c`                |
+| 前の git の変更へ移動                | `[ c`                |
+| Diff ハンクを展開                    | `d o`                |
+| ステージ状態を切り替え               | `d O`                |
+| ステージして次へ（Diff ビュー内）    | `d u`                |
+| アンステージして次へ（Diff ビュー内） | `d U`                |
+| 変更を復元                           | `d p`                |
 
 ### Tree-sitter
 
-[Tree-sitter](https://tree-sitter.github.io/tree-sitter/) is an open source
-project independent from Gram which Gram uses to understand the structure of
-code, and which supports many programming languages. Gram provides motions that
-change the current cursor position, and text objects that can be used as the
-target of actions.
+[Tree-sitter](https://tree-sitter.github.io/tree-sitter/) は Gram から独立したオープンソースプロジェクトで、Gram がコードの構造を理解するために使い、多くのプログラミング言語をサポートしています。Gram は、現在のカーソル位置を変更するモーションと、アクションの対象として使えるテキストオブジェクトを提供します。
 
-| Command                         | Default Shortcut            |
-| ------------------------------- | --------------------------- |
-| Go to next/previous method      | `] m` / `[ m`               |
-| Go to next/previous method end  | `] M` / `[ M`               |
-| Go to next/previous section     | `] ]` / `[ [`               |
-| Go to next/previous section end | `] [` / `[ ]`               |
-| Go to next/previous comment     | `] /`, `] *` / `[ /`, `[ *` |
-| Select a larger syntax node     | `[ x`                       |
-| Select a smaller syntax node    | `] x`                       |
+| コマンド                             | 既定のショートカット        |
+| ------------------------------------ | --------------------------- |
+| 次/前のメソッドへ移動                | `] m` / `[ m`               |
+| 次/前のメソッドの末尾へ移動          | `] M` / `[ M`               |
+| 次/前のセクションへ移動              | `] ]` / `[ [`               |
+| 次/前のセクションの末尾へ移動        | `] [` / `[ ]`               |
+| 次/前のコメントへ移動                | `] /`, `] *` / `[ /`, `[ *` |
+| より大きな構文ノードを選択           | `[ x`                       |
+| より小さな構文ノードを選択           | `] x`                       |
 
-| Text Objects                                               | Default Shortcut |
-| ---------------------------------------------------------- | ---------------- |
-| Around a class, definition, etc.                           | `a c`            |
-| Inside a class, definition, etc.                           | `i c`            |
-| Around a function, method etc.                             | `a f`            |
-| Inside a function, method, etc.                            | `i f`            |
-| A comment                                                  | `g c`            |
-| An argument, or list item, etc.                            | `i a`            |
-| An argument, or list item, etc. (including trailing comma) | `a a`            |
-| Around an HTML-like tag                                    | `a t`            |
-| Inside an HTML-like tag                                    | `i t`            |
-| The current indent level, and one line before and after    | `a I`            |
-| The current indent level, and one line before              | `a i`            |
-| The current indent level                                   | `i i`            |
+| テキストオブジェクト                                     | 既定のショートカット |
+| -------------------------------------------------------- | -------------------- |
+| クラス、定義などの周囲                                   | `a c`                |
+| クラス、定義などの内側                                   | `i c`                |
+| 関数、メソッドなどの周囲                                 | `a f`                |
+| 関数、メソッドなどの内側                                 | `i f`                |
+| コメント                                                 | `g c`                |
+| 引数、リスト項目など                                     | `i a`                |
+| 引数、リスト項目など（末尾のカンマを含む）               | `a a`                |
+| HTML 風のタグの周囲                                      | `a t`                |
+| HTML 風のタグの内側                                      | `i t`                |
+| 現在のインデントレベルと、その前後 1 行                  | `a I`                |
+| 現在のインデントレベルと、その前 1 行                    | `a i`                |
+| 現在のインデントレベル                                   | `i i`                |
 
-Note that the definitions for the targets of the `[m` family of motions are the
-same as the boundaries defined by `af`. The targets of the `[[` are the same as
-those defined by `ac`, though if there are no classes, then functions are also
-used. Similarly `gc` is used to find `[ /`. `g c`
+`[m` 系のモーションの対象の定義は、`af` で定義される境界と同じであることに注意してください。`[[` の対象は `ac` で定義されるものと同じですが、クラスが存在しない場合は関数も使われます。同様に `gc` は `[ /` の検索に使われます。`g c`
 
-The definition of functions, classes and comments is language dependent, and
-support can be added to extensions by adding a [`textobjects.scm`]. The
-definition of arguments and tags operates at the Tree-sitter level, but looks
-for certain patterns in the parse tree and is not currently configurable per
-language.
+関数、クラス、コメントの定義は言語に依存し、[`textobjects.scm`] を追加することで拡張機能にもサポートを追加できます。引数とタグの定義は Tree-sitter のレベルで動作しますが、パースツリー内の特定のパターンを探すものであり、現時点では言語ごとに構成できません。
 
-### Multi cursor
+### マルチカーソル
 
-Vim does not support multiple cursors out of the box, but these commands can be
-used in Gram to manipulate them.
+Vim はマルチカーソルを標準ではサポートしていませんが、Gram では次のコマンドでマルチカーソルを操作できます。
 
-| Command                                                      | Default Shortcut |
-| ------------------------------------------------------------ | ---------------- |
-| Add a cursor selecting the next copy of the current word     | `g l`            |
-| Add a cursor selecting the previous copy of the current word | `g L`            |
-| Skip latest word selection, and add next                     | `g >`            |
-| Skip latest word selection, and add previous                 | `g <`            |
-| Add a visual selection for every copy of the current word    | `g a`            |
+| コマンド                                                     | 既定のショートカット |
+| ------------------------------------------------------------ | -------------------- |
+| 現在の単語の次の出現箇所を選択するカーソルを追加              | `g l`                |
+| 現在の単語の前の出現箇所を選択するカーソルを追加              | `g L`                |
+| 直前の単語選択をスキップして次を追加                          | `g >`                |
+| 直前の単語選択をスキップして前を追加                          | `g <`                |
+| 現在の単語のすべての出現箇所に対してビジュアル選択を追加      | `g a`                |
 
-### Pane management
+### ペインの管理
 
-These commands open new panes or jump to specific panes.
+次のコマンドは、新しいペインを開いたり、特定のペインへジャンプしたりします。
 
-| Command                                    | Default Shortcut   |
-| ------------------------------------------ | ------------------ |
-| Open a project-wide search                 | `g /`              |
-| Open the current search excerpt            | `g <space>`        |
-| Open the current search excerpt in a split | `<ctrl-w> <space>` |
-| Go to definition in a split                | `<ctrl-w> g d`     |
-| Go to type definition in a split           | `<ctrl-w> g D`     |
+| コマンド                                     | 既定のショートカット |
+| -------------------------------------------- | -------------------- |
+| プロジェクト全体の検索を開く                 | `g /`                |
+| 現在の検索の抜粋を開く                       | `g <space>`          |
+| 現在の検索の抜粋を分割して開く               | `<ctrl-w> <space>`   |
+| 分割で定義へ移動                             | `<ctrl-w> g d`       |
+| 分割で型定義へ移動                           | `<ctrl-w> g D`       |
 
-### In insert mode
+### 挿入モード内
 
-The following commands control Gram's completion menu.
+次のコマンドは Gram の補完メニューを制御します。
 
-| Command                    | Default Shortcut |
-| -------------------------- | ---------------- |
-| Open the completion menu   | `ctrl-x ctrl-o`  |
-| Open the code actions menu | `ctrl-x ctrl-l`  |
-| Hides all suggestions      | `ctrl-x ctrl-z`  |
+| コマンド                     | 既定のショートカット |
+| ---------------------------- | -------------------- |
+| 補完メニューを開く           | `ctrl-x ctrl-o`      |
+| コードアクションメニューを開く | `ctrl-x ctrl-l`    |
+| すべての候補を非表示にする   | `ctrl-x ctrl-z`      |
 
-### Supported plugins
+### サポートするプラグイン
 
-Gram's vim mode includes some features that are usually provided by popular
-plugins in the Vim ecosystem:
+Gram の Vim モードには、Vim エコシステムで一般的なプラグインが提供する機能の一部が含まれています:
 
-- Surround text objects with `ys` (yank surround), change surrounding with `cs`,
-  and delete surrounding with `ds`.
-- Comment and uncomment selections with `gc` in visual mode and `gcc` in normal
-  mode.
-- The project panel supports many shortcuts modeled after the Vim plugin
-  `netrw`: navigation with `hjkl`, open file with `o`, open file in a new tab
-  with `t`, etc.
-- It's possible to add key bindings to your keymap to navigate "camelCase"
-  names. See the [optional key bindings](#optional-key-bindings) section to
-  learn how.
-- Use `gR` to do
-  [ReplaceWithRegister](https://github.com/vim-scripts/ReplaceWithRegister).
-- Use `cx` for [vim-exchange](https://github.com/tommcdo/vim-exchange)
-  functionality. Note that it does not have a default binding in visual mode,
-  but you can add one to your keymap (refer to the
-  [optional key bindings](#optional-key-bindings) section).
-- Navigate to indent depths relative to your cursor with the
-  [indent wise](https://github.com/jeetsukumaran/vim-indentwise) plugin `[-`,
-  `]-`, `[+`, `]+`, `[=`, `]=`.
-- Select quoted text with AnyQuotes and bracketed text with AnyBrackets text
-  objects. Gram also provides MiniQuotes and MiniBrackets which offer
-  alternative selection behavior based on the
-  [mini.ai](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-ai.md)
-  Neovim plugin. See the
-  [Quote and Bracket text objects](#quote-and-bracket-text-objects) section
-  below for details.
-- It's possible to configure AnyQuotes, AnyBrackets, MiniQuotes, and
-  MiniBrackets text objects for selecting quoted and bracketed text using
-  different selection strategies. See the
-  [Any Bracket Functionality](#any-bracket-functionality) section below for
-  details.
+- `ys`（ヤンクサラウンド）でテキストを囲み、`cs` で囲みを変更し、`ds` で囲みを削除できます。
+- ビジュアルモードでは `gc`、ノーマルモードでは `gcc` で選択範囲をコメント化/コメント解除できます。
+- プロジェクトパネルは、Vim プラグイン `netrw` をモデルにしたショートカットを多数サポートしています: `hjkl` での移動、`o` でファイルを開く、`t` で新しいタブでファイルを開く、など。
+- 「camelCase」形式の名前を移動するキーバインドをキーマップに追加できます。方法は[任意のキーバインド](#optional-key-bindings)セクションを参照してください。
+- `gR` で [ReplaceWithRegister](https://github.com/vim-scripts/ReplaceWithRegister) を実行できます。
+- `cx` で [vim-exchange](https://github.com/tommcdo/vim-exchange) の機能を使えます。ビジュアルモードには既定の割り当てがないので、必要ならキーマップに追加してください（[任意のキーバインド](#optional-key-bindings)セクションを参照）。
+- [indent wise](https://github.com/jeetsukumaran/vim-indentwise) プラグインの `[-`、`]-`、`[+`、`]+`、`[=`、`]=` で、カーソルからの相対的なインデントの深さへ移動できます。
+- AnyQuotes で引用符に囲まれたテキストを、AnyBrackets で括弧に囲まれたテキストを選択できます。Gram はさらに MiniQuotes と MiniBrackets も提供しており、[mini.ai](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-ai.md) Neovim プラグインに基づく別の選択動作を提供します。詳細は後述の[引用符と括弧のテキストオブジェクト](#quote-and-bracket-text-objects)セクションを参照してください。
+- AnyQuotes、AnyBrackets、MiniQuotes、MiniBrackets のテキストオブジェクトを、異なる選択戦略で引用符付き・括弧付きのテキストを選択するように構成できます。詳細は後述の[Any Bracket の機能](#any-bracket-functionality)セクションを参照してください。
 
-### Any Bracket Functionality
+### Any Bracket の機能
 
-Gram offers two different strategies for selecting text surrounded by any quote,
-or any bracket. These text objects are **not enabled by default** and must be
-configured in your keymap to be used.
+Gram は、任意の引用符や任意の括弧で囲まれたテキストを選択するための 2 つの戦略を提供します。これらのテキストオブジェクトは**既定では有効になっておらず**、使うにはキーマップで構成する必要があります。
 
-#### Included Characters
+#### 対象となる文字
 
-Each text object type works with specific characters:
+各テキストオブジェクト種別は、特定の文字で動作します:
 
-| Text Object              | Characters                                                                             |
-| ------------------------ | -------------------------------------------------------------------------------------- |
-| AnyQuotes/MiniQuotes     | Single quote (`'`), Double quote (`"`), Backtick (`` ` ``)                             |
-| AnyBrackets/MiniBrackets | Parentheses (`()`), Square brackets (`[]`), Curly braces (`{}`), Angle brackets (`<>`) |
+| テキストオブジェクト       | 文字                                                                                   |
+| -------------------------- | -------------------------------------------------------------------------------------- |
+| AnyQuotes/MiniQuotes       | シングルクォート（`'`）、ダブルクォート（`"`）、バッククォート（`` ` ``）               |
+| AnyBrackets/MiniBrackets   | 丸括弧（`()`）、角括弧（`[]`）、波括弧（`{}`）、山括弧（`<>`）                          |
 
-Both "Any" and "Mini" variants work with the same character sets, but differ in
-their selection strategy.
+「Any」と「Mini」の両方の Variant は同じ文字セットで動作しますが、選択戦略が異なります。
 
-#### AnyQuotes and AnyBrackets (Traditional Vim behavior)
+#### AnyQuotes と AnyBrackets（従来の Vim の動作）
 
-These text objects implement traditional Vim behavior:
+これらのテキストオブジェクトは従来の Vim の動作を実装しています:
 
-- **Selection priority**: Finds the innermost (closest) quotes or brackets first
-- **Fallback mechanism**: If none are found, falls back to the current line
-- **Character-based matching**: Focuses solely on open and close characters
-  without considering syntax
-- **Vanilla Vim similarity**: AnyBrackets matches the behavior of commands like
-  `ci<`, `ci(`, etc., in vanilla Vim, including potential edge cases (like
-  considering `>` in `=>` as a closing delimiter)
+- **選択の優先順位**: 最も内側（最も近い）の引用符または括弧を最初に見つけます
+- **フォールバックの仕組み**: 見つからない場合は現在の行にフォールバックします
+- **文字ベースのマッチング**: 構文を考慮せず、開き文字と閉じ文字のみに注目します
+- **vanilla Vim との類似性**: AnyBrackets は vanilla Vim の `ci<`、`ci(` などのコマンドの動作と一致し、エッジケース（`=>` の `>` を閉じ区切り文字と見なすなど）も含みます
 
-#### MiniQuotes and MiniBrackets (mini.ai behavior)
+#### MiniQuotes と MiniBrackets（mini.ai の動作）
 
-These text objects implement the behavior of the
-[mini.ai](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-ai.md)
-Neovim plugin:
+これらのテキストオブジェクトは [mini.ai](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-ai.md) Neovim プラグインの動作を実装しています:
 
-- **Selection priority**: Searches the current line first before expanding
-  outward
-- **Tree-sitter integration**: Uses Tree-sitter queries for more context-aware
-  selections
-- **Syntax-aware matching**: Can distinguish between actual brackets and similar
-  characters in other contexts (like `>` in `=>`)
+- **選択の優先順位**: 外側へ広げる前に、まず現在の行を検索します
+- **Tree-sitter との統合**: より文脈を考慮した選択のために Tree-sitter クエリを使います
+- **構文を考慮したマッチング**: 実際の括弧と、他の文脈で似ている文字（`=>` の `>` など）を区別できます
 
-#### Choosing Between Approaches
+#### どちらを選ぶか
 
-- Use **AnyQuotes/AnyBrackets** if you:
+- **AnyQuotes/AnyBrackets** を使うのは、次のような場合です:
 
-  - Prefer traditional Vim behavior
-  - Want consistent character-based selection prioritizing innermost delimiters
-  - Need behavior that closely matches vanilla Vim's text objects
+  - 従来の Vim の動作を好む
+  - 最も内側の区切り文字を優先する、一貫した文字ベースの選択を望む
+  - vanilla Vim のテキストオブジェクトに近い動作が必要
 
-- Use **MiniQuotes/MiniBrackets** if you:
-  - Prefer the mini.ai plugin behavior
-  - Want more context-aware selections using Tree-sitter
-  - Prefer current-line priority when searching
+- **MiniQuotes/MiniBrackets** を使うのは、次のような場合です:
+  - mini.ai プラグインの動作を好む
+  - Tree-sitter を使った、より文脈を考慮した選択を望む
+  - 検索時に現在の行を優先したい
 
-#### Example Configuration
+#### 構成例
 
-To use these text objects, you need to add bindings to your keymap. Here's an
-example configuration that makes them available when using text object operators
-(`i` and `a`) or change-surrounds (`cs`):
+これらのテキストオブジェクトを使うには、キーマップにバインドを追加する必要があります。次の構成例では、テキストオブジェクトの演算子（`i` と `a`）またはサラウンドの変更（`cs`）を使うときに、これらを利用可能にします:
 
 ```json
 {
   "context": "vim_operator == a || vim_operator == i || vim_operator == cs",
   "bindings": {
-    // Traditional Vim behavior
+    // 従来の Vim の動作
     "q": "vim::AnyQuotes",
     "b": "vim::AnyBrackets",
 
-    // mini.ai plugin behavior
+    // mini.ai プラグインの動作
     "Q": "vim::MiniQuotes",
     "B": "vim::MiniBrackets",
   },
 }
 ```
 
-With this configuration, you can use commands like:
+この構成では、次のようなコマンドを使えます:
 
-- `cib` - Change inside brackets using AnyBrackets behavior
-- `ciB` - Change inside brackets using MiniBrackets behavior
-- `ciq` - Change inside quotes using AnyQuotes behavior
-- `ciQ` - Change inside quotes using MiniQuotes behavior
+- `cib` - AnyBrackets の動作で括弧の内側を変更
+- `ciB` - MiniBrackets の動作で括弧の内側を変更
+- `ciq` - AnyQuotes の動作で引用符の内側を変更
+- `ciQ` - MiniQuotes の動作で引用符の内側を変更
 
-## Command palette
+## コマンドパレット
 
-Vim mode allows you to open Gram's command palette with `:`. You can then type
-to access any usual Gram command. Additionally, vim mode adds aliases for
-popular Vim commands to ensure your muscle memory transfers to Gram. For
-example, you can write `:w` or `:write` to save the file.
+Vim モードでは `:` で Gram のコマンドパレットを開けます。その後は入力して、通常の Gram コマンドにアクセスできます。さらに Vim モードは、Vim で身についた操作感を Gram に持ち込めるよう、よく使われる Vim コマンドのエイリアスを追加します。たとえば `:w` や `:write` と書けばファイルを保存できます。
 
-Below, you'll find tables listing the commands you can use in the command
-palette. We put optional characters in square brackets to indicate that you can
-omit them.
+以下に、コマンドパレットで使えるコマンドの表を示します。省略できる文字は角括弧で示しています。
 
-> **Note**: Gram does not emulate the full power of Vim's command line yet.
-> Commands currently do not support arguments, and full command history is not
-> available.
+> **注意**: Gram はまだ Vim のコマンドラインの全機能をエミュレートしていません。現時点ではコマンドは引数をサポートしておらず、完全なコマンド履歴も利用できません。
 
-### File and window management
+### ファイルとウィンドウの管理
 
-This table shows commands for managing windows, tabs, and panes. As commands
-don't support arguments currently, you cannot specify a filename when saving or
-creating a new file.
+この表は、ウィンドウ、タブ、ペインを管理するコマンドを示します。現時点ではコマンドが引数をサポートしていないため、保存や新規作成の際にファイル名を指定できません。
 
-| Command        | Description                                           |
-| -------------- | ----------------------------------------------------- |
-| `:w[rite][!]`  | Save the current file                                 |
-| `:wq[!]`       | Save the file and close the buffer                    |
-| `:q[uit][!]`   | Close the buffer                                      |
-| `:wa[ll][!]`   | Save all open files                                   |
-| `:wqa[ll][!]`  | Save all open files and close all buffers             |
-| `:qa[ll][!]`   | Close all buffers                                     |
-| `:[e]x[it][!]` | Close the buffer                                      |
-| `:up[date]`    | Save the current file                                 |
-| `:cq`          | Quit completely (close all running instances of Gram) |
-| `:vs[plit]`    | Split the pane vertically                             |
-| `:sp[lit]`     | Split the pane horizontally                           |
-| `:new`         | Create a new file in a horizontal split               |
-| `:vne[w]`      | Create a new file in a vertical split                 |
-| `:tabedit`     | Create a new file in a new tab                        |
-| `:tabnew`      | Create a new file in a new tab                        |
-| `:tabn[ext]`   | Go to the next tab                                    |
-| `:tabp[rev]`   | Go to previous tab                                    |
-| `:tabc[lose]`  | Close the current tab                                 |
-| `:ls`          | Show all buffers                                      |
+| コマンド       | 説明                                         |
+| -------------- | -------------------------------------------- |
+| `:w[rite][!]`  | 現在のファイルを保存する                     |
+| `:wq[!]`       | ファイルを保存してバッファーを閉じる         |
+| `:q[uit][!]`   | バッファーを閉じる                           |
+| `:wa[ll][!]`   | 開いているすべてのファイルを保存する         |
+| `:wqa[ll][!]`  | 開いているすべてのファイルを保存してすべてのバッファーを閉じる |
+| `:qa[ll][!]`   | すべてのバッファーを閉じる                   |
+| `:[e]x[it][!]` | バッファーを閉じる                           |
+| `:up[date]`    | 現在のファイルを保存する                     |
+| `:cq`          | 完全に終了する（実行中の Gram インスタンスをすべて閉じる） |
+| `:vs[plit]`    | ペインを垂直に分割する                       |
+| `:sp[lit]`     | ペインを水平に分割する                       |
+| `:new`         | 水平分割で新しいファイルを作成する           |
+| `:vne[w]`      | 垂直分割で新しいファイルを作成する           |
+| `:tabedit`     | 新しいタブで新しいファイルを作成する         |
+| `:tabnew`      | 新しいタブで新しいファイルを作成する         |
+| `:tabn[ext]`   | 次のタブへ移動する                           |
+| `:tabp[rev]`   | 前のタブへ移動する                           |
+| `:tabc[lose]`  | 現在のタブを閉じる                           |
+| `:ls`          | すべてのバッファーを表示する                 |
 
-> **Note:** The `!` character is used to force the command to execute without
-> saving changes or prompting before overwriting a file.
+> **注意:** `!` は、変更を保存せずに、またはファイルを上書きする前に確認を求めずに、コマンドを強制実行するために使います。
 
-### Ex commands
+### Ex コマンド
 
-These ex commands open Gram's various panels and windows.
+これらの Ex コマンドは、Gram の各種パネルとウィンドウを開きます。
 
-| Command                      | Default Shortcut |
-| ---------------------------- | ---------------- |
-| Open the project panel       | `:E[xplore]`     |
-| Open the git panel           | `:G[it]`         |
-| Open the debug panel         | `:D[ebug]`       |
-| Open the notifications panel | `:No[tif]`       |
-| Open the diagnostics window  | `:cl[ist]`       |
-| Open the terminal            | `:te[rm]`        |
-| Open the extensions window   | `:Ext[ensions]`  |
+| コマンド                     | 既定のショートカット |
+| ---------------------------- | -------------------- |
+| プロジェクトパネルを開く     | `:E[xplore]`         |
+| Git パネルを開く             | `:G[it]`             |
+| デバッグパネルを開く         | `:D[ebug]`           |
+| 通知パネルを開く             | `:No[tif]`           |
+| 診断ウィンドウを開く         | `:cl[ist]`           |
+| ターミナルを開く             | `:te[rm]`            |
+| 拡張機能ウィンドウを開く     | `:Ext[ensions]`      |
 
-### Navigating diagnostics
+### 診断の移動
 
-These commands navigate diagnostics.
+これらのコマンドは診断を移動します。
 
-| Command                  | Description                    |
-| ------------------------ | ------------------------------ |
-| `:cn[ext]` or `:ln[ext]` | Go to the next diagnostic      |
-| `:cp[rev]` or `:lp[rev]` | Go to the previous diagnostics |
-| `:cc` or `:ll`           | Open the errors page           |
+| コマンド                 | 説明                         |
+| ------------------------ | ---------------------------- |
+| `:cn[ext]` または `:ln[ext]` | 次の診断へ移動する       |
+| `:cp[rev]` または `:lp[rev]` | 前の診断へ移動する       |
+| `:cc` または `:ll`       | エラーページを開く           |
 
 ### Git
 
-These commands interact with the version control system git.
+これらのコマンドはバージョン管理システム git とやり取りします。
 
-| Command         | Description                                             |
-| --------------- | ------------------------------------------------------- |
-| `:dif[fupdate]` | View the diff under the cursor (`d o` in normal mode)   |
-| `:rev[ert]`     | Revert the diff under the cursor (`d p` in normal mode) |
+| コマンド        | 説明                                                 |
+| --------------- | ---------------------------------------------------- |
+| `:dif[fupdate]` | カーソル下の Diff を表示する（ノーマルモードでは `d o`） |
+| `:rev[ert]`     | カーソル下の Diff を取り消す（ノーマルモードでは `d p`） |
 
-### Jump
+### ジャンプ
 
-These commands jump to specific positions in the file.
+これらのコマンドはファイル内の特定の位置へジャンプします。
 
-| Command             | Description                         |
-| ------------------- | ----------------------------------- |
-| `:<number>`         | Jump to a line number               |
-| `:$`                | Jump to the end of the file         |
-| `:/foo` and `:?foo` | Jump to next/prev line matching foo |
+| コマンド            | 説明                             |
+| ------------------- | -------------------------------- |
+| `:<number>`         | 指定した行番号へジャンプする     |
+| `:$`                | ファイルの末尾へジャンプする     |
+| `:/foo` と `:?foo`  | foo に一致する次の行/前の行へジャンプする |
 
-### Replacement
+### 置換
 
-This command replaces text. It emulates the substitute command in vim. The
-substitute command uses regular expressions, and Gram uses a slightly different
-syntax than vim. You can learn more about Gram's syntax below,
-[in the regex differences section](#regex-differences). Gram will replace only
-the first occurrence of the search pattern in the current line. To replace all
-matches append the `g` flag.
+このコマンドはテキストを置換します。Vim の substitute コマンドをエミュレートします。substitute コマンドは正規表現を使い、Gram は Vim と多少異なる構文を使います。Gram の構文の詳細は後述の[正規表現の相違点のセクション](#regex-differences)で学べます。Gram は現在の行における検索パターンの最初の出現箇所のみを置換します。すべての一致を置換するには `g` フラグを付加します。
 
-| Command                 | Description                       |
-| ----------------------- | --------------------------------- |
-| `:[range]s/foo/bar/[g]` | Replace instances of foo with bar |
+| コマンド                | 説明                             |
+| ----------------------- | -------------------------------- |
+| `:[range]s/foo/bar/[g]` | foo の出現箇所を bar で置換する  |
 
-### Editing
+### 編集
 
-These commands help you edit text.
+これらのコマンドはテキストの編集に役立ちます。
 
-| Command           | Description                                             |
-| ----------------- | ------------------------------------------------------- |
-| `:j[oin]`         | Join the current line                                   |
-| `:d[elete][l][p]` | Delete the current line                                 |
-| `:s[ort] [i]`     | Sort the current selection (with i, case-insensitively) |
-| `:y[ank]`         | Yank (copy) the current selection or line               |
+| コマンド          | 説明                                                     |
+| ----------------- | -------------------------------------------------------- |
+| `:j[oin]`         | 現在の行を連結する                                       |
+| `:d[elete][l][p]` | 現在の行を削除する                                       |
+| `:s[ort] [i]`     | 現在の選択範囲をソートする（i を付けると大文字・小文字を区別しない） |
+| `:y[ank]`         | 現在の選択範囲または行をヤンク（コピー）する             |
 
 ### Set
 
-These commands modify editor options locally for the current buffer.
+これらのコマンドは、現在のバッファーに対してエディターのオプションをローカルに変更します。
 
-| Command                         | Description                                                                                   |
+| コマンド                        | 説明                                                                                          |
 | ------------------------------- | --------------------------------------------------------------------------------------------- |
-| `:se[t] [no]wrap`               | Lines longer than the width of the window will wrap and displaying continues on the next line |
-| `:se[t] [no]nu[mber]`           | Print the line number in front of each line                                                   |
-| `:se[t] [no]r[elative]nu[mber]` | Changes the displayed number to be relative to the cursor                                     |
-| `:se[t] [no]i[gnore]c[ase]`     | Controls whether the buffer and project search use case-sensitive matching                    |
+| `:se[t] [no]wrap`               | ウィンドウの幅より長い行を折り返し、表示を次の行へ続ける                                     |
+| `:se[t] [no]nu[mber]`           | 各行の前にその行番号を表示する                                                               |
+| `:se[t] [no]r[elative]nu[mber]` | 表示する番号をカーソルからの相対値に変更する                                                 |
+| `:se[t] [no]i[gnore]c[ase]`     | バッファー検索とプロジェクト検索で大文字・小文字を区別してマッチングするかを制御する          |
 
-### Command mnemonics
+### コマンドのニーモニック
 
-As any Gram command is available, you may find that it's helpful to remember
-mnemonics that run the correct command. For example:
+任意の Gram コマンドが利用できるため、正しいコマンドを実行するニーモニックを覚えておくと便利な場合があります。たとえば:
 
-- `:diffs` for "toggle all hunk diffs"
-- `:cpp` for "copy path to file"
-- `:crp` for "copy relative path"
-- `:reveal` for "reveal in finder"
-- `:zlog` for "open gram log"
-- `:clank` for "cancel language server work"
+- `:diffs` は「すべてのハンクの Diff を切り替え」
+- `:cpp` は「ファイルへのパスをコピー」
+- `:crp` は「相対パスをコピー」
+- `:reveal` は「Finder で表示」
+- `:zlog` は「Gram のログを開く」
+- `:clank` は「言語サーバーの処理をキャンセル」
 
-## Customizing key bindings
+## キーバインドのカスタマイズ
 
-In this section, we'll learn how to customize the key bindings of Gram's vim
-mode. You'll learn:
+このセクションでは、Gram の Vim モードのキーバインドをカスタマイズする方法を学びます。次の内容を学べます:
 
-- How to select the correct context for your new key bindings.
-- Useful contexts for vim mode key bindings.
-- Common key bindings to customize for extra productivity.
+- 新しいキーバインドに正しいコンテキストを選ぶ方法。
+- Vim モードのキーバインドに役立つコンテキスト。
+- 生産性を高めるためによくカスタマイズされるキーバインド。
 
-### Selecting the correct context
+### 正しいコンテキストの選択
 
-Gram's key bindings are evaluated only when the `"context"` property matches
-your location in the editor. For example, if you add key bindings to the
-`"Editor"` context, they will only work when you're editing a file. If you add
-key bindings to the `"Workspace"` context, they will work everywhere in Gram.
-Here's an example of a key binding that saves when you're editing a file:
+Gram のキーバインドは、`"context"` プロパティがエディター内の現在位置に一致する場合にのみ評価されます。たとえば `"Editor"` コンテキストにキーバインドを追加すると、ファイルを編集しているときのみ動作します。`"Workspace"` コンテキストにキーバインドを追加すると、Gram のどこでも動作します。次は、ファイルを編集しているときに保存するキーバインドの例です:
 
 ```json
 {
@@ -459,13 +367,10 @@ Here's an example of a key binding that saves when you're editing a file:
 }
 ```
 
-Contexts are nested, so when you're editing a file, the context is the
-`"Editor"` context, which is inside the `"Pane"` context, which is inside the
-`"Workspace"` context. That's why any key bindings you add to the `"Workspace"`
-context will work when you're editing a file. Here's an example:
+コンテキストはネストしています。そのため、ファイルを編集しているときのコンテキストは `"Editor"` であり、それは `"Pane"` コンテキストの中にあり、さらに `"Workspace"` コンテキストの中にあります。だからこそ、`"Workspace"` コンテキストに追加したキーバインドは、ファイルを編集しているときにも動作します。例:
 
 ```json
-// This key binding will work when you're editing a file. It comes built into Gram by default as the workspace: save command.
+// このキーバインドはファイルを編集しているときに動作します。Gram には既定で workspace: save コマンドとして組み込まれています。
 {
   "context": "Workspace",
   "bindings": {
@@ -474,77 +379,65 @@ context will work when you're editing a file. Here's an example:
 }
 ```
 
-Contexts are expressions. They support boolean operators like `&&` (and) and
-`||` (or). For example, you can use the context `"Editor && vim_mode == normal"`
-to create key bindings that only work when you're editing a file _and_ you're in
-vim's normal mode.
+コンテキストは式です。`&&`（かつ）や `||`（または）といった論理演算子をサポートします。たとえば `"Editor && vim_mode == normal"` というコンテキストを使うと、ファイルを編集しているとき_かつ_ Vim のノーマルモードのときだけ動作するキーバインドを作れます。
 
-Vim mode adds several contexts to the `"Editor"` context:
+Vim モードは `"Editor"` コンテキストにいくつかのコンテキストを追加します:
 
-| Operator             | Description                                                                                                                                                                        |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| VimControl           | Indicates that vim keybindings should work. Currently an alias for `vim_mode == normal \|\| vim_mode == visual \|\| vim_mode == operator`, but the definition may change over time |
-| vim_mode == normal   | Normal mode                                                                                                                                                                        |
-| vim_mode == visual   | Visual mode                                                                                                                                                                        |
-| vim_mode == insert   | Insert mode                                                                                                                                                                        |
-| vim_mode == replace  | Replace mode                                                                                                                                                                       |
-| vim_mode == waiting  | Waiting for an arbitrary key (e.g., after typing `f` or `t`)                                                                                                                       |
-| vim_mode == operator | Waiting for another binding to trigger (e.g., after typing `c` or `d`)                                                                                                             |
-| vim_operator         | Set to `none` unless `vim_mode == operator`, in which case it is set to the current operator's default keybinding (e.g., after typing `d`, `vim_operator == d`)                    |
+| 演算子               | 説明                                                                                                                                                                              |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| VimControl           | Vim のキーバインドが動作すべきことを示す。現在は `vim_mode == normal \|\| vim_mode == visual \|\| vim_mode == operator` のエイリアスだが、定義は今後変更される可能性がある         |
+| vim_mode == normal   | ノーマルモード                                                                                                                                                                    |
+| vim_mode == visual   | ビジュアルモード                                                                                                                                                                  |
+| vim_mode == insert   | 挿入モード                                                                                                                                                                        |
+| vim_mode == replace  | 置換モード                                                                                                                                                                        |
+| vim_mode == waiting  | 任意のキー入力を待っている状態（例: `f` や `t` を入力した後）                                                                                                                     |
+| vim_mode == operator | 別のバインドが発火するのを待っている状態（例: `c` や `d` を入力した後）                                                                                                           |
+| vim_operator         | `vim_mode == operator` でない限り `none`。operator モードの場合は、現在の演算子の既定のキーバインドが設定される（例: `d` を入力した後は `vim_operator == d`）           |
 
-> **Note**: Contexts are matched only on one level at a time. So it is possible
-> to use the expression `"Editor && vim_mode == normal"`, but
-> `"Workspace && vim_mode == normal"` will never match because we set the vim
-> context at the `"Editor"` level.
+> **注意**: コンテキストは一度に 1 つのレベルでのみマッチングされます。そのため `"Editor && vim_mode == normal"` という式は使えますが、`"Workspace && vim_mode == normal"` は決して一致しません。Vim のコンテキストは `"Editor"` のレベルで設定しているためです。
 
-### Useful contexts for vim mode key bindings
+### Vim モードのキーバインドに役立つコンテキスト
 
-Here's a template with useful vim mode contexts to help you customize your vim
-mode key bindings. You can copy it and integrate it into your user keymap.
+Vim モードのキーバインドをカスタマイズするのに役立つコンテキストを含むテンプレートを次に示します。コピーしてユーザーキーマップに取り込めます。
 
 ```json
 [
   {
     "context": "VimControl && !menu",
     "bindings": {
-      // Put key bindings here if you want them to work in normal & visual mode.
+      // ノーマルモードとビジュアルモードで動作させたいキーバインドはここに書きます。
     },
   },
   {
     "context": "vim_mode == normal && !menu",
     "bindings": {
-      // "shift-y": ["workspace::SendKeystrokes", "y $"] // Use neovim's yank behavior: yank to end of line.
+      // "shift-y": ["workspace::SendKeystrokes", "y $"] // neovim のヤンク動作を使う: 行末までヤンクする。
     },
   },
   {
     "context": "vim_mode == insert",
     "bindings": {
-      // "j k": "vim::NormalBefore" // In insert mode, make jk escape to normal mode.
+      // "j k": "vim::NormalBefore" // 挿入モードで jk を押してノーマルモードへ抜ける。
     },
   },
   {
     "context": "EmptyPane",
     "bindings": {
-      // Put key bindings here (in addition to the context above) if you want them to
-      // work when no editor exists.
+      // エディターが存在しないときにも動作させたいキーバインドは、
+      // （上記のコンテキストに加えて）ここに書きます。
       // "space f": "file_finder::Toggle"
     },
   },
 ]
 ```
 
-> **Note**: If you would like to emulate Vim's `map` commands (`nmap`, etc.),
-> you can use the action `workspace::SendKeystrokes` in the correct context.
+> **注意**: Vim の `map` コマンド（`nmap` など）をエミュレートしたい場合は、適切なコンテキストで `workspace::SendKeystrokes` アクションを使えます。
 
-### Optional key bindings
+### 任意のキーバインド
 
-By default, you can navigate between the different files open in the editor with
-shortcuts like `ctrl+w` followed by one of `hjkl` to move to the left, down, up,
-or right, respectively.
+既定では、`ctrl+w` に続けて `hjkl` のいずれかを押すと、それぞれ左、下、上、右にあるエディターで開いている別のファイルへ移動できます。
 
-But you cannot use the same shortcuts to move between all the editor docks (the
-terminal, project panel, ...). If you want to use the same shortcuts to navigate
-to the docks, you can add the following key bindings to your user keymap.
+しかし、同じショートカットでエディターのすべてのドック（ターミナル、プロジェクトパネルなど）間を移動することはできません。ドックへの移動にも同じショートカットを使いたい場合は、次のキーバインドをユーザーキーマップに追加します。
 
 ```json
 {
@@ -559,9 +452,7 @@ to the docks, you can add the following key bindings to your user keymap.
 }
 ```
 
-Subword motion, which allows you to navigate and select individual words in
-`camelCase` or `snake_case`, is not enabled by default. To enable it, add these
-bindings to your keymap.
+`camelCase` や `snake_case` 内の個々の単語を移動・選択できるサブワードモーションは、既定では有効になっていません。有効にするには、次のバインドをキーマップに追加します。
 
 ```json
 {
@@ -575,14 +466,9 @@ bindings to your keymap.
 }
 ```
 
-> Note: Operations like `dw` remain unaffected. If you would like operations to
-> also use subword motion, remove `vim_mode != operator` from the `context`.
+> 注意: `dw` のような操作は影響を受けません。操作にもサブワードモーションを使いたい場合は、`context` から `vim_mode != operator` を削除してください。
 
-Vim mode comes with shortcuts to surround the selection in normal mode (`ys`),
-but it doesn't have a shortcut to add surrounds in visual mode. By default,
-`shift-s` substitutes the selection (erases the text and enters insert mode). To
-use `shift-s` to add surrounds in visual mode, you can add the following object
-to your keymap.
+Vim モードにはノーマルモードで選択範囲を囲むショートカット（`ys`）がありますが、ビジュアルモードで囲みを追加するショートカットはありません。既定では `shift-s` が選択範囲を置換します（テキストを消して挿入モードに入ります）。ビジュアルモードで `shift-s` を使って囲みを追加するには、次のオブジェクトをキーマップに追加します。
 
 ```json
 {
@@ -593,13 +479,10 @@ to your keymap.
 }
 ```
 
-In non-modal text editors, cursor navigation typically wraps when moving past
-line ends. Gram, however, handles this behavior exactly like Vim by default: the
-cursor stops at line boundaries. If you prefer your cursor to wrap between
-lines, override these keybindings:
+モーダルでないテキストエディターでは、通常、行末を越えてカーソルを移動すると折り返します。しかし Gram は既定で、この動作を Vim とまったく同じように扱います: カーソルは行の境界で停止します。行をまたいでカーソルを折り返したい場合は、次のキーバインドを上書きします:
 
 ```json
-// In VimScript, this would look like this:
+// VimScript では次のようになります:
 // set whichwrap+=<,>,[,],h,l
 {
   "context": "VimControl && !menu",
@@ -612,11 +495,7 @@ lines, override these keybindings:
 }
 ```
 
-The [Sneak motion](https://github.com/justinmk/vim-sneak) feature allows for
-quick navigation to any two-character sequence in your text. You can enable it
-by adding the following keybindings to your keymap. By default, the `s` key is
-mapped to `vim::Substitute`. Adding these bindings will override that behavior,
-so ensure this change aligns with your workflow preferences.
+[Sneak モーション](https://github.com/justinmk/vim-sneak)機能は、テキスト内の任意の 2 文字の並びへ素早く移動できるようにします。次のキーバインドをキーマップに追加すると有効になります。既定では `s` キーは `vim::Substitute` に割り当てられています。これらのバインドを追加するとその動作を上書きするため、この変更がワークフローの好みに合うことを確認してください。
 
 ```json
 {
@@ -628,10 +507,7 @@ so ensure this change aligns with your workflow preferences.
 }
 ```
 
-The Helix-style jump-to-word action shows jump labels at visible word starts. It
-has no default binding in Vim mode, but you can enable it by adding a keybinding
-to your keymap. This example uses `g w`, which matches the default Helix
-binding, but overrides Vim mode's default rewrap binding.
+Helix スタイルの単語ジャンプアクションは、表示中の単語の先頭にジャンプラベルを表示します。Vim モードには既定の割り当てがありませんが、キーマップにキーバインドを追加すれば有効にできます。次の例では `g w` を使っています。これは Helix の既定の割り当てと一致しますが、Vim モードの既定の rewrap の割り当てを上書きします。
 
 ```json [keymap]
 {
@@ -642,11 +518,7 @@ binding, but overrides Vim mode's default rewrap binding.
 }
 ```
 
-The [vim-exchange](https://github.com/tommcdo/vim-exchange) feature does not
-have a default binding for visual mode, as the `shift-x` binding conflicts with
-the default `shift-x` binding for visual mode (`vim::VisualDeleteLine`). To
-assign the default vim-exchange binding, add the following keybinding to your
-keymap:
+[vim-exchange](https://github.com/tommcdo/vim-exchange) 機能には、ビジュアルモード用の既定の割り当てがありません。`shift-x` の割り当てが、ビジュアルモードの既定の `shift-x` の割り当て（`vim::VisualDeleteLine`）と競合するためです。vim-exchange の既定の割り当てを設定するには、次のキーバインドをキーマップに追加します:
 
 ```json
 {
@@ -657,11 +529,9 @@ keymap:
 }
 ```
 
-### Restoring common text editing and Gram keybindings
+### 一般的なテキスト編集と Gram のキーバインドを復元する
 
-If you're using vim mode on Linux or Windows, you may find it overrides
-keybindings you can't live without: `ctrl+v` to paste, `ctrl+f` to search, etc.
-You can restore them by copying this data into your keymap:
+Linux や Windows で Vim モードを使っていると、手放せないキーバインドを上書きしてしまうことがあります。たとえば貼り付けの `ctrl+v`、検索の `ctrl+f` などです。次のデータをキーマップにコピーすると復元できます:
 
 ```json
 {
@@ -680,23 +550,21 @@ You can restore them by copying this data into your keymap:
 },
 ```
 
-## Changing vim mode settings
+## Vim モードの設定を変更する
 
-You can change the following settings to modify vim mode's behavior:
+次の設定を変更すると、Vim モードの動作を調整できます:
 
-| Property                     | Description                                                                                                                                                                                   | Default Value |
+| プロパティ                   | 説明                                                                                                                                                                                          | 既定値        |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| default_mode                 | The default mode to start in. One of "normal", "insert", "replace", "visual", "visual_line", "visual_block", "helix_normal".                                                                  | "normal"      |
-| use_system_clipboard         | Determines how system clipboard is used:<br><ul><li>"always": use for all operations</li><li>"never": only use when explicitly specified</li><li>"on_yank": use for yank operations</li></ul> | "always"      |
-| use_multiline_find           | deprecated                                                                                                                                                                                    |               |
-| use_smartcase_find           | If `true`, `f` and `t` motions are case-insensitive when the target letter is lowercase.                                                                                                      | false         |
-| toggle_relative_line_numbers | If `true`, line numbers are relative in normal mode and absolute in insert mode, giving you the best of both options.                                                                         | false         |
-| custom_digraphs              | An object that allows you to add custom digraphs. Read below for an example.                                                                                                                  | {}            |
-| highlight_on_yank_duration   | The duration of the highlight animation(in ms). Set to `0` to disable                                                                                                                         | 200           |
+| default_mode                 | 開始時の既定モード。"normal"、"insert"、"replace"、"visual"、"visual_line"、"visual_block"、"helix_normal" のいずれか。                                                                       | "normal"      |
+| use_system_clipboard         | システムクリップボードの使われ方を決める:<br><ul><li>"always": すべての操作で使う</li><li>"never": 明示的に指定した場合のみ使う</li><li>"on_yank": ヤンク操作で使う</li></ul>                  | "always"      |
+| use_multiline_find           | 非推奨                                                                                                                                                                                        |               |
+| use_smartcase_find           | `true` の場合、対象の文字が小文字のとき `f` と `t` のモーションは大文字・小文字を区別しない。                                                                                                 | false         |
+| toggle_relative_line_numbers | `true` の場合、ノーマルモードでは行番号が相対表示、挿入モードでは絶対表示になり、両方の利点を得られる。                                                                                        | false         |
+| custom_digraphs              | カスタムのダイグラフを追加できるオブジェクト。例は後述。                                                                                                                                      | {}            |
+| highlight_on_yank_duration   | ハイライトアニメーションの長さ（ミリ秒）。`0` に設定すると無効。                                                                                                                              | 200           |
 
-Here's an example of adding a digraph for the zombie emoji. This allows you to
-type `ctrl-k f z` to insert a zombie emoji. You can add as many digraphs as you
-like.
+次はゾンビの絵文字をダイグラフとして追加する例です。これにより `ctrl-k f z` と入力してゾンビの絵文字を挿入できます。ダイグラフはいくつでも追加できます。
 
 ```json
 {
@@ -708,7 +576,7 @@ like.
 }
 ```
 
-Here's an example of these settings changed:
+次はこれらの設定を変更した例です:
 
 ```json
 {
@@ -725,37 +593,36 @@ Here's an example of these settings changed:
 }
 ```
 
-## Useful core Gram settings for vim mode
+## Vim モードで役立つ Gram の中核設定
 
-Here are a few general Gram settings that can help you fine-tune your Vim
-experience:
+Vim の体験を細かく調整するのに役立つ一般的な Gram 設定をいくつか示します:
 
-| Property                | Description                                                                                                                                                   | Default Value        |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| cursor_blink            | If `true`, the cursor blinks.                                                                                                                                 | `true`               |
-| relative_line_numbers   | If `"enabled"`, line numbers in the left gutter are relative to the cursor. If `"wrapped"`, they also display for wrapped lines.                              | `"disabled"`         |
-| scrollbar               | Object that controls the scrollbar display. Set to `{ "show": "never" }` to hide the scroll bar.                                                              | `{ "show": "auto" }` |
-| scroll_beyond_last_line | If set to `"one_page"`, allows scrolling up to one page beyond the last line. Set to `"off"` to prevent this behavior.                                        | `"one_page"`         |
-| vertical_scroll_margin  | The number of lines to keep above or below the cursor when scrolling. Set to `0` to allow the cursor to go up to the edges of the screen vertically.          | `3`                  |
-| gutter.line_numbers     | Controls the display of line numbers in the gutter. Set the `"line_numbers"` property to `false` to hide line numbers.                                        | `true`               |
-| command_aliases         | Object that defines aliases for commands in the command palette. You can use it to define shortcut names for commands you use often. Read below for examples. | `{}`                 |
+| プロパティ                | 説明                                                                                                                                                            | 既定値               |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| cursor_blink            | `true` の場合、カーソルが点滅する。                                                                                                                              | `true`               |
+| relative_line_numbers   | `"enabled"` の場合、左のガターの行番号がカーソルからの相対値になる。`"wrapped"` の場合は折り返し行にも表示される。                                              | `"disabled"`         |
+| scrollbar               | スクロールバーの表示を制御するオブジェクト。`{ "show": "never" }` でスクロールバーを非表示にする。                                                              | `{ "show": "auto" }` |
+| scroll_beyond_last_line | `"one_page"` に設定すると、最終行から 1 ページ分先までスクロールできる。`"off"` に設定するとこの動作を防ぐ。                                                    | `"one_page"`         |
+| vertical_scroll_margin  | スクロール時にカーソルの上下に確保する行数。`0` に設定すると、カーソルが画面の上下端まで移動できる。                                                            | `3`                  |
+| gutter.line_numbers     | ガターの行番号の表示を制御する。`"line_numbers"` プロパティを `false` に設定すると行番号を非表示にする。                                                        | `true`               |
+| command_aliases         | コマンドパレットのコマンドのエイリアスを定義するオブジェクト。よく使うコマンドに短い名前を付けたいときに使う。例は後述。                                        | `{}`                 |
 
-Here's an example of these settings changed:
+次はこれらの設定を変更した例です:
 
 ```json
 {
-  // Disable cursor blink
+  // カーソルの点滅を無効化
   "cursor_blink": false,
-  // Use relative line numbers
+  // 相対行番号を使う
   "relative_line_numbers": "enabled",
-  // Hide the scroll bar
+  // スクロールバーを非表示
   "scrollbar": { "show": "never" },
-  // Prevent the buffer from scrolling beyond the last line
+  // バッファーが最終行を超えてスクロールしないようにする
   "scroll_beyond_last_line": "off",
-  // Allow the cursor to reach the edges of the screen
+  // カーソルが画面の端まで移動できるようにする
   "vertical_scroll_margin": 0,
   "gutter": {
-    // Disable line numbers completely
+    // 行番号を完全に無効化
     "line_numbers": false,
   },
   "command_aliases": {
@@ -766,50 +633,30 @@ Here's an example of these settings changed:
 }
 ```
 
-The `command_aliases` property is a single object that maps keys or key
-sequences to vim mode commands. The example above defines multiple aliases: `W`
-for `w`, `Wq` for `wq`, and `Q` for `q`.
+`command_aliases` プロパティは、キーまたはキーシーケンスを Vim モードのコマンドにマッピングする単一のオブジェクトです。上の例では複数のエイリアスを定義しています: `w` に対する `W`、`wq` に対する `Wq`、`q` に対する `Q` です。
 
-## Regex differences
+## 正規表現の相違点
 
-Gram uses a different regular expression engine from Vim. This means that you
-will have to use a different syntax in some cases. Here are the most common
-differences:
+Gram は Vim とは異なる正規表現エンジンを使います。そのため、場合によっては異なる構文を使う必要があります。よくある相違点は次のとおりです:
 
-- **Capture groups**: Vim uses `\(` and `\)` to represent capture groups, in
-  Gram these are `(` and `)`. On the flip side, in Vim, `(` and `)` represent
-  literal parentheses, but in Gram these must be escaped to `\(` and `\)`.
-- **Matches**: When replacing, Vim uses the backslash character followed by a
-  number to represent a matched capture group. For example, `\1`. Gram uses the
-  dollar sign instead. So, when in Vim you use `\0` to represent the entire
-  match, in Gram the syntax is `$0` instead. Same for numbered capture groups:
-  `\1` in Vim is `$1` in Gram.
-- **Global option**: By default, in Vim, regex searches only match the first
-  occurrence on a line, and you append `/g` at the end of your query to find all
-  matches. In Gram, regex searches are global by default.
-- **Case sensitivity**: Vim uses `/i` to indicate a case-insensitive search. In
-  Gram you can either write `(?i)` at the start of the pattern or toggle
-  case-sensitivity with the shortcut {#kb search::ToggleCaseSensitive}.
+- **キャプチャグループ**: Vim では `\(` と `\)` でキャプチャグループを表しますが、Gram では `(` と `)` です。逆に、Vim では `(` と `)` は文字としての括弧を表しますが、Gram ではこれらを `\(` と `\)` にエスケープする必要があります。
+- **マッチ**: 置換の際、Vim はマッチしたキャプチャグループを表すのにバックスラッシュと数字を使います。たとえば `\1` です。Gram は代わりにドル記号を使います。そのため、Vim でマッチ全体を表す `\0` は、Gram では `$0` という構文になります。番号付きキャプチャグループも同様です: Vim の `\1` は Gram の `$1` です。
+- **グローバルオプション**: 既定では、Vim の正規表現検索はその行の最初の出現箇所にのみマッチし、すべての一致を見つけるにはクエリの末尾に `/g` を付けます。Gram では正規表現検索は既定でグローバルです。
+- **大文字・小文字の区別**: Vim は大文字・小文字を区別しない検索を示すのに `/i` を使います。Gram ではパターンの先頭に `(?i)` と書くか、ショートカット {#kb search::ToggleCaseSensitive} で大文字・小文字の区別を切り替えられます。
 
-> **Note**: To help with the transition, the command palette will fix
-> parentheses and replace groups for you when you write a Vim-style substitute
-> command, `:%s//`. So, Gram will convert `%s:/\(a\)(b)/\1/` into a search for
-> "(a)\(b\)" and a replacement of "$1".
+> **注意**: 移行を助けるため、Vim 形式の substitute コマンド `:%s//` を書いた場合、コマンドパレットが括弧と置換グループを自動的に修正します。たとえば Gram は `%s:/\(a\)(b)/\1/` を、"(a)\(b\)" の検索と "$1" の置換に変換します。
 
-For the full syntax supported by Gram's regex engine
-[see the regex crate documentation](https://docs.rs/regex/latest/regex/#syntax).
+Gram の正規表現エンジンがサポートする完全な構文については、[regex クレートのドキュメント](https://docs.rs/regex/latest/regex/#syntax) を参照してください。
 
-## Smaller tips for vim users
+## Vim ユーザー向けの小さなヒント
 
-### Space as leader and default keybindings
+### リーダーキーとしてのスペースと既定のキーバインド
 
-The default key bindings for space interfere with using space as leader, and in
-particular getting the which key-popup to stay open. To fix this, add this key
-binding to your user keymap:
+スペースの既定のキーバインドは、スペースをリーダーとして使う場合、特に which-key ポップアップを開いたままにしておく場合に干渉します。修正するには、次のキーバインドをユーザーキーマップに追加します:
 
 ```json
-// Make which-key persist longer by disabling
-// the default action vim::WrappingRight
+// 既定のアクション vim::WrappingRight を無効にして
+// which-key の表示を長く維持する
 {
   "context": "(VimControl && !menu)",
   "bindings": {
@@ -818,17 +665,14 @@ binding to your user keymap:
 }
 ```
 
-Note that this overrides a default binding, so this is mainly for those that
-want to use space as the leader key.
+これは既定の割り当てを上書きするため、主にスペースをリーダーキーとして使いたい人向けです。
 
-### Keep selection during indent/outdent
+### インデント/アウトデント中に選択範囲を保持する
 
-This is a common rebinding used by vim users to retain the block selection after
-indent and outdent using the `<` and `<` keys, allowing you to hit the keys
-multiple times to indent/outdent to the desired depth:
+Vim ユーザーがよく使う再割り当てで、`<` と `<` キーでインデント/アウトデントした後もブロック選択を保持し、キーを複数回押して目的の深さまでインデント/アウトデントできるようにします:
 
 ```json
-// keep selection during indent/outdent
+// インデント/アウトデント中も選択範囲を保持する
 {
   "context": "vim_mode == visual",
   "bindings": {

@@ -1,31 +1,21 @@
-# Outline Panel
+# アウトラインパネル
 
-In addition to the modal outline (`cmd-shift-o`), Gram has the _outline panel_.
-The outline panel can be deployed via `cmd-shift-b` ({#action
-outline_panel::ToggleFocus} via the command palette), or by clicking the
-`Outline Panel` button in the status bar.
+モーダル形式のアウトライン（`cmd-shift-o`）に加えて、Gram には「アウトラインパネル（Outline Panel）」が備わっています。アウトラインパネルは `cmd-shift-b`（コマンドパレットから {#action
+outline_panel::ToggleFocus} を実行）、またはステータスバーの `Outline Panel` ボタンをクリックして表示できます。
 
-When viewing a "singleton" buffer (i.e., a single file on a tab), the outline
-panel works similarly to that of the outline modal－it displays the outline of
-the current buffer's symbols, as reported by
-[tree-sitter](https://tree-sitter.github.io/tree-sitter/). Clicking on an entry
-jumps to the associated section in the file. The outline view will also
-automatically scroll to the section associated with the current cursor position
-within the file.
+単一のファイル（タブ上のシングルトンバッファー）を表示している場合、アウトラインパネルはアウトラインモーダルと同様に機能し、[tree-sitter](https://tree-sitter.github.io/tree-sitter/) によって報告された現在のバッファーのシンボルアウトラインを表示します。項目をクリックすると、ファイル内の該当箇所へジャンプします。また、アウトラインビューはファイル内の現在のカーソル位置に対応するセクションへ自動的にスクロールします。
 
-## Project Search Results
+## プロジェクト検索結果
 
-Get an overview of search results across the project.
+プロジェクト全体の検索結果の概要を確認できます。
 
-## Project Diagnostics
+## プロジェクト診断
 
-View a summary of all errors and warnings reported by the language server.
+言語サーバーによって報告されたすべてのエラーと警告の概要を確認できます。
 
-## Find All References
+## すべての参照箇所の検索
 
-Quickly navigate through all references when using the {#action
-editor::FindAllReferences} action.
+{#action
+editor::FindAllReferences} アクションを使用した際に、すべての参照箇所間を素早く移動できます。
 
-The outline view provides a way to quickly navigate to specific parts of the
-code to help maintain context when working with large result sets in
-multi-buffers.
+アウトラインビューは、マルチバッファーで大規模な結果セットを扱う際にコンテキストを見失わないよう、コードの特定の部分へ素早く移動する手段を提供します。

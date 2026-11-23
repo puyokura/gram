@@ -1,6 +1,6 @@
-/// Use pixels here instead of a rem-based size because the macOS traffic
-/// lights are a static size, and don't scale with the rest of the UI.
+/// macOS のトラフィックライトは固定サイズで、UI の他の部分のように
+/// スケールしないため、ここでは rem ベースではなくピクセルを使います。
 ///
-/// Magic number: There is one extra pixel of padding on the left side due to
-/// the 1px border around the window on macOS apps.
+/// マジックナンバー: macOS アプリはウィンドウの周囲に 1px の境界線があるため、
+/// 左側に 1px 分の余分なパディングがあります。
 pub const TRAFFIC_LIGHT_PADDING: f32 = 71.;

@@ -32,35 +32,35 @@ pub fn init(cx: &mut App) {
 actions!(
     search,
     [
-        /// Focuses on the search input field.
+        /// 検索入力欄にフォーカスします。
         FocusSearch,
-        /// Toggles whole word matching.
+        /// 単語単位で検索するかどうかを切り替えます。
         ToggleWholeWord,
-        /// Toggles case-sensitive search.
+        /// 大文字と小文字を区別するかどうかを切り替えます。
         ToggleCaseSensitive,
-        /// Toggles searching in ignored files.
+        /// 無視されたファイルも検索するかどうかを切り替えます。
         ToggleIncludeIgnored,
-        /// Toggles regular expression mode.
+        /// 正規表現モードを切り替えます。
         ToggleRegex,
-        /// Toggles the replace interface.
+        /// 置換インターフェースを切り替えます。
         ToggleReplace,
-        /// Toggles searching within selection only.
+        /// 選択範囲内のみを検索するかどうかを切り替えます。
         ToggleSelection,
-        /// Selects the next search match.
+        /// 次の一致を選択します。
         SelectNextMatch,
-        /// Selects the previous search match.
+        /// 前の一致を選択します。
         SelectPreviousMatch,
-        /// Selects all search matches.
+        /// すべての一致を選択します。
         SelectAllMatches,
-        /// Cycles through search modes.
+        /// 検索モードを順に切り替えます。
         CycleMode,
-        /// Navigates to the next query in search history.
+        /// 検索履歴の次のクエリに移動します。
         NextHistoryQuery,
-        /// Navigates to the previous query in search history.
+        /// 検索履歴の前のクエリに移動します。
         PreviousHistoryQuery,
-        /// Replaces all matches.
+        /// すべての一致を置換します。
         ReplaceAll,
-        /// Replaces the next match.
+        /// 次の一致を置換します。
         ReplaceNext,
     ]
 );
@@ -74,7 +74,7 @@ bitflags! {
         const INCLUDE_IGNORED = 1 << SearchOption::IncludeIgnored as u8;
         const REGEX = 1 << SearchOption::Regex as u8;
         const ONE_MATCH_PER_LINE = 1 << SearchOption::OneMatchPerLine as u8;
-        /// If set, reverse direction when finding the active match
+        /// 設定されている場合、アクティブな一致の検索方向を逆にします。
         const BACKWARDS = 1 << SearchOption::Backwards as u8;
     }
 }
@@ -101,6 +101,18 @@ impl SearchOption {
     }
 
     pub fn label(&self) -> &'static str {
+        match self {
+            SearchOption::WholeWord => "単語単位で検索",
+            SearchOption::CaseSensitive => "大文字と小文字を区別",
+            SearchOption::IncludeIgnored => "設定で無視されたファイルも検索",
+            SearchOption::Regex => "正規表現を使用",
+            SearchOption::OneMatchPerLine => "1 行につき 1 件のみ一致",
+            SearchOption::Backwards => "逆方向に検索",
+        }
+    }
+
+    /// UI 状態キャッシュ用の安定した ElementId 断片。ユーザーには表示されません。
+    fn element_id(&self) -> &'static str {
         match self {
             SearchOption::WholeWord => "Match Whole Words",
             SearchOption::CaseSensitive => "Match Case Sensitivity",
@@ -140,7 +152,7 @@ impl SearchOption {
         let action = self.to_toggle_action();
         let label = self.label();
         IconButton::new(
-            (label, matches!(search_source, SearchSource::Buffer) as u32),
+            (self.element_id(), matches!(search_source, SearchSource::Buffer) as u32),
             self.icon(),
         )
         .map(|button| match search_source {
@@ -200,7 +212,10 @@ pub(crate) fn show_no_more_matches(window: &mut Window, cx: &mut App) {
             return;
         };
         workspace.update(cx, |workspace, cx| {
-            workspace.show_toast(Toast::new(notification_id.clone(), "No more matches").autohide(), cx);
+            workspace.show_toast(
+                Toast::new(notification_id.clone(), "これ以上一致しません").autohide(),
+                cx,
+            );
         })
     });
 }

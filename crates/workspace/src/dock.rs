@@ -855,7 +855,12 @@ impl Render for PanelButtons {
                 let (action, tooltip) = if is_active_button {
                     let action = dock.toggle_action();
 
-                    let tooltip: SharedString = format!("Close {} Dock", dock.position.label()).into();
+                    let tooltip: SharedString = match dock.position {
+                        DockPosition::Left => "左ドックを閉じる",
+                        DockPosition::Bottom => "下ドックを閉じる",
+                        DockPosition::Right => "右ドックを閉じる",
+                    }
+                    .into();
 
                     (action, tooltip)
                 } else {
@@ -876,10 +881,14 @@ impl Render for PanelButtons {
                                 for position in POSITIONS {
                                     if position != dock_position && panel.position_is_valid(position, cx) {
                                         let panel = panel.clone();
-                                        menu =
-                                            menu.entry(format!("Dock {}", position.label()), None, move |window, cx| {
-                                                panel.set_position(position, window, cx);
-                                            })
+                                        let label = match position {
+                                            DockPosition::Left => "左にドッキング",
+                                            DockPosition::Bottom => "下にドッキング",
+                                            DockPosition::Right => "右にドッキング",
+                                        };
+                                        menu = menu.entry(label, None, move |window, cx| {
+                                            panel.set_position(position, window, cx);
+                                        })
                                     }
                                 }
                                 menu

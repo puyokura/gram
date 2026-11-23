@@ -148,7 +148,7 @@ impl Output {
                     el.child(
                         IconButton::new(ElementId::Name("copy-output".into()), IconName::Copy)
                             .style(ButtonStyle::Transparent)
-                            .tooltip(Tooltip::text("Copy Output"))
+                            .tooltip(Tooltip::text("出力をコピー"))
                             .on_click(move |_, window, cx| {
                                 let clipboard_content = v.clipboard_content(window, cx);
 
@@ -163,7 +163,7 @@ impl Output {
                     el.child(
                         IconButton::new(ElementId::Name("open-in-buffer".into()), IconName::FileTextOutlined)
                             .style(ButtonStyle::Transparent)
-                            .tooltip(Tooltip::text("Open in Buffer"))
+                            .tooltip(Tooltip::text("バッファーで開く"))
                             .on_click({
                                 let workspace = workspace.clone();
                                 move |_, window, cx| {
@@ -175,7 +175,7 @@ impl Output {
                                             let multibuffer = cx.new(|cx| {
                                                 let mut multi_buffer = MultiBuffer::singleton(buffer.clone(), cx);
 
-                                                multi_buffer.set_title("REPL Output".to_string(), cx);
+                                                multi_buffer.set_title("REPL 出力".to_string(), cx);
                                                 multi_buffer
                                             });
 
@@ -233,7 +233,7 @@ impl Output {
                             let traceback_text = traceback.read(cx).full_text();
                             let full_error = format!("{}: {}\n{}", ename, evalue, traceback_text);
 
-                            CopyButton::new("copy-full-error", full_error).tooltip_label("Copy Full Error")
+                            CopyButton::new("copy-full-error", full_error).tooltip_label("エラー全文をコピー")
                         })
                         .child(
                             IconButton::new(
@@ -241,7 +241,7 @@ impl Output {
                                 IconName::FileTextOutlined,
                             )
                             .style(ButtonStyle::Transparent)
-                            .tooltip(Tooltip::text("Open Full Error in Buffer"))
+                            .tooltip(Tooltip::text("エラー全文をバッファーで開く"))
                             .on_click({
                                 let ename = err.ename.clone();
                                 let evalue = err.evalue.clone();
@@ -527,9 +527,9 @@ impl ExecutionView {
 impl Render for ExecutionView {
     fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let status = match &self.status {
-            ExecutionStatus::ConnectingToKernel => Label::new("Connecting to kernel...")
-                .color(Color::Muted)
-                .into_any_element(),
+            ExecutionStatus::ConnectingToKernel => {
+                Label::new("カーネルに接続中…").color(Color::Muted).into_any_element()
+            }
             ExecutionStatus::Executing => h_flex()
                 .gap_2()
                 .child(
@@ -538,19 +538,15 @@ impl Render for ExecutionView {
                         .color(Color::Muted)
                         .with_rotate_animation(3),
                 )
-                .child(Label::new("Executing...").color(Color::Muted))
+                .child(Label::new("実行中…").color(Color::Muted))
                 .into_any_element(),
             ExecutionStatus::Finished => Icon::new(IconName::Check).size(IconSize::Small).into_any_element(),
-            ExecutionStatus::Unknown => Label::new("Unknown status").color(Color::Muted).into_any_element(),
-            ExecutionStatus::ShuttingDown => Label::new("Kernel shutting down...")
-                .color(Color::Muted)
-                .into_any_element(),
-            ExecutionStatus::Restarting => Label::new("Kernel restarting...")
-                .color(Color::Muted)
-                .into_any_element(),
-            ExecutionStatus::Shutdown => Label::new("Kernel shutdown").color(Color::Muted).into_any_element(),
-            ExecutionStatus::Queued => Label::new("Queued...").color(Color::Muted).into_any_element(),
-            ExecutionStatus::KernelErrored(error) => Label::new(format!("Kernel error: {}", error))
+            ExecutionStatus::Unknown => Label::new("不明な状態").color(Color::Muted).into_any_element(),
+            ExecutionStatus::ShuttingDown => Label::new("カーネルを停止中…").color(Color::Muted).into_any_element(),
+            ExecutionStatus::Restarting => Label::new("カーネルを再起動中…").color(Color::Muted).into_any_element(),
+            ExecutionStatus::Shutdown => Label::new("カーネル停止済み").color(Color::Muted).into_any_element(),
+            ExecutionStatus::Queued => Label::new("待機中…").color(Color::Muted).into_any_element(),
+            ExecutionStatus::KernelErrored(error) => Label::new(format!("カーネルエラー: {}", error))
                 .color(Color::Error)
                 .into_any_element(),
         };

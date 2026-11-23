@@ -18,9 +18,9 @@ use crate::title_bar_settings::TitleBarSettings;
 actions!(
     app_menu,
     [
-        /// Navigates to the menu item on the right.
+        /// 右側のメニュー項目へ移動する。
         ActivateMenuRight,
-        /// Navigates to the menu item on the left.
+        /// 左側のメニュー項目へ移動する。
         ActivateMenuLeft
     ]
 );
@@ -145,7 +145,7 @@ impl ApplicationMenu {
                     )
                     .style(ButtonStyle::Subtle)
                     .icon_size(IconSize::Small),
-                    Tooltip::text("Open Application Menu"),
+                    Tooltip::text("アプリケーションメニューを開く"),
                 )
                 .with_handle(handle),
         )

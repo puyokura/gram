@@ -22,7 +22,7 @@ use crate::icon_theme_selector::{IconThemeSelector, IconThemeSelectorDelegate};
 actions!(
     theme_selector,
     [
-        /// Reloads all themes from disk.
+        /// ディスクからすべてのテーマを再読み込みします。
         Reload
     ]
 );
@@ -310,7 +310,7 @@ impl PickerDelegate for ThemeSelectorDelegate {
     type ListItem = ui::ListItem;
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Select Theme...".into()
+        "テーマを選択…".into()
     }
 
     fn match_count(&self) -> usize {
@@ -445,7 +445,7 @@ impl PickerDelegate for ThemeSelectorDelegate {
                 .border_t_1()
                 .border_color(cx.theme().colors().border_variant)
                 .child(
-                    Button::new("docs", "View Theme Docs")
+                    Button::new("docs", "テーマのドキュメントを表示")
                         .icon(IconName::ArrowUpRight)
                         .icon_position(IconPosition::End)
                         .icon_size(IconSize::Small)
@@ -454,17 +454,19 @@ impl PickerDelegate for ThemeSelectorDelegate {
                             cx.open_url("gram://docs/themes");
                         })),
                 )
-                .child(Button::new("more-themes", "Install Themes").on_click(cx.listener({
-                    move |_, _, window, cx| {
-                        window.dispatch_action(
-                            Box::new(Extensions {
-                                category_filter: Some(ExtensionCategoryFilter::Themes),
-                                id: None,
-                            }),
-                            cx,
-                        );
-                    }
-                })))
+                .child(
+                    Button::new("more-themes", "テーマをインストール").on_click(cx.listener({
+                        move |_, _, window, cx| {
+                            window.dispatch_action(
+                                Box::new(Extensions {
+                                    category_filter: Some(ExtensionCategoryFilter::Themes),
+                                    id: None,
+                                }),
+                                cx,
+                            );
+                        }
+                    })),
+                )
                 .into_any_element(),
         )
     }

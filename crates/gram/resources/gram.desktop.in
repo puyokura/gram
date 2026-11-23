@@ -3,7 +3,9 @@ Version=1.0
 Type=Application
 Name=$APP_NAME
 GenericName=Text Editor
+GenericName[ja]=テキストエディター
 Comment=A code editor for humanoid apes and grumpy toads
+Comment[ja]=高速で信頼性の高いオープンソースのコードエディター
 TryExec=$APP_CLI
 StartupNotify=$DO_STARTUP_NOTIFY
 Exec=$APP_CLI $APP_ARGS
@@ -20,3 +22,4 @@ StartupWMClass=app.liten.Gram
 [Desktop Action NewWorkspace]
 Exec=$APP_CLI --new $APP_ARGS
 Name=Open a new workspace
+Name[ja]=新しいワークスペースを開く

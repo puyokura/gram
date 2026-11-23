@@ -32,15 +32,15 @@ pub use crate::image_viewer_settings::*;
 actions!(
     image_viewer,
     [
-        /// Zoom in the image.
+        /// 画像を拡大します。
         ZoomIn,
-        /// Zoom out the image.
+        /// 画像を縮小します。
         ZoomOut,
-        /// Reset zoom to 100%.
+        /// 拡大率を 100% にリセットします。
         ResetZoom,
-        /// Fit the image to view.
+        /// 画像を表示領域に合わせます。
         FitToView,
-        /// Zoom to actual size (100%).
+        /// 実際のサイズ (100%) で表示します。
         ZoomToActualSize
     ]
 );
@@ -713,7 +713,7 @@ impl Render for ImageViewToolbarControls {
             .child(
                 IconButton::new("zoom-out", IconName::Dash)
                     .icon_size(IconSize::Small)
-                    .tooltip(|_window, cx| Tooltip::for_action("Zoom Out", &ZoomOut, cx))
+                    .tooltip(|_window, cx| Tooltip::for_action("縮小", &ZoomOut, cx))
                     .on_click({
                         let image_view = image_view.downgrade();
                         move |_, window, cx| {
@@ -728,7 +728,7 @@ impl Render for ImageViewToolbarControls {
             .child(
                 Button::new("zoom-level", zoom_percentage)
                     .label_size(LabelSize::Small)
-                    .tooltip(|_window, cx| Tooltip::for_action("Reset Zoom", &ResetZoom, cx))
+                    .tooltip(|_window, cx| Tooltip::for_action("拡大率をリセット", &ResetZoom, cx))
                     .on_click({
                         let image_view = image_view.downgrade();
                         move |_, window, cx| {
@@ -743,7 +743,7 @@ impl Render for ImageViewToolbarControls {
             .child(
                 IconButton::new("zoom-in", IconName::Plus)
                     .icon_size(IconSize::Small)
-                    .tooltip(|_window, cx| Tooltip::for_action("Zoom In", &ZoomIn, cx))
+                    .tooltip(|_window, cx| Tooltip::for_action("拡大", &ZoomIn, cx))
                     .on_click({
                         let image_view = image_view.downgrade();
                         move |_, window, cx| {
@@ -758,7 +758,7 @@ impl Render for ImageViewToolbarControls {
             .child(
                 IconButton::new("fit-to-view", IconName::Maximize)
                     .icon_size(IconSize::Small)
-                    .tooltip(|_window, cx| Tooltip::for_action("Fit to View", &FitToView, cx))
+                    .tooltip(|_window, cx| Tooltip::for_action("表示領域に合わせる", &FitToView, cx))
                     .on_click({
                         let image_view = image_view.downgrade();
                         move |_, window, cx| {

@@ -1,34 +1,28 @@
-# Configuring supported languages
+# 対応言語の設定
 
-The language support is built on two main technologies:
+言語サポート機能は、主に以下の 2 つの技術をベースに構築されています。
 
-1. Tree-sitter: This handles syntax highlighting and structure-based features
-   like the outline panel.
-2. Language Server Protocol (LSP): This provides semantic features such as code
-   completion and diagnostics.
+1. Tree-sitter: シンタックスハイライトやアウトラインパネルなどの構造ベースの機能を担当します。
+2. Language Server Protocol (LSP): コード補完や診断などのセマンティック（意味論的）機能を提供します。
 
-These components work together to provide language capabilities.
+これらのコンポーネントが連携することで、高度な言語機能を実現しています。
 
-## Topics
+## 目次
 
-- Language-specific settings
-- File associations
-- Working with language servers
-- Formatting and linting configuration
-- Customizing syntax highlighting and themes
-- Advanced language features
+- 言語別の設定
+- ファイルの関連付け
+- 言語サーバーの操作
+- フォーマットとリンティングの設定
+- シンタックスハイライトとテーマのカスタマイズ
+- 高度な言語機能
 
-See the list of [Supported Languages](./languages.md) for details on specific
-configurations. To add support for additional languages, see the guide on how to
-create new [Language Extensions](./extensions/languages.md).
+各言語固有の構成の詳細については [対応言語一覧](./languages.md) を参照してください。新しい言語のサポートを追加する方法については、[言語拡張機能の開発](./extensions/languages.md) ガイドを参照してください。
 
-## Language-specific Settings
+## 言語別の設定
 
-It is possible to override global settings for individual languages. These
-custom configurations are defined in the `settings.jsonc` file under the
-`languages` key.
+個々の言語に対してグローバル設定を上書きすることが可能です。これらのカスタム設定は、`settings.jsonc` ファイルの `languages` キーの下に定義します。
 
-Here's an example of language-specific settings:
+言語別設定の例:
 
 ```json
 "languages": {
@@ -49,38 +43,24 @@ Here's an example of language-specific settings:
 }
 ```
 
-Some of the settings that can be customized include:
+カスタマイズ可能な主な設定項目は以下のとおりです。
 
-- [`tab_size`](./configuring-gram.md#tab-size): The number of spaces for each
-  indentation level
-- [`formatter`](./configuring-gram.md#formatter): The tool used for code
-  formatting
-- [`format_on_save`](./configuring-gram.md#format-on-save): Whether to
-  automatically format code when saving
-- [`enable_language_server`](./configuring-gram.md#enable-language-server):
-  Toggle language server support
-- [`hard_tabs`](./configuring-gram.md#hard-tabs): Use tabs instead of spaces for
-  indentation
-- [`preferred_line_length`](./configuring-gram.md#preferred-line-length): The
-  recommended maximum line length
-- [`soft_wrap`](./configuring-gram.md#soft-wrap): How to wrap long lines of code
-- [`show_completions_on_input`](./configuring-gram.md#show-completions-on-input):
-  Whether or not to show completions as you type
-- [`show_completion_documentation`](./configuring-gram.md#show-completion-documentation):
-  Whether to display inline and alongside documentation for items in the
-  completions menu
-- [`colorize_brackets`](./configuring-gram.md#colorize-brackets): Whether to use
-  tree-sitter bracket queries to detect and colorize the brackets in the editor
-  (also known as "rainbow brackets")
+- [`tab_size`](./configuring-gram.md#tab-size): 各インデントレベルのスペース数
+- [`formatter`](./configuring-gram.md#formatter): コードの整形に使用するツール
+- [`format_on_save`](./configuring-gram.md#format-on-save): ファイル保存時に自動的にコードを整形するかどうか
+- [`enable_language_server`](./configuring-gram.md#enable-language-server): 言語サーバーサポートの有効/無効の切り替え
+- [`hard_tabs`](./configuring-gram.md#hard-tabs): インデントにスペースの代わりにタブを使用するかどうか
+- [`preferred_line_length`](./configuring-gram.md#preferred-line-length): 推奨される最大行長
+- [`soft_wrap`](./configuring-gram.md#soft-wrap): 長いコード行の折り返し方法
+- [`show_completions_on_input`](./configuring-gram.md#show-completions-on-input): 入力中に補完候補を表示するかどうか
+- [`show_completion_documentation`](./configuring-gram.md#show-completion-documentation): 補完メニューの項目にインラインおよび横並びのドキュメントを表示するかどうか
+- [`colorize_brackets`](./configuring-gram.md#colorize-brackets): Tree-sitter の括弧クエリを使用してエディター内の括弧を検出・色分け表示（レインボーブラケット）するかどうか
 
-## File Associations
+## ファイルの関連付け
 
-Gram automatically detects file types based on their extensions, but you can
-customize these associations.
+Gram は拡張子に基づいてファイルタイプを自動検出しますが、この関連付けをカスタマイズすることもできます。
 
-To set up custom file associations, use the
-[`file_types`](./configuring-gram.md#file-types) setting in your
-`settings.jsonc`:
+独自のファイル関連付けを設定するには、`settings.jsonc` で [`file_types`](./configuring-gram.md#file-types) 設定を使用します。
 
 ```json
 "file_types": {
@@ -90,59 +70,49 @@ To set up custom file associations, use the
 }
 ```
 
-This configuration tells Gram to:
+この設定により、Gram は以下のように動作します。
 
-- Treat `.c` files as C++ instead of C
-- Recognize files named "MyLockFile" as TOML
-- Apply Dockerfile syntax to any file starting with "Dockerfile"
+- `.c` ファイルを C ではなく C++ として扱う
+- 「MyLockFile」という名前のファイルを TOML として認識する
+- 「Dockerfile」で始まるすべてのファイルに Dockerfile 構文を適用する
 
-You can use glob patterns for more flexible matching, allowing you to handle
-complex naming conventions in your projects.
+より柔軟な一致判定のために Glob パターンを使用できるため、プロジェクト内の複雑な命名規則にも対応できます。
 
-## Working with Language Servers
+## 言語サーバーの操作
 
-Language servers provide capabilities like auto-completion, go-to-definition,
-and real-time error checking.
+言語サーバーは、自動補完、定義への移動、リアルタイムのエラーチェックなどの機能を提供します。
 
-### What are Language Servers?
+### 言語サーバーとは
 
-Language servers implement the Language Server Protocol (LSP), which
-standardizes communication between the editor and language-specific tools. This
-allows editors to support advanced features for multiple programming languages
-without implementing each feature separately.
+言語サーバーは Language Server Protocol (LSP) を実装しており、エディターと言語固有ツールとの間の通信を標準化します。これにより、エディター側で各言語の機能を個別に実装することなく、複数のプログラミング言語に対して高度な機能を提供できるようになります。
 
-Some key features provided by language servers include:
+言語サーバーが提供する主な機能は以下のとおりです。
 
-- Code completion
-- Error checking and diagnostics
-- Code navigation (go to definition, find references)
-- Code actions (Rename, extract method)
-- Hover information
-- Workspace symbol search
+- コード補完
+- エラーチェックおよび診断
+- コードナビゲーション（定義への移動、すべての参照の検索）
+- コードアクション（名前の変更、メソッドの抽出）
+- ホバー情報
+- ワークスペースシンボルの検索
 
-### Managing Language Servers
+### 言語サーバーの管理
 
-Gram simplifies language server management for users:
+Gram はユーザーにとって言語サーバーの管理が容易になるよう設計されています。
 
-1. Suggested extensions: When you open a file with a known file type, you may be
-   prompted to install the associated extension. For the installation to work,
-   you will need to have [rustup](https://rustup.rs) configured correctly.
+1. 推奨拡張機能: 既知のファイルタイプのファイルを開くと、関連する拡張機能のインストールを促すメッセージが表示される場合があります。インストールを正常に行うには、[rustup](https://rustup.rs) が正しく設定されている必要があります。
 
-2. Storage Location:
+2. 保存場所:
 
    - macOS: `~/Library/Application Support/Gram/languages`
-   - Linux: `$XDG_DATA_HOME/gram/languages`,
-     `$FLATPAK_XDG_DATA_HOME/gram/languages`, or
+   - Linux: `$XDG_DATA_HOME/gram/languages`、
+     `$FLATPAK_XDG_DATA_HOME/gram/languages`、または
      `$HOME/.local/share/gram/languages`
 
-### Choosing Language Servers
+### 言語サーバーの選択
 
-Some languages offer multiple language server options. You might have multiple
-extensions installed that bundle language servers targeting the same language,
-potentially leading to overlapping capabilities. Gram allows you to prioritize
-which language servers are used and in what order.
+言語によっては、複数の言語サーバーの選択肢が存在する場合があります。同じ言語を対象とする言語サーバーを同梱した複数の拡張機能がインストールされている場合、機能の重複が生じる可能性があります。Gram では、どの言語サーバーをどのような順序で使用するか優先順位を設定できます。
 
-Specify preferences using the `language_servers` setting:
+優先順位は `language_servers` 設定で指定します。
 
 ```json
   "languages": {
@@ -152,30 +122,23 @@ Specify preferences using the `language_servers` setting:
   }
 ```
 
-In this example:
+この例では以下のようになります。
 
-- `intelephense` is set as the primary language server
-- `phpactor` is disabled (note the `!` prefix)
-- `...` expands to the rest of the language servers that are registered for PHP
+- `intelephense` がプライマリの言語サーバーとして設定されます
+- `phpactor` は無効化されます（`!` プレフィックスに注目してください）
+- `...` は、PHP 用に登録されている残りの言語サーバーに展開されます
 
-### Toolchains
+### ツールチェーン
 
-Some language servers need to be configured with a current "toolchain", which is
-an installation of a specific version of a programming language compiler or/and
-interpreter, which can possibly include a full set of dependencies of a project.
+一部の言語サーバーでは、現在の「ツールチェーン」を設定する必要があります。ツールチェーンとは、プログラミング言語のコンパイラやインタプリタの特定バージョンのインストール環境であり、プロジェクトの完全な依存関係セットが含まれる場合もあります。
 
-An example of what Gram considers a toolchain is a virtual environment in
-Python.
+Gram におけるツールチェーンの一例として、Python の仮想環境（virtual environment）が挙げられます。
 
-Not all languages in Gram support toolchain discovery and selection, but for
-those that do, you can specify the toolchain from a toolchain picker (via
-{#action toolchain::Select}). To learn more about toolchains, see
-[`toolchains`](./toolchains.md).
+Gram のすべての言語がツールチェーンの検出と選択に対応しているわけではありませんが、対応している言語ではツールチェーンピッカー（{#action toolchain::Select} 経由）からツールチェーンを指定できます。ツールチェーンの詳細については、[`toolchains`](./toolchains.md) を参照してください。
 
-### Configuring Language Servers
+### 言語サーバーの設定
 
-Custom configuration options for language servers are configured using the `lsp`
-section of `settings.jsonc`:
+言語サーバーのカスタム構成オプションは、`settings.jsonc` の `lsp` セクションで設定します。
 
 ```json
   "lsp": {
@@ -189,32 +152,28 @@ section of `settings.jsonc`:
   }
 ```
 
-This example configures the Rust Analyzer to use Clippy for additional linting
-when saving files.
+この例では、ファイル保存時により詳細なリンティングを行うために Clippy を使用するよう Rust Analyzer を構成しています。
 
-#### Nested objects
+#### ネストされたオブジェクト
 
-When configuring language server options it's important to use nested objects
-rather than dot-delimited strings. This is particularly relevant when working
-with more complex configurations. Let's look at a real-world example using the
-TypeScript language server:
+言語サーバーのオプションを設定する際は、ドット区切りの文字列ではなく、ネストされたオブジェクトを使用することが重要です。これは、より複雑な構成を扱う場合に特に重要です。TypeScript 言語サーバーを使用した具体例を見てみましょう。
 
-Suppose you want to configure the following settings for TypeScript:
+TypeScript に対して以下の設定を行いたいとします。
 
-- Enable strict null checks
-- Set the target ECMAScript version to ES2020
+- 厳格な null チェック（strict null checks）を有効にする
+- ターゲットの ECMAScript バージョンを ES2020 に設定する
 
-Here's how you would structure these settings in `settings.jsonc`:
+`settings.jsonc` では、以下のように構造化して記述します。
 
 ```json
 "lsp": {
   "typescript-language-server": {
     "initialization_options": {
-      // These are not supported (VSCode dotted style):
+      // 以下はサポートされていません（VSCode のドット記法スタイル）:
       // "preferences.strictNullChecks": true,
       // "preferences.target": "ES2020"
       //
-      // These is correct (nested notation):
+      // 以下が正しい記法です（ネスト表記）:
       "preferences": {
         "strictNullChecks": true,
         "target": "ES2020"
@@ -224,17 +183,15 @@ Here's how you would structure these settings in `settings.jsonc`:
 }
 ```
 
-#### Possible configuration options
+#### 設定可能なオプション
 
-Depending on how a particular language server is implemented, they may depend on
-initialization options specified in the LSP.
+各言語サーバーの実装方法に応じて、LSP で規定された初期化オプションに依存する場合があります。
 
 - [initializationOptions](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#version_3_17_0)
 
-These options are sent during language server startup and require the server to
-be restarted for changes to be applied.
+これらのオプションは言語サーバーの起動時に送信され、変更を適用するにはサーバーの再起動が必要です。
 
-For example, rust-analyzer and clangd are configured this way.
+たとえば、rust-analyzer や clangd はこのように設定されます。
 
 ```json
   "lsp": {
@@ -248,7 +205,7 @@ For example, rust-analyzer and clangd are configured this way.
 
 - [Configuration Request](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#workspace_configuration)
 
-Most language servers use settings that can be updated without restarting.
+ほとんどの言語サーバーは、再起動なしで更新可能な設定を使用しています。
 
 ```json
 "lsp": {
@@ -262,20 +219,17 @@ Most language servers use settings that can be updated without restarting.
 }
 ```
 
-Some language servers allow configuring how the language server binary is
-launched. Language servers are automatically downloaded or launched if found in
-your path.
+一部の言語サーバーでは、言語サーバーバイナリの起動方法を設定できます。言語サーバーは自動的にダウンロードされるか、パス内で見つかった場合に起動されます。
 
-TODO: This should be opt in.
+TODO: これはオプトインであるべきです。
 
-If you wish to specify an explicit alternate binary you can specify that in
-settings:
+明示的に代替バイナリを指定したい場合は、設定で指定できます。
 
 ```json
   "lsp": {
     "rust-analyzer": {
       "binary": {
-        // Whether to fetch the binary from the internet, or attempt to find locally.
+        // インターネットからバイナリを取得するか、ローカルでの検索を試みるか。
         "ignore_system_version": false,
         "path": "/path/to/langserver/bin",
         "arguments": ["--option", "value"],
@@ -287,9 +241,9 @@ settings:
   }
 ```
 
-### Enabling or Disabling Language Servers
+### 言語サーバーの有効化と無効化
 
-You can toggle language server support globally or per-language:
+言語サーバーサポートは、グローバルまたは言語ごとに切り替えることができます。
 
 ```json
   "languages": {
@@ -299,18 +253,13 @@ You can toggle language server support globally or per-language:
   }
 ```
 
-This disables the language server for Markdown files, which can be useful for
-performance in large documentation projects. You can configure this globally in
-your `~/.config/gram/settings.jsonc` or inside a `.gram/settings.jsonc` in your
-project directory.
+これにより Markdown ファイル用の言語サーバーが無効化され、大規模なドキュメントプロジェクトでのパフォーマンス向上に役立ちます。これは `~/.config/gram/settings.jsonc` でグローバルに設定することも、プロジェクトディレクトリ内の `.gram/settings.jsonc` で設定することも可能です。
 
-## Formatting and Linting
+## フォーマットとリンティング
 
-### Configuring Formatters
+### フォーマッターの設定
 
-Gram supports both built-in and external formatters. See
-[`formatter`](./configuring-gram.md#formatter) docs for more. Configure
-formatters globally or per-language in `settings.jsonc`:
+Gram は組み込みフォーマッターと外部フォーマッターの両方に対応しています。詳細については [`formatter`](./configuring-gram.md#formatter) ドキュメントを参照してください。フォーマッターは `settings.jsonc` でグローバルまたは言語ごとに設定します。
 
 ```json
 "languages": {
@@ -330,10 +279,9 @@ formatters globally or per-language in `settings.jsonc`:
 }
 ```
 
-This example uses Prettier for JavaScript and the language server's formatter
-for Rust, both set to format on save.
+この例では、JavaScript には Prettier を、Rust には言語サーバーのフォーマッターを使用し、いずれも保存時にフォーマットするよう設定しています。
 
-To disable formatting for a specific language:
+特定の言語でフォーマットを無効化するには、次のように設定します。
 
 ```json
 "languages": {
@@ -343,11 +291,11 @@ To disable formatting for a specific language:
 }
 ```
 
-### Setting Up Linters
+### リンターのセットアップ
 
-Linting is typically handled by language servers.
+リンティングは通常、言語サーバーによって処理されます。
 
-Many language servers allow you to configure linting rules:
+多くの言語サーバーでは、リンティングルールの構成が可能です。
 
 ```json
 "lsp": {
@@ -361,10 +309,9 @@ Many language servers allow you to configure linting rules:
 }
 ```
 
-This configuration sets up ESLint to organize imports on save for JavaScript
-files.
+この設定により、JavaScript ファイルの保存時に ESLint がインポート文を整理（organize imports）するようになります。
 
-To run linter fixes automatically on save:
+保存時にリンターによる自動修正を実行するには、以下のように設定します。
 
 ```json
 "languages": {
@@ -376,10 +323,9 @@ To run linter fixes automatically on save:
 }
 ```
 
-### Integrating Formatting and Linting
+### フォーマットとリンティングの統合
 
-Here's an example that uses Prettier for formatting and ESLint for linting
-JavaScript files automatically on save:
+以下は、JavaScript ファイルの保存時に ESLint によるリンティングと Prettier によるフォーマットを自動的に実行する設定例です。
 
 ```json
 "languages": {
@@ -400,25 +346,21 @@ JavaScript files automatically on save:
 }
 ```
 
-### Troubleshooting
+### トラブルシューティング
 
-If you encounter issues with formatting or linting:
+フォーマットやリンティングで問題が発生した場合:
 
-1. Check the editor log file for error messages (Use the command palette:
-   `gram: open log`)
-2. Ensure external tools (formatters, linters) are correctly installed and in
-   your PATH.
-3. Verify configurations in both Gram settings and language-specific config
-   files (e.g., `.eslintrc`, `.prettierrc`)
+1. エディターのログファイルでエラーメッセージを確認します（コマンドパレットから `gram: open log` を実行）。
+2. 外部ツール（フォーマッター、リンター）が正しくインストールされ、PATH に通っていることを確認します。
+3. Gram の設定と各言語固有の設定ファイル（例: `.eslintrc`, `.prettierrc`）の両方で設定内容を確認します。
 
-## Syntax Highlighting and Themes
+## シンタックスハイライトとテーマ
 
-### Customizing Syntax Highlighting
+### シンタックスハイライトのカスタマイズ
 
-Gram uses Tree-sitter grammars for syntax highlighting. Override the default
-highlighting using the `theme_overrides` setting.
+Gram はシンタックスハイライトに Tree-sitter 文法を使用しています。デフォルトのハイライトは `theme_overrides` 設定で上書きできます。
 
-This example makes comments italic and changes the color of strings:
+以下の例では、コメントを斜体（イタリック）にし、文字列の色を変更します。
 
 ```json
 "theme_overrides": {
@@ -435,12 +377,12 @@ This example makes comments italic and changes the color of strings:
 }
 ```
 
-### Selecting and Customizing Themes
+### テーマの選択とカスタマイズ
 
-To change the editor theme:
+エディターのテーマを変更するには:
 
-1. Use the theme selector ({#kb theme_selector::Toggle})
-2. Or set it in `settings.jsonc`:
+1. テーマセレクターを使用する（{#kb theme_selector::Toggle}）
+2. または `settings.jsonc` で指定する:
 
 ```json
 "theme": {
@@ -450,23 +392,19 @@ To change the editor theme:
 }
 ```
 
-Create custom themes by creating a JSON file in `~/.config/gram/themes/`. Gram
-will automatically detect and make available any themes in this directory.
+`~/.config/gram/themes/` に JSON ファイルを作成することで、カスタムテーマを作成できます。Gram はこのディレクトリにあるすべてのテーマを自動的に検出して利用可能にします。
 
-### Using Theme Extensions
+### テーマ拡張機能の使用
 
-Gram supports theme extensions. Find the URL for the theme you want to install
-and install it from the Extensions panel ({#kb gram::Extensions}).
+Gram はテーマ拡張機能をサポートしています。インストールしたいテーマの URL を確認し、拡張機能パネル（{#kb gram::Extensions}）からインストールします。
 
-To create your own theme extension, refer to the
-[Developing Theme Extensions](./extensions/themes.md) guide.
+独自のテーマ拡張機能を作成する方法については、[テーマ拡張機能の開発](./extensions/themes.md) ガイドを参照してください。
 
-## Using Language Server Features
+## 言語サーバー機能の活用
 
-### Inlay Hints
+### インレイヒント（Inlay Hints）
 
-Inlay hints provide additional information inline in code, such as parameter
-names or inferred types. Configure inlay hints in `settings.jsonc`:
+インレイヒントは、パラメータ名や推論された型などの追加情報をコード内にインラインで表示します。`settings.jsonc` でインレイヒントを設定します。
 
 ```json
 "inlay_hints": {
@@ -477,60 +415,44 @@ names or inferred types. Configure inlay hints in `settings.jsonc`:
 }
 ```
 
-For language-specific inlay hint settings, refer to the documentation for each
-language.
+言語別のインレイヒント設定については、各言語のドキュメントを参照してください。
 
-### Code Actions
+### コードアクション
 
-Code actions provide quick fixes and refactoring options. Access code actions
-using the `editor: Toggle Code Actions` command or by clicking the lightbulb
-icon that appears next to the cursor when actions are available.
+コードアクションは、クイック修正やリファクタリングの選択肢を提供します。`editor: Toggle Code Actions` コマンドを実行するか、アクションが利用可能なときにカーソルの横に表示される電球アイコンをクリックしてアクセスします。
 
-### Go To Definition and References
+### 定義および参照への移動
 
-Use these commands to navigate the codebase:
+コードベース内を移動するには、以下のコマンドを使用します。
 
 - `editor: Go to Definition` (<kbd>f12|f12</kbd>)
 - `editor: Go to Type Definition` (<kbd>cmd-f12|ctrl-f12</kbd>)
 - `editor: Find All References` (<kbd>shift-f12|shift-f12</kbd>)
 
-### Rename Symbol
+### シンボルの名前変更（リネーム）
 
-To rename a symbol across a project:
+プロジェクト全体でシンボルの名前を変更するには:
 
-1. Place the cursor on the symbol
-2. Use the `editor: Rename Symbol` command (<kbd>f2|f2</kbd>)
-3. Enter the new name and press Enter
+1. シンボル上にカーソルを置きます
+2. `editor: Rename Symbol` コマンドを実行します (<kbd>f2|f2</kbd>)
+3. 新しい名前を入力して Enter キーを押します
 
-These features depend on the capabilities of the language server for each
-language.
+これらの機能は、各言語の言語サーバーの機能に依存します。
 
-When renaming a symbol that spans multiple files, Gram will open a preview in a
-multibuffer. Here you can review all the changes before applying them. To
-confirm the rename, simply save the multibuffer. If you decide not to proceed
-with the rename, you can undo the changes or close the multibuffer without
-saving.
+複数のファイルにまたがるシンボル名を変更する場合、Gram はマルチバッファーでプレビューを開きます。変更を適用する前に、ここですべての変更点を確認できます。リネームを確定するには、マルチバッファーを保存するだけです。リネームを取りやめたい場合は、変更を元に戻すか、保存せずにマルチバッファーを閉じます。
 
-### Hover Information
+### ホバー情報
 
-Use the `editor: Hover` command to display information about the symbol under
-the cursor. This often includes type information, documentation, and links to
-relevant resources.
+`editor: Hover` コマンドを使用すると、カーソル位置のシンボルに関する情報が表示されます。多くの場合、型情報、ドキュメント、関連リソースへのリンクが含まれます。
 
-### Workspace Symbol Search
+### ワークスペースシンボルの検索
 
-The `workspace: Open Symbol` command allows you to search for symbols
-(functions, classes, variables) across your entire project. This is useful for
-quickly navigating large codebases.
+`workspace: Open Symbol` コマンドを使用すると、プロジェクト全体からシンボル（関数、クラス、変数）を検索できます。大規模なコードベース内を素早くナビゲートするのに役立ちます。
 
-### Code Completion
+### コード補完
 
-Gram provides code completion suggestions as you type. You can manually trigger
-completion with the `editor: Show Completions` command. Use <kbd>tab|tab</kbd>
-or <kbd>enter|enter</kbd> to accept suggestions.
+Gram は入力中にコード補完の候補を表示します。`editor: Show Completions` コマンドで手動で補完をトリガーすることも可能です。<kbd>tab|tab</kbd> または <kbd>enter|enter</kbd> を使用して候補を確定します。
 
-### Diagnostics
+### 診断
 
-Language servers provide real-time diagnostics (errors, warnings, hints) as you
-code. View all diagnostics for your project using the `diagnostics: Toggle`
-command.
+言語サーバーは、コーディング中にリアルタイムの診断情報（エラー、警告、ヒント）を提供します。`diagnostics: Toggle` コマンドを使用して、プロジェクトのすべての診断情報を確認できます。

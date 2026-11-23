@@ -22,7 +22,7 @@ use workspace::{
 actions!(
     dev,
     [
-        /// Opens the syntax tree view for the current file.
+        /// 現在のファイルの構文木ビューを開きます。
         OpenSyntaxTreeView,
     ]
 );
@@ -30,7 +30,7 @@ actions!(
 actions!(
     syntax_tree_view,
     [
-        /// Update the syntax tree view to show the last focused file.
+        /// 最後にフォーカスしたファイルを表示するよう構文木ビューを更新します。
         UseActiveEditor
     ]
 );
@@ -467,17 +467,15 @@ impl Render for SyntaxTreeView {
             } else {
                 let inner_content = v_flex().items_center().text_center().gap_2().max_w_3_5().map(|this| {
                     if editor_state.is_some_and(|state| !state.has_language()) {
-                        this.child(Label::new("Current editor has no associated language"))
+                        this.child(Label::new("現在のエディターに関連付けられた言語がありません"))
                             .child(
-                                Label::new(concat!(
-                                    "Try assigning a language or",
-                                    "switching to a different buffer"
-                                ))
-                                .size(LabelSize::Small),
+                                Label::new(concat!("言語を割り当てるか", "別のバッファーに切り替えてください"))
+                                    .size(LabelSize::Small),
                             )
                     } else {
-                        this.child(Label::new("Not attached to an editor"))
-                            .child(Label::new("Focus an editor to show a new tree view").size(LabelSize::Small))
+                        this.child(Label::new("エディターに接続されていません")).child(
+                            Label::new("エディターにフォーカスすると新しい構文木が表示されます").size(LabelSize::Small),
+                        )
                     }
                 });
 
@@ -505,7 +503,7 @@ impl Item for SyntaxTreeView {
     fn to_item_events(_: &Self::Event, _: impl FnMut(workspace::item::ItemEvent)) {}
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Syntax Tree".into()
+        "構文木".into()
     }
 
     fn can_split(&self) -> bool {
@@ -610,7 +608,7 @@ impl SyntaxTreeToolbarItemView {
                             let active_tab_name =
                                 editor.read_with(cx, |editor, cx| editor.tab_content_text(Default::default(), cx));
 
-                            Tooltip::text(format!("Update view to '{active_tab_name}'"))
+                            Tooltip::text(format!("ビューを「{active_tab_name}」に更新"))
                         })
                         .on_click(cx.listener(|this, _, window, cx| {
                             this.update_active_editor(&Default::default(), window, cx);
