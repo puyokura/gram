@@ -118,7 +118,7 @@ pub fn init(cx: &mut App) {
     cx.on_action(|_: &HideOthers, cx| cx.hide_other_apps());
     #[cfg(target_os = "macos")]
     cx.on_action(|_: &ShowAll, cx| cx.unhide_other_apps());
-    cx.on_action(|_: &OpenGramRepo, cx| cx.open_url("https://codeberg.org/GramEditor/gram"));
+    cx.on_action(|_: &OpenGramRepo, cx| cx.open_url("https://github.com/puyokura/gram"));
     cx.on_action(quit);
 
     cx.observe_new(|workspace: &mut Workspace, _, _| {

@@ -151,7 +151,7 @@ rust-version = "1.95.0"
 description = "A code editor for humanoid apes and grumpy toads"
 documentation = "https://gram-editor.com/docs"
 homepage = "https://gram-editor.com"
-repository = "https://codeberg.org/GramEditor/gram"
+repository = "https://github.com/puyokura/gram"
 license = "GPL-3.0-or-later"
 publish = false
 
