@@ -108,6 +108,7 @@ git_ui.workspace = true
 go_to_line.workspace = true
 gpui = { workspace = true, features = ["cosmic-text", "wayland", "windows-manifest", "x11"] }
 gpui_tokio.workspace = true
+i18n.workspace = true
 image_viewer.workspace = true
 inspector_ui.workspace = true
 install_cli.workspace = true

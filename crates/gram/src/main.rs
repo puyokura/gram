@@ -416,6 +416,7 @@ pub fn main() {
         OpenListener::set_global(cx, open_listener.clone());
 
         extension::init(cx);
+        i18n::init(cx);
         let extension_host_proxy = ExtensionHostProxy::global(cx);
 
         let client = Client::production(cx);

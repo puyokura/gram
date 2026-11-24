@@ -27,6 +27,7 @@ pub struct ExtensionHostProxy {
     language_server_proxy: RwLock<Option<Arc<dyn ExtensionLanguageServerProxy>>>,
     snippet_proxy: RwLock<Option<Arc<dyn ExtensionSnippetProxy>>>,
     debug_adapter_provider_proxy: RwLock<Option<Arc<dyn ExtensionDebugAdapterProviderProxy>>>,
+    locale_proxy: RwLock<Option<Arc<dyn ExtensionLocaleProxy>>>,
 }
 
 impl ExtensionHostProxy {
@@ -50,6 +51,7 @@ impl ExtensionHostProxy {
             language_server_proxy: RwLock::default(),
             snippet_proxy: RwLock::default(),
             debug_adapter_provider_proxy: RwLock::default(),
+            locale_proxy: RwLock::default(),
         }
     }
 
@@ -75,6 +77,10 @@ impl ExtensionHostProxy {
 
     pub fn register_debug_adapter_proxy(&self, proxy: impl ExtensionDebugAdapterProviderProxy) {
         self.debug_adapter_provider_proxy.write().replace(Arc::new(proxy));
+    }
+
+    pub fn register_locale_proxy(&self, proxy: impl ExtensionLocaleProxy) {
+        self.locale_proxy.write().replace(Arc::new(proxy));
     }
 }
 
@@ -328,5 +334,29 @@ impl ExtensionDebugAdapterProviderProxy for ExtensionHostProxy {
         };
 
         proxy.unregister_debug_locator(locator_name)
+    }
+}
+
+pub trait ExtensionLocaleProxy: Send + Sync + 'static {
+    fn register_locale_pack(&self, extension_id: Arc<str>, locale: Arc<str>, locale_path: PathBuf) -> Result<()>;
+
+    fn unregister_locale_pack(&self, extension_id: &str);
+}
+
+impl ExtensionLocaleProxy for ExtensionHostProxy {
+    fn register_locale_pack(&self, extension_id: Arc<str>, locale: Arc<str>, locale_path: PathBuf) -> Result<()> {
+        let Some(proxy) = self.locale_proxy.read().clone() else {
+            return Ok(());
+        };
+
+        proxy.register_locale_pack(extension_id, locale, locale_path)
+    }
+
+    fn unregister_locale_pack(&self, extension_id: &str) {
+        let Some(proxy) = self.locale_proxy.read().clone() else {
+            return;
+        };
+
+        proxy.unregister_locale_pack(extension_id)
     }
 }

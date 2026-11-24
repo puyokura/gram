@@ -84,6 +84,7 @@ impl CommandPalette {
         cx: &mut Context<Self>,
     ) -> Self {
         let filter = CommandPaletteFilter::try_global(cx);
+        let locale_registry = i18n::LocaleRegistry::try_global(cx);
 
         let commands = window
             .available_actions(cx)
@@ -93,8 +94,34 @@ impl CommandPalette {
                     return None;
                 }
 
+                let localization = locale_registry
+                    .as_ref()
+                    .and_then(|registry| registry.action_localization(action.name()));
+                let (localized_label, localized_description, localized_search_text) = match localization {
+                    Some(loc) => {
+                        let mut search_parts = Vec::with_capacity(2 + loc.keywords.len());
+                        search_parts.push(loc.label.as_ref());
+                        if let Some(desc) = loc.description.as_deref() {
+                            search_parts.push(desc);
+                        }
+                        for kw in &loc.keywords {
+                            search_parts.push(kw.as_ref());
+                        }
+                        let search_text = search_parts.join(" ");
+                        (
+                            Some(loc.label.to_string()),
+                            loc.description.map(|d| d.to_string()),
+                            Some(search_text),
+                        )
+                    }
+                    None => (None, None, None),
+                };
+
                 Some(Command {
                     name: humanize_action_name(action.name()),
+                    localized_label,
+                    localized_description,
+                    localized_search_text,
                     action,
                 })
             })
@@ -150,6 +177,9 @@ pub struct CommandPaletteDelegate {
 
 struct Command {
     name: String,
+    localized_label: Option<String>,
+    localized_description: Option<String>,
+    localized_search_text: Option<String>,
     action: Box<dyn Action>,
 }
 
@@ -234,6 +264,9 @@ impl Clone for Command {
     fn clone(&self) -> Self {
         Self {
             name: self.name.clone(),
+            localized_label: self.localized_label.clone(),
+            localized_description: self.localized_description.clone(),
+            localized_search_text: self.localized_search_text.clone(),
             action: self.action.boxed_clone(),
         }
     }
@@ -287,6 +320,9 @@ impl CommandPaletteDelegate {
             }
             commands.push(Command {
                 name: string.clone(),
+                localized_label: None,
+                localized_description: None,
+                localized_search_text: None,
                 action,
             });
             new_matches.push(StringMatch {
@@ -342,12 +378,17 @@ impl CommandPaletteDelegate {
 impl PickerDelegate for CommandPaletteDelegate {
     type ListItem = ListItem;
 
-    fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "コマンドを実行…".into()
+    fn placeholder_text(&self, _window: &mut Window, cx: &mut App) -> Arc<str> {
+        i18n::LocaleRegistry::try_global(cx)
+            .map(|r| r.translate("command_palette.placeholder").into_owned().into())
+            .unwrap_or_else(|| "コマンドを実行（英語・日本語で検索）…".into())
     }
 
-    fn no_matches_text(&self, _window: &mut Window, _cx: &mut App) -> Option<gpui::SharedString> {
-        Some("一致するコマンドがありません".into())
+    fn no_matches_text(&self, _window: &mut Window, cx: &mut App) -> Option<gpui::SharedString> {
+        let text = i18n::LocaleRegistry::try_global(cx)
+            .map(|r| r.translate("command_palette.no_matches").into_owned())
+            .unwrap_or_else(|| "一致するコマンドがありません".to_string());
+        Some(text.into())
     }
 
     fn select_history(
@@ -424,8 +465,74 @@ impl PickerDelegate for CommandPaletteDelegate {
                     .map(|(ix, command)| StringMatchCandidate::new(ix, &command.name))
                     .collect::<Vec<_>>();
 
-                let matches =
-                    fuzzy::match_strings(&candidates, &query, true, true, 10000, &Default::default(), executor).await;
+                let mut matches = fuzzy::match_strings(
+                    &candidates,
+                    &query,
+                    true,
+                    true,
+                    10000,
+                    &Default::default(),
+                    executor.clone(),
+                )
+                .await;
+
+                if !query.is_empty() {
+                    let localized_candidates = commands
+                        .iter()
+                        .enumerate()
+                        .filter_map(|(ix, command)| {
+                            command
+                                .localized_search_text
+                                .as_deref()
+                                .map(|text| StringMatchCandidate::new(ix, text))
+                        })
+                        .collect::<Vec<_>>();
+
+                    if !localized_candidates.is_empty() {
+                        let localized_matches = fuzzy::match_strings(
+                            &localized_candidates,
+                            &query,
+                            true,
+                            true,
+                            10000,
+                            &Default::default(),
+                            executor,
+                        )
+                        .await;
+
+                        if !localized_matches.is_empty() {
+                            let mut seen = HashMap::with_capacity(matches.len());
+                            for (idx, m) in matches.iter().enumerate() {
+                                seen.insert(m.candidate_id, idx);
+                            }
+                            let mut added = false;
+                            for loc_match in localized_matches {
+                                if let Some(&existing_idx) = seen.get(&loc_match.candidate_id) {
+                                    if loc_match.score > matches[existing_idx].score {
+                                        matches[existing_idx].score = loc_match.score;
+                                    }
+                                } else {
+                                    let id = loc_match.candidate_id;
+                                    matches.push(StringMatch {
+                                        candidate_id: id,
+                                        string: commands[id].name.clone(),
+                                        positions: Vec::new(),
+                                        score: loc_match.score,
+                                    });
+                                    added = true;
+                                }
+                            }
+                            if added {
+                                matches.sort_by(|a, b| {
+                                    b.score
+                                        .partial_cmp(&a.score)
+                                        .unwrap_or(cmp::Ordering::Equal)
+                                        .then_with(|| a.candidate_id.cmp(&b.candidate_id))
+                                });
+                            }
+                        }
+                    }
+                }
 
                 let intercept_result = if let Some(task) = intercept_task {
                     task.await
@@ -533,6 +640,21 @@ impl PickerDelegate for CommandPaletteDelegate {
         let matching_command = self.matches.get(ix)?;
         let command = self.commands.get(matching_command.candidate_id)?;
 
+        let title_group = h_flex()
+            .gap_2()
+            .min_w_0()
+            .child(HighlightedLabel::new(
+                command.name.clone(),
+                matching_command.positions.clone(),
+            ))
+            .when_some(command.localized_label.as_ref(), |this, label| {
+                let text = match command.localized_description.as_deref() {
+                    Some(desc) if desc != label.as_str() => format!("{label} — {desc}"),
+                    _ => label.clone(),
+                };
+                this.child(Label::new(text).color(Color::Muted).size(LabelSize::Small))
+            });
+
         Some(
             ListItem::new(ix)
                 .inset(true)
@@ -542,11 +664,9 @@ impl PickerDelegate for CommandPaletteDelegate {
                     h_flex()
                         .w_full()
                         .py_px()
+                        .gap_2()
                         .justify_between()
-                        .child(HighlightedLabel::new(
-                            command.name.clone(),
-                            matching_command.positions.clone(),
-                        ))
+                        .child(title_group)
                         .child(KeyBinding::for_action_in(
                             &*command.action,
                             &self.previous_focus_handle,
@@ -560,9 +680,23 @@ impl PickerDelegate for CommandPaletteDelegate {
         let selected_command = self.selected_command()?;
         let keybind = KeyBinding::for_action_in(&*selected_command.action, &self.previous_focus_handle, cx);
 
+        let locale = i18n::LocaleRegistry::try_global(cx);
+        let change_label = locale
+            .as_ref()
+            .map(|r| r.translate("command_palette.change_keybinding").into_owned())
+            .unwrap_or_else(|| "キーバインドを変更…".to_string());
+        let add_label = locale
+            .as_ref()
+            .map(|r| r.translate("command_palette.add_keybinding").into_owned())
+            .unwrap_or_else(|| "キーバインドを追加…".to_string());
+        let run_label = locale
+            .as_ref()
+            .map(|r| r.translate("command_palette.run_action").into_owned())
+            .unwrap_or_else(|| "実行".to_string());
+
         let focus_handle = &self.previous_focus_handle;
         let keybinding_buttons = if keybind.has_binding(window) {
-            Button::new("change", "キーバインドを変更…")
+            Button::new("change", change_label)
                 .key_binding(
                     KeyBinding::for_action_in(&menu::SecondaryConfirm, focus_handle, cx)
                         .map(|kb| kb.size(TextSize::Small.rems(cx))),
@@ -571,7 +705,7 @@ impl PickerDelegate for CommandPaletteDelegate {
                     window.dispatch_action(menu::SecondaryConfirm.boxed_clone(), cx);
                 })
         } else {
-            Button::new("add", "キーバインドを追加…")
+            Button::new("add", add_label)
                 .key_binding(
                     KeyBinding::for_action_in(&menu::SecondaryConfirm, focus_handle, cx)
                         .map(|kb| kb.size(TextSize::Small.rems(cx))),
@@ -591,7 +725,7 @@ impl PickerDelegate for CommandPaletteDelegate {
                 .border_color(cx.theme().colors().border_variant)
                 .child(keybinding_buttons)
                 .child(
-                    Button::new("run-action", "実行")
+                    Button::new("run-action", run_label)
                         .key_binding(
                             KeyBinding::for_action_in(&menu::Confirm, focus_handle, cx)
                                 .map(|kb| kb.size(TextSize::Small.rems(cx))),
@@ -1089,6 +1223,47 @@ mod tests {
         cx.background_executor.run_until_parked();
         palette.read_with(cx, |palette, cx| {
             assert_eq!(palette.query(cx), "");
+        });
+    }
+
+    #[gpui::test]
+    async fn test_japanese_localized_search(cx: &mut TestAppContext) {
+        let app_state = init_test(cx);
+        cx.update(i18n::init);
+        let project = Project::test(app_state.fs.clone(), [], cx).await;
+        let (workspace, cx) = cx.add_window_view(|window, cx| Workspace::test_new(project.clone(), window, cx));
+
+        let editor = cx.new_window_entity(|window, cx| {
+            let mut editor = Editor::single_line(window, cx);
+            editor.set_text("hello", window, cx);
+            editor
+        });
+
+        workspace.update_in(cx, |workspace, window, cx| {
+            workspace.add_item_to_active_pane(Box::new(editor.clone()), None, true, window, cx);
+            editor.update(cx, |editor, cx| window.focus(&editor.focus_handle(cx), cx))
+        });
+
+        cx.simulate_keystrokes("cmd-shift-p");
+
+        let palette = workspace.update(cx, |workspace, cx| {
+            workspace
+                .active_modal::<CommandPalette>(cx)
+                .unwrap()
+                .read(cx)
+                .picker
+                .clone()
+        });
+
+        cx.simulate_input("ファイルを保存");
+        cx.background_executor.run_until_parked();
+
+        palette.read_with(cx, |palette, _| {
+            assert!(
+                palette.delegate.matches.iter().any(|m| m.string == "workspace: save"),
+                "expected 'workspace: save' in matches for Japanese query, got: {:?}",
+                palette.delegate.matches.iter().map(|m| &m.string).collect::<Vec<_>>()
+            );
         });
     }
 }
