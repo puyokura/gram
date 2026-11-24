@@ -86,8 +86,20 @@ impl DirectWriteComponent {
             factory.RegisterFontFileLoader(&in_memory_loader)?;
             let builder = factory.CreateFontSetBuilder()?;
             let mut locale_vec = vec![0u16; LOCALE_NAME_MAX_LENGTH as usize];
-            GetUserDefaultLocaleName(&mut locale_vec);
-            let locale = String::from_utf16_lossy(&locale_vec);
+            let written = GetUserDefaultLocaleName(&mut locale_vec) as usize;
+            let locale_len = if written > 0 {
+                locale_vec[..written.min(locale_vec.len())]
+                    .iter()
+                    .position(|&c| c == 0)
+                    .unwrap_or(written.min(locale_vec.len()))
+            } else {
+                0
+            };
+            let locale = if locale_len > 0 {
+                String::from_utf16_lossy(&locale_vec[..locale_len])
+            } else {
+                "ja-JP".to_string()
+            };
             let text_renderer = Arc::new(TextRendererWrapper::new(&locale));
 
             let gpu_state = GPUState::new(directx_devices)?;
@@ -339,7 +351,7 @@ impl DirectWriteState {
                     continue;
                 };
                 if fonts.GetFontCount() == 0 {
-                    log::error!("No matching font found for {}", family_name);
+                    log::debug!("No matching font found for {}", family_name);
                     continue;
                 }
                 let font = fonts.GetFontFaceReference(0)?.CreateFontFace()?;

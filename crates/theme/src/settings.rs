@@ -591,6 +591,87 @@ fn clamp_font_weight(weight: f32) -> FontWeight {
     FontWeight(weight.clamp(100., 950.))
 }
 
+/// Default Japanese-optimized UI font fallbacks per platform.
+pub fn default_japanese_ui_font_fallbacks() -> &'static [&'static str] {
+    #[cfg(target_os = "windows")]
+    {
+        &[
+            "Yu Gothic UI",
+            "BIZ UDPGothic",
+            "BIZ UDPゴシック",
+            "Noto Sans JP",
+            "Meiryo UI",
+            "Meiryo",
+            "メイリオ",
+        ]
+    }
+    #[cfg(target_os = "macos")]
+    {
+        &["Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP"]
+    }
+    #[cfg(not(any(target_os = "windows", target_os = "macos")))]
+    {
+        &[
+            "Noto Sans CJK JP",
+            "Noto Sans JP",
+            "BIZ UDPGothic",
+            "IPAexGothic",
+            "VL PGothic",
+            "TakaoPGothic",
+        ]
+    }
+}
+
+/// Default Japanese-optimized monospace font fallbacks for editors and terminals per platform.
+pub fn default_japanese_buffer_font_fallbacks() -> &'static [&'static str] {
+    #[cfg(target_os = "windows")]
+    {
+        &[
+            "UDEV Gothic 35NF",
+            "UDEV Gothic NF",
+            "UDEV Gothic",
+            "PlemolJP Console NF",
+            "PlemolJP",
+            "HackGen Console NF",
+            "HackGen",
+            "BIZ UDGothic",
+            "BIZ UDゴシック",
+            "Noto Sans JP",
+            "Yu Gothic",
+            "游ゴシック",
+            "Meiryo",
+            "メイリオ",
+        ]
+    }
+    #[cfg(target_os = "macos")]
+    {
+        &[
+            "UDEV Gothic 35NF",
+            "UDEV Gothic",
+            "PlemolJP Console NF",
+            "HackGen Console NF",
+            "Hiragino Sans",
+            "Osaka-Mono",
+            "Hiragino Kaku Gothic ProN",
+        ]
+    }
+    #[cfg(not(any(target_os = "windows", target_os = "macos")))]
+    {
+        &[
+            "UDEV Gothic 35NF",
+            "UDEV Gothic",
+            "PlemolJP Console NF",
+            "HackGen Console NF",
+            "Noto Sans Mono CJK JP",
+            "Noto Sans CJK JP",
+            "Noto Sans JP",
+            "BIZ UDGothic",
+            "IPAexGothic",
+            "VL Gothic",
+        ]
+    }
+}
+
 /// font fallback from settings
 pub fn font_fallbacks_from_settings(fallbacks: Option<Vec<settings::FontFamilyName>>) -> Option<FontFallbacks> {
     fallbacks.map(|fallbacks| {
@@ -603,6 +684,45 @@ pub fn font_fallbacks_from_settings(fallbacks: Option<Vec<settings::FontFamilyNa
     })
 }
 
+/// Merges user-configured font fallbacks with Japanese-optimized platform defaults.
+///
+/// - `None`: applies platform Japanese defaults.
+/// - `Some(vec![])`: respects explicit opt-out and returns `None`.
+/// - `Some(list)`: places user entries first, then appends platform defaults without duplicates.
+pub fn font_fallbacks_with_defaults(
+    fallbacks: Option<Vec<settings::FontFamilyName>>,
+    defaults: &[&str],
+) -> Option<FontFallbacks> {
+    let mut merged: Vec<String> = Vec::new();
+    match fallbacks {
+        Some(list) if list.is_empty() => return None,
+        Some(list) => {
+            for font_family in list {
+                let name = font_family.0.to_string();
+                if !merged.iter().any(|existing| existing.eq_ignore_ascii_case(&name)) {
+                    merged.push(name);
+                }
+            }
+        }
+        None => {}
+    }
+
+    for &default_font in defaults {
+        if !merged
+            .iter()
+            .any(|existing| existing.eq_ignore_ascii_case(default_font))
+        {
+            merged.push(default_font.to_string());
+        }
+    }
+
+    if merged.is_empty() {
+        None
+    } else {
+        Some(FontFallbacks::from_fonts(merged))
+    }
+}
+
 impl settings::Settings for ThemeSettings {
     fn from_settings(content: &settings::SettingsContent) -> Self {
         let content = &content.theme;
@@ -613,14 +733,20 @@ impl settings::Settings for ThemeSettings {
             ui_font: Font {
                 family: content.ui_font_family.as_ref().unwrap().0.clone().into(),
                 features: content.ui_font_features.clone().unwrap(),
-                fallbacks: font_fallbacks_from_settings(content.ui_font_fallbacks.clone()),
+                fallbacks: font_fallbacks_with_defaults(
+                    content.ui_font_fallbacks.clone(),
+                    default_japanese_ui_font_fallbacks(),
+                ),
                 weight: clamp_font_weight(content.ui_font_weight.unwrap().0),
                 style: Default::default(),
             },
             buffer_font: Font {
                 family: content.buffer_font_family.as_ref().unwrap().0.clone().into(),
                 features: content.buffer_font_features.clone().unwrap(),
-                fallbacks: font_fallbacks_from_settings(content.buffer_font_fallbacks.clone()),
+                fallbacks: font_fallbacks_with_defaults(
+                    content.buffer_font_fallbacks.clone(),
+                    default_japanese_buffer_font_fallbacks(),
+                ),
                 weight: clamp_font_weight(content.buffer_font_weight.unwrap().0),
                 style: FontStyle::default(),
             },
@@ -640,5 +766,41 @@ impl settings::Settings for ThemeSettings {
                 .into(),
             client_side_decoration_shadow: content.client_side_decoration_shadow.unwrap().0.clamp(0.0, 20.0).into(),
         }
+    }
+}
+
+#[cfg(test)]
+mod japanese_font_fallback_tests {
+    use super::*;
+
+    #[test]
+    fn test_default_japanese_fallbacks_non_empty() {
+        assert!(!default_japanese_ui_font_fallbacks().is_empty());
+        assert!(!default_japanese_buffer_font_fallbacks().is_empty());
+    }
+
+    #[test]
+    fn test_font_fallbacks_with_defaults_none_uses_defaults() {
+        let result = font_fallbacks_with_defaults(None, &["Yu Gothic UI", "Meiryo"])
+            .expect("defaults should produce Some(FontFallbacks)");
+        assert_eq!(result.fallback_list(), &["Yu Gothic UI", "Meiryo"]);
+    }
+
+    #[test]
+    fn test_font_fallbacks_with_defaults_empty_vec_disables() {
+        let result = font_fallbacks_with_defaults(Some(Vec::new()), &["Yu Gothic UI", "Meiryo"]);
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_font_fallbacks_with_defaults_merges_and_deduplicates() {
+        let user = vec![
+            settings::FontFamilyName("MyCustomJP".into()),
+            settings::FontFamilyName("yu gothic ui".into()),
+            settings::FontFamilyName("MYCUSTOMJP".into()),
+        ];
+        let result =
+            font_fallbacks_with_defaults(Some(user), &["Yu Gothic UI", "Meiryo"]).expect("merged list should be Some");
+        assert_eq!(result.fallback_list(), &["MyCustomJP", "yu gothic ui", "Meiryo"]);
     }
 }
