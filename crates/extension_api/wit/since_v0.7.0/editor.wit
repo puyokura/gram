@@ -1,0 +1,31 @@
+package gram:plugin@0.7.0;
+
+interface editor {
+    record document-snapshot {
+        uri: string,
+        language-id: string,
+        version: u64,
+        text: string,
+    }
+
+    enum diagnostic-severity {
+        error,
+        warning,
+        information,
+        hint,
+    }
+
+    record diagnostic {
+        line: u32,
+        character: u32,
+        end-line: u32,
+        end-character: u32,
+        severity: diagnostic-severity,
+        message: string,
+        source: option<string>,
+    }
+
+    active-document: func() -> result<option<document-snapshot>, string>;
+    publish-diagnostics: func(uri: string, diagnostics: list<diagnostic>) -> result<_, string>;
+    clear-diagnostics: func();
+}

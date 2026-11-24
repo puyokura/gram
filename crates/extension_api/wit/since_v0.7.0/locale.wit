@@ -1,0 +1,6 @@
+package gram:plugin@0.7.0;
+
+interface locale {
+    register-locale-pack: func(locale-id: string, relative-path: string) -> result<_, string>;
+    unregister-locale-pack: func();
+}

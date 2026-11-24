@@ -7,6 +7,7 @@ mod since_v0_3_0;
 mod since_v0_4_0;
 mod since_v0_5_0;
 mod since_v0_6_0;
+pub mod v0_7_0_plugin;
 use dap::{DebugRequest, settings::DapSettings};
 use extension::{DebugTaskDefinition, WorktreeDelegate};
 use gpui::BackgroundExecutor;

@@ -43,7 +43,7 @@ use std::{
 use task::{DebugScenario, GramDebugConfig, SpawnInTerminal, TaskTemplate};
 use util::paths::SanitizedPath;
 use wasmtime::{
-    CacheStore, Engine, Store,
+    CacheStore, Engine, Store, StoreLimits, StoreLimitsBuilder,
     component::{Component, ResourceTable},
 };
 use wasmtime_wasi::{WasiCtx, WasiCtxBuilder, WasiCtxView, WasiView};
@@ -339,12 +339,34 @@ impl extension::Extension for WasmExtension {
     }
 }
 
+/// Default per-extension linear memory limit (64 MiB) enforced via Wasmtime `StoreLimits`.
+pub const DEFAULT_WASM_MEMORY_LIMIT_BYTES: usize = 64 * 1024 * 1024;
+
+/// Hard upper bound for per-extension linear memory (128 MiB).
+pub const MAX_WASM_MEMORY_LIMIT_BYTES: usize = 128 * 1024 * 1024;
+
+/// Maximum Wasm table elements per extension instance.
+pub const MAX_WASM_TABLE_ELEMENTS: usize = 10_000;
+
+/// Builds a [`StoreLimits`] clamped to [`MAX_WASM_MEMORY_LIMIT_BYTES`].
+pub fn build_wasm_store_limits(requested_memory_bytes: usize) -> StoreLimits {
+    let clamped = requested_memory_bytes.min(MAX_WASM_MEMORY_LIMIT_BYTES);
+    StoreLimitsBuilder::new()
+        .memory_size(clamped)
+        .table_elements(MAX_WASM_TABLE_ELEMENTS)
+        .instances(10)
+        .memories(4)
+        .tables(4)
+        .build()
+}
+
 pub struct WasmState {
     manifest: Arc<ExtensionManifest>,
     pub table: ResourceTable,
     ctx: WasiCtx,
     pub host: Arc<WasmHost>,
     pub(crate) capability_granter: CapabilityGranter,
+    pub(crate) limits: StoreLimits,
 }
 
 std::thread_local! {
@@ -475,8 +497,10 @@ impl WasmHost {
                     table: ResourceTable::new(),
                     host: this.clone(),
                     capability_granter: CapabilityGranter::new(this.granted_capabilities.clone(), manifest.clone()),
+                    limits: build_wasm_store_limits(DEFAULT_WASM_MEMORY_LIMIT_BYTES),
                 },
             );
+            store.limiter(|state| &mut state.limits);
             // Store will yield after 1 tick, and get a new deadline of 1 tick after each yield.
             store.set_epoch_deadline(1);
             store.epoch_deadline_async_yield_and_update(1);
@@ -744,5 +768,37 @@ impl CacheStore for IncrementalCompilationCache {
     fn insert(&self, key: &[u8], value: Vec<u8>) -> bool {
         self.cache.write().put(key.to_vec(), value);
         true
+    }
+}
+
+#[cfg(test)]
+mod resource_limiter_tests {
+    use super::*;
+
+    #[test]
+    fn store_limits_enforces_wasm_memory_cap() {
+        let engine = Engine::default();
+        // 1 MiB cap for fast deterministic test; verify clamping against MAX_WASM_MEMORY_LIMIT_BYTES too
+        let mut store = Store::new(&engine, build_wasm_store_limits(1024 * 1024));
+        store.limiter(|limits| limits);
+
+        // 16 pages = 1 MiB -> allowed
+        let mem = wasmtime::Memory::new(&mut store, wasmtime::MemoryType::new(1, None)).unwrap();
+        assert!(mem.grow(&mut store, 15).is_ok());
+
+        // Growing past 1 MiB (17th page) must be rejected by ResourceLimiter
+        assert!(mem.grow(&mut store, 1).is_err());
+    }
+
+    #[test]
+    fn store_limits_clamps_above_128_mib() {
+        let engine = Engine::default();
+        // Requesting 512 MiB must be clamped to MAX_WASM_MEMORY_LIMIT_BYTES (128 MiB)
+        let mut store = Store::new(&engine, build_wasm_store_limits(512 * 1024 * 1024));
+        store.limiter(|limits| limits);
+
+        // 128 MiB = 2048 Wasm pages (64 KiB each). Requesting 2049 pages must fail.
+        let mem = wasmtime::Memory::new(&mut store, wasmtime::MemoryType::new(1, None)).unwrap();
+        assert!(mem.grow(&mut store, 2048).is_err());
     }
 }

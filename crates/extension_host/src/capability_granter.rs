@@ -65,6 +65,38 @@ impl CapabilityGranter {
         *w = binary_options.clone();
     }
 
+    /// Checks whether a unified [`ExtensionCapability`] is allowed for this extension.
+    ///
+    /// Default-denied capabilities (such as `terminal:pty` and `network:http`) require
+    /// explicit declaration in BOTH the extension manifest and user-granted capabilities.
+    pub fn grant_capability(&self, requested: &ExtensionCapability) -> Result<()> {
+        let in_manifest = self.manifest.capabilities.iter().any(|cap| cap == requested);
+        if !in_manifest {
+            bail!(
+                "capability {:?} was not declared in extension '{}' manifest",
+                requested,
+                self.manifest.id
+            );
+        }
+
+        let granted = self.granted_capabilities.iter().any(|cap| cap == requested);
+        if !granted {
+            if matches!(requested, ExtensionCapability::TerminalPty) {
+                bail!(
+                    "integrated terminal PTY access (terminal:pty) is denied by default for extension '{}'",
+                    self.manifest.id
+                );
+            }
+            bail!(
+                "capability {:?} has not been granted to extension '{}'",
+                requested,
+                self.manifest.id
+            );
+        }
+
+        Ok(())
+    }
+
     pub fn grant_exec(&self, desired_command: &str, desired_args: &[impl AsRef<str> + std::fmt::Debug]) -> Result<()> {
         if !self.binary_options.read().allow_path_lookup {
             bail!("path lookup not allowed for {desired_command} {desired_args:?}");
@@ -227,5 +259,24 @@ mod tests {
         );
         granter.set_binary_options(&BinaryOptions::permissive());
         assert!(granter.grant_exec("ls", &["-la"]).is_ok());
+    }
+
+    #[test]
+    fn test_terminal_pty_denied_by_default() {
+        let manifest_with_pty = Arc::new(ExtensionManifest {
+            capabilities: vec![ExtensionCapability::TerminalPty, ExtensionCapability::UiNotify],
+            ..extension_manifest()
+        });
+
+        let granter = CapabilityGranter::new(vec![ExtensionCapability::UiNotify], manifest_with_pty.clone());
+        assert!(granter.grant_capability(&ExtensionCapability::UiNotify).is_ok());
+        let err = granter
+            .grant_capability(&ExtensionCapability::TerminalPty)
+            .unwrap_err();
+        assert!(err.to_string().contains("denied by default"));
+
+        // Explicit user grant allows it
+        let explicit = CapabilityGranter::new(vec![ExtensionCapability::TerminalPty], manifest_with_pty);
+        assert!(explicit.grant_capability(&ExtensionCapability::TerminalPty).is_ok());
     }
 }

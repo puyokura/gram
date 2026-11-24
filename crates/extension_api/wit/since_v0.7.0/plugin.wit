@@ -1,0 +1,11 @@
+package gram:plugin@0.7.0;
+
+world plugin {
+    import commands;
+    import ui;
+    import editor;
+    import locale;
+
+    export init-plugin: func();
+    export execute-command: func(command-id: string, args-json: option<string>) -> result<option<string>, string>;
+}

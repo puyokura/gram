@@ -1,0 +1,12 @@
+package gram:plugin@0.7.0;
+
+interface commands {
+    record command-descriptor {
+        id: string,
+        title: string,
+        description: option<string>,
+    }
+
+    register-command: func(command: command-descriptor) -> result<_, string>;
+    unregister-commands: func();
+}

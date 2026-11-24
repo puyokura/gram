@@ -1,0 +1,47 @@
+package gram:plugin@0.7.0;
+
+interface ui {
+    enum status-bar-alignment {
+        left,
+        right,
+    }
+
+    record status-bar-item {
+        id: string,
+        text: string,
+        tooltip: option<string>,
+        command: option<string>,
+        alignment: status-bar-alignment,
+        priority: s32,
+    }
+
+    enum notification-level {
+        info,
+        warning,
+        error,
+    }
+
+    record quick-pick-item {
+        id: string,
+        label: string,
+        description: option<string>,
+    }
+
+    record quick-pick-request {
+        placeholder: option<string>,
+        items: list<quick-pick-item>,
+    }
+
+    record input-box-request {
+        prompt: option<string>,
+        placeholder: option<string>,
+        value: option<string>,
+        password: bool,
+    }
+
+    set-status-bar-item: func(item: status-bar-item) -> result<_, string>;
+    remove-status-bar-item: func(item-id: string);
+    show-notification: func(level: notification-level, message: string) -> result<_, string>;
+    show-quick-pick: func(request: quick-pick-request) -> result<option<string>, string>;
+    show-input-box: func(request: input-box-request) -> result<option<string>, string>;
+}
