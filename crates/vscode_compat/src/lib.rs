@@ -1,6 +1,7 @@
 pub mod archive;
 pub mod converter;
 pub mod manifest;
+pub mod node_host;
 
 use std::path::{Path, PathBuf};
 use std::sync::Arc;

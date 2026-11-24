@@ -10941,6 +10941,7 @@ dependencies = [
  "gpui",
  "i18n",
  "log",
+ "parking_lot",
  "serde",
  "serde_json",
  "serde_json_lenient",
