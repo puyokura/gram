@@ -154,10 +154,32 @@ jobs:
           path: target/gram-remote-server-windows-x86_64.zip
           if-no-files-found: warn
 
+  release-windows-portable:
+    name: Release Windows Portable (Offline)
+    if: github.ref_type == 'tag' || startsWith(github.ref, 'refs/heads/test-release')
+    runs-on: windows-latest
+    steps:
+      - name: Code
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Bundle Portable (Offline)
+        shell: pwsh
+        run: script/bundle-windows-portable.ps1
+
+      - name: Upload portable archive
+        uses: actions/upload-artifact@v7
+        with:
+          name: gram-portable-windows-x86_64.zip
+          path: dist/gram-portable-windows-x86_64.zip
+          if-no-files-found: error
+
   publish-release:
     name: Publish GitHub Release
     if: github.ref_type == 'tag'
-    needs: [release-linux, release-windows]
+    needs: [release-linux, release-windows, release-windows-portable]
     runs-on: ubuntu-latest
     permissions:
       contents: write
