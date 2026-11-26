@@ -207,9 +207,11 @@ pub fn main() {
         return;
     }
 
-    // Set custom data directory.
+    // Set custom data directory (or auto-detect portable mode next to the executable).
     if let Some(dir) = &args.user_data_dir {
         paths::set_custom_data_dir(dir);
+    } else {
+        paths::detect_and_enable_portable_mode();
     }
 
     #[cfg(target_os = "windows")]
@@ -394,19 +396,24 @@ pub fn main() {
         handle_settings_file_changes(user_settings_file_rx, global_settings_file_rx, cx);
         handle_keymap_file_changes(user_keymap_file_rx, cx);
 
-        let user_agent = format!(
-            "Gram/{} ({}; {})",
-            AppVersion::global(cx),
-            std::env::consts::OS,
-            std::env::consts::ARCH
-        );
-        let proxy_url = ProxySettings::get_global(cx).proxy_url();
-        let http = {
-            let _guard = Tokio::handle(cx).enter();
+        if paths::is_offline_mode() {
+            log::info!("Running in offline mode: all outbound HTTP requests are blocked");
+            cx.set_http_client(Arc::new(http_client::BlockedHttpClient::new()));
+        } else {
+            let user_agent = format!(
+                "Gram/{} ({}; {})",
+                AppVersion::global(cx),
+                std::env::consts::OS,
+                std::env::consts::ARCH
+            );
+            let proxy_url = ProxySettings::get_global(cx).proxy_url();
+            let http = {
+                let _guard = Tokio::handle(cx).enter();
 
-            ReqwestClient::proxy_and_user_agent(proxy_url, &user_agent).expect("could not start HTTP client")
-        };
-        cx.set_http_client(Arc::new(http));
+                ReqwestClient::proxy_and_user_agent(proxy_url, &user_agent).expect("could not start HTTP client")
+            };
+            cx.set_http_client(Arc::new(http));
+        }
 
         <dyn Fs>::set_global(fs.clone(), cx);
 
@@ -427,11 +434,12 @@ pub fn main() {
         let (mut tx, rx) = watch::channel(None);
         cx.observe_global::<SettingsStore>(move |cx| {
             let settings = &ProjectSettings::get_global(cx).node;
+            let offline = paths::is_offline_mode();
             let options = NodeBinaryOptions {
                 allow_path_lookup: !settings.ignore_system_version,
-                allow_binary_download: settings.allow_binary_download,
-                allow_prettier_download: settings.allow_prettier_download,
-                allow_npm_install: settings.allow_npm_install,
+                allow_binary_download: !offline && settings.allow_binary_download,
+                allow_prettier_download: !offline && settings.allow_prettier_download,
+                allow_npm_install: !offline && settings.allow_npm_install,
                 use_paths: settings.path.as_ref().map(|node_path| {
                     let node_path = PathBuf::from(shellexpand::tilde(node_path).as_ref());
                     let npm_path = settings

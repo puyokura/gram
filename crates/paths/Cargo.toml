@@ -16,7 +16,11 @@ ignore.workspace = true
 util.workspace = true
 
 [features]
+portable-offline = []
 test-support = []
+
+[dev-dependencies]
+tempfile.workspace = true
 
 [lints]
 workspace = true

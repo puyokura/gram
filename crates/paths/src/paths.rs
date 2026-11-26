@@ -124,10 +124,82 @@ pub fn data_dir() -> &'static PathBuf {
     })
 }
 
+/// Returns `true` when Gram should run in portable mode (all state stored next to executable).
+pub fn is_portable_mode() -> bool {
+    if cfg!(feature = "portable-offline") {
+        return true;
+    }
+    if env_flag_enabled("GRAM_PORTABLE") {
+        return true;
+    }
+    std::env::current_exe()
+        .ok()
+        .and_then(|p| p.parent().map(|d| has_portable_marker(d)))
+        .unwrap_or(false)
+}
+
+/// Returns `true` when Gram should run in strictly offline mode (all outbound HTTP blocked).
+pub fn is_offline_mode() -> bool {
+    if cfg!(feature = "portable-offline") {
+        return true;
+    }
+    if env_flag_enabled("GRAM_OFFLINE") {
+        return true;
+    }
+    std::env::current_exe()
+        .ok()
+        .and_then(|p| p.parent().map(|d| has_offline_marker(d)))
+        .unwrap_or(false)
+}
+
+fn env_flag_enabled(name: &str) -> bool {
+    std::env::var(name)
+        .map(|v| matches!(v.trim().to_ascii_lowercase().as_str(), "1" | "true" | "yes" | "on"))
+        .unwrap_or(false)
+}
+
+pub fn has_portable_marker(exe_dir: &Path) -> bool {
+    exe_dir.join("portable").exists()
+        || exe_dir.join("portable.txt").exists()
+        || exe_dir.join(".portable").exists()
+        || exe_dir.join("data").is_dir()
+}
+
+pub fn has_offline_marker(exe_dir: &Path) -> bool {
+    exe_dir.join("offline").exists()
+        || exe_dir.join("offline.txt").exists()
+        || exe_dir.join(".offline").exists()
+}
+
+/// Resolves the portable data directory (`<exe_dir>/data`) if portable mode is active.
+pub fn resolve_portable_data_dir(exe_dir: &Path) -> Option<PathBuf> {
+    if cfg!(feature = "portable-offline") || env_flag_enabled("GRAM_PORTABLE") || has_portable_marker(exe_dir) {
+        Some(exe_dir.join("data"))
+    } else {
+        None
+    }
+}
+
+/// Detects portable mode relative to `current_exe()` and redirects all Gram paths
+/// (`config_dir`, `data_dir`, `temp_dir`, `logs_dir`, etc.) into `<exe_dir>/data`.
+pub fn detect_and_enable_portable_mode() -> Option<&'static PathBuf> {
+    if CUSTOM_DATA_DIR.get().is_some() {
+        return CUSTOM_DATA_DIR.get();
+    }
+    let exe_dir = std::env::current_exe().ok()?.parent()?.to_path_buf();
+    let portable_data = resolve_portable_data_dir(&exe_dir)?;
+    let dir_str = portable_data.to_string_lossy().into_owned();
+    Some(set_custom_data_dir(&dir_str))
+}
+
 /// Returns the path to the temp directory used by Gram.
 pub fn temp_dir() -> &'static PathBuf {
     static TEMP_DIR: OnceLock<PathBuf> = OnceLock::new();
     TEMP_DIR.get_or_init(|| {
+        if let Some(custom_dir) = CUSTOM_DATA_DIR.get() {
+            return custom_dir.join("temp");
+        }
+
         if cfg!(target_os = "macos") {
             return dirs::cache_dir()
                 .expect("failed to determine cachesDirectory directory")
@@ -471,4 +543,43 @@ pub fn global_gitignore_path() -> Option<PathBuf> {
     GLOBAL_GITIGNORE_PATH
         .get_or_init(::ignore::gitignore::gitconfig_excludes_path)
         .clone()
+}
+
+#[cfg(test)]
+mod portable_tests {
+    use super::*;
+
+    #[test]
+    fn custom_data_dir_redirects_config_data_logs_and_temp() {
+        let dir = tempfile::tempdir().unwrap();
+        let dir_str = dir.path().to_string_lossy().into_owned();
+        set_custom_data_dir(&dir_str);
+
+        assert!(config_dir().starts_with(dir.path()));
+        assert!(data_dir().starts_with(dir.path()));
+        assert!(temp_dir().starts_with(dir.path()));
+        assert!(logs_dir().starts_with(dir.path()));
+        assert!(hang_traces_dir().starts_with(dir.path()));
+        assert!(database_dir().starts_with(dir.path()));
+        assert!(user_extensions_dir().starts_with(dir.path()));
+    }
+
+    #[test]
+    fn portable_marker_and_feature_detection() {
+        let dir = tempfile::tempdir().unwrap();
+        assert!(!has_portable_marker(dir.path()));
+        assert!(!has_offline_marker(dir.path()));
+
+        std::fs::write(dir.path().join("portable.txt"), "").unwrap();
+        std::fs::write(dir.path().join("offline.txt"), "").unwrap();
+        assert!(has_portable_marker(dir.path()));
+        assert!(has_offline_marker(dir.path()));
+        assert_eq!(resolve_portable_data_dir(dir.path()), Some(dir.path().join("data")));
+
+        #[cfg(feature = "portable-offline")]
+        {
+            assert!(is_portable_mode());
+            assert!(is_offline_mode());
+        }
+    }
 }

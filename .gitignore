@@ -40,6 +40,7 @@ xcuserdata/
 /crates/theme/schemas/theme.json
 /gram.xcworkspace
 /inno
+/dist
 /node_modules/
 /plugins/bin
 /script/node_modules
